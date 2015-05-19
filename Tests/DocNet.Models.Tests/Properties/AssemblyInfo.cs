@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DocNet.Commands.Tests")]
+[assembly: AssemblyTitle("DocNet.Models.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DocNet.Commands.Tests")]
+[assembly: AssemblyProduct("DocNet.Models.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("fa254b41-6908-44fb-b526-616e1746855f")]
+[assembly: Guid("760331ea-68e5-4b6d-8623-89a539f37954")]
 
 // Version information for an assembly consists of the following four values:
 //
