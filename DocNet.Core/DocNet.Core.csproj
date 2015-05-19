@@ -61,29 +61,22 @@
       <DependentUpon>ViewTemplate.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleTemplate.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SampleTemplate.cshtml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="IO\" />
     <Folder Include="Parsers\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.global\log4net.config">
-      <Link>log4net.config</Link>
-    </None>
     <None Include="Markup\Views\ViewTemplate.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ViewTemplate.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
-    <None Include="SampleTemplate.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>SampleTemplate.generated.cs</LastGenOutput>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\.global\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -19,6 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Core.IO.Tests", "Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".global", ".global", "{B18D49A3-20D2-4414-B5B0-C3929703E8BE}"
 	ProjectSection(SolutionItems) = preProject
+		.global\CustomDictionary.xml = .global\CustomDictionary.xml
 		.global\DocNet.ruleset = .global\DocNet.ruleset
 		.global\DocNet.Tests.ruleset = .global\DocNet.Tests.ruleset
 		.global\GlobalAssemblyInfo.cs = .global\GlobalAssemblyInfo.cs

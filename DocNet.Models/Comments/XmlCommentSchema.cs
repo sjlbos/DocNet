@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Xml.Serialization;
 
 namespace DocNet.Models.Comments
@@ -41,6 +42,49 @@ namespace DocNet.Models.Comments
         #endregion
     }
 
+    public abstract class ReferenceElement : IEquatable<ReferenceElement>
+    {
+        [XmlAttribute("cref")]
+        public string ReferencedElementName { get; set; }
+
+        [XmlText]
+        public IList<string> Text { get; set; }
+
+        protected ReferenceElement()
+        {
+            Text = new List<string>();
+        }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = ReferencedElementName != null ? ReferencedElementName.GetHashCode() : 0;
+                hashCode = (hashCode * 397) ^ (Text != null ? Text.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ReferenceElement);
+        }
+
+        public bool Equals(ReferenceElement other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return String.Equals(ReferencedElementName, other.ReferencedElementName)
+                   && Text == null
+                ? (other.Text == null)
+                : Text.SequenceEqual(other.Text);
+        }
+
+        #endregion
+    }
+
     #region Top Level Elements
 
     public abstract class TopLevelContainer : Container
@@ -71,59 +115,116 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("param")]
-    public class Parameter : TopLevelContainer
+    public class Parameter : TopLevelContainer, IEquatable<Parameter>
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode*397) ^ (Name != null ? Name.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Parameter);
+        }
+
+        public bool Equals(Parameter other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return base.Equals(other)
+                   && String.Equals(Name, other.Name);
+        }
+
+        #endregion
     }
 
     [Serializable]
     [XmlType("typeparam")]
-    public class TypeParameter : TopLevelContainer
+    public class TypeParameter : TopLevelContainer, IEquatable<TypeParameter>
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as TypeParameter);
+        }
+
+        public bool Equals(TypeParameter other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return base.Equals(other)
+                   && String.Equals(Name, other.Name);
+        }
+
+        #endregion
     }
 
     [Serializable]
     [XmlType("exception")]
-    public class ExceptionReference : TopLevelContainer
+    public class ExceptionReference : TopLevelContainer, IEquatable<ExceptionReference>
     {
         [XmlAttribute("cref")]
         public string ExceptionType { get; set; }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode * 397) ^ (ExceptionType != null ? ExceptionType.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ExceptionReference);
+        }
+
+        public bool Equals(ExceptionReference other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return base.Equals(other)
+                   && String.Equals(ExceptionType, other.ExceptionType);
+        }
+
+        #endregion
     }
 
     [Serializable]
     [XmlType("seealso")]
-    public class SeeAlsoReference
-    {
-        public SeeAlsoReference()
-        {
-            Text = new List<string>();
-        }
-
-        [XmlAttribute("cref")]
-        public string ReferencedElementName { get; set; }
-
-        [XmlText]
-        public IList<string> Text { get; set; }
-    }
+    public class SeeAlsoReference : ReferenceElement { }
 
     [Serializable]
     [XmlType("permission")]
-    public class PermissionReference
-    {
-        public PermissionReference()
-        {
-            Text = new List<string>();
-        }
-
-        [XmlAttribute("cref")]
-        public string ReferencedElementName { get; set; }
-
-        [XmlText]
-        public IList<string> Text { get; set; }
-    }
+    public class PermissionReference : ReferenceElement { }
 
     [Serializable]
     [XmlType("include")]
@@ -134,6 +235,33 @@ namespace DocNet.Models.Comments
 
         [XmlAttribute("path")]
         public string FilePath { get; set; }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = FileName != null ? FileName.GetHashCode() : 0;
+                hashCode = (hashCode *397) ^ (FilePath != null ? FilePath.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ExternalDocFileReference);
+        }
+
+        public bool Equals(ExternalDocFileReference other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return String.Equals(FileName, other.FileName)
+                   && String.Equals(FilePath, other.FilePath);
+        }
+
+        #endregion
     }
 
     #endregion
@@ -146,68 +274,135 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("see")]
-    public class SeeReference
-    {
-        public SeeReference()
-        {
-            Text = new List<string>();
-        }
-
-        [XmlAttribute("cref")]
-        public string ReferencedElementName { get; set; }
-
-        [XmlText]
-        public IList<string> Text { get; set; }
-    }
+    public class SeeReference : ReferenceElement { }
 
     [Serializable]
     [XmlType("c")]
-    public class CodeLine
+    public class CodeLine : IEquatable<CodeLine>
     {
+        [XmlText]
+        public IList<string> Text;
+
         public CodeLine()
         {
             Text = new List<string>();
         }
 
-        [XmlText]
-        public IList<string> Text;
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            return Text != null ? Text.GetHashCode() : 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as CodeLine);
+        }
+
+        public bool Equals(CodeLine other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return Text == null ? (other.Text == null) : Text.SequenceEqual(other.Text);
+        }
+
+        #endregion
     }
 
     [Serializable]
     [XmlType("code")]
-    public class CodeBlock
+    public class CodeBlock : IEquatable<CodeBlock>
     {
-        public CodeBlock()
-        {
-            Text = new List<string>();
-        }
-
         [XmlAttribute("language")]
         public string Language { get; set; }
 
         [XmlText]
         public IList<string> Text;
-    }
 
-    [Serializable]
-    [XmlType("paramref")]
-    public class ParameterReference
-    {
-        public ParameterReference()
+        public CodeBlock()
         {
             Text = new List<string>();
         }
 
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Language != null ? Language.GetHashCode() : 0;
+                hashCode = (hashCode*397) ^ (Text != null ? Text.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as CodeBlock);
+        }
+
+        public bool Equals(CodeBlock other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return String.Equals(Language, other.Language)
+                   && Text == null
+                ? (other.Text == null)
+                : Text.SequenceEqual(other.Text);
+        }
+
+        #endregion
+    }
+
+    [Serializable]
+    [XmlType("paramref")]
+    public class ParameterReference : IEquatable<ParameterReference>
+    {
         [XmlAttribute("name")]
         public string Name { get; set; }
 
         [XmlText]
         public IList<string> Text { get; set; }
+
+        public ParameterReference()
+        {
+            Text = new List<string>();
+        }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Name != null ? Name.GetHashCode() : 0;
+                hashCode = (hashCode * 397) ^ (Text != null ? Text.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ParameterReference);
+        }
+
+        public bool Equals(ParameterReference other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return String.Equals(Name, other.Name)
+                   && Text == null
+                ? (other.Text == null)
+                : Text.SequenceEqual(other.Text);
+        }
+
+        #endregion
     }
 
     [Serializable]
     [XmlType("typeparamref")]
-    public class TypeParameterReference
+    public class TypeParameterReference : IEquatable<TypeParameterReference>
     {
         public TypeParameterReference()
         {
@@ -219,6 +414,35 @@ namespace DocNet.Models.Comments
 
         [XmlText]
         public IList<string> Text { get; set; }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Name != null ? Name.GetHashCode() : 0;
+                hashCode = (hashCode * 397) ^ (Text != null ? Text.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as TypeParameterReference);
+        }
+
+        public bool Equals(TypeParameterReference other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return String.Equals(Name, other.Name)
+                   && Text == null
+                ? (other.Text == null)
+                : Text.SequenceEqual(other.Text);
+        }
+
+        #endregion
     }
 
     #region List
@@ -235,22 +459,55 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("list")]
-    public class DocList
+    public class DocumentationList : IEquatable<DocumentationList>
     {
         [XmlAttribute("type")]
-        public ListType Type { get; set; }
+        public ListType ListType { get; set; }
 
         public ListHeader Header { get; set; }
 
         public IList<ListItem> Elements { get; set; }
 
-        public DocList()
+        public DocumentationList()
         {
             Elements = new List<ListItem>();
         }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = ListType.GetHashCode();
+                hashCode = (hashCode*397) ^ (Header != null ? Header.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Elements != null ? Elements.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as DocumentationList);
+        }
+
+        public bool Equals(DocumentationList other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return ListType == other.ListType
+                   && Header == null
+                ? (other.Header == null)
+                : Header.Equals(other.Header)
+                  && Elements == null
+                    ? (other.Elements == null)
+                    : Elements.SequenceEqual(other.Elements);
+        }
+
+        #endregion
     }
 
-    public abstract class ListElement
+    public abstract class ListElement : IEquatable<ListElement>
     {
         public IList<Term> Terms { get; set; }
         public IList<Description> Descriptions { get; set; }
@@ -260,6 +517,28 @@ namespace DocNet.Models.Comments
             Terms = new List<Term>();
             Descriptions = new List<Description>();
         }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ListElement);
+        }
+
+        public bool Equals(ListElement other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return Terms == null ? (other.Terms == null) : Terms.SequenceEqual(other.Terms)
+                && Descriptions == null ? (other.Descriptions == null) : Descriptions.SequenceEqual(other.Descriptions);
+        }
+
+        #endregion
     }
 
     [Serializable]
@@ -272,7 +551,7 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("term")]
-    public class Term
+    public class Term : IEquatable<Term>
     {
         [XmlText]
         public IList<string> Text { get; set; }
@@ -281,11 +560,32 @@ namespace DocNet.Models.Comments
         {
             Text = new List<string>();
         }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            return Text != null ? Text.GetHashCode() : 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Term);
+        }
+
+        public bool Equals(Term other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return Text == null ? (other.Text == null) : Text.SequenceEqual(other.Text);
+        }
+
+        #endregion
     }
 
     [Serializable]
     [XmlType("description")]
-    public class Description
+    public class Description : IEquatable<Description>
     {
         [XmlText]
         public IList<string> Text { get; set; }
@@ -294,10 +594,30 @@ namespace DocNet.Models.Comments
         {
             Text = new List<string>();
         }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            return Text != null ? Text.GetHashCode() : 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Description);
+        }
+
+        public bool Equals(Description other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return Text == null ? (other.Text == null) : Text.SequenceEqual(other.Text);
+        }
+
+        #endregion
     }
 
     #endregion
 
 #endregion
-
 }

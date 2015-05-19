@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- This file contains a list of terms and spellings code analysis shoudl ignore.-->
+<!-- Please keep this list in alphabetical order to make maintenance easier.-->
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>Deserialize</Word>
+      <Word>Deserializes</Word>
+    </Recognized>
+  </Words>
+</Dictionary>

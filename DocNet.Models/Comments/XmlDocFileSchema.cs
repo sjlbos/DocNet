@@ -79,8 +79,6 @@ namespace DocNet.Models.Comments
         #endregion
     }
 
-    #region Top Level Tags
-
     [Serializable]
     [XmlType(TypeName = "member")]
     public class Member : IEquatable<Member>
@@ -187,6 +185,4 @@ namespace DocNet.Models.Comments
 
         #endregion
     }
-
-    #endregion
 }
