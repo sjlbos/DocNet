@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Xml.Serialization;
 
-namespace DocNet.Models.Comments
+namespace DocNet.Models.Comments.Xml
 {
     public abstract class Container : IEquatable<Container>
     {   
@@ -15,7 +14,8 @@ namespace DocNet.Models.Comments
         [XmlElement("paramref")]
         [XmlElement("see")]
         [XmlElement("typeparamref")]
-        public IList<object> Items { get; set; }
+        [XmlChoiceIdentifier]
+        public List<object> Items { get; set; }
 
         protected Container()
         {
@@ -48,7 +48,7 @@ namespace DocNet.Models.Comments
         public string ReferencedElementName { get; set; }
 
         [XmlText]
-        public IList<string> Text { get; set; }
+        public List<string> Text { get; set; }
 
         protected ReferenceElement()
         {
@@ -90,32 +90,32 @@ namespace DocNet.Models.Comments
     public abstract class TopLevelContainer : Container
     {
         [XmlElement("para")]
-        public new IList<object> Items { get; set; }
+        public new List<object> Items { get; set; }
     }
 
     [Serializable]
     [XmlType("summary")]
-    public class Summary : TopLevelContainer { }
+    public class SummaryTag : TopLevelContainer { }
 
     [Serializable]
     [XmlType("remarks")]
-    public class Remarks : TopLevelContainer { }
+    public class RemarksTag : TopLevelContainer { }
 
     [Serializable]
     [XmlType("example")]
-    public class Example : TopLevelContainer { }
+    public class ExampleTag : TopLevelContainer { }
 
     [Serializable]
     [XmlType("returns")]
-    public class Returns : TopLevelContainer { }
+    public class ReturnsTag : TopLevelContainer { }
 
     [Serializable]
     [XmlType("value")]
-    public class Value : TopLevelContainer { }
+    public class ValueTag : TopLevelContainer { }
 
     [Serializable]
     [XmlType("param")]
-    public class Parameter : TopLevelContainer, IEquatable<Parameter>
+    public class ParameterTag : TopLevelContainer, IEquatable<ParameterTag>
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
@@ -134,10 +134,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as Parameter);
+            return Equals(obj as ParameterTag);
         }
 
-        public bool Equals(Parameter other)
+        public bool Equals(ParameterTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -150,7 +150,7 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("typeparam")]
-    public class TypeParameter : TopLevelContainer, IEquatable<TypeParameter>
+    public class TypeParameterTag : TopLevelContainer, IEquatable<TypeParameterTag>
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
@@ -169,10 +169,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as TypeParameter);
+            return Equals(obj as TypeParameterTag);
         }
 
-        public bool Equals(TypeParameter other)
+        public bool Equals(TypeParameterTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -185,7 +185,7 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("exception")]
-    public class ExceptionReference : TopLevelContainer, IEquatable<ExceptionReference>
+    public class ExceptionTag : TopLevelContainer, IEquatable<ExceptionTag>
     {
         [XmlAttribute("cref")]
         public string ExceptionType { get; set; }
@@ -204,10 +204,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as ExceptionReference);
+            return Equals(obj as ExceptionTag);
         }
 
-        public bool Equals(ExceptionReference other)
+        public bool Equals(ExceptionTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -220,15 +220,15 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("seealso")]
-    public class SeeAlsoReference : ReferenceElement { }
+    public class SeeAlsoTag : ReferenceElement { }
 
     [Serializable]
     [XmlType("permission")]
-    public class PermissionReference : ReferenceElement { }
+    public class PermissionTag : ReferenceElement { }
 
     [Serializable]
     [XmlType("include")]
-    public class ExternalDocFileReference
+    public class IncludeTag
     {
         [XmlAttribute("file")]
         public string FileName { get; set; }
@@ -250,10 +250,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as ExternalDocFileReference);
+            return Equals(obj as IncludeTag);
         }
 
-        public bool Equals(ExternalDocFileReference other)
+        public bool Equals(IncludeTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -270,20 +270,20 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("para")]
-    public class Paragraph : Container { }
+    public class ParagraphTag : Container { }
 
     [Serializable]
     [XmlType("see")]
-    public class SeeReference : ReferenceElement { }
+    public class SeeTag : ReferenceElement { }
 
     [Serializable]
     [XmlType("c")]
-    public class CodeLine : IEquatable<CodeLine>
+    public class CTag : IEquatable<CTag>
     {
         [XmlText]
-        public IList<string> Text;
+        public List<string> Text;
 
-        public CodeLine()
+        public CTag()
         {
             Text = new List<string>();
         }
@@ -297,10 +297,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as CodeLine);
+            return Equals(obj as CTag);
         }
 
-        public bool Equals(CodeLine other)
+        public bool Equals(CTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -312,15 +312,15 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("code")]
-    public class CodeBlock : IEquatable<CodeBlock>
+    public class CodeTag : IEquatable<CodeTag>
     {
         [XmlAttribute("language")]
         public string Language { get; set; }
 
         [XmlText]
-        public IList<string> Text;
+        public List<string> Text;
 
-        public CodeBlock()
+        public CodeTag()
         {
             Text = new List<string>();
         }
@@ -339,10 +339,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as CodeBlock);
+            return Equals(obj as CodeTag);
         }
 
-        public bool Equals(CodeBlock other)
+        public bool Equals(CodeTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -357,15 +357,15 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("paramref")]
-    public class ParameterReference : IEquatable<ParameterReference>
+    public class ParameterReferenceTag : IEquatable<ParameterReferenceTag>
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
 
         [XmlText]
-        public IList<string> Text { get; set; }
+        public List<string> Text { get; set; }
 
-        public ParameterReference()
+        public ParameterReferenceTag()
         {
             Text = new List<string>();
         }
@@ -384,10 +384,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as ParameterReference);
+            return Equals(obj as ParameterReferenceTag);
         }
 
-        public bool Equals(ParameterReference other)
+        public bool Equals(ParameterReferenceTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -402,9 +402,9 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("typeparamref")]
-    public class TypeParameterReference : IEquatable<TypeParameterReference>
+    public class TypeParameterReferenceTag : IEquatable<TypeParameterReferenceTag>
     {
-        public TypeParameterReference()
+        public TypeParameterReferenceTag()
         {
             Text = new List<string>();
         }
@@ -413,7 +413,7 @@ namespace DocNet.Models.Comments
         public string Name { get; set; }
 
         [XmlText]
-        public IList<string> Text { get; set; }
+        public List<string> Text { get; set; }
 
         #region Equality Members
 
@@ -429,10 +429,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as TypeParameterReference);
+            return Equals(obj as TypeParameterReferenceTag);
         }
 
-        public bool Equals(TypeParameterReference other)
+        public bool Equals(TypeParameterReferenceTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -459,16 +459,16 @@ namespace DocNet.Models.Comments
 
     [Serializable]
     [XmlType("list")]
-    public class DocumentationList : IEquatable<DocumentationList>
+    public class ListTag : IEquatable<ListTag>
     {
         [XmlAttribute("type")]
         public ListType ListType { get; set; }
 
         public ListHeader Header { get; set; }
 
-        public IList<ListItem> Elements { get; set; }
+        public List<ListItem> Elements { get; set; }
 
-        public DocumentationList()
+        public ListTag()
         {
             Elements = new List<ListItem>();
         }
@@ -488,10 +488,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as DocumentationList);
+            return Equals(obj as ListTag);
         }
 
-        public bool Equals(DocumentationList other)
+        public bool Equals(ListTag other)
         {
             if (other == null) return false;
             if (this == other) return true;
@@ -509,8 +509,8 @@ namespace DocNet.Models.Comments
 
     public abstract class ListElement : IEquatable<ListElement>
     {
-        public IList<Term> Terms { get; set; }
-        public IList<Description> Descriptions { get; set; }
+        public List<Term> Terms { get; set; }
+        public List<Description> Descriptions { get; set; }
 
         protected ListElement()
         {
@@ -554,7 +554,7 @@ namespace DocNet.Models.Comments
     public class Term : IEquatable<Term>
     {
         [XmlText]
-        public IList<string> Text { get; set; }
+        public List<string> Text { get; set; }
 
         public Term()
         {
@@ -588,7 +588,7 @@ namespace DocNet.Models.Comments
     public class Description : IEquatable<Description>
     {
         [XmlText]
-        public IList<string> Text { get; set; }
+        public List<string> Text { get; set; }
 
         public Description()
         {
