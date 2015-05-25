@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerializationTests.cs" />
+    <Compile Include="CommentDeserializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DocNet.Models\DocNet.Models.csproj">
@@ -73,9 +73,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="..\..\.global\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>

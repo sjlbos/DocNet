@@ -7,14 +7,13 @@ namespace DocNet.Models.Comments.Xml
 {
     public abstract class Container : IEquatable<Container>
     {   
-        [XmlText]
-        [XmlElement("c")]
-        [XmlElement("code")]
-        [XmlElement("list")]
-        [XmlElement("paramref")]
-        [XmlElement("see")]
-        [XmlElement("typeparamref")]
-        [XmlChoiceIdentifier]
+        [XmlText(typeof(string))]
+        [XmlElement("c", typeof(CTag))]
+        [XmlElement("code", typeof(CodeTag))]
+        [XmlElement("list", typeof(ListTag))]
+        [XmlElement("paramref", typeof(ParameterReferenceTag))]
+        [XmlElement("see", typeof(SeeTag))]
+        [XmlElement("typeparamref", typeof(TypeParameterReferenceTag))]
         public List<object> Items { get; set; }
 
         protected Container()
@@ -87,10 +86,42 @@ namespace DocNet.Models.Comments.Xml
 
     #region Top Level Elements
 
-    public abstract class TopLevelContainer : Container
+    public abstract class TopLevelContainer : IEquatable<TopLevelContainer>
     {
-        [XmlElement("para")]
-        public new List<object> Items { get; set; }
+        [XmlText(typeof(string))]
+        [XmlElement("c", typeof(CTag))]
+        [XmlElement("code", typeof(CodeTag))]
+        [XmlElement("list", typeof(ListTag))]
+        [XmlElement("paramref", typeof(ParameterReferenceTag))]
+        [XmlElement("see", typeof(SeeTag))]
+        [XmlElement("typeparamref", typeof(TypeParameterReferenceTag))]
+        [XmlElement("para", typeof(ParagraphTag))]
+        public List<object> Items { get; set; }
+
+        
+        protected TopLevelContainer()
+        {
+            Items = new List<object>();
+        }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            return Items != null ? Items.GetHashCode() : 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as TopLevelContainer);
+        }
+
+        public bool Equals(TopLevelContainer other)
+        {
+            return Items == null ? (other.Items == null) : Items.SequenceEqual(other.Items);
+        }
+
+        #endregion
     }
 
     [Serializable]

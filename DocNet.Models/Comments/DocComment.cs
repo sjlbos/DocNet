@@ -10,18 +10,28 @@ namespace DocNet.Models.Comments
 {
     public class DocComment : IEquatable<DocComment>
     {
+        internal class CustomXmlTextReader : XmlTextReader
+        {
+            public CustomXmlTextReader(TextReader reader) : base(reader) { }
+
+            public override string ReadString()
+            {
+                return base.ReadString().Trim();
+            }
+        }
+
         public static T FromXml<T>(string commentXml) where T:DocComment
         {
             if (commentXml == null)
-                throw new ArgumentException("innerXml");
+                throw new ArgumentNullException("innerXml");
 
-            string xmlCommentString = String.Format(CultureInfo.InvariantCulture,
+            string wrappedCommentXml = String.Format(CultureInfo.InvariantCulture,
                 "<{0}>{1}</{0}>",
                 typeof(T).Name,
                 commentXml
                 );
 
-            using (XmlReader commentReader = XmlReader.Create(new StringReader(commentXml)))
+            using (var commentReader = new CustomXmlTextReader(new StringReader(wrappedCommentXml)))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 if (serializer.CanDeserialize(commentReader))
@@ -32,10 +42,19 @@ namespace DocNet.Models.Comments
             return null;
         }
 
+        [XmlElement("summary")]
         public SummaryTag Summary { get; set; }
+
+        [XmlElement("remarks")]
         public RemarksTag Remarks { get; set; }
+
+        [XmlElement("example")]
         public ExampleTag Example { get; set; }
+
+        [XmlElement("permission")]
         public PermissionTag Permission { get; set; }
+
+        [XmlElement("seealso")]
         public SeeAlsoTag SeeAlso { get; set; }
 
         #region Equality Members
@@ -62,11 +81,11 @@ namespace DocNet.Models.Comments
         {
             if (other == null) return false;
             if (this == other) return true;
-            return Summary == null ? (other.Summary == null) : Summary.Equals(other.Summary)
-                && Remarks == null ? (other.Remarks == null) : Remarks.Equals(other.Remarks)
-                && Example == null ? (other.Example == null) : Example.Equals(other.Example)
-                && Permission == null ? (other.Permission == null) : Permission.Equals(other.Permission)
-                && SeeAlso == null ? (other.SeeAlso == null) : SeeAlso.Equals(other.SeeAlso);
+            return (Summary == null ? (other.Summary == null) : Summary.Equals(other.Summary))
+                && (Remarks == null ? (other.Remarks == null) : Remarks.Equals(other.Remarks))
+                && (Example == null ? (other.Example == null) : Example.Equals(other.Example))
+                && (Permission == null ? (other.Permission == null) : Permission.Equals(other.Permission))
+                && (SeeAlso == null ? (other.SeeAlso == null) : SeeAlso.Equals(other.SeeAlso));
         }
 
         #endregion

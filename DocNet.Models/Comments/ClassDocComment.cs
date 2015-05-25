@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using DocNet.Models.Comments.Xml;
 
 namespace DocNet.Models.Comments
 {
     public class ClassDocComment : DocComment, IEquatable<ClassDocComment>
     {
-        public IList<TypeParameterTag> TypeParameters { get; set; }
-        public IList<ExceptionTag> Exceptions { get; set; }
+        [XmlElement("typeparam")]
+        public List<TypeParameterTag> TypeParameters { get; set; }
+
+        [XmlElement("exception")]
+        public List<ExceptionTag> Exceptions { get; set; }
 
         public ClassDocComment()
         {

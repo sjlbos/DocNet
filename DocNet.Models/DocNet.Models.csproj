@@ -47,7 +47,6 @@
     <Compile Include="Comments\MethodDocComment.cs" />
     <Compile Include="Comments\PropertyDocComment.cs" />
     <Compile Include="Comments\Xml\XmlCommentSchema.cs" />
-    <Compile Include="Comments\Xml\XmlCommentWrapper.cs" />
     <Compile Include="CSharp\AssemblyModel.cs" />
     <Compile Include="CSharp\ClassModel.cs" />
     <Compile Include="CSharp\CsElement.cs" />

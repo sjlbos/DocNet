@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using DocNet.Models.Comments.Xml;
 
 namespace DocNet.Models.Comments
 {
     public class MethodDocComment : DocComment, IEquatable<MethodDocComment>
     {
-        public IList<ParameterTag> Parameters { get; set; }
-        public IList<TypeParameterTag> TypeParameters { get; set; }
-        public IList<ExceptionTag> Exceptions { get; set; }
-        public ReturnsTag ReturnTagValue { get; set; }
+        [XmlElement("param")]
+        public List<ParameterTag> Parameters { get; set; }
+
+        [XmlElement("typeparam")]
+        public List<TypeParameterTag> TypeParameters { get; set; }
+
+        [XmlElement("exception")]
+        public List<ExceptionTag> Exceptions { get; set; }
+
+        [XmlElement("returns")]
+        public ReturnsTag Returns { get; set; }
 
         public MethodDocComment()
         {
@@ -26,7 +34,8 @@ namespace DocNet.Models.Comments
             unchecked
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode*397) ^ (Parameters != null ? Parameters.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Returns != null ? Returns.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Parameters != null ? Parameters.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (TypeParameters != null ? TypeParameters.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (Exceptions != null ? Exceptions.GetHashCode() : 0);
                 return hashCode;
@@ -43,9 +52,10 @@ namespace DocNet.Models.Comments
             if (other == null) return false;
             if (this == other) return true;
             return base.Equals(other)
-                && Parameters == null ? (other.Parameters == null) : Parameters.SequenceEqual(other.Parameters)
-                && TypeParameters == null ? (other.TypeParameters == null) : TypeParameters.SequenceEqual(other.TypeParameters)
-                && Exceptions == null ? (other.Exceptions == null) : Exceptions.SequenceEqual(other.Exceptions);
+                && (Returns == null ? (other.Returns == null) : Returns.Equals(other.Returns))
+                && (Parameters == null ? (other.Parameters == null) : Parameters.SequenceEqual(other.Parameters))
+                && (TypeParameters == null ? (other.TypeParameters == null) : TypeParameters.SequenceEqual(other.TypeParameters))
+                && (Exceptions == null ? (other.Exceptions == null) : Exceptions.SequenceEqual(other.Exceptions));
         }
 
         #endregion

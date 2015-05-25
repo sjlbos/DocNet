@@ -1,12 +1,14 @@
 ﻿
 using System;
+using System.Xml.Serialization;
 using DocNet.Models.Comments.Xml;
 
 namespace DocNet.Models.Comments
 {
     public class PropertyDocComment : DocComment, IEquatable<PropertyDocComment>
     {
-        public ValueTag ValueTag { get; set; }
+        [XmlElement("value")]
+        public ValueTag Value { get; set; }
 
         #region Equality Members
 
@@ -15,7 +17,7 @@ namespace DocNet.Models.Comments
             unchecked
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 397) ^ (ValueTag != null ? ValueTag.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Value != null ? Value.GetHashCode() : 0);
                 return hashCode;
             }
         }
@@ -30,7 +32,7 @@ namespace DocNet.Models.Comments
             if (other == null) return false;
             if (this == other) return true;
             return base.Equals(other)
-                && ValueTag == null ? (other.ValueTag == null) : ValueTag.Equals(other.ValueTag);
+                && Value == null ? (other.Value == null) : Value.Equals(other.Value);
         }
 
         #endregion
