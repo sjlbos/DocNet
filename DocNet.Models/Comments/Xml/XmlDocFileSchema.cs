@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using DocNet.Models.CSharp;
 
-namespace DocNet.Models.Comments
+namespace DocNet.Models.Comments.Xml
 {
     [Serializable]
     [XmlRoot(ElementName = "doc")]
@@ -97,17 +97,17 @@ namespace DocNet.Models.Comments
             }
         }
 
-        [XmlElement("example", typeof(Example))]
-        [XmlElement("exception", typeof(ExceptionReference))]
-        [XmlElement("include", typeof(ExternalDocFileReference))]
-        [XmlElement("param", typeof(Parameter))]
-        [XmlElement("permission", typeof(PermissionReference))]
-        [XmlElement("remarks", typeof(Remarks))]
-        [XmlElement("returns", typeof(Returns))]
-        [XmlElement("seealso", typeof(SeeAlsoReference))]
-        [XmlElement("summary", typeof(Summary))]
-        [XmlElement("typeparam", typeof(TypeParameter))]
-        [XmlElement("value", typeof(Value))]
+        [XmlElement("example", typeof(ExampleTag))]
+        [XmlElement("exception", typeof(ExceptionTag))]
+        [XmlElement("include", typeof(IncludeTag))]
+        [XmlElement("param", typeof(ParameterTag))]
+        [XmlElement("permission", typeof(PermissionTag))]
+        [XmlElement("remarks", typeof(RemarksTag))]
+        [XmlElement("returns", typeof(ReturnsTag))]
+        [XmlElement("seealso", typeof(SeeAlsoTag))]
+        [XmlElement("summary", typeof(SummaryTag))]
+        [XmlElement("typeparam", typeof(TypeParameterTag))]
+        [XmlElement("value", typeof(ValueTag))]
         public IList<object> Items { get; set; } 
 
         public CsElement CsElement { get; set; }
