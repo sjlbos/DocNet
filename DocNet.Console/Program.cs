@@ -1,13 +1,14 @@
 ﻿using log4net;
 using CommandLine;
-using System;
 using System.IO;
 
 namespace DocNet.Console
 {
+    using System;
 
     public static class Program
     {
+
         private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 
         //Command Line Options
@@ -29,7 +30,7 @@ namespace DocNet.Console
             //Determine which required commands are missing
             if (args.Length == 0)
             {
-                System.Console.WriteLine("No commands found. Use the following commands:");
+                Console.WriteLine("No commands found. Use the following commands:");
                 return false;
             }
             //Check if args contains --help
@@ -40,7 +41,7 @@ namespace DocNet.Console
             //Check if other commands exist
             if (!(((Array.IndexOf(args, "-o") >= 0) || (Array.IndexOf(args, "--output") >= 0)) && ((Array.IndexOf(args, "-i") >= 0) || (Array.IndexOf(args, "--input") >= 0))))
             {
-                System.Console.WriteLine("Required commands not found. Use the following commands:");
+                Console.WriteLine("Required commands not found. Use the following commands:");
                 return false;
             }
             else
@@ -56,13 +57,13 @@ namespace DocNet.Console
             if (File.Exists(checkFile))
             {
                 // This path is a file
-                System.Console.WriteLine("FILE");
+                Console.WriteLine("FILE");
                 //TODO Pass to some function to handle file
             }
             else if (Directory.Exists(checkFile))
             {
                 // This path is a directory
-                System.Console.WriteLine("Directory");
+                Console.WriteLine("Directory");
                 if (recurseOption)
                 {
                     //TODO Recursively handle directory
@@ -71,7 +72,7 @@ namespace DocNet.Console
             }
             else
             {
-                System.Console.WriteLine("{0} is not a valid file or directory.", checkFile);
+                Console.WriteLine("{0} is not a valid file or directory.", checkFile);
             }   
 
         }
@@ -85,8 +86,8 @@ namespace DocNet.Console
                 //Display help and return
                 if (options.Help)
                 {
-                    System.Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
-                    System.Console.ReadLine();
+                    Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
+                    Console.ReadLine();
                     return;
                 }
                 else
@@ -94,13 +95,13 @@ namespace DocNet.Console
                     //Double check that commands are valid
                     if (!CmdCheck(args))
                     {
-                        System.Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
-                        //TODO System.Console.ReadLine();
+                        Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
+                        //TODO Console.ReadLine();
                         return;
                     }
                     //TODO Test Code. Will Remove later
-                    System.Console.WriteLine("Input: {0}", options.InputFile);
-                    System.Console.WriteLine("Output: {0}", options.OutputFile);
+                    Console.WriteLine("Input: {0}", options.InputFile);
+                    Console.WriteLine("Output: {0}", options.OutputFile);
 
                     //Check file and then handle file based on if it is a File or Directory
                     HandleFile(options.InputFile, options.RecurseOption);
@@ -112,8 +113,8 @@ namespace DocNet.Console
                 //Check why commands aren't valid
                 if (!CmdCheck(args))
                 {
-                    System.Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
-                    //TODO System.Console.ReadLine();
+                    Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
+                    //TODO Console.ReadLine();
                     return;
                 }
                 //Check if input/output are valid
@@ -121,7 +122,7 @@ namespace DocNet.Console
                 {
                     if (string.IsNullOrEmpty(options.InputFile) || string.IsNullOrEmpty(options.OutputFile))
                     {
-                        System.Console.WriteLine("No arguments found for input and/or output");
+                        Console.WriteLine("No arguments found for input and/or output");
                     }
                 }
             }
@@ -135,13 +136,13 @@ namespace DocNet.Console
             var i=0;
             foreach(var arg in args)
             {
-                System.Console.WriteLine("Arg[{0}] = [{1}]", i, arg);
+                Console.WriteLine("Arg[{0}] = [{1}]", i, arg);
                 i++;
             }
 
             ParseArguments(args);
              
-            System.Console.ReadLine();
+            Console.ReadLine();
         }
     }
 }
