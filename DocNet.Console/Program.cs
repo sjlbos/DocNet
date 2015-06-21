@@ -5,14 +5,13 @@ using System.IO;
 
 namespace DocNet.Console
 {
-    //using System;
 
     public static class Program
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 
         //Command Line Options
-        public class Options
+        class Options
         {
             [Option('i', "input", Required = true, HelpText = "File/Folder to convert to documentation.")]
             public string InputFile { get; set; }
@@ -28,43 +27,58 @@ namespace DocNet.Console
         static private bool CmdCheck(string[] args)
         {
             //Determine which required commands are missing
-
             if (args.Length == 0)
             {
                 System.Console.WriteLine("No commands found. Use the following commands:");
                 return false;
             }
             //Check if args contains --help
-            else if ((Array.IndexOf(args, "-h") >= 0) || (Array.IndexOf(args, "--help") >= 0))
+            if ((Array.IndexOf(args, "-h") >= 0) || (Array.IndexOf(args, "--help") >= 0))
             {
                 return false;
             }
             //Check if other commands exist
-            else if (!(((Array.IndexOf(args, "-o") >= 0) || (Array.IndexOf(args, "--output") >= 0)) && ((Array.IndexOf(args, "-i") >= 0) || (Array.IndexOf(args, "--input") >= 0))))
+            if (!(((Array.IndexOf(args, "-o") >= 0) || (Array.IndexOf(args, "--output") >= 0)) && ((Array.IndexOf(args, "-i") >= 0) || (Array.IndexOf(args, "--input") >= 0))))
             {
                 System.Console.WriteLine("Required commands not found. Use the following commands:");
                 return false;
             }
-            /*else if(!((Array.IndexOf(args, "-i") >= 0) || (Array.IndexOf(args, "--input") >= 0)))
-            {
-                System.Console.WriteLine("Required output command not found. Use the following commands:");
-                return false;
-            }
-            else if (!((Array.IndexOf(args, "-o") >= 0) || (Array.IndexOf(args, "--output") >= 0)))
-            {
-               System.Console.WriteLine("Requried Input command not found. Use the following commands:");
-               return false;
-            } */
             else
             {
                 return true;
             }
         }
+
+        //Check file and then handle file based on if it is a File or Directory
+        static public void HandleFile(string checkFile, bool recurseOption)
+        {
+            //Check path
+            if (File.Exists(checkFile))
+            {
+                // This path is a file
+                System.Console.WriteLine("FILE");
+                //TODO Pass to some function to handle file
+            }
+            else if (Directory.Exists(checkFile))
+            {
+                // This path is a directory
+                System.Console.WriteLine("Directory");
+                if (recurseOption)
+                {
+                    //TODO Recursively handle directory
+                }
+                //TODO Pass to some function to handle directory                      
+            }
+            else
+            {
+                System.Console.WriteLine("{0} is not a valid file or directory.", checkFile);
+            }   
+
+        }
         //Parses command line
-        static public void CommandParse(string[] args)
+        static public void ParseArguments(string[] args)
         {
             var options = new Options();
-            System.Console.WriteLine(options.OutputFile);
             //Parse CL Input
             if (CommandLine.Parser.Default.ParseArguments(args, options))
             {
@@ -75,53 +89,37 @@ namespace DocNet.Console
                     System.Console.ReadLine();
                     return;
                 }
-
                 else
                 {
                     //Double check that commands are valid
-                    if (!(Program.CmdCheck(args)))
+                    if (!CmdCheck(args))
                     {
                         System.Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
-                        System.Console.ReadLine();
+                        //TODO System.Console.ReadLine();
                         return;
                     }
-                    System.Console.WriteLine("Input: {0}",options.InputFile);
-                    System.Console.WriteLine("Output: {0}",options.OutputFile);
-                    //Check input path
-                    if (File.Exists(options.InputFile))
-                    {
-                        // This path is a file
-                        //Pass to some function to handle file
-                    }
-                    else if (Directory.Exists(options.InputFile))
-                    {
-                        // This path is a directory
-                        if(options.RecurseOption)
-                        {
-                        //Recursively handle directory
-                        }
-                        //Pass to some function to handle directory                      
-                    }
-                    else
-                    {
-                        System.Console.WriteLine("{0} is not a valid file or directory.", options.InputFile);
-                    }        
+                    //TODO Test Code. Will Remove later
+                    System.Console.WriteLine("Input: {0}", options.InputFile);
+                    System.Console.WriteLine("Output: {0}", options.OutputFile);
+
+                    //Check file and then handle file based on if it is a File or Directory
+                    HandleFile(options.InputFile, options.RecurseOption);
                 }
             }
             //Commands not valid
             else
             {
                 //Check why commands aren't valid
-                if (!(Program.CmdCheck(args)))
+                if (!CmdCheck(args))
                 {
                     System.Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
-                    System.Console.ReadLine();
+                    //TODO System.Console.ReadLine();
                     return;
                 }
                 //Check if input/output are valid
                 else
                 {
-                    if (String.IsNullOrEmpty(options.InputFile) || String.IsNullOrEmpty(options.OutputFile))
+                    if (string.IsNullOrEmpty(options.InputFile) || string.IsNullOrEmpty(options.OutputFile))
                     {
                         System.Console.WriteLine("No arguments found for input and/or output");
                     }
@@ -133,13 +131,15 @@ namespace DocNet.Console
         {
             Log.Info("Welcome to DocNet!");
             
-            //Test Code REMOVE WHEN DONE
-            for (int i = 0; i < args.Length; i++)
+            //TODO Test Code REMOVE WHEN DONE
+            var i=0;
+            foreach(var arg in args)
             {
-            System.Console.WriteLine("Arg[{0}] = [{1}]", i, args[i]);
+                System.Console.WriteLine("Arg[{0}] = [{1}]", i, arg);
+                i++;
             }
 
-            CommandParse(args);
+            ParseArguments(args);
              
             System.Console.ReadLine();
         }
