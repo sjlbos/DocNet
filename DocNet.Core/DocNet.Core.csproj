@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="Parsers\CSharp\CsTextParser.cs" />
     <Compile Include="Parsers\CSharp\ICsParser.cs" />
+    <Compile Include="Exceptions\CsParsingException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

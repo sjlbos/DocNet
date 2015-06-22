@@ -1,7 +1,6 @@
 ﻿namespace DocNet.Models.CSharp
 {
-    public class MethodModel : CsTypeModel
+    public class ConstructorModel : CsTypeModel
     {
-
     }
 }

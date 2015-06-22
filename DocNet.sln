@@ -11,12 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyInputProject", "Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Configuration", "DocNet.Configuration\DocNet.Configuration.csproj", "{A415CB3F-7EA6-40AC-8478-1D7922E1EF8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Core.Parsers.Tests", "Tests\DocNet.Core.Parsers.Tests\DocNet.Core.Parsers.Tests.csproj", "{04388DD1-D106-4923-BF15-E45BEF4EFDF5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Core.Markup.Tests", "Tests\DocNet.Core.Markup.Tests\DocNet.Core.Markup.Tests.csproj", "{59381A4F-BCCF-4D72-AB7D-98B8A0B9B6A7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Core.IO.Tests", "Tests\DocNet.Core.IO.Tests\DocNet.Core.IO.Tests.csproj", "{FB84BB37-A7F5-41B4-8CF7-DB8F5F18D9DD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".global", ".global", "{B18D49A3-20D2-4414-B5B0-C3929703E8BE}"
 	ProjectSection(SolutionItems) = preProject
 		.global\CustomDictionary.xml = .global\CustomDictionary.xml
@@ -31,6 +25,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Models", "DocNet.Models\DocNet.Models.csproj", "{EC86703E-9A1E-481F-9025-902903CD8D79}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Models.Tests", "Tests\DocNet.Models.Tests\DocNet.Models.Tests.csproj", "{1E043F08-9EAC-4CC0-A363-3B8E025B238D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Core.Tests", "Tests\DocNet.Core.Tests\DocNet.Core.Tests.csproj", "{04388DD1-D106-4923-BF15-E45BEF4EFDF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestData", "TestData", "{BD13E37E-243C-4551-A5EF-C2DD7A85E8C8}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\TestData\SimpleMultiNamespaceFile.cs = Tests\TestData\SimpleMultiNamespaceFile.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,18 +51,6 @@ Global
 		{A415CB3F-7EA6-40AC-8478-1D7922E1EF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A415CB3F-7EA6-40AC-8478-1D7922E1EF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A415CB3F-7EA6-40AC-8478-1D7922E1EF8F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04388DD1-D106-4923-BF15-E45BEF4EFDF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04388DD1-D106-4923-BF15-E45BEF4EFDF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04388DD1-D106-4923-BF15-E45BEF4EFDF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04388DD1-D106-4923-BF15-E45BEF4EFDF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59381A4F-BCCF-4D72-AB7D-98B8A0B9B6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59381A4F-BCCF-4D72-AB7D-98B8A0B9B6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59381A4F-BCCF-4D72-AB7D-98B8A0B9B6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59381A4F-BCCF-4D72-AB7D-98B8A0B9B6A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB84BB37-A7F5-41B4-8CF7-DB8F5F18D9DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB84BB37-A7F5-41B4-8CF7-DB8F5F18D9DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB84BB37-A7F5-41B4-8CF7-DB8F5F18D9DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB84BB37-A7F5-41B4-8CF7-DB8F5F18D9DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B91953F7-BD77-415F-8D0E-DB57DBA1944E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B91953F7-BD77-415F-8D0E-DB57DBA1944E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B91953F7-BD77-415F-8D0E-DB57DBA1944E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -74,15 +63,18 @@ Global
 		{1E043F08-9EAC-4CC0-A363-3B8E025B238D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E043F08-9EAC-4CC0-A363-3B8E025B238D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E043F08-9EAC-4CC0-A363-3B8E025B238D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04388DD1-D106-4923-BF15-E45BEF4EFDF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04388DD1-D106-4923-BF15-E45BEF4EFDF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04388DD1-D106-4923-BF15-E45BEF4EFDF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04388DD1-D106-4923-BF15-E45BEF4EFDF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{94E7D27F-7509-4B90-9907-7D070516F078} = {DDF9786F-9233-49AD-B7BC-D3C6C4C99836}
-		{04388DD1-D106-4923-BF15-E45BEF4EFDF5} = {DDF9786F-9233-49AD-B7BC-D3C6C4C99836}
-		{59381A4F-BCCF-4D72-AB7D-98B8A0B9B6A7} = {DDF9786F-9233-49AD-B7BC-D3C6C4C99836}
-		{FB84BB37-A7F5-41B4-8CF7-DB8F5F18D9DD} = {DDF9786F-9233-49AD-B7BC-D3C6C4C99836}
 		{1E043F08-9EAC-4CC0-A363-3B8E025B238D} = {DDF9786F-9233-49AD-B7BC-D3C6C4C99836}
+		{04388DD1-D106-4923-BF15-E45BEF4EFDF5} = {DDF9786F-9233-49AD-B7BC-D3C6C4C99836}
+		{BD13E37E-243C-4551-A5EF-C2DD7A85E8C8} = {DDF9786F-9233-49AD-B7BC-D3C6C4C99836}
 	EndGlobalSection
 EndGlobal

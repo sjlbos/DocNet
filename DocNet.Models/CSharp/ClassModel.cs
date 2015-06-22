@@ -1,12 +1,16 @@
-﻿using DocNet.Models.Comments;
+﻿using System.Collections.Generic;
 
 namespace DocNet.Models.CSharp
 {
-    public class ClassModel
+    public class ClassModel : InterfaceModel
     {
-        public ClassDocComment DocComment { get; set; }
-        public string Namespace { get; set; }
-        public string FullyQualifiedName { get; set; }
-        public string ClassName { get; set; }
+        public IList<ConstructorModel> Constructors;
+        public IList<CsTypeModel> NestedTypes { get; set; } 
+
+        public ClassModel()
+        {
+            Constructors = new List<ConstructorModel>();
+            NestedTypes = new List<CsTypeModel>();
+        }
     }
 }
