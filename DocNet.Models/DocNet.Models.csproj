@@ -55,6 +55,7 @@
     <Compile Include="CSharp\InterfaceModel.cs" />
     <Compile Include="CSharp\MethodModel.cs" />
     <Compile Include="CSharp\NamespaceModel.cs" />
+    <Compile Include="CSharp\ClassAndStructModel.cs" />
     <Compile Include="CSharp\ParameterModel.cs" />
     <Compile Include="CSharp\PropertyModel.cs" />
     <Compile Include="CSharp\StructModel.cs" />

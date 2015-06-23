@@ -72,9 +72,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\.global\CustomDictionary.xml">
+    <CodeAnalysisDictionary Include="..\..\.global\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
-    </Content>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DocNet.Core\DocNet.Core.csproj">

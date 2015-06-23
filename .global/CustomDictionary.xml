@@ -4,8 +4,14 @@
 <Dictionary>
   <Words>
     <Recognized>
+      <Word>Cs</Word>
       <Word>Deserialize</Word>
       <Word>Deserializes</Word>
     </Recognized>
   </Words>
+  <Acronymns>
+    <CasingExceptions>
+      
+    </CasingExceptions>
+  </Acronymns>
 </Dictionary>

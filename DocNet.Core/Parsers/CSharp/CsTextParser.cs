@@ -13,110 +13,153 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace DocNet.Core.Parsers.CSharp
 {
+    /// <summary>
+    /// This class is responsible for parsing C# source code into an internal DocNet representation of the namespaces, types,
+    /// and doc comments contained in that source code.
+    /// </summary>
     public class CsTextParser : ICsParser
     {
-        private readonly SourceText _csText;
-
-        public CsTextParser(Stream fileStream)
+        /// <summary>
+        /// Parses C# source code and returns a model of the source code's global namespace, including all child namespaces,
+        /// types, and documentation comments.
+        /// </summary>
+        /// <param name="sourceCode">A string containing C# source code.</param>
+        /// <returns>A model of the input source code's global namespace.</returns>
+        public NamespaceModel GetGlobalNamespace(string sourceCode)
         {
-            _csText = SourceText.From(fileStream);
+            if(sourceCode == null)
+                throw new ArgumentNullException("sourceCode");
+            var sourceText = SourceText.From(sourceCode);
+            return GetGlobalNamespace(sourceText);
         }
 
-        public CsTextParser(string fileText)
+        /// <summary>
+        /// Parses C# source code and returns a model of the source code's global namespace, including all child namespaces,
+        /// types, and documentation comments.
+        /// </summary>
+        /// <param name="sourceFileStream">A Stream object pointing to a C# source code file.</param>
+        /// <returns>A model of the input source code's global namespace.</returns>
+        public NamespaceModel GetGlobalNamespace(Stream sourceFileStream)
         {
-            _csText = SourceText.From(fileText);
+            if(sourceFileStream == null)
+                throw new ArgumentNullException("sourceFileStream");
+            var sourceText = SourceText.From(sourceFileStream);
+            return GetGlobalNamespace(sourceText);
         }
 
-        public IEnumerable<NamespaceModel> GetNamespaceTrees()
+        private NamespaceModel GetGlobalNamespace(SourceText csText)
         {
-            if(_csText == null)
-                return null;
-
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(_csText);
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(csText);
             var walker = new CsCommentWalker();
             walker.Visit(tree.GetRoot());
-            return walker.NamespaceModels;
+            return walker.GlobalNamespace;
         }
     }
 
     internal class CsCommentWalker : CSharpSyntaxWalker
     {
-        public IList<NamespaceModel> NamespaceModels { get; private set; }
+        public NamespaceModel GlobalNamespace { get; private set; }
 
         private NamespaceModel _currentNamespace;
         private InterfaceModel _currentInterface;
 
         public CsCommentWalker()
         {
-            NamespaceModels = new List<NamespaceModel>();    
+            GlobalNamespace = new NamespaceModel(); 
         }
 
         #region Node Processors
 
         public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
         {
-            _currentNamespace = new NamespaceModel {Name = node.Name.ToString()};
-            NamespaceModels.Add(_currentNamespace);
+            var newNamespace = new NamespaceModel
+            {
+                Name = node.Name.ToString(),
+                ParentNamespace = _currentNamespace
+            };
+            var parentNamespace = _currentNamespace;
+            _currentNamespace = newNamespace;
+            if(parentNamespace == null)
+                GlobalNamespace.ChildNamespaces.Add(newNamespace);
+            else
+                parentNamespace.ChildNamespaces.Add(newNamespace);
             base.VisitNamespaceDeclaration(node);
+            _currentNamespace = parentNamespace;
         }
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
-            var currentInterface = new InterfaceModel
+            var newInterface = new InterfaceModel
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node)
             };
-            _currentInterface = currentInterface;
-            _currentNamespace.Interfaces.Add(currentInterface);
+
+            if (TypeIsNested())
+                LinkTypeToParent(newInterface);
+            else
+                _currentNamespace.Interfaces.Add(newInterface); 
+            
+            var parentInterface = _currentInterface;
+            _currentInterface = newInterface;         
             base.VisitInterfaceDeclaration(node);
+            _currentInterface = parentInterface;
         }
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            var currentClass = new ClassModel
+            var newClass = new ClassModel
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node)
             };
-            _currentInterface = currentClass;
-            _currentNamespace.Classes.Add(currentClass);
-            base.VisitClassDeclaration(node);
-        }
 
-        public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
-        {
-            var currentEnum = new EnumModel
-            {
-                Name = node.Identifier.Text,
-                Namespace = _currentNamespace,
-                Parent = _currentInterface,
-                DocComment = GetCommentFromNode<DocComment>(node)
-            };
-            if(_currentInterface != null)
-                AddTypeToParent(currentEnum);
+            if(TypeIsNested())
+                LinkTypeToParent(newClass);
             else
-                _currentNamespace.Enums.Add(currentEnum);
-            _currentNamespace.Enums.Add(currentEnum);
-            base.VisitEnumDeclaration(node);
+                _currentNamespace.Classes.Add(newClass);
+
+            var parentInterface = _currentInterface;
+            _currentInterface = newClass;     
+            base.VisitClassDeclaration(node);
+            _currentInterface = parentInterface;
         }
 
         public override void VisitStructDeclaration(StructDeclarationSyntax node)
         {
-            var currentStruct = new StructModel
+            var newStruct = new StructModel
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
-                Parent = _currentInterface,
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node)
             };
-            if(_currentInterface != null)
-                AddTypeToParent(currentStruct);
+
+            if(TypeIsNested())
+                LinkTypeToParent(newStruct);
             else
-                _currentNamespace.Structs.Add(currentStruct);
+                _currentNamespace.Structs.Add(newStruct);
+
+            var previousInterface = _currentInterface;
+            _currentInterface = newStruct;
             base.VisitStructDeclaration(node);
+            _currentInterface = previousInterface;
+        }
+
+        public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
+        {
+            var newEnum = new EnumModel
+            {
+                Name = node.Identifier.Text,
+                Namespace = _currentNamespace,
+                DocComment = GetCommentFromNode<DocComment>(node)
+            };
+            if (TypeIsNested())
+                LinkTypeToParent(newEnum);
+            else
+                _currentNamespace.Enums.Add(newEnum);
+            base.VisitEnumDeclaration(node);
         }
 
         public override void VisitDelegateDeclaration(DelegateDeclarationSyntax node)
@@ -128,10 +171,12 @@ namespace DocNet.Core.Parsers.CSharp
                 Parent = _currentInterface,
                 DocComment = GetCommentFromNode<MethodDocComment>(node)
             };
-            if(_currentInterface != null)
-                AddTypeToParent(currentDelegate);
+
+            if(TypeIsNested())
+                LinkTypeToParent(currentDelegate);
             else
                 _currentNamespace.Delegates.Add(currentDelegate);
+
             base.VisitDelegateDeclaration(node);
         }
 
@@ -145,6 +190,11 @@ namespace DocNet.Core.Parsers.CSharp
             base.VisitMethodDeclaration(node);
         }
 
+        public override void VisitParameter(ParameterSyntax node)
+        {
+            base.VisitParameter(node);
+        }
+
         public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
         {
             base.VisitPropertyDeclaration(node);
@@ -154,15 +204,19 @@ namespace DocNet.Core.Parsers.CSharp
 
         #region Helper Methods
 
-        private void AddTypeToParent(CsTypeModel type)
+        private bool TypeIsNested()
         {
-            if(_currentInterface is ClassModel)
+            return _currentInterface != null;
+        }
+
+        private void LinkTypeToParent(CsTypeModel type)
+        {
+            type.Parent = _currentInterface;
+            if (_currentInterface == null) return;
+
+            if(_currentInterface is ClassAndStructModel)
             {
-                ((ClassModel) _currentInterface).NestedTypes.Add(type);
-            }
-            else if(_currentInterface is StructModel)
-            {
-                ((StructModel) _currentInterface).NestedTypes.Add(type);
+                ((ClassAndStructModel) _currentInterface).NestedTypes.Add(type);
             }
             else
             {

@@ -31,6 +31,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestData", "TestData", "{BD13E37E-243C-4551-A5EF-C2DD7A85E8C8}"
 	ProjectSection(SolutionItems) = preProject
 		Tests\TestData\SimpleMultiNamespaceFile.cs = Tests\TestData\SimpleMultiNamespaceFile.cs
+		Tests\TestData\SimpleNestedElementFile.cs = Tests\TestData\SimpleNestedElementFile.cs
 	EndProjectSection
 EndProject
 Global
