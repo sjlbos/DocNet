@@ -1,10 +1,10 @@
 ﻿using log4net;
 using CommandLine;
-using System.IO;
 
 namespace DocNet.Console
 {
     using System;
+    using System.IO;
 
     public static class Program
     {
@@ -50,29 +50,44 @@ namespace DocNet.Console
             }
         }
 
-        //Check file and then handle file based on if it is a File or Directory
-        static public void HandleFile(string checkFile, bool recurseOption)
+        //Get the .CS files contained in the file or directory
+        static public string[] GetCSFiles(string inputFile, bool recurseOption)
         {
+            string[] filelist;
+            string[] nulllist = new string[1];
+            nulllist[0] = "-1";
+
             //Check path
-            if (File.Exists(checkFile))
+            if (File.Exists(inputFile))
             {
                 // This path is a file
                 Console.WriteLine("FILE");
                 //TODO Pass to some function to handle file
+
+                //TODO RETURN STATEMENT
+                return nulllist;
             }
-            else if (Directory.Exists(checkFile))
+            else if (Directory.Exists(inputFile))
             {
                 // This path is a directory
                 Console.WriteLine("Directory");
                 if (recurseOption)
                 {
-                    //TODO Recursively handle directory
+                    //Recursively search directory for .cs files and return a list
+                    filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.AllDirectories);
+                    return filelist;
                 }
-                //TODO Pass to some function to handle directory                      
+                else
+                {
+                    //Search directory for .cs files and return a list
+                    filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.TopDirectoryOnly);
+                    return filelist;
+                }
             }
             else
             {
-                Console.WriteLine("{0} is not a valid file or directory.", checkFile);
+                Console.WriteLine("{0} is not a valid file or directory.", inputFile);
+                return nulllist;
             }   
 
         }
@@ -92,6 +107,7 @@ namespace DocNet.Console
                 }
                 else
                 {
+                    string[] csfilelist;
                     //Double check that commands are valid
                     if (!CmdCheck(args))
                     {
@@ -102,9 +118,18 @@ namespace DocNet.Console
                     //TODO Test Code. Will Remove later
                     Console.WriteLine("Input: {0}", options.InputFile);
                     Console.WriteLine("Output: {0}", options.OutputFile);
+                    //TODO END TEST CODE
 
-                    //Check file and then handle file based on if it is a File or Directory
-                    HandleFile(options.InputFile, options.RecurseOption);
+                    //Get the .CS files contained in the file or directory
+                    csfilelist = GetCSFiles(options.InputFile, options.RecurseOption);
+                    //TODO TEST CODE REMOVE LATER
+                    foreach (var csfile in csfilelist)
+                    {
+                        Console.WriteLine("CSPath: {0}", csfile);
+                    }
+                    //TODO END TEST CODE
+
+                    //return csfilelist;
                 }
             }
             //Commands not valid
@@ -139,6 +164,7 @@ namespace DocNet.Console
                 Console.WriteLine("Arg[{0}] = [{1}]", i, arg);
                 i++;
             }
+            //TODO END TEST CODE
 
             ParseArguments(args);
              
