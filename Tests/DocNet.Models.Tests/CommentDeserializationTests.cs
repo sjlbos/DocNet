@@ -34,7 +34,7 @@ namespace DocNet.Models.Tests
             DocComment deserializedComment = DocComment.FromXml<DocComment>(xmlComment);
 
             // Assert
-            Assert.AreEqual(expectedComment, deserializedComment);
+            Assert.That(expectedComment, Is.EqualTo(deserializedComment));
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace DocNet.Models.Tests
             DocComment deserializedComment = DocComment.FromXml<DocComment>(xmlComment);
 
             // Assert
-            Assert.AreEqual(expectedComment, deserializedComment);
+            Assert.That(expectedComment, Is.EqualTo(deserializedComment));
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace DocNet.Models.Tests
              <exception cref=""ExceptionB"">Exception B Description</exception>
             ";
 
-            ClassDocComment expectedComment = new ClassDocComment
+            InterfaceDocComment expectedComment = new InterfaceDocComment
             {
                 Summary = new SummaryTag { Items = new List<object> { "Dummy Summary" } },
                 Remarks = new RemarksTag { Items = new List<object> { "Dummy Remarks" } },
@@ -144,10 +144,10 @@ namespace DocNet.Models.Tests
             };
 
             // Act
-            ClassDocComment deserializedComment = DocComment.FromXml<ClassDocComment>(xmlComment);
+            InterfaceDocComment deserializedComment = DocComment.FromXml<InterfaceDocComment>(xmlComment);
 
             // Assert
-            Assert.AreEqual(expectedComment, deserializedComment);
+            Assert.That(expectedComment, Is.EqualTo(deserializedComment));
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace DocNet.Models.Tests
             MethodDocComment deserializedComment = DocComment.FromXml<MethodDocComment>(xmlComment);
 
             // Assert
-            Assert.AreEqual(expectedComment, deserializedComment);
+            Assert.That(expectedComment, Is.EqualTo(deserializedComment));
         }
 
         [Test]
@@ -228,7 +228,7 @@ namespace DocNet.Models.Tests
             PropertyDocComment deserializedComment = DocComment.FromXml<PropertyDocComment>(xmlComment);
 
             // Assert
-            Assert.AreEqual(expectedComment, deserializedComment);
+            Assert.That(expectedComment, Is.EqualTo(deserializedComment));
         }
     }
 }

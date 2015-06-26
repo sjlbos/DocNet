@@ -42,23 +42,24 @@
     <Compile Include="..\.global\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Comments\ClassDocComment.cs" />
+    <Compile Include="Comments\InterfaceDocComment.cs" />
     <Compile Include="Comments\DocComment.cs" />
     <Compile Include="Comments\MethodDocComment.cs" />
     <Compile Include="Comments\PropertyDocComment.cs" />
     <Compile Include="Comments\Xml\XmlCommentSchema.cs" />
     <Compile Include="CSharp\AssemblyModel.cs" />
     <Compile Include="CSharp\ClassModel.cs" />
-    <Compile Include="CSharp\CsElement.cs" />
-    <Compile Include="Comments\Xml\XmlDocFileSchema.cs" />
-    <Compile Include="CSharp\CsType.cs" />
+    <Compile Include="CSharp\ConstructorModel.cs" />
+    <Compile Include="CSharp\DelegateModel.cs" />
     <Compile Include="CSharp\EnumModel.cs" />
     <Compile Include="CSharp\InterfaceModel.cs" />
     <Compile Include="CSharp\MethodModel.cs" />
     <Compile Include="CSharp\NamespaceModel.cs" />
+    <Compile Include="CSharp\ClassAndStructModel.cs" />
     <Compile Include="CSharp\ParameterModel.cs" />
     <Compile Include="CSharp\PropertyModel.cs" />
     <Compile Include="CSharp\StructModel.cs" />
+    <Compile Include="CSharp\CsTypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

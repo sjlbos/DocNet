@@ -6,7 +6,7 @@ using DocNet.Models.Comments.Xml;
 
 namespace DocNet.Models.Comments
 {
-    public class ClassDocComment : DocComment, IEquatable<ClassDocComment>
+    public class InterfaceDocComment : DocComment, IEquatable<InterfaceDocComment>
     {
         [XmlElement("typeparam")]
         public List<TypeParameterTag> TypeParameters { get; set; }
@@ -14,7 +14,7 @@ namespace DocNet.Models.Comments
         [XmlElement("exception")]
         public List<ExceptionTag> Exceptions { get; set; }
 
-        public ClassDocComment()
+        public InterfaceDocComment()
         {
             TypeParameters = new List<TypeParameterTag>();
             Exceptions = new List<ExceptionTag>();
@@ -35,10 +35,10 @@ namespace DocNet.Models.Comments
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as ClassDocComment);
+            return Equals(obj as InterfaceDocComment);
         }
 
-        public bool Equals(ClassDocComment other)
+        public bool Equals(InterfaceDocComment other)
         {
             if (other == null) return false;
             if (this == other) return true;

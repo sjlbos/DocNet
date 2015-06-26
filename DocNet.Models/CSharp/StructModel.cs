@@ -1,9 +1,8 @@
-﻿using DocNet.Models.Comments;
-
+﻿
 namespace DocNet.Models.CSharp
 {
-    public class StructModel
+    public class StructModel : ClassAndStructModel
     {
-        public DocComment DocComment { get; set; }
+
     }
 }
