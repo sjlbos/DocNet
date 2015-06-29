@@ -43,7 +43,7 @@ namespace DocNet.Models.CSharp
                    (DocComment == null ? (other.DocComment == null) : DocComment.Equals(other.DocComment));
         }
 
-        private bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
+        private static bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
         {
             if (a == b) return true;
             if (a == null || b == null) return false;
