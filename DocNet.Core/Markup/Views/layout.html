@@ -18,16 +18,20 @@
 		<div class="page-header">
 			<h1>Header</h1>  		
 		</div>
-		<div class="row main">
+		<div class="row">
 			<div class="col-md-2" id="sidebar">
 				<h2>Sidebar</h2>
 				<h3>
-					<div id="menu"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
-					<span id="assembly" data-toggle="collapse" data-target=".list" onclick="hide(this)">Item:</span>
+					Item:
 				</h3>
-				<div class="collapse list">
+				<div>
 					<ul>
-						<li><a href="#">Item A</a></li>
+						<li><a href="#">Item A</a>
+							<ul>
+								<li><a href="#">Sub Item 1</a></li>
+								<li><a href="#">Sub Item 2</a></li>
+							</ul>						
+						</li>
 						<li><a href="#">Item B</a></li>		
 					</ul>
 				</div>

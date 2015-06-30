@@ -3,17 +3,8 @@
 	cursor: default;
 }
 
-#assembly{
-	cursor: pointer;
-}
-
-.main{
-	height: 900px;
-}
-
 #sidebar{
 	border-right: 1px solid #EEEEEE;
-	min-height: 100%;
 }
 
 html {
@@ -22,7 +13,6 @@ html {
 }
 body {
   margin-bottom: 2em;
-  height: 900px;
 }
 .footer {
   position: absolute;
