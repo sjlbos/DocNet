@@ -51,17 +51,17 @@ namespace DocNet.Console
         }
 
         //Get all .cs files from solution or csproj file
-        static public string[] ProjectParser(string projectpath, string filetype)
+        /*static public string[] ProjectParser(string projectpath, string filetype)
         {
             //TODO TEMP CODE PLEASE IGNORE
             string[] filelist = new string[1];
             filelist[0] = "-1";
             //TODO END TEMP CODE
             return filelist;
-        } 
+        } */
 
         //Get the .CS files contained in the file or directory
-        static public string[] GetCSFiles(string inputFile, bool recurseOption)
+        static public string[] GetCsFiles(string inputFile, string outputFile, bool recurseOption)
         {
             string[] filelist;
             string[] nolist = new string[1];
@@ -78,24 +78,35 @@ namespace DocNet.Console
                 if (Path.GetExtension(inputFile).Equals(".cs"))
                 {
                     nolist[0] = inputFile;
+                    //TODO DocNet.DocumentCSFiles(outputFile, nolist)
                     return nolist;
                 }
                 //If input file is .sln get .cs file list from solution file
-                if (Path.GetExtension(inputFile).Equals(".sln"))
+                else if (Path.GetExtension(inputFile).Equals(".sln"))
                 {
-                    filelist = ProjectParser(inputFile, ".sln");
-                    return filelist;
+                    Console.WriteLine("Solution File");
+                 
+                   //TODO DocNet.DocumentSolution(outputFile, inputFile)
+                    //filelist = ProjectParser(inputFile, ".sln");
+                    //return filelist;
+                    //TODO TEMP RETURN
+                    return nolist;
                 }
                 //If input file is .csproj get .cs file list from project file
-                if (Path.GetExtension(inputFile).Equals(".csproj"))
+                else if (Path.GetExtension(inputFile).Equals(".csproj"))
                 {
-                    filelist = ProjectParser(inputFile, ".csproj");
-                    return filelist;
+                    Console.WriteLine("csproj file");
+                    //TODO DocNet.DocumentCsProject(outputFile, inputFile)
+
+                    //TODO TEMP RETURN
+                    return nolist;
+                }
+                else
+                {
+                    Console.WriteLine("Input file type is invalid. Please input a directory, .cs file, .sln file or .csproj file");
+                    return nolist;
                 }
 
-                Console.WriteLine("Input filetype is invalid. Please input a directory, .cs file, .sln file or .csproj file");
-                return nolist;
-                
             }
             else if (Directory.Exists(inputFile))
             {
@@ -107,12 +118,30 @@ namespace DocNet.Console
                 {
                     //Recursively search directory for .cs files and return a list
                     filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.AllDirectories);
+                    if (filelist.Length > 0)
+                    {
+                        //TODO DocNet.DocumentCSFiles(outputFile, filelist)
+                    }
+                    else
+                    {
+                        Console.WriteLine("No .cs files found in {0}", inputFile);
+                        return nolist;
+                    }
                     return filelist;
                 }
                 else
                 {
                     //Search directory for .cs files and return a list
                     filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.TopDirectoryOnly);
+                    if (filelist.Length > 0)
+                    {
+                        //TODO DocNet.DocumentCSFiles(outputFile, filelist)
+                    }
+                    else
+                    {
+                        Console.WriteLine("No .cs files found in {0}", inputFile);
+                        return nolist;
+                    }
                     return filelist;
                 }
             }
@@ -131,7 +160,7 @@ namespace DocNet.Console
             nolist[0] = "-1";
 
             //Parse CL Input
-            if (CommandLine.Parser.Default.ParseArguments(args, options))
+            if (Parser.Default.ParseArguments(args, options))
             {
                 //Display help and return
                 if (options.Help)
@@ -156,7 +185,7 @@ namespace DocNet.Console
                     //TODO END TEST CODE
 
                     //Get the .CS files contained in the file or directory
-                    csfilelist = GetCSFiles(options.InputFile, options.RecurseOption);
+                    csfilelist = GetCsFiles(options.InputFile, options.OutputFile, options.RecurseOption);
                     //TODO TEST CODE REMOVE LATER
                     foreach (var csfile in csfilelist)
                     {
@@ -206,13 +235,13 @@ namespace DocNet.Console
             string[] csfilelist = ParseArguments(args);
 
             //Check if csfilelist is valid
+            //TODO TEMP CODE AS WE ARE NO LONGER PASSING STRINGS
             if(csfilelist[0].Equals("-1"))
             {
                 //TODO Test Code REMOVE WHEN DONE
                 Console.WriteLine("CSFILELIST IS INVALID");
                 Console.ReadLine();
                 //TODO END TEST CODE
-                return;
             }
             else
             {
