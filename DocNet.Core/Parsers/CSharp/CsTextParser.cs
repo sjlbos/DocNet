@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -34,6 +33,21 @@ namespace DocNet.Core.Parsers.CSharp
         }
 
         /// <summary>
+        /// Parses C# source code and adds the parsed elements to the specified namespace.
+        /// </summary>
+        /// <param name="sourceCode">A string containing C# source code.</param>
+        /// <param name="parentNamespace">A NamespaceModel object to which the types and namespaces contained in the input source code will be added.</param>
+        public void ParseIntoNamespace(string sourceCode, NamespaceModel parentNamespace)
+        {
+            if(sourceCode == null)
+                throw new ArgumentNullException("sourceCode");
+            if(parentNamespace == null)
+                throw new ArgumentNullException("parentNamespace");
+            var sourceText = SourceText.From(sourceCode);
+            ParseIntoNamespace(sourceText, parentNamespace);
+        }
+
+        /// <summary>
         /// Parses C# source code and returns a model of the source code's global namespace, including all child namespaces,
         /// types, and documentation comments.
         /// </summary>
@@ -47,12 +61,33 @@ namespace DocNet.Core.Parsers.CSharp
             return GetGlobalNamespace(sourceText);
         }
 
+        /// <summary>
+        /// Parses C# source code and adds the parsed elments to the specified namespace.
+        /// </summary>
+        /// <param name="sourceFileStream">A Stream object pointing to a C# source code file.</param>
+        /// <param name="parentNamespace">A NamespaceModel object to which the types and namespaces contained in the input source code will be added.</param>
+        public void ParseIntoNamespace(FileStream sourceFileStream, NamespaceModel parentNamespace)
+        {
+            if (sourceFileStream == null)
+                throw new ArgumentNullException("sourceFileStream");
+            if (parentNamespace == null)
+                throw new ArgumentNullException("parentNamespace");
+            var sourceText = SourceText.From(sourceFileStream);
+            ParseIntoNamespace(sourceText, parentNamespace);
+        }
+
         private NamespaceModel GetGlobalNamespace(SourceText csText)
         {
+            var namespaceModel = new NamespaceModel();
+            ParseIntoNamespace(csText, namespaceModel);
+            return namespaceModel;
+        }
+
+        private void ParseIntoNamespace(SourceText csText, NamespaceModel namespaceModel)
+        {
             SyntaxTree tree = CSharpSyntaxTree.ParseText(csText);
-            var walker = new CsCommentWalker();
+            var walker = new CsCommentWalker(namespaceModel);
             walker.Visit(tree.GetRoot());
-            return walker.GlobalNamespace;
         }
     }
 
@@ -63,9 +98,11 @@ namespace DocNet.Core.Parsers.CSharp
         private NamespaceModel _currentNamespace;
         private InterfaceModel _currentInterface;
 
-        public CsCommentWalker()
+        public CsCommentWalker(NamespaceModel globalNamespace)
         {
-            GlobalNamespace = new NamespaceModel(); 
+            if (globalNamespace == null)
+                throw new ArgumentNullException("globalNamespace");
+            GlobalNamespace = globalNamespace;
         }
 
         #region Node Processors

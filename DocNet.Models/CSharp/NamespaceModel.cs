@@ -71,7 +71,7 @@ namespace DocNet.Models.CSharp
                    ListsHaveEqualSize(Structs, other.Structs);
         }
 
-        private bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
+        private static bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
         {
             if (a == b) return true;
             if (a == null || b == null) return false;

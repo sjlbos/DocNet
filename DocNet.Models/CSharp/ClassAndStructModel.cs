@@ -40,7 +40,7 @@ namespace DocNet.Models.CSharp
                    ListsHaveEqualSize(NestedTypes, other.NestedTypes);
         }
 
-        private bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
+        private static bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
         {
             if (a == b) return true;
             if (a == null || b == null) return false;
