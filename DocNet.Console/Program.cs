@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using log4net;
 using CommandLine;
+using System;
+using System.IO;
 
 
 namespace DocNet.Console
 {
-    using System;
-    using System.IO;
     
     public enum CLStatus
     {    
@@ -42,7 +42,7 @@ namespace DocNet.Console
             //Determine which required commands are missing
             if (!args.Any())
             {
-                Console.WriteLine("No commands found. Use the following commands:");
+                Log.Error("No commands found. Use the following commands:");
                 return false;
             }
             //Check if args contains --help
@@ -53,7 +53,7 @@ namespace DocNet.Console
             //Check if required commands exist !(((Array.IndexOf(args, "-o") >= 0) || (Array.IndexOf(args, "--output") >= 0)) && ((Array.IndexOf(args, "-i") >= 0) || (Array.IndexOf(args, "--input") >= 0)))
             if (!((args.Contains("-o") || args.Contains("--output")) && (args.Contains("-i") || args.Contains("--input"))))
             {
-                Console.WriteLine("Required commands not found. Use the following commands:");
+                Log.Error("Required commands not found. Use the following commands:");
                 return false;
             }
             else
@@ -64,12 +64,13 @@ namespace DocNet.Console
         //Check if input is file, directory or neither
         private static string PathCheck(string path)
         {
+            //If file exists check the file extension
             if (File.Exists(path))
             {
                 string extension = Path.GetExtension(path);
                 if (extension == null)
                 {
-                    Console.WriteLine("{0}'s file extension is NULL", path);
+                    Log.ErrorFormat("{0}'s file extension is NULL", path);
                     return "0";
                 }
                 else if (extension.Equals(".sln"))
@@ -86,18 +87,20 @@ namespace DocNet.Console
                 }
                 else
                 {
-                    Console.WriteLine("Input file type is invalid. Please input a directory, .cs file, .sln file or .csproj file");
+                    Log.Error("Input file type is invalid. Please input a directory, .cs file, .sln file or .csproj file");
                     return "0";
                 }
 
             }
+            //Check if directory exists
             else if (Directory.Exists(path))
             {
                 return "directory";
             }
+            //path is not a valid file or directory
             else
             {
-                Console.WriteLine("{0} is not a valid file or directory.", path);
+                Log.ErrorFormat("{0} is not a valid file or directory.", path);
                 return "0";
             }
 
@@ -150,7 +153,7 @@ namespace DocNet.Console
                      }
                      else
                      {
-                         Console.WriteLine("No .cs files found in {0}", inputFile);
+                         Log.ErrorFormat("No .cs files found in {0}", inputFile);
                          return nolist;
                      }
                 }
@@ -164,7 +167,7 @@ namespace DocNet.Console
                     }
                     else
                     {
-                        Console.WriteLine("No .cs files found in {0}", inputFile);
+                        Log.ErrorFormat("No .cs files found in {0}", inputFile);
                         return nolist;
                     }
                     return filelist;
@@ -190,8 +193,8 @@ namespace DocNet.Console
                 //Display help and return
                 if (options.Help)
                 {
-                    Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
-                    Console.ReadLine();
+                    Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
+                    System.Console.ReadLine();
                     return nolist;
                 }
                 else
@@ -200,13 +203,13 @@ namespace DocNet.Console
                     //Double check that commands are valid
                     if (!CmdCheck(args))
                     {
-                        Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
+                        Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
                         //TODO Console.ReadLine();
                         return nolist;
                     }
                     //TODO Test Code. Will Remove later
-                    Console.WriteLine("Input: {0}", options.InputFile);
-                    Console.WriteLine("Output: {0}", options.OutputFile);
+                    Log.ErrorFormat("Input: {0}", options.InputFile);
+                    Log.ErrorFormat("Output: {0}", options.OutputFile);
                     //TODO END TEST CODE
 
                     //Get the .CS files contained in the file or directory
@@ -214,7 +217,7 @@ namespace DocNet.Console
                     //TODO TEST CODE REMOVE LATER
                     foreach (var csfile in csfilelist)
                     {
-                        Console.WriteLine("CSPath: {0}", csfile);
+                        Log.ErrorFormat("CSPath: {0}", csfile);
                     }
                     //TODO END TEST CODE
 
@@ -227,7 +230,7 @@ namespace DocNet.Console
                 //Check why commands aren't valid
                 if (!CmdCheck(args))
                 {
-                    Console.WriteLine(CommandLine.Text.HelpText.AutoBuild(options));
+                    Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
                     //TODO Console.ReadLine();
                     return nolist;
                 }
@@ -236,7 +239,7 @@ namespace DocNet.Console
                 {
                     if (string.IsNullOrEmpty(options.InputFile) || string.IsNullOrEmpty(options.OutputFile))
                     {
-                        Console.WriteLine("No arguments found for input and/or output");
+                        Log.Error("No arguments found for input and/or output");
                     }
                 }
             }
@@ -251,7 +254,7 @@ namespace DocNet.Console
             var i=0;
             foreach(var arg in args)
             {
-                Console.WriteLine("Arg[{0}] = [{1}]", i, arg);
+                Log.ErrorFormat("Arg[{0}] = [{1}]", i, arg);
                 i++;
             }
             //TODO END TEST CODE
@@ -264,15 +267,15 @@ namespace DocNet.Console
             if(csfilelist[0].Equals("-1"))
             {
                 //TODO Test Code REMOVE WHEN DONE
-                Console.WriteLine("CSFILELIST IS INVALID");
-                Console.ReadLine();
+                Log.Error("CSFILELIST IS INVALID");
+                System.Console.ReadLine();
                 //TODO END TEST CODE
             }
             else
             {
                 //TODO Test Code REMOVE WHEN DONE
-                Console.WriteLine("CSFILELIST IS VALID");
-                Console.ReadLine();
+                Log.Error("CSFILELIST IS VALID");
+                System.Console.ReadLine();
                 //TODO END TEST CODE
 
                 //TODO SEND LIST OF CS FILES TO CSPARSER FUNCTION
