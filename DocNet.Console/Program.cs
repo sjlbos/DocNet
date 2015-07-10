@@ -1,10 +1,22 @@
-﻿using log4net;
+﻿using System.Linq;
+using log4net;
 using CommandLine;
+
 
 namespace DocNet.Console
 {
     using System;
     using System.IO;
+    
+    public enum CLStatus
+    {    
+        Success,
+        UnknownFailure,
+        InvalidInputPath,
+        UnreachableInputPath,
+        InvalidOutputPath,
+        UnreachableOutputPat
+    }
 
     public static class Program
     {
@@ -28,18 +40,18 @@ namespace DocNet.Console
         static private bool CmdCheck(string[] args)
         {
             //Determine which required commands are missing
-            if (args.Length == 0)
+            if (!args.Any())
             {
                 Console.WriteLine("No commands found. Use the following commands:");
                 return false;
             }
             //Check if args contains --help
-            if ((Array.IndexOf(args, "-h") >= 0) || (Array.IndexOf(args, "--help") >= 0))
+            if (args.Contains("-h") || args.Contains("--help"))
             {
                 return false;
             }
-            //Check if other commands exist
-            if (!(((Array.IndexOf(args, "-o") >= 0) || (Array.IndexOf(args, "--output") >= 0)) && ((Array.IndexOf(args, "-i") >= 0) || (Array.IndexOf(args, "--input") >= 0))))
+            //Check if required commands exist !(((Array.IndexOf(args, "-o") >= 0) || (Array.IndexOf(args, "--output") >= 0)) && ((Array.IndexOf(args, "-i") >= 0) || (Array.IndexOf(args, "--input") >= 0)))
+            if (!((args.Contains("-o") || args.Contains("--output")) && (args.Contains("-i") || args.Contains("--input"))))
             {
                 Console.WriteLine("Required commands not found. Use the following commands:");
                 return false;
@@ -49,85 +61,98 @@ namespace DocNet.Console
                 return true;
             }
         }
-
-        //Get all .cs files from solution or csproj file
-        /*static public string[] ProjectParser(string projectpath, string filetype)
+        //Check if input is file, directory or neither
+        private static string PathCheck(string path)
         {
-            //TODO TEMP CODE PLEASE IGNORE
-            string[] filelist = new string[1];
-            filelist[0] = "-1";
-            //TODO END TEMP CODE
-            return filelist;
-        } */
+            if (File.Exists(path))
+            {
+                string extension = Path.GetExtension(path);
+                if (extension == null)
+                {
+                    Console.WriteLine("{0}'s file extension is NULL", path);
+                    return "0";
+                }
+                else if (extension.Equals(".sln"))
+                {
+                    return ".sln";
+                }
+                else if (extension.Equals(".csproj"))
+                {
+                    return ".csproj";
+                }
+                else if (extension.Equals(".cs"))
+                {
+                    return ".cs";
+                }
+                else
+                {
+                    Console.WriteLine("Input file type is invalid. Please input a directory, .cs file, .sln file or .csproj file");
+                    return "0";
+                }
 
-        //Get the .CS files contained in the file or directory
+            }
+            else if (Directory.Exists(path))
+            {
+                return "directory";
+            }
+            else
+            {
+                Console.WriteLine("{0} is not a valid file or directory.", path);
+                return "0";
+            }
+
+        }
+
+        //Get the .CS file location from a solution file, csproj file or directory
         static public string[] GetCsFiles(string inputFile, string outputFile, bool recurseOption)
         {
             string[] filelist;
             string[] nolist = new string[1];
             nolist[0] = "-1";
 
-            //Check path
-            if (File.Exists(inputFile))
-            {
-                //TODO TEST CODE
-                // This path is a file
-                Console.WriteLine("FILE");
-                //TODO END TEST CODE
+            //Check path 1 is file 2 is directory 0 is neither
+            var extension = PathCheck(inputFile);
+
                 //If input file is .cs return only the .cs path
-                if (Path.GetExtension(inputFile).Equals(".cs"))
-                {
-                    nolist[0] = inputFile;
-                    //TODO DocNet.DocumentCSFiles(outputFile, nolist)
-                    return nolist;
-                }
-                //If input file is .sln get .cs file list from solution file
-                else if (Path.GetExtension(inputFile).Equals(".sln"))
-                {
-                    Console.WriteLine("Solution File");
-                 
-                   //TODO DocNet.DocumentSolution(outputFile, inputFile)
-                    //filelist = ProjectParser(inputFile, ".sln");
-                    //return filelist;
-                    //TODO TEMP RETURN
-                    return nolist;
-                }
-                //If input file is .csproj get .cs file list from project file
-                else if (Path.GetExtension(inputFile).Equals(".csproj"))
-                {
-                    Console.WriteLine("csproj file");
-                    //TODO DocNet.DocumentCsProject(outputFile, inputFile)
-
-                    //TODO TEMP RETURN
-                    return nolist;
-                }
-                else
-                {
-                    Console.WriteLine("Input file type is invalid. Please input a directory, .cs file, .sln file or .csproj file");
-                    return nolist;
-                }
-
-            }
-            else if (Directory.Exists(inputFile))
+            if (extension.Equals(".cs"))
             {
-                //TODO TEST CODE
-                // This path is a directory
-                Console.WriteLine("Directory");
-                //TODO END TEST CODE
+                nolist[0] = inputFile;
+                //TODO DocNet.DocumentCSFiles(outputFile, nolist)
+                return nolist;
+            }
+            //If input file is .sln get .cs file list from solution file
+            else if (extension.Equals(".sln"))
+            {
+               //TODO DocNet.DocumentSolution(outputFile, inputFile)
+
+               //TODO TEMP RETURN
+               return nolist;
+            }
+            //If input file is .csproj get .cs file list from project file
+            else if (extension.Equals(".csproj"))
+            {
+                //TODO DocNet.DocumentCsProject(outputFile, inputFile)
+
+                //TODO TEMP RETURN
+                return nolist;
+           }
+           //if path is directory
+           else if (extension.Equals("directory"))
+           {   
                 if (recurseOption)
-                {
-                    //Recursively search directory for .cs files and return a list
-                    filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.AllDirectories);
-                    if (filelist.Length > 0)
-                    {
-                        //TODO DocNet.DocumentCSFiles(outputFile, filelist)
-                    }
-                    else
-                    {
-                        Console.WriteLine("No .cs files found in {0}", inputFile);
-                        return nolist;
-                    }
-                    return filelist;
+                {    
+                     //Recursively search directory for .cs files and return a list
+                     filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.AllDirectories);
+                     if (filelist.Length > 0)
+                     {
+                         //TODO DocNet.DocumentCSFiles(outputFile, filelist)
+                         return filelist;
+                     }
+                     else
+                     {
+                         Console.WriteLine("No .cs files found in {0}", inputFile);
+                         return nolist;
+                     }
                 }
                 else
                 {
@@ -144,14 +169,14 @@ namespace DocNet.Console
                     }
                     return filelist;
                 }
-            }
+            }    
+            //if path is not file or directory
             else
             {
-                Console.WriteLine("{0} is not a valid file or directory.", inputFile);
                 return nolist;
             }   
 
-        }
+        }     
         //Parses command line
         static public string[] ParseArguments(string[] args)
         {
