@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 using DocNet.Core.Exceptions;
 using DocNet.Models.Comments;
@@ -76,14 +78,14 @@ namespace DocNet.Core.Parsers.CSharp
             ParseIntoNamespace(sourceText, parentNamespace);
         }
 
-        private NamespaceModel GetGlobalNamespace(SourceText csText)
+        private static NamespaceModel GetGlobalNamespace(SourceText csText)
         {
             var namespaceModel = new NamespaceModel();
             ParseIntoNamespace(csText, namespaceModel);
             return namespaceModel;
         }
 
-        private void ParseIntoNamespace(SourceText csText, NamespaceModel namespaceModel)
+        private static void ParseIntoNamespace(SourceText csText, NamespaceModel namespaceModel)
         {
             SyntaxTree tree = CSharpSyntaxTree.ParseText(csText);
             var walker = new CsCommentWalker(namespaceModel);
@@ -109,6 +111,8 @@ namespace DocNet.Core.Parsers.CSharp
 
         public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
         {
+            if(node == null) throw new ArgumentNullException("node");
+
             var newNamespace = new NamespaceModel
             {
                 Name = node.Name.ToString(),
@@ -126,11 +130,14 @@ namespace DocNet.Core.Parsers.CSharp
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
+            if(node == null) throw new ArgumentNullException("node");
+
             var newInterface = new InterfaceModel
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node)
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node),
+                TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses)
             };
 
             if (TypeIsNested())
@@ -146,12 +153,21 @@ namespace DocNet.Core.Parsers.CSharp
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
+            if (node == null) throw new ArgumentNullException("node");
+
             var newClass = new ClassModel
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node)
             };
+
+            if(node.TypeParameterList != null)
+            {
+                newClass.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
+            }
+
+            SetClassModifiers(newClass, node.Modifiers);
 
             if(TypeIsNested())
                 LinkTypeToParent(newClass);
@@ -166,11 +182,14 @@ namespace DocNet.Core.Parsers.CSharp
 
         public override void VisitStructDeclaration(StructDeclarationSyntax node)
         {
+            if (node == null) throw new ArgumentNullException("node");
+
             var newStruct = new StructModel
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node)
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node),
+                TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses)
             };
 
             if(TypeIsNested())
@@ -186,6 +205,8 @@ namespace DocNet.Core.Parsers.CSharp
 
         public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
         {
+            if (node == null) throw new ArgumentNullException("node");
+
             var newEnum = new EnumModel
             {
                 Name = node.Identifier.Text,
@@ -201,7 +222,9 @@ namespace DocNet.Core.Parsers.CSharp
 
         public override void VisitDelegateDeclaration(DelegateDeclarationSyntax node)
         {
-            var currentDelegate = new DelegateModel
+            if (node == null) throw new ArgumentNullException("node");
+
+            var newDelegate = new DelegateModel
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
@@ -210,15 +233,29 @@ namespace DocNet.Core.Parsers.CSharp
             };
 
             if(TypeIsNested())
-                LinkTypeToParent(currentDelegate);
+                LinkTypeToParent(newDelegate);
             else
-                _currentNamespace.Delegates.Add(currentDelegate);
+                _currentNamespace.Delegates.Add(newDelegate);
 
             base.VisitDelegateDeclaration(node);
         }
 
         public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
         {
+            if (node == null) throw new ArgumentNullException("node");
+
+            var newConstructor = new ConstructorModel
+            {
+                Name = node.Identifier.Text,
+                Parent = _currentInterface as ClassAndStructModel,
+                DocComment = GetCommentFromNode<MethodDocComment>(node),
+                Parameters = GetParameterList(node.ParameterList.Parameters)
+            };
+
+            SetConstructorModifiers(newConstructor, node.Modifiers); 
+
+            ((ClassAndStructModel) _currentInterface).Constructors.Add(newConstructor);
+
             base.VisitConstructorDeclaration(node);
         }
 
@@ -261,7 +298,9 @@ namespace DocNet.Core.Parsers.CSharp
             }
         }
 
-        private T GetCommentFromNode<T>(SyntaxNode node) where T : DocComment
+        #region Comment Helpers
+
+        private static T GetCommentFromNode<T>(SyntaxNode node) where T : DocComment
         {
             var docCommentTrivia =
                 node.GetLeadingTrivia()
@@ -277,11 +316,126 @@ namespace DocNet.Core.Parsers.CSharp
             return DocComment.FromXml<T>(commentXmlString);
         }
 
-        private string StripTripleSlashesFromComment(string xmlComment)
+        private static string StripTripleSlashesFromComment(string xmlComment)
         {
             Regex tripleSlashRegex = new Regex(@"(\r?\n)?\s?///");
             return tripleSlashRegex.Replace(xmlComment, String.Empty);
         }
+
+        #endregion
+
+        #region Modifier Helpers
+
+        private static void SetClassModifiers(ClassModel classModel, SyntaxTokenList modifiers)
+        {
+            classModel.AccessModifier = AccessModifier.Internal;
+            foreach(var modifier in modifiers)
+            {
+                switch(modifier.Kind())
+                {
+                    // "internal" access modifier is ommitted, as it is the default.
+                    case SyntaxKind.PublicKeyword:
+                        classModel.AccessModifier = AccessModifier.Public;
+                        break;
+                    case SyntaxKind.PrivateKeyword:
+                        classModel.AccessModifier = AccessModifier.Private;
+                        break;
+                    case SyntaxKind.AbstractKeyword:
+                        classModel.IsAbstract = true;
+                        break;
+                    case SyntaxKind.StaticKeyword:
+                        classModel.IsStatic = true;
+                        break;
+                }
+            }
+        }
+
+        private static void SetConstructorModifiers(ConstructorModel constructorModel, SyntaxTokenList modifiers)
+        {
+            constructorModel.AccessModifier = AccessModifier.Internal;
+            bool protectedEncountered = false;
+            bool internalEncountered = false;
+            foreach(var modifier in modifiers)
+            {
+                switch(modifier.Kind())
+                {
+                    case SyntaxKind.PublicKeyword:
+                        constructorModel.AccessModifier = AccessModifier.Public;
+                        break;
+                    case SyntaxKind.PrivateKeyword:
+                        constructorModel.AccessModifier = AccessModifier.Private;
+                        break;
+                    case SyntaxKind.ProtectedKeyword:
+                        if(internalEncountered)
+                        {
+                            constructorModel.AccessModifier = AccessModifier.ProtectedInternal;
+                        }
+                        else
+                        {
+                            constructorModel.AccessModifier = AccessModifier.Protected;
+                            protectedEncountered = true;
+                        }
+                        break;
+                    case SyntaxKind.InternalKeyword:
+                        if(protectedEncountered)
+                        {
+                            constructorModel.AccessModifier = AccessModifier.ProtectedInternal;
+                        }
+                        else
+                        {
+                            constructorModel.AccessModifier = AccessModifier.Internal;
+                            internalEncountered = true;
+                        }
+                        break;
+                    case SyntaxKind.StaticKeyword:
+                        constructorModel.IsStatic = true;
+                        break;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Parameter Helpers
+
+        private static IList<TypeParameterModel> GetTypeParameterList(SeparatedSyntaxList<TypeParameterSyntax> typeParams, SyntaxList<TypeParameterConstraintClauseSyntax> constraints)
+        {
+            var paramConstraintMap = constraints.ToDictionary(constraint => constraint.Name.ToString(), constraint => constraint.Constraints.ToString());
+            return typeParams.Select(typeParam => typeParam.Identifier.ToString()).Select(paramName => new TypeParameterModel
+            {
+                Name = paramName, 
+                Constraint = paramConstraintMap.ContainsKey(paramName) ? paramConstraintMap[paramName] : null
+            }).ToList();
+        }
+
+        private static IList<ParameterModel> GetParameterList(SeparatedSyntaxList<ParameterSyntax> parameterSyntaxList)
+        {
+            return parameterSyntaxList.Select(paramSyntax => new ParameterModel
+            {
+                Name = paramSyntax.Identifier.Text, 
+                TypeName = paramSyntax.Type.ToString(), 
+                ParameterKind = GetParameterKindFromSyntax(paramSyntax)
+            }).ToList();
+        }
+
+        private static ParameterKind GetParameterKindFromSyntax(ParameterSyntax param)
+        {
+            if(param.Modifiers.Any())
+            {
+                switch(param.Modifiers[0].Kind())
+                {
+                    case SyntaxKind.RefKeyword:
+                        return ParameterKind.Ref;
+                    case SyntaxKind.OutKeyword:
+                        return ParameterKind.Out;
+                    case SyntaxKind.ParamsKeyword:
+                        return ParameterKind.Params;
+                }  
+            }
+            return ParameterKind.Value;
+        }
+
+        #endregion
 
         #endregion
     }

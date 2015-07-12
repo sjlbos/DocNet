@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DocNet.Models.CSharp
 {
     public abstract class ClassAndStructModel : InterfaceModel, IEquatable<ClassAndStructModel>
     {
-        public IList<ConstructorModel> Constructors;
+        public IList<ConstructorModel> Constructors { get; set; }
         public IList<CsTypeModel> NestedTypes { get; set; } 
 
         protected ClassAndStructModel()

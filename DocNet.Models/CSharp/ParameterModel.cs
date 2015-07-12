@@ -1,20 +1,17 @@
-﻿using DocNet.Models.Comments;
-
-namespace DocNet.Models.CSharp
+﻿namespace DocNet.Models.CSharp
 {
-    public enum ParameterType
+    public enum ParameterKind
     {
         Value,
         Ref,
-        Out
+        Out,
+        Params
     }
 
     public class ParameterModel
     {
-        public PropertyDocComment DocComment { get; set; }
-        public string FullTypeName { get; set; }
         public string TypeName { get; set; }
-        public string ParameterName { get; set; }
-        public ParameterType ParameterType { get; set; }
+        public string Name { get; set; }
+        public ParameterKind ParameterKind { get; set; }
     }
 }

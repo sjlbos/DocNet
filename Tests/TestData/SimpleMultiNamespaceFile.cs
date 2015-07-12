@@ -7,7 +7,10 @@ namespace NamespaceOne
     /// </summary>
     public class Class1
     {
-        
+        public Class1(ref Class2 foo)
+        {
+            
+        }
     }
 
     /// <summary>
