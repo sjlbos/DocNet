@@ -2,6 +2,7 @@
 <RuleSet Name="DocNet Code Analysis Rules" Description="This rule set contains the rules that will enforce the DocNet coding standards." ToolsVersion="12.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1020" Action="None" />
     <Rule Id="CA1726" Action="None" />
     <Rule Id="CA1814" Action="None" />
     <Rule Id="CA1820" Action="None" />

@@ -7,7 +7,7 @@ namespace NamespaceOne
     /// </summary>
     public class Class1
     {
-        
+        public string foo { get; private set; }
     }
 
     /// <summary>

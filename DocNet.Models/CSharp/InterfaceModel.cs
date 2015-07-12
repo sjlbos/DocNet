@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using DocNet.Models.Comments;
 
 namespace DocNet.Models.CSharp
 {
     public class InterfaceModel : CsTypeModel, IEquatable<InterfaceModel>
     {
+        public IList<TypeParameterModel> TypeParameters { get; set; } 
         public IList<MethodModel> Methods;
         public IList<PropertyModel> Properties;
         public InterfaceDocComment DocComment { get; set; }

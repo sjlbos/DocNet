@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using DocNet.Core.Markup;
@@ -238,7 +239,7 @@ namespace DocNet.Core
                 ParseCsFile(csFilePath, globalNamespace);
             }
 
-            _log.InfoFormat("Project processing complete.");
+            _log.Info("Project processing complete.");
         }
 
         private void ParseCsFile(string csFilePath, NamespaceModel globalNamespace)

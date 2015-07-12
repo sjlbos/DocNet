@@ -6,6 +6,6 @@
 
         DocNetStatus DocumentCsProject(string outputDirectoryPath, string projectFilePath);
 
-        DocNetStatus DocumentCsFiles(string outputFilePath, params string[] csFilePaths);
+        DocNetStatus DocumentCsFiles(string outputDirectoryPath, params string[] csFilePaths);
     }
 }
