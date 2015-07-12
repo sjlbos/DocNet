@@ -6,6 +6,7 @@ namespace DocNet.Models.CSharp
     {
         public bool IsAbstract { get; set; }
         public bool IsStatic { get; set; }
+        public bool IsSealed { get; set; }
 
         #region Equality Members
 

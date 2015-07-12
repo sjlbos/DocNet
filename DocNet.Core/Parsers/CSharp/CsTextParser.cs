@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 using DocNet.Core.Exceptions;
 using DocNet.Models.Comments;
@@ -188,9 +187,14 @@ namespace DocNet.Core.Parsers.CSharp
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node),
-                TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses)
+                AccessModifier = GetAccessModifier(node.Modifiers),
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node)
             };
+
+            if (node.TypeParameterList != null)
+            {
+                newStruct.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
+            }
 
             if(TypeIsNested())
                 LinkTypeToParent(newStruct);
@@ -211,12 +215,15 @@ namespace DocNet.Core.Parsers.CSharp
             {
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
+                AccessModifier = GetAccessModifier(node.Modifiers),
                 DocComment = GetCommentFromNode<DocComment>(node)
             };
+
             if (TypeIsNested())
                 LinkTypeToParent(newEnum);
             else
                 _currentNamespace.Enums.Add(newEnum);
+
             base.VisitEnumDeclaration(node);
         }
 
@@ -229,8 +236,15 @@ namespace DocNet.Core.Parsers.CSharp
                 Name = node.Identifier.Text,
                 Namespace = _currentNamespace,
                 Parent = _currentInterface,
+                Parameters = GetParameterList(node.ParameterList.Parameters),
+                ReturnType = node.ReturnType.ToString(),
                 DocComment = GetCommentFromNode<MethodDocComment>(node)
             };
+
+            if (node.TypeParameterList != null)
+            {
+                newDelegate.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
+            }
 
             if(TypeIsNested())
                 LinkTypeToParent(newDelegate);
@@ -261,16 +275,46 @@ namespace DocNet.Core.Parsers.CSharp
 
         public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            base.VisitMethodDeclaration(node);
-        }
+            if(node == null) throw new ArgumentNullException("node");
 
-        public override void VisitParameter(ParameterSyntax node)
-        {
-            base.VisitParameter(node);
+            var newMethod = new MethodModel
+            {
+                Name = node.Identifier.Text,
+                Parent = _currentInterface,
+                DocComment = GetCommentFromNode<MethodDocComment>(node),
+                Parameters = GetParameterList(node.ParameterList.Parameters),
+                ReturnType = node.ReturnType.ToString()
+            };
+
+            if(node.TypeParameterList != null)
+            {
+                newMethod.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
+            }
+
+            SetMethodModifiers(newMethod, node.Modifiers);
+
+            _currentInterface.Methods.Add(newMethod);
+
+            base.VisitMethodDeclaration(node);
         }
 
         public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
         {
+            if(node == null) throw new ArgumentNullException("node");
+
+            var newProperty = new PropertyModel
+            {
+                Name = node.Identifier.Text,
+                TypeName = node.Type.ToString(),
+                Parent = _currentInterface,
+                DocComment = GetCommentFromNode<PropertyDocComment>(node)
+            };
+            
+            SetPropertyModifiers(newProperty, node.Modifiers);
+            SetAccessorProperties(newProperty, node.AccessorList.Accessors);
+
+            _currentInterface.Properties.Add(newProperty);
+
             base.VisitPropertyDeclaration(node);
         }
 
@@ -310,7 +354,7 @@ namespace DocNet.Core.Parsers.CSharp
                             t.IsKind(SyntaxKind.MultiLineDocumentationCommentTrivia));
 
             var docComment = docCommentTrivia.FirstOrDefault();
-            if(docComment == null) return null;
+            if(docComment.Kind() == SyntaxKind.None) return null;
 
             string commentXmlString = StripTripleSlashesFromComment(docComment.ToFullString());
             return DocComment.FromXml<T>(commentXmlString);
@@ -326,25 +370,51 @@ namespace DocNet.Core.Parsers.CSharp
 
         #region Modifier Helpers
 
-        private static void SetClassModifiers(ClassModel classModel, SyntaxTokenList modifiers)
+        private static AccessModifier GetAccessModifier(SyntaxTokenList modifiers, AccessModifier defaultModifier = AccessModifier.Internal)
         {
-            classModel.AccessModifier = AccessModifier.Internal;
+            AccessModifier tempModifier = defaultModifier;
+            bool internalEncountered = false;
+            bool protectedEncountered = false;
             foreach(var modifier in modifiers)
             {
                 switch(modifier.Kind())
                 {
-                    // "internal" access modifier is ommitted, as it is the default.
                     case SyntaxKind.PublicKeyword:
-                        classModel.AccessModifier = AccessModifier.Public;
-                        break;
+                        return AccessModifier.Public;
                     case SyntaxKind.PrivateKeyword:
-                        classModel.AccessModifier = AccessModifier.Private;
+                        return AccessModifier.Private;
+                    case SyntaxKind.ProtectedKeyword:
+                        if (internalEncountered) // If we have already encountered an "internal" keyword, the access modifier must be "internal protected".
+                            return AccessModifier.ProtectedInternal;
+                        tempModifier = AccessModifier.Protected;
+                        protectedEncountered = true;
+                        break;
+                    case SyntaxKind.InternalKeyword:
+                        if (protectedEncountered) // If we have already encountered a "protected" keyword, the access modifier must be "internal protected".
+                            return AccessModifier.ProtectedInternal;
+                        tempModifier = AccessModifier.Internal;
+                        internalEncountered = true;
+                        break;   
+                }
+            }
+            return tempModifier;
+        }
+
+        private static void SetClassModifiers(ClassModel classModel, SyntaxTokenList modifiers)
+        {
+            classModel.AccessModifier = GetAccessModifier(modifiers);
+            foreach (var modifier in modifiers)
+            {
+                switch (modifier.Kind())
+                {
+                    case SyntaxKind.StaticKeyword:
+                        classModel.IsStatic = true;
                         break;
                     case SyntaxKind.AbstractKeyword:
                         classModel.IsAbstract = true;
                         break;
-                    case SyntaxKind.StaticKeyword:
-                        classModel.IsStatic = true;
+                    case SyntaxKind.SealedKeyword:
+                        classModel.IsSealed = true;
                         break;
                 }
             }
@@ -352,43 +422,70 @@ namespace DocNet.Core.Parsers.CSharp
 
         private static void SetConstructorModifiers(ConstructorModel constructorModel, SyntaxTokenList modifiers)
         {
-            constructorModel.AccessModifier = AccessModifier.Internal;
-            bool protectedEncountered = false;
-            bool internalEncountered = false;
-            foreach(var modifier in modifiers)
+            constructorModel.AccessModifier = GetAccessModifier(modifiers);
+
+            if (modifiers.Any(modifier => modifier.Kind() == SyntaxKind.StaticKeyword))
             {
-                switch(modifier.Kind())
+                constructorModel.IsStatic = true;
+            }
+        }
+
+        private static void SetMethodModifiers(MethodModel method, SyntaxTokenList modifiers)
+        {
+            method.AccessModifier = GetAccessModifier(modifiers);
+            foreach (var modifier in modifiers)
+            {
+                switch (modifier.Kind())
                 {
-                    case SyntaxKind.PublicKeyword:
-                        constructorModel.AccessModifier = AccessModifier.Public;
-                        break;
-                    case SyntaxKind.PrivateKeyword:
-                        constructorModel.AccessModifier = AccessModifier.Private;
-                        break;
-                    case SyntaxKind.ProtectedKeyword:
-                        if(internalEncountered)
-                        {
-                            constructorModel.AccessModifier = AccessModifier.ProtectedInternal;
-                        }
-                        else
-                        {
-                            constructorModel.AccessModifier = AccessModifier.Protected;
-                            protectedEncountered = true;
-                        }
-                        break;
-                    case SyntaxKind.InternalKeyword:
-                        if(protectedEncountered)
-                        {
-                            constructorModel.AccessModifier = AccessModifier.ProtectedInternal;
-                        }
-                        else
-                        {
-                            constructorModel.AccessModifier = AccessModifier.Internal;
-                            internalEncountered = true;
-                        }
-                        break;
                     case SyntaxKind.StaticKeyword:
-                        constructorModel.IsStatic = true;
+                        method.IsStatic = true;
+                        break;
+                    case SyntaxKind.AbstractKeyword:
+                        method.IsAbstract = true;
+                        break;
+                    case SyntaxKind.AsyncKeyword:
+                        method.IsAsync = true;
+                        break;
+                    case SyntaxKind.OverrideKeyword:
+                        method.IsOverride = true;
+                        break;
+                    case SyntaxKind.VirtualKeyword:
+                        method.IsVirtual = true;
+                        break;
+                    case SyntaxKind.NewKeyword:
+                        method.HidesBaseImplementation = true;
+                        break;
+                    case SyntaxKind.SealedKeyword:
+                        method.IsSealed = true;
+                        break;
+                }
+            }
+        }
+
+        private static void SetPropertyModifiers(PropertyModel property, SyntaxTokenList modifiers)
+        {
+            property.AccessModifier = GetAccessModifier(modifiers);
+            foreach (var modifier in modifiers)
+            {
+                switch (modifier.Kind())
+                {
+                    case SyntaxKind.StaticKeyword:
+                        property.IsStatic = true;
+                        break;
+                    case SyntaxKind.AbstractKeyword:
+                        property.IsAbstract = true;
+                        break;
+                    case SyntaxKind.OverrideKeyword:
+                        property.IsOverride = true;
+                        break;
+                    case SyntaxKind.VirtualKeyword:
+                        property.IsVirtual = true;
+                        break;
+                    case SyntaxKind.NewKeyword:
+                        property.HidesBaseImplementation = true;
+                        break;
+                    case SyntaxKind.SealedKeyword:
+                        property.IsSealed = true;
                         break;
                 }
             }
@@ -436,6 +533,23 @@ namespace DocNet.Core.Parsers.CSharp
         }
 
         #endregion
+
+        private static void SetAccessorProperties(PropertyModel property, SyntaxList<AccessorDeclarationSyntax> accessors)
+        {
+            foreach(var accessor in accessors)
+            {
+                if(accessor.Kind() == SyntaxKind.GetAccessorDeclaration)
+                {
+                    property.HasGetter = true;
+                    property.GetterAccessModifier = GetAccessModifier(accessor.Modifiers, property.AccessModifier);
+                }
+                else if(accessor.Kind() == SyntaxKind.SetAccessorDeclaration)
+                {
+                    property.HasSetter = true;
+                    property.SetterAccessModifier = GetAccessModifier(accessor.Modifiers, property.AccessModifier);
+                }
+            }
+        }
 
         #endregion
     }
