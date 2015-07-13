@@ -1,4 +1,4 @@
-﻿namespace DocNet.Models.CSharp
+﻿namespace DocNet.Core.Models.CSharp
 {
     public enum AccessModifier
     {

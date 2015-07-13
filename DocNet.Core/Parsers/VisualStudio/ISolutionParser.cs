@@ -1,4 +1,4 @@
-﻿using DocNet.Models.VisualStudio;
+﻿using DocNet.Core.Models.VisualStudio;
 
 namespace DocNet.Core.Parsers.VisualStudio
 {

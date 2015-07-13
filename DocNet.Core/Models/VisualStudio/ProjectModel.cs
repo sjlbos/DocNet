@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DocNet.Models.VisualStudio
+namespace DocNet.Core.Models.VisualStudio
 {
     public class ProjectModel : IEquatable<ProjectModel>
     {

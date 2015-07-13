@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using DocNet.Models.Comments.Xml;
+using DocNet.Core.Models.Comments.Xml;
 
-namespace DocNet.Models.Comments
+namespace DocNet.Core.Models.Comments
 {
     public class InterfaceDocComment : DocComment, IEquatable<InterfaceDocComment>
     {

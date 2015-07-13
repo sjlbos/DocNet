@@ -1,9 +1,9 @@
 ﻿
 using System;
 using System.Xml.Serialization;
-using DocNet.Models.Comments.Xml;
+using DocNet.Core.Models.Comments.Xml;
 
-namespace DocNet.Models.Comments
+namespace DocNet.Core.Models.Comments
 {
     public class PropertyDocComment : DocComment, IEquatable<PropertyDocComment>
     {

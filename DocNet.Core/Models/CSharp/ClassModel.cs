@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DocNet.Models.CSharp
+namespace DocNet.Core.Models.CSharp
 {
     public class ClassModel : ClassAndStructModel, IEquatable<ClassModel>
     {

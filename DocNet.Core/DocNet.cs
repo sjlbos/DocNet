@@ -1,13 +1,12 @@
 ﻿
 using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using DocNet.Core.Markup;
 using DocNet.Core.Parsers.CSharp;
 using DocNet.Core.Parsers.VisualStudio;
-using DocNet.Models.CSharp;
-using DocNet.Models.VisualStudio;
+using DocNet.Core.Models.CSharp;
+using DocNet.Core.Models.VisualStudio;
 using log4net;
 
 namespace DocNet.Core

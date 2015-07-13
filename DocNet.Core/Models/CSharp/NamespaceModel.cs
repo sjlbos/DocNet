@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DocNet.Models.CSharp
+namespace DocNet.Core.Models.CSharp
 {
     public class NamespaceModel : IEquatable<NamespaceModel>
     {

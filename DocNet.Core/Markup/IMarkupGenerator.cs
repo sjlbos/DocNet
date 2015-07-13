@@ -1,5 +1,5 @@
 ﻿
-using DocNet.Models.CSharp;
+using DocNet.Core.Models.CSharp;
 
 namespace DocNet.Core.Markup
 {

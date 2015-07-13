@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using DocNet.Core.Parsers.VisualStudio;
-using DocNet.Models.VisualStudio;
+using DocNet.Core.Models.VisualStudio;
 using NUnit.Framework;
 
 namespace DocNet.Core.Tests.Parsers

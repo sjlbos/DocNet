@@ -17,13 +17,28 @@ namespace DocNet.Core.Markup.Views
     using System.Text;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class ViewTemplate : RazorGenerator.Templating.RazorTemplateBase
+    public partial class ViewTemplate : global::DocNet.Core.Markup.Views.BaseTemplate<global::DocNet.Core.Models.CSharp.ClassModel>
     {
 #line hidden
 
         public override void Execute()
         {
 
+
+WriteLiteral("\r\n");
+
+
+WriteLiteral("                      \r\n<p>");
+
+
+            
+            #line 4 "..\..\Markup\Views\ViewTemplate.cshtml"
+Write(Model.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</p>");
 
 
         }

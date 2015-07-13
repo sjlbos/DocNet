@@ -65,15 +65,14 @@
     <Compile Include="CommentDeserializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DocNet.Models\DocNet.Models.csproj">
-      <Project>{ec86703e-9a1e-481f-9025-902903cd8d79}</Project>
-      <Name>DocNet.Models</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\DocNet.Core\DocNet.Core.csproj">
+      <Project>{9acaa3c1-d558-4fde-830f-85881f7e8c7b}</Project>
+      <Name>DocNet.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\..\.global\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>

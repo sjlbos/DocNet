@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace DocNet.Models.Comments.Xml
+namespace DocNet.Core.Models.Comments.Xml
 {
     public abstract class Container : IEquatable<Container>
     {   

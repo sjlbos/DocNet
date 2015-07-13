@@ -4,9 +4,9 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DocNet.Models.Comments.Xml;
+using DocNet.Core.Models.Comments.Xml;
 
-namespace DocNet.Models.Comments
+namespace DocNet.Core.Models.Comments
 {
     public class DocComment : IEquatable<DocComment>
     {

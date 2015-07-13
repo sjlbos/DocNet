@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentDeserializationTests.cs" />
     <Compile Include="Parsers\CsParserTests.cs" />
     <Compile Include="Parsers\OnionSolutionParserWrapperTests.cs" />
     <Compile Include="Parsers\ProjectParserTests.cs" />
@@ -86,10 +87,6 @@
     <ProjectReference Include="..\..\DocNet.Core\DocNet.Core.csproj">
       <Project>{9acaa3c1-d558-4fde-830f-85881f7e8c7b}</Project>
       <Name>DocNet.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DocNet.Models\DocNet.Models.csproj">
-      <Project>{ec86703e-9a1e-481f-9025-902903cd8d79}</Project>
-      <Name>DocNet.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

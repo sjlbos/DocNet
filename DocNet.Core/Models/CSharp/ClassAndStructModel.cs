@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DocNet.Models.CSharp
+namespace DocNet.Core.Models.CSharp
 {
     public abstract class ClassAndStructModel : InterfaceModel, IEquatable<ClassAndStructModel>
     {
@@ -37,13 +37,6 @@ namespace DocNet.Models.CSharp
             return base.Equals(other) &&
                    ListsHaveEqualSize(Constructors, other.Constructors) &&
                    ListsHaveEqualSize(NestedTypes, other.NestedTypes);
-        }
-
-        private static bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
-        {
-            if (a == b) return true;
-            if (a == null || b == null) return false;
-            return a.Count == b.Count;
         }
 
         #endregion

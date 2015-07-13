@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using DocNet.Models.Comments;
+using DocNet.Core.Models.Comments;
 
-namespace DocNet.Models.CSharp
+namespace DocNet.Core.Models.CSharp
 {
     public class InterfaceModel : CsTypeModel, IEquatable<InterfaceModel>
     {
@@ -43,7 +43,7 @@ namespace DocNet.Models.CSharp
                    (DocComment == null ? (other.DocComment == null) : DocComment.Equals(other.DocComment));
         }
 
-        private static bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
+        protected static bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
         {
             if (a == b) return true;
             if (a == null || b == null) return false;
