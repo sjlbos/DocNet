@@ -8,14 +8,16 @@ using System.IO;
 namespace DocNet.Console
 {
     
-    public enum CLStatus
+    public enum ClStatus
     {    
         Success,
+        Help,
+        KnownFailure,
         UnknownFailure,
         InvalidInputPath,
         UnreachableInputPath,
         InvalidOutputPath,
-        UnreachableOutputPat
+        UnreachableOutputPath
     }
 
     public static class Program
@@ -107,11 +109,12 @@ namespace DocNet.Console
         }
 
         //Get the .CS file location from a solution file, csproj file or directory
-        static public string[] GetCsFiles(string inputFile, string outputFile, bool recurseOption)
+        static public ClStatus GetCSFiles(string inputFile, string outputFile, bool recurseOption)
         {
+            ClStatus parserstatus;
             string[] filelist;
-            string[] nolist = new string[1];
-            nolist[0] = "-1";
+            /*string[] nolist = new string[1];
+            nolist[0] = "-1";*/
 
             //Check path 1 is file 2 is directory 0 is neither
             var extension = PathCheck(inputFile);
@@ -119,25 +122,25 @@ namespace DocNet.Console
                 //If input file is .cs return only the .cs path
             if (extension.Equals(".cs"))
             {
-                nolist[0] = inputFile;
-                //TODO DocNet.DocumentCSFiles(outputFile, nolist)
-                return nolist;
+                //nolist[0] = inputFile;
+                filelist = new string[1];
+                filelist[0] = inputFile;
+                parserstatus = DocNet.DocumentCSFiles(outputFile, filelist);
+                return parserstatus;
             }
             //If input file is .sln get .cs file list from solution file
             else if (extension.Equals(".sln"))
             {
-               //TODO DocNet.DocumentSolution(outputFile, inputFile)
+                parserstatus = DocNet.DocumentSolution(outputFile, inputFile);
 
-               //TODO TEMP RETURN
-               return nolist;
+               return parserstatus;
             }
             //If input file is .csproj get .cs file list from project file
             else if (extension.Equals(".csproj"))
             {
-                //TODO DocNet.DocumentCsProject(outputFile, inputFile)
+                parserstatus = DocNet.DocumentCsProject(outputFile, inputFile);
 
-                //TODO TEMP RETURN
-                return nolist;
+                return parserstatus;
            }
            //if path is directory
            else if (extension.Equals("directory"))
@@ -148,13 +151,13 @@ namespace DocNet.Console
                      filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.AllDirectories);
                      if (filelist.Length > 0)
                      {
-                         //TODO DocNet.DocumentCSFiles(outputFile, filelist)
-                         return filelist;
+                         parserstatus = DocNet.DocumentCSFiles(outputFile, filelist);
+                         return parserstatus;
                      }
                      else
                      {
                          Log.ErrorFormat("No .cs files found in {0}", inputFile);
-                         return nolist;
+                         return ClStatus.KnownFailure;
                      }
                 }
                 else
@@ -163,29 +166,27 @@ namespace DocNet.Console
                     filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.TopDirectoryOnly);
                     if (filelist.Length > 0)
                     {
-                        //TODO DocNet.DocumentCSFiles(outputFile, filelist)
+                        parserstatus = DocNet.DocumentCSFiles(outputFile, filelist);
+                        return parserstatus;
                     }
                     else
                     {
                         Log.ErrorFormat("No .cs files found in {0}", inputFile);
-                        return nolist;
+                        return ClStatus.KnownFailure;
                     }
-                    return filelist;
                 }
             }    
             //if path is not file or directory
             else
             {
-                return nolist;
+                return ClStatus.InvalidInputPath;
             }   
 
         }     
         //Parses command line
-        static public string[] ParseArguments(string[] args)
+        static public ClStatus ParseArguments(string[] args)
         {
             var options = new Options();
-            string[] nolist = new string[1];
-            nolist[0] = "-1";
 
             //Parse CL Input
             if (Parser.Default.ParseArguments(args, options))
@@ -195,33 +196,20 @@ namespace DocNet.Console
                 {
                     Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
                     System.Console.ReadLine();
-                    return nolist;
+                    return ClStatus.Help;
                 }
                 else
                 {
-                    string[] csfilelist;
+                    //string[] csfilelist;
                     //Double check that commands are valid
                     if (!CmdCheck(args))
                     {
                         Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
-                        //TODO Console.ReadLine();
-                        return nolist;
+                        return ClStatus.KnownFailure;
                     }
-                    //TODO Test Code. Will Remove later
-                    Log.ErrorFormat("Input: {0}", options.InputFile);
-                    Log.ErrorFormat("Output: {0}", options.OutputFile);
-                    //TODO END TEST CODE
 
                     //Get the .CS files contained in the file or directory
-                    csfilelist = GetCsFiles(options.InputFile, options.OutputFile, options.RecurseOption);
-                    //TODO TEST CODE REMOVE LATER
-                    foreach (var csfile in csfilelist)
-                    {
-                        Log.ErrorFormat("CSPath: {0}", csfile);
-                    }
-                    //TODO END TEST CODE
-
-                    return csfilelist;
+                    ClStatus status = GetCSFiles(options.InputFile, options.OutputFile, options.RecurseOption);
                 }
             }
             //Commands not valid
@@ -231,8 +219,7 @@ namespace DocNet.Console
                 if (!CmdCheck(args))
                 {
                     Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
-                    //TODO Console.ReadLine();
-                    return nolist;
+                    return ClStatus.KnownFailure;
                 }
                 //Check if input/output are valid
                 else
@@ -243,7 +230,41 @@ namespace DocNet.Console
                     }
                 }
             }
-            return nolist;
+            return ClStatus.KnownFailure;
+        }
+
+        //Read Status passed by Parsers
+        static void StatusResults(ClStatus parseStatus)
+        {
+            //Print info message based on status
+            if (parseStatus == ClStatus.Success)
+            {
+                Log.Info("DocNet has succeeded!");
+            }
+            else if (parseStatus == ClStatus.KnownFailure)
+            {
+                Log.Info("DocNet has failed to create documentation");
+            }
+            else if (parseStatus == ClStatus.UnknownFailure)
+            {
+                Log.Info("DocNet has failed with an unknown error");
+            }
+            else if (parseStatus == ClStatus.InvalidInputPath)
+            {
+                Log.Info("DocNet has failed with an invalid input path");
+            }
+            else if (parseStatus == ClStatus.UnreachableInputPath)
+            {
+                Log.Info("DocNet has failed because the input path was unreachable");
+            }
+             else if (parseStatus == ClStatus.InvalidOutputPath)
+            {
+                Log.Info("DocNet has failed with an invalid output path");
+            }
+              else if (parseStatus == ClStatus.UnreachableOutputPath)
+            {
+                Log.Info("DocNet has failed because the output path was unreachable");
+            }
         }
 
         static void Main(string[] args)
@@ -254,34 +275,17 @@ namespace DocNet.Console
             var i=0;
             foreach(var arg in args)
             {
-                Log.ErrorFormat("Arg[{0}] = [{1}]", i, arg);
+                Log.InfoFormat("Arg[{0}] = [{1}]", i, arg);
                 i++;
             }
             //TODO END TEST CODE
 
             //Parse Arguments and return list of .cs files.
-            string[] csfilelist = ParseArguments(args);
+            ClStatus parseStatus = ParseArguments(args);
 
-            //Check if csfilelist is valid
-            //TODO TEMP CODE AS WE ARE NO LONGER PASSING STRINGS
-            if(csfilelist[0].Equals("-1"))
-            {
-                //TODO Test Code REMOVE WHEN DONE
-                Log.Error("CSFILELIST IS INVALID");
-                System.Console.ReadLine();
-                //TODO END TEST CODE
-            }
-            else
-            {
-                //TODO Test Code REMOVE WHEN DONE
-                Log.Error("CSFILELIST IS VALID");
-                System.Console.ReadLine();
-                //TODO END TEST CODE
+            StatusResults(parseStatus);
 
-                //TODO SEND LIST OF CS FILES TO CSPARSER FUNCTION
-            }
-             
-            //TODO Console.ReadLine();
+            System.Console.ReadLine();
         }
     }
 }
