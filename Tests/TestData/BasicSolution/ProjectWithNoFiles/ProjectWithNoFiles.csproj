@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EC86703E-9A1E-481F-9025-902903CD8D79}</ProjectGuid>
+    <ProjectGuid>{9E8794D0-6D1D-49EE-B73F-5D85A35DB438}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DocNet.Models</RootNamespace>
-    <AssemblyName>DocNet.Models</AssemblyName>
+    <RootNamespace>ProjectWithNoFiles</RootNamespace>
+    <AssemblyName>ProjectWithNoFiles</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,36 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\.global\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Comments\InterfaceDocComment.cs" />
-    <Compile Include="Comments\DocComment.cs" />
-    <Compile Include="Comments\MethodDocComment.cs" />
-    <Compile Include="Comments\PropertyDocComment.cs" />
-    <Compile Include="Comments\Xml\XmlCommentSchema.cs" />
-    <Compile Include="CSharp\AccessModifier.cs" />
-    <Compile Include="CSharp\ClassModel.cs" />
-    <Compile Include="CSharp\ConstructorModel.cs" />
-    <Compile Include="CSharp\DelegateModel.cs" />
-    <Compile Include="CSharp\EnumModel.cs" />
-    <Compile Include="CSharp\InterfaceModel.cs" />
-    <Compile Include="CSharp\MethodModel.cs" />
-    <Compile Include="CSharp\NamespaceModel.cs" />
-    <Compile Include="CSharp\ClassAndStructModel.cs" />
-    <Compile Include="CSharp\ParameterModel.cs" />
-    <Compile Include="CSharp\PropertyModel.cs" />
-    <Compile Include="CSharp\StructModel.cs" />
-    <Compile Include="CSharp\CsTypeModel.cs" />
-    <Compile Include="CSharp\TypeParameterModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VisualStudio\ProjectModel.cs" />
-    <Compile Include="VisualStudio\SolutionModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\.global\CustomDictionary.xml">
-      <Link>CustomDictionary.xml</Link>
-    </Content>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
