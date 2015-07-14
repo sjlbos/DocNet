@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-using DocNet.Models.VisualStudio;
+using DocNet.Core.Models.VisualStudio;
 
 namespace DocNet.Core.Parsers.VisualStudio
 {

@@ -1,13 +1,12 @@
 ﻿
 using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using DocNet.Core.Markup;
+using DocNet.Core.Output;
 using DocNet.Core.Parsers.CSharp;
 using DocNet.Core.Parsers.VisualStudio;
-using DocNet.Models.CSharp;
-using DocNet.Models.VisualStudio;
+using DocNet.Core.Models.CSharp;
+using DocNet.Core.Models.VisualStudio;
 using log4net;
 
 namespace DocNet.Core
@@ -18,11 +17,11 @@ namespace DocNet.Core
         private readonly ISolutionParser _solutionParser;
         private readonly IProjectParser _projectParser;
         private readonly ICsParser _csParser;
-        private readonly IMarkupGenerator _markupGenerator;
+        private readonly IDocumentationGenerator _documentationGenerator;
 
         private string _outputDirectoryPath;
 
-        public DocNet(ILog logger, ISolutionParser solutionParser, IProjectParser projectParser, ICsParser csParser, IMarkupGenerator markupGenerator)
+        public DocNet(ILog logger, ISolutionParser solutionParser, IProjectParser projectParser, ICsParser csParser, IDocumentationGenerator documentationGenerator)
         {
             if(logger == null)
                 throw new ArgumentNullException("logger");
@@ -32,14 +31,14 @@ namespace DocNet.Core
                 throw new ArgumentNullException("projectParser");
             if(csParser == null)
                 throw new ArgumentNullException("csParser");
-            if(markupGenerator == null)
-                throw new ArgumentNullException("markupGenerator");
+            if(documentationGenerator == null)
+                throw new ArgumentNullException("documentationGenerator");
 
             _log = logger;
             _solutionParser = solutionParser;
             _projectParser = projectParser;
             _csParser = csParser;
-            _markupGenerator = markupGenerator;
+            _documentationGenerator = documentationGenerator;
         }
 
         #region Public Interface
@@ -56,7 +55,7 @@ namespace DocNet.Core
             {
                 var globalNamespace = new NamespaceModel();
                 ParseSolutionFile(solutionFilePath, globalNamespace);
-                _markupGenerator.GenerateMarkup(globalNamespace, _outputDirectoryPath);
+                _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
             }
             catch (Exception ex)
             {
@@ -77,7 +76,7 @@ namespace DocNet.Core
             {
                 var globalNamespace = new NamespaceModel();
                 ParseProjectFile(projectFilePath, globalNamespace);
-                _markupGenerator.GenerateMarkup(globalNamespace, _outputDirectoryPath);
+                _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
             }
             catch (Exception ex)
             {
@@ -100,7 +99,7 @@ namespace DocNet.Core
                     if (inputStatus != DocNetStatus.Success) return inputStatus;
                     ParseCsFile(csFilePath, globalNamespace);
                 }
-                _markupGenerator.GenerateMarkup(globalNamespace, _outputDirectoryPath);
+                _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
             }
             catch (Exception ex)
             {

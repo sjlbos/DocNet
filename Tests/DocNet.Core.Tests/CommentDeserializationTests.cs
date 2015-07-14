@@ -4,7 +4,7 @@ using DocNet.Core.Models.Comments;
 using DocNet.Core.Models.Comments.Xml;
 using NUnit.Framework;
 
-namespace DocNet.Models.Tests
+namespace DocNet.Core.Tests
 {
     [TestFixture]
     public class CommentDeserializationTests

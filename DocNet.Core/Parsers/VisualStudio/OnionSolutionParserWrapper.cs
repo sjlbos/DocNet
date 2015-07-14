@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using DocNet.Models.VisualStudio;
+using DocNet.Core.Models.VisualStudio;
 using Onion.SolutionParser.Parser;
 
 namespace DocNet.Core.Parsers.VisualStudio
