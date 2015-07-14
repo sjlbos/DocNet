@@ -1,0 +1,176 @@
+﻿@*Generator: WebPagesHelper GeneratePrettyNames: true Namespace: DocNet.Razor.Helpers *@
+@using System
+@using System.Collections.Generic
+@using DocNet.Core.Models.Comments.Xml
+
+@functions
+{
+    private static string CombineText(IEnumerable<string> text)
+    {
+        return String.Join("\n", text);
+    }
+}
+
+@helper RenderSummary(SummaryTag summaryTag)
+{
+    <div class="summary-comment">
+        @RenderTopLevelContainer(summaryTag)
+    </div>
+}
+
+@helper RenderRemarks(RemarksTag remarksTag)
+{
+    <div class="remarks-comment">
+        @RenderTopLevelContainer(remarksTag)
+    </div>
+}
+
+@helper RenderExample(ExampleTag exampleTag)
+{
+    <div class="example-comment">
+        @RenderTopLevelContainer(exampleTag)
+    </div>
+}
+
+@helper RenderReturns(ReturnsTag returnsTag)
+{
+    <div class="returns-comment">
+        @RenderTopLevelContainer(returnsTag)
+    </div>
+}
+
+@helper RenderValue(ValueTag valueTag)
+{
+    <div class="value-comment">
+        @RenderTopLevelContainer(valueTag)
+    </div>
+}
+
+@helper RenderParam(ParameterTag paramTag)
+{
+    <div class="parameter-comment">
+        @RenderTopLevelContainer(paramTag)
+    </div>
+}
+
+@helper RenderTypeParam(TypeParameterTag typeParamTag)
+{
+    <div class="type-parameter-comment">
+        @RenderTopLevelContainer(typeParamTag)
+    </div>
+}
+
+@helper RenderException(ExceptionTag exceptionTag)
+{
+    <div class="exception-comment">
+        @RenderTopLevelContainer(exceptionTag)
+    </div>
+}
+
+@helper RenderSeeAlso(SeeAlsoTag seeAlsoTag)
+{
+    <div class="see-also-comment">
+        <p>FixMe</p>
+    </div>
+}
+
+@helper RenderPermission(PermissionTag permissionTag)
+{
+    <p>Fix me, I don't know what I am!</p>
+}
+
+@helper RenderTopLevelContainer(TopLevelContainer container)
+{
+    foreach (var element in container.Items)
+     {
+        @RenderContainerElement(element)
+     }
+}
+
+@helper RenderContainer(Container container)
+{
+    foreach (var element in container.Items)
+    {
+        @RenderContainerElement(element)
+    }
+}
+
+@helper RenderContainerElement(object element)
+{
+    if (element is ParagraphTag)
+    {
+        @RenderPara(element as ParagraphTag)
+        return;
+    }
+    if (element is CTag)
+    {
+        @RenderC(element as CTag)
+        return;
+    }
+    if (element is CodeTag)
+    {
+        @RenderCode(element as CodeTag)
+        return;
+    }
+    if (element is ListTag)
+    {
+        @RenderList(element as ListTag)
+        return;
+    }
+    if (element is ParameterReferenceTag)
+    {
+        @RenderParamRef(element as ParameterReferenceTag)
+        return;
+    }
+    if (element is SeeTag)
+    {
+        @RenderSee(element as SeeTag)
+        return;
+    }
+    if (element is TypeParameterReferenceTag)
+    {
+        @RenderTypeParamRef(element as TypeParameterReferenceTag)
+        return;
+    }
+}
+
+@helper RenderC(CTag cTag)
+{
+    <span class="inline-code">@CombineText(cTag.Text)</span>
+}
+
+@helper RenderCode(CodeTag codeTag)
+{
+    <div class="code-block">
+        <pre>
+            <code class="lang-csharp">
+                @CombineText(codeTag.Text)
+            </code>
+        </pre> 
+    </div>  
+}
+
+@helper RenderList(ListTag listTag)
+{
+    
+}
+
+@helper RenderParamRef(ParameterReferenceTag paramRefTag)
+{
+    <b>@paramRefTag.Name</b>
+}
+
+@helper RenderSee(SeeTag seeTag)
+{
+    <b>@seeTag.ReferencedElementName</b>   
+}
+
+@helper RenderTypeParamRef(TypeParameterReferenceTag typeParamRefTag)
+{
+    <b>@typeParamRefTag.Name</b>
+}
+
+@helper  RenderPara(ParagraphTag paragraphTag)
+{
+    <p>@RenderContainer(paragraphTag)</p>
+}

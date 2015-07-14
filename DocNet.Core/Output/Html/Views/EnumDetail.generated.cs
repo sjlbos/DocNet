@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DocNet.RazorGenerator.Views
+namespace DocNet.Razor.Views
 {
     using System;
     using System.Collections.Generic;
