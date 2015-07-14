@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
 
-namespace DocNet.Core.Markup.Views
+namespace DocNet.Core.Output.Html.Views
 {
     public abstract class BaseTemplate<T> : IDisposable
     {
-        private readonly StringWriter _writer = new StringWriter();
-
-        public T Model { get; set; }
+        public TextWriter Writer { get; set; }
+        public T ViewData { get; set; }
 
         public abstract void Execute();
 
@@ -15,21 +14,25 @@ namespace DocNet.Core.Markup.Views
         {
             if (string.IsNullOrEmpty(text))
                 return;
+            if(Writer == null)
+                throw new InvalidOperationException("Writer property of template is null.");
 
-            _writer.Write(text);
+            Writer.Write(text);
         }
 
         protected void Write(object value)
         {
             if (value == null)
                 return;
+            if(Writer == null)
+                throw new InvalidOperationException("Writer property of template is null.");
 
-            _writer.Write(value);
+            Writer.Write(value);
         }
 
         public override string ToString()
         {
-            return _writer.ToString();
+            return Writer == null ? String.Empty : Writer.ToString();
         }
 
         #region IDisposable
@@ -44,9 +47,9 @@ namespace DocNet.Core.Markup.Views
         {
             if (disposing)
             {
-                if (_writer != null)
+                if (Writer != null)
                 {
-                    _writer.Dispose();
+                    Writer.Dispose();
                 }
             }
         }

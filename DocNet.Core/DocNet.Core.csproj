@@ -81,11 +81,8 @@
     <Compile Include="..\.global\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Markup\Views\ViewTemplate.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ViewTemplate.cshtml</DependentUpon>
-    </Compile>
+    <Compile Include="Output\Html\HtmlDocumentationGenerator.cs" />
+    <Compile Include="Output\Html\ViewModel.cs" />
     <Compile Include="Models\Comments\DocComment.cs" />
     <Compile Include="Models\Comments\InterfaceDocComment.cs" />
     <Compile Include="Models\Comments\MethodDocComment.cs" />
@@ -108,8 +105,53 @@
     <Compile Include="DocNet.cs" />
     <Compile Include="DocNetStatus.cs" />
     <Compile Include="IDocNet.cs" />
-    <Compile Include="Markup\Views\BaseTemplate.cs" />
-    <Compile Include="Markup\IMarkupGenerator.cs" />
+    <Compile Include="Output\Html\Views\BaseTemplate.cs" />
+    <Compile Include="Output\Html\Views\DelegateDetail.generated.cs">
+      <DependentUpon>DelegateDetail.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Output\Html\Views\EnumDetail.generated.cs">
+      <DependentUpon>EnumDetail.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Output\Html\Views\MethodDetail.generated.cs">
+      <DependentUpon>MethodDetail.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Output\Html\Views\ConstructorDetail.generated.cs">
+      <DependentUpon>ConstructorDetail.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Output\Html\Views\PropertyDetail.generated.cs">
+      <DependentUpon>PropertyDetail.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Output\Html\Views\StructDetail.generated.cs">
+      <DependentUpon>StructDetail.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Output\Html\Views\ClassDetail.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClassDetail.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\Html\Views\InterfaceDetail.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InterfaceDetail.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\Html\Views\NamespaceDetail.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NamespaceDetail.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\IDocumentationGenerator.cs" />
     <Compile Include="Parsers\CSharp\CsTextParser.cs" />
     <Compile Include="Parsers\CSharp\ICsParser.cs" />
     <Compile Include="Exceptions\CsParsingException.cs" />
@@ -121,11 +163,45 @@
     <Compile Include="Models\VisualStudio\ProjectModel.cs" />
     <Compile Include="Models\VisualStudio\SolutionModel.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="Markup\Views\ViewTemplate.cshtml">
+    <Folder Include="Output\Html\Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Output\Html\Views\DelegateDetail.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>ViewTemplate.generated.cs</LastGenOutput>
+      <LastGenOutput>DelegateDetail.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Views\EnumDetail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EnumDetail.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Views\MethodDetail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>MethodDetail.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Views\ConstructorDetail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ConstructorDetail.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Views\PropertyDetail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PropertyDetail.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Views\StructDetail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>StructDetail.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Views\InterfaceDetail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>InterfaceDetail.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Views\ClassDetail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ClassDetail.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Views\NamespaceDetail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NamespaceDetail.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

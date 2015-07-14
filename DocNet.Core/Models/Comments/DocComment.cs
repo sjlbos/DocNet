@@ -23,7 +23,7 @@ namespace DocNet.Core.Models.Comments
         public static T FromXml<T>(string commentXml) where T:DocComment
         {
             if (commentXml == null)
-                throw new ArgumentNullException("innerXml");
+                throw new ArgumentNullException("commentXml");
 
             string wrappedCommentXml = String.Format(CultureInfo.InvariantCulture,
                 "<{0}>{1}</{0}>",

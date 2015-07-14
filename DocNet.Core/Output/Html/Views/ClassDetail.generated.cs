@@ -9,15 +9,33 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DocNet.Core.Markup.Views
+namespace DocNet.RazorGenerator.Views
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     
+    #line 2 "..\..\Output\Html\Views\ClassDetail.cshtml"
+    using DocNet.Core.Models.CSharp;
+    
+    #line default
+    #line hidden
+    
+    #line 3 "..\..\Output\Html\Views\ClassDetail.cshtml"
+    using DocNet.Core.Output.Html;
+    
+    #line default
+    #line hidden
+    
+    #line 4 "..\..\Output\Html\Views\ClassDetail.cshtml"
+    using DocNet.Core.Output.Html.Views;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class ViewTemplate : global::DocNet.Core.Markup.Views.BaseTemplate<global::DocNet.Core.Models.CSharp.ClassModel>
+    public partial class ClassDetail : BaseTemplate<ViewModel<ClassModel>>
     {
 #line hidden
 
@@ -28,12 +46,15 @@ namespace DocNet.Core.Markup.Views
 WriteLiteral("\r\n");
 
 
-WriteLiteral("                      \r\n<p>");
+
+
+
+WriteLiteral("\r\n<p>Class: ");
 
 
             
-            #line 4 "..\..\Markup\Views\ViewTemplate.cshtml"
-Write(Model.Name);
+            #line 7 "..\..\Output\Html\Views\ClassDetail.cshtml"
+     Write(ViewData.Model.FullName);
 
             
             #line default

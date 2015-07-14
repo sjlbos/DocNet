@@ -312,7 +312,7 @@ namespace DocNet.Core.Models.Comments.Xml
     public class CTag : IEquatable<CTag>
     {
         [XmlText]
-        public List<string> Text;
+        public List<string> Text { get; set; }
 
         public CTag()
         {
@@ -349,7 +349,7 @@ namespace DocNet.Core.Models.Comments.Xml
         public string Language { get; set; }
 
         [XmlText]
-        public List<string> Text;
+        public List<string> Text { get; set; }
 
         public CodeTag()
         {
@@ -435,16 +435,16 @@ namespace DocNet.Core.Models.Comments.Xml
     [XmlType("typeparamref")]
     public class TypeParameterReferenceTag : IEquatable<TypeParameterReferenceTag>
     {
-        public TypeParameterReferenceTag()
-        {
-            Text = new List<string>();
-        }
-
         [XmlAttribute("name")]
         public string Name { get; set; }
 
         [XmlText]
         public List<string> Text { get; set; }
+
+        public TypeParameterReferenceTag()
+        {
+            Text = new List<string>();
+        }
 
         #region Equality Members
 
