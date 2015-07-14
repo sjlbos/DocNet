@@ -3,13 +3,17 @@ using log4net;
 using CommandLine;
 using System.IO;
 using DocNet.Core;
-using DocNet = DocNet.Core.DocNet;
+using DocNet.Core.Output;
+using DocNet.Core.Output.Html;
+using DocNet.Core.Parsers.CSharp;
+using DocNet.Core.Parsers.VisualStudio;
+using DocNetController = DocNet.Core.DocNetController;
 
 
 namespace DocNet.Console
 {
     
-    public enum ClStatus
+   /* public enum ClStatus
     {    
         Success,
         Help,
@@ -19,12 +23,33 @@ namespace DocNet.Console
         UnreachableInputPath,
         InvalidOutputPath,
         UnreachableOutputPath
-    }
+    } */
 
-    public static class Program
+
+    public class Program
     {
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+        private readonly ILog _log;
+        private readonly ISolutionParser _solutionParser;
+        private readonly IProjectParser _projectParser;
+        private readonly ICsParser _csParser;
+        private readonly IDocumentationGenerator _documentationGenerator;
+
+        public Program()
+        {
+            ILog logger = LogManager.GetLogger(typeof (DocNetController));
+            IProjectParser projectParser = new ProjectParser();
+            ISolutionParser solutionParser = new OnionSolutionParserWrapper(projectParser);
+            ICsParser csParser = new CsTextParser();
+            IDocumentationGenerator documentationGenerator = new HtmlDocumentationGenerator();
+
+            _log = logger;
+            _solutionParser = solutionParser;
+            _projectParser = projectParser;
+            _csParser = csParser;
+            _documentationGenerator = documentationGenerator;
+        }
 
         //Command Line Options
         class Options
@@ -110,10 +135,10 @@ namespace DocNet.Console
         }
 
         //Get the .CS file location from a solution file, csproj file or directory
-        static public ClStatus GetCSFiles(string inputFile, string outputFile, bool recurseOption)
+        public DocNetStatus GetCsFiles(string inputFile, string outputFile, bool recurseOption)
         {
-            ClStatus parserstatus;
-            IDocNetController docnet = new DocNetController();
+            DocNetStatus parserStatus;
+            IDocNetController docnet = new DocNetController(_log, _solutionParser, _projectParser, _csParser, _documentationGenerator);
             string[] filelist;
 
             //Check path 1 is file 2 is directory 0 is neither
@@ -125,22 +150,22 @@ namespace DocNet.Console
                 //nolist[0] = inputFile;
                 filelist = new string[1];
                 filelist[0] = inputFile;
-                parserstatus = DocNet.DocumentCSFiles(outputFile, filelist);
-                return parserstatus;
+                parserStatus = docnet.DocumentCsFiles(outputFile, filelist);
+                return parserStatus;
             }
             //If input file is .sln get .cs file list from solution file
             else if (extension.Equals(".sln"))
             {
-                parserstatus = DocNet.DocumentSolution(outputFile, inputFile);
+                parserStatus = docnet.DocumentSolution(outputFile, inputFile);
 
-               return parserstatus;
+               return parserStatus;
             }
             //If input file is .csproj get .cs file list from project file
             else if (extension.Equals(".csproj"))
             {
-                parserstatus = DocNet.DocumentCsProject(outputFile, inputFile);
+                parserStatus = docnet.DocumentCsProject(outputFile, inputFile);
 
-                return parserstatus;
+                return parserStatus;
            }
            //if path is directory
            else if (extension.Equals("directory"))
@@ -151,13 +176,13 @@ namespace DocNet.Console
                      filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.AllDirectories);
                      if (filelist.Length > 0)
                      {
-                         parserstatus = DocNet.DocumentCSFiles(outputFile, filelist);
-                         return parserstatus;
+                         parserStatus = docnet.DocumentCsFiles(outputFile, filelist);
+                         return parserStatus;
                      }
                      else
                      {
                          Log.ErrorFormat("No .cs files found in {0}", inputFile);
-                         return ClStatus.KnownFailure;
+                         return DocNetStatus.Success;
                      }
                 }
                 else
@@ -166,25 +191,25 @@ namespace DocNet.Console
                     filelist = Directory.GetFiles(inputFile, "*.cs", SearchOption.TopDirectoryOnly);
                     if (filelist.Length > 0)
                     {
-                        parserstatus = DocNet.DocumentCSFiles(outputFile, filelist);
-                        return parserstatus;
+                        parserStatus = docnet.DocumentCsFiles(outputFile, filelist);
+                        return parserStatus;
                     }
                     else
                     {
                         Log.ErrorFormat("No .cs files found in {0}", inputFile);
-                        return ClStatus.KnownFailure;
+                        return DocNetStatus.Success;
                     }
                 }
             }    
             //if path is not file or directory
             else
             {
-                return ClStatus.InvalidInputPath;
+                return DocNetStatus.InvalidInputPath;
             }   
 
         }     
         //Parses command line
-        static public ClStatus ParseArguments(string[] args)
+        static public DocNetStatus ParseArguments(string[] args)
         {
             var options = new Options();
 
@@ -196,7 +221,7 @@ namespace DocNet.Console
                 {
                     Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
                     System.Console.ReadLine();
-                    return ClStatus.Help;
+                    return DocNetStatus.Success;
                 }
                 else
                 {
@@ -205,11 +230,13 @@ namespace DocNet.Console
                     if (!CmdCheck(args))
                     {
                         Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
-                        return ClStatus.KnownFailure;
+                        return DocNetStatus.Success;
                     }
 
                     //Get the .CS files contained in the file or directory
-                    ClStatus status = GetCSFiles(options.InputFile, options.OutputFile, options.RecurseOption);
+                    Program getFiles = new Program();
+                    DocNetStatus status = getFiles.GetCsFiles(options.InputFile, options.OutputFile, options.RecurseOption);
+                    return status;
                 }
             }
             //Commands not valid
@@ -219,7 +246,7 @@ namespace DocNet.Console
                 if (!CmdCheck(args))
                 {
                     Log.Info(CommandLine.Text.HelpText.AutoBuild(options));
-                    return ClStatus.KnownFailure;
+                    return DocNetStatus.Success;
                 }
                 //Check if input/output are valid
                 else
@@ -230,38 +257,34 @@ namespace DocNet.Console
                     }
                 }
             }
-            return ClStatus.KnownFailure;
+            return DocNetStatus.Success;
         }
 
         //Read Status passed by Parsers
-        static void StatusResults(ClStatus parseStatus)
+        static void StatusResults(DocNetStatus parseStatus)
         {
             //Print info message based on status
-            if (parseStatus == ClStatus.Success)
+            if (parseStatus == DocNetStatus.Success)
             {
-                Log.Info("DocNet has succeeded!");
+                Log.Info("DocNet has returned successfully!");
             }
-            else if (parseStatus == ClStatus.KnownFailure)
-            {
-                Log.Info("DocNet has failed to create documentation");
-            }
-            else if (parseStatus == ClStatus.UnknownFailure)
+            else if (parseStatus == DocNetStatus.UnknownFailure)
             {
                 Log.Info("DocNet has failed with an unknown error");
             }
-            else if (parseStatus == ClStatus.InvalidInputPath)
+            else if (parseStatus == DocNetStatus.InvalidInputPath)
             {
                 Log.Info("DocNet has failed with an invalid input path");
             }
-            else if (parseStatus == ClStatus.UnreachableInputPath)
+            else if (parseStatus == DocNetStatus.UnreachableInputPath)
             {
                 Log.Info("DocNet has failed because the input path was unreachable");
             }
-             else if (parseStatus == ClStatus.InvalidOutputPath)
+             else if (parseStatus == DocNetStatus.InvalidOutputPath)
             {
                 Log.Info("DocNet has failed with an invalid output path");
             }
-              else if (parseStatus == ClStatus.UnreachableOutputPath)
+              else if (parseStatus == DocNetStatus.UnreachableOutputPath)
             {
                 Log.Info("DocNet has failed because the output path was unreachable");
             }
@@ -281,7 +304,7 @@ namespace DocNet.Console
             //TODO END TEST CODE
 
             //Parse Arguments and return list of .cs files.
-            ClStatus parseStatus = ParseArguments(args);
+            DocNetStatus parseStatus = ParseArguments(args);
 
             StatusResults(parseStatus);
 
