@@ -112,9 +112,8 @@ namespace DocNet.Console
         static public ClStatus GetCSFiles(string inputFile, string outputFile, bool recurseOption)
         {
             ClStatus parserstatus;
+            DocNet.Core.DocNet docnet = new DocNet.Core.DocNet(); 
             string[] filelist;
-            /*string[] nolist = new string[1];
-            nolist[0] = "-1";*/
 
             //Check path 1 is file 2 is directory 0 is neither
             var extension = PathCheck(inputFile);
