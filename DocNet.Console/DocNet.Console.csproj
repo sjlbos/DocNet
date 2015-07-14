@@ -74,6 +74,12 @@
       <Link>CustomDictionary.xml</Link>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DocNet.Core\DocNet.Core.csproj">
+      <Project>{9acaa3c1-d558-4fde-830f-85881f7e8c7b}</Project>
+      <Name>DocNet.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

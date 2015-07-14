@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using log4net;
 using CommandLine;
-using System;
 using System.IO;
+using DocNet.Core;
+using DocNet = DocNet.Core.DocNet;
 
 
 namespace DocNet.Console
@@ -112,7 +113,7 @@ namespace DocNet.Console
         static public ClStatus GetCSFiles(string inputFile, string outputFile, bool recurseOption)
         {
             ClStatus parserstatus;
-            DocNet.Core.DocNet docnet = new DocNet.Core.DocNet(); 
+            IDocNetController docnet = new DocNetController();
             string[] filelist;
 
             //Check path 1 is file 2 is directory 0 is neither
