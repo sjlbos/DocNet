@@ -58,6 +58,10 @@
       <HintPath>..\packages\Onion.SolutionParser.Parser.1.0.0.0\lib\net45\Onion.SolutionParser.Parser.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RazorGenerator.Templating, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorGenerator.Templating.2.3.3\lib\portable-net40+sl50+win+wpa81+wp80\RazorGenerator.Templating.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.1.33.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.1.33-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
@@ -68,6 +72,7 @@
       <HintPath>..\packages\System.Reflection.Metadata.1.0.18-beta\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -80,6 +85,11 @@
   <ItemGroup>
     <Compile Include="..\.global\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Output\Html\Helpers\CommentTag.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommentTag.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Output\Html\HtmlDocumentationGenerator.cs" />
     <Compile Include="Models\Comments\DocComment.cs" />
@@ -163,9 +173,42 @@
     <Compile Include="Models\VisualStudio\SolutionModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Output\Html\Helpers\" />
+    <Content Include="Output\Html\Css\Highlight\arta.css" />
+    <Content Include="Output\Html\Css\Highlight\ascetic.css" />
+    <Content Include="Output\Html\Css\Highlight\brown_paper.css" />
+    <Content Include="Output\Html\Css\Highlight\brown_papersq.png" />
+    <Content Include="Output\Html\Css\Highlight\dark.css" />
+    <Content Include="Output\Html\Css\Highlight\default.css" />
+    <Content Include="Output\Html\Css\Highlight\far.css" />
+    <Content Include="Output\Html\Css\Highlight\github.css" />
+    <Content Include="Output\Html\Css\Highlight\googlecode.css" />
+    <Content Include="Output\Html\Css\Highlight\idea.css" />
+    <Content Include="Output\Html\Css\Highlight\ir_black.css" />
+    <Content Include="Output\Html\Css\Highlight\magula.css" />
+    <Content Include="Output\Html\Css\Highlight\monokai.css" />
+    <Content Include="Output\Html\Css\Highlight\pojoaque.css" />
+    <Content Include="Output\Html\Css\Highlight\pojoaque.jpg" />
+    <Content Include="Output\Html\Css\Highlight\rainbow.css" />
+    <Content Include="Output\Html\Css\Highlight\school_book.css" />
+    <Content Include="Output\Html\Css\Highlight\school_book.png" />
+    <Content Include="Output\Html\Css\Highlight\solarized_dark.css" />
+    <Content Include="Output\Html\Css\Highlight\solarized_light.css" />
+    <Content Include="Output\Html\Css\Highlight\sunburst.css" />
+    <Content Include="Output\Html\Css\Highlight\tomorrow-night-blue.css" />
+    <Content Include="Output\Html\Css\Highlight\tomorrow-night-bright.css" />
+    <Content Include="Output\Html\Css\Highlight\tomorrow-night-eighties.css" />
+    <Content Include="Output\Html\Css\Highlight\tomorrow-night.css" />
+    <Content Include="Output\Html\Css\Highlight\tomorrow.css" />
+    <Content Include="Output\Html\Css\Highlight\vs.css" />
+    <Content Include="Output\Html\Css\Highlight\xcode.css" />
+    <Content Include="Output\Html\Css\Highlight\zenburn.css" />
+    <Content Include="Output\Html\Javascript\Highlight\highlight.pack.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Output\Html\Helpers\CommentTag.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CommentTag.generated.cs</LastGenOutput>
+    </None>
     <None Include="Output\Html\Views\DelegateDetail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DelegateDetail.generated.cs</LastGenOutput>
@@ -209,6 +252,7 @@
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

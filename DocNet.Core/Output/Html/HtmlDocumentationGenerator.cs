@@ -2,7 +2,7 @@
 using System.IO;
 using DocNet.Core.Models.CSharp;
 using DocNet.Core.Output.Html.Views;
-using DocNet.RazorGenerator.Views;
+using DocNet.Razor.Views;
 
 namespace DocNet.Core.Output.Html
 {
