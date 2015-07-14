@@ -1,6 +1,6 @@
 ﻿namespace DocNet.Core
 {
-    public interface IDocNet
+    public interface IDocNetController
     {
         DocNetStatus DocumentSolution(string outputDirectoryPath, string solutionFilePath);
 

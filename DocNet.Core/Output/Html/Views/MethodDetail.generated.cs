@@ -23,19 +23,13 @@ namespace DocNet.RazorGenerator.Views
     #line hidden
     
     #line 3 "..\..\Output\Html\Views\MethodDetail.cshtml"
-    using DocNet.Core.Output.Html;
-    
-    #line default
-    #line hidden
-    
-    #line 4 "..\..\Output\Html\Views\MethodDetail.cshtml"
     using DocNet.Core.Output.Html.Views;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class MethodDetail : BaseTemplate<ViewModel<MethodModel>>
+    public partial class MethodDetail : BaseTemplate<MethodModel>
     {
 #line hidden
 
@@ -48,13 +42,12 @@ WriteLiteral("\r\n");
 
 
 
-
 WriteLiteral("\r\n<p>Method: ");
 
 
             
-            #line 7 "..\..\Output\Html\Views\MethodDetail.cshtml"
-      Write(ViewData.Model.Name);
+            #line 6 "..\..\Output\Html\Views\MethodDetail.cshtml"
+      Write(Model.Name);
 
             
             #line default

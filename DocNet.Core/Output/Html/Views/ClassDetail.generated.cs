@@ -23,19 +23,13 @@ namespace DocNet.RazorGenerator.Views
     #line hidden
     
     #line 3 "..\..\Output\Html\Views\ClassDetail.cshtml"
-    using DocNet.Core.Output.Html;
-    
-    #line default
-    #line hidden
-    
-    #line 4 "..\..\Output\Html\Views\ClassDetail.cshtml"
     using DocNet.Core.Output.Html.Views;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class ClassDetail : BaseTemplate<ViewModel<ClassModel>>
+    public partial class ClassDetail : BaseTemplate<ClassModel>
     {
 #line hidden
 
@@ -48,13 +42,12 @@ WriteLiteral("\r\n");
 
 
 
-
 WriteLiteral("\r\n<p>Class: ");
 
 
             
-            #line 7 "..\..\Output\Html\Views\ClassDetail.cshtml"
-     Write(ViewData.Model.FullName);
+            #line 6 "..\..\Output\Html\Views\ClassDetail.cshtml"
+     Write(Model.FullName);
 
             
             #line default

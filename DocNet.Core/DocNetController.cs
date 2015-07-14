@@ -11,7 +11,7 @@ using log4net;
 
 namespace DocNet.Core
 {
-    public class DocNet : IDocNet
+    public class DocNetController : IDocNetController
     {
         private readonly ILog _log;
         private readonly ISolutionParser _solutionParser;
@@ -21,7 +21,7 @@ namespace DocNet.Core
 
         private string _outputDirectoryPath;
 
-        public DocNet(ILog logger, ISolutionParser solutionParser, IProjectParser projectParser, ICsParser csParser, IDocumentationGenerator documentationGenerator)
+        public DocNetController(ILog logger, ISolutionParser solutionParser, IProjectParser projectParser, ICsParser csParser, IDocumentationGenerator documentationGenerator)
         {
             if(logger == null)
                 throw new ArgumentNullException("logger");

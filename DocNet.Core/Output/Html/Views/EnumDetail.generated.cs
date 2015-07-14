@@ -23,19 +23,13 @@ namespace DocNet.RazorGenerator.Views
     #line hidden
     
     #line 3 "..\..\Output\Html\Views\EnumDetail.cshtml"
-    using DocNet.Core.Output.Html;
-    
-    #line default
-    #line hidden
-    
-    #line 4 "..\..\Output\Html\Views\EnumDetail.cshtml"
     using DocNet.Core.Output.Html.Views;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class EnumDetail : BaseTemplate<ViewModel<EnumModel>>
+    public partial class EnumDetail : BaseTemplate<EnumModel>
     {
 #line hidden
 
@@ -48,13 +42,12 @@ WriteLiteral("\r\n");
 
 
 
-
 WriteLiteral("\r\n<p>Enum: ");
 
 
             
-            #line 7 "..\..\Output\Html\Views\EnumDetail.cshtml"
-    Write(ViewData.Model.FullName);
+            #line 6 "..\..\Output\Html\Views\EnumDetail.cshtml"
+    Write(Model.FullName);
 
             
             #line default
