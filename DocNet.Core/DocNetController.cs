@@ -60,6 +60,8 @@ namespace DocNet.Core
             catch (Exception ex)
             {
                 // Todo: Add error handling for multiple exception types
+                _log.Error(ex);
+                return DocNetStatus.UnknownFailure;
             }
             return DocNetStatus.Success;
         }
@@ -81,6 +83,8 @@ namespace DocNet.Core
             catch (Exception ex)
             {
                 // Todo: Add error handling for multiple exception types
+                _log.Error(ex);
+                return DocNetStatus.UnknownFailure;
             }
             return DocNetStatus.Success;
         }
@@ -104,6 +108,8 @@ namespace DocNet.Core
             catch (Exception ex)
             {
                 // Todo: Add error handling for multiple exception types
+                _log.Error(ex);
+                return DocNetStatus.UnknownFailure;
             }
             return DocNetStatus.Success;
         }
