@@ -12,19 +12,6 @@ using DocNetController = DocNet.Core.DocNetController;
 
 namespace DocNet.Console
 {
-    
-   /* public enum ClStatus
-    {    
-        Success,
-        Help,
-        KnownFailure,
-        UnknownFailure,
-        InvalidInputPath,
-        UnreachableInputPath,
-        InvalidOutputPath,
-        UnreachableOutputPath
-    } */
-
 
     public class Program
     {
@@ -293,15 +280,6 @@ namespace DocNet.Console
         static void Main(string[] args)
         {
             Log.Info("Welcome to DocNet!");
-            
-            //TODO Test Code REMOVE WHEN DONE
-            var i=0;
-            foreach(var arg in args)
-            {
-                Log.InfoFormat("Arg[{0}] = [{1}]", i, arg);
-                i++;
-            }
-            //TODO END TEST CODE
 
             //Parse Arguments and return list of .cs files.
             DocNetStatus parseStatus = ParseArguments(args);
