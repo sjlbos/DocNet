@@ -30,13 +30,7 @@ namespace DocNet.Core.Output.Html
         {
             // Create namespace file
             string namespaceDetailFilePath = Path.Combine(outputDirectory, NamespaceFileName);
-            var namespaceViewModel = new ViewModel<NamespaceModel>()
-            {
-                Model = currentNamespace,
-                RootDirectory = _rootOutputDirectory,
-                ViewPath = namespaceDetailFilePath
-            };
-            WriteView<NamespaceDetail, ViewModel<NamespaceModel>>(namespaceDetailFilePath, namespaceViewModel);
+            WriteView<NamespaceDetail, NamespaceModel>(namespaceDetailFilePath, currentNamespace);
 
             // Process Child Namespaces
             foreach (var childNamespace in currentNamespace.ChildNamespaces)
@@ -73,14 +67,16 @@ namespace DocNet.Core.Output.Html
             }
         }
 
-        private static void WriteView<TView, TModel>(string filePath, TModel model) where TView:BaseTemplate<TModel>, new()
+        private void WriteView<TView, TModel>(string filePath, TModel model) where TView:BaseTemplate<TModel>, new()
         {
             using (var writer = new StreamWriter(filePath))
             {
                 var view = new TView
                 {
                     Writer = writer,
-                    ViewData = model
+                    RootDirectoryAbsolutePath = _rootOutputDirectory,
+                    ViewAbsolutePath = filePath,
+                    Model = model
                 };
                 view.Execute();
             }

@@ -1,7 +1,6 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.RazorGenerator.Views*@
 @using DocNet.Core.Models.CSharp
-@using DocNet.Core.Output.Html
 @using DocNet.Core.Output.Html.Views
-@inherits BaseTemplate<ViewModel<StructModel>>
+@inherits BaseTemplate<StructModel>
 
-<p>Struct: @ViewData.Model.FullName</p>
+<p>Struct: @Model.FullName</p>

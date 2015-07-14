@@ -6,7 +6,9 @@ namespace DocNet.Core.Output.Html.Views
     public abstract class BaseTemplate<T> : IDisposable
     {
         public TextWriter Writer { get; set; }
-        public T ViewData { get; set; }
+        public T Model { get; set; }
+        public string RootDirectoryAbsolutePath { get; set; }
+        public string ViewAbsolutePath { get; set; }
 
         public abstract void Execute();
 

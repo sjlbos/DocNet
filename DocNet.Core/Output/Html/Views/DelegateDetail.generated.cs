@@ -23,19 +23,13 @@ namespace DocNet.RazorGenerator.Views
     #line hidden
     
     #line 3 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-    using DocNet.Core.Output.Html;
-    
-    #line default
-    #line hidden
-    
-    #line 4 "..\..\Output\Html\Views\DelegateDetail.cshtml"
     using DocNet.Core.Output.Html.Views;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class DelegateDetail : BaseTemplate<ViewModel<DelegateModel>>
+    public partial class DelegateDetail : BaseTemplate<DelegateModel>
     {
 #line hidden
 
@@ -48,13 +42,12 @@ WriteLiteral("\r\n");
 
 
 
-
 WriteLiteral("\r\n<p>Delegate: ");
 
 
             
-            #line 7 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-        Write(ViewData.Model.FullName);
+            #line 6 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+        Write(Model.FullName);
 
             
             #line default
