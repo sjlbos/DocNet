@@ -21,6 +21,7 @@ namespace DocNet.Core.Output.Html
                 throw new DirectoryNotFoundException(outputDirectory);
 
             _rootOutputDirectory = Path.Combine(outputDirectory, GlobalNamespaceDirectoryName);
+            Directory.CreateDirectory(_rootOutputDirectory);
             ProcessNamespace(globalNamespace, _rootOutputDirectory);
         }
 
