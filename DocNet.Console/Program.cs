@@ -135,7 +135,8 @@ namespace DocNet.Console
             if (!Directory.Exists(_outputDirectory))
             {
                 LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Output directory \"{0}\" does not exist."),
+                    "Output directory \"{0}\" does not exist.",
+                    _outputDirectory),
                     DocNetStatus.InvalidOutputPath);
             }
         }
