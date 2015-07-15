@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DocNet.Core.Output;
@@ -43,49 +44,67 @@ namespace DocNet.Core
 
         #region Public Interface
 
-        public DocNetStatus DocumentSolution(string outputDirectoryPath, string solutionFilePath)
+        public DocNetStatus DocumentSolutions(string outputDirectoryPath, IEnumerable<string> solutionFilePaths)
         {
             var outputStatus = ValidateAndCreateOutputDirectory(outputDirectoryPath);
             if (outputStatus != DocNetStatus.Success) return outputStatus;
 
-            var inputStatus = ValidateInputFile(solutionFilePath);
-            if (inputStatus != DocNetStatus.Success) return outputStatus;
+            foreach (var solutionPath in solutionFilePaths)
+            {
+                var inputStatus = ValidateInputFile(solutionPath);
+                if (inputStatus != DocNetStatus.Success) return outputStatus;
+            }
 
             try
             {
                 var globalNamespace = new NamespaceModel();
-                ParseSolutionFile(solutionFilePath, globalNamespace);
+                foreach (var solutionPath in solutionFilePaths)
+                {
+                    ParseSolutionFile(solutionPath, globalNamespace);
+                }        
                 _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
             }
             catch (Exception ex)
             {
                 // Todo: Add error handling for multiple exception types
+                _log.Error(ex);
+                return DocNetStatus.UnknownFailure;
             }
+
             return DocNetStatus.Success;
         }
 
-        public DocNetStatus DocumentCsProject(string outputDirectoryPath, string projectFilePath)
+        public DocNetStatus DocumentCsProjects(string outputDirectoryPath, IEnumerable<string> projectFilePaths)
         {
             var outputStatus = ValidateAndCreateOutputDirectory(outputDirectoryPath);
             if (outputStatus != DocNetStatus.Success) return outputStatus;
 
-            var inputStatus = ValidateInputFile(projectFilePath);
-            if (inputStatus != DocNetStatus.Success) return outputStatus;
+            foreach (var projectFilePath in projectFilePaths)
+            {
+                var inputStatus = ValidateInputFile(projectFilePath);
+                if (inputStatus != DocNetStatus.Success) return outputStatus;
+            }
 
             try
             {
                 var globalNamespace = new NamespaceModel();
-                ParseProjectFile(projectFilePath, globalNamespace);
+                foreach (var projectFilePath in projectFilePaths)
+                {                  
+                    ParseProjectFile(projectFilePath, globalNamespace);                  
+                }
                 _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
             }
             catch (Exception ex)
             {
                 // Todo: Add error handling for multiple exception types
+                _log.Error(ex);
+                return DocNetStatus.UnknownFailure;
             }
+            
             return DocNetStatus.Success;
         }
 
-        public DocNetStatus DocumentCsFiles(string outputDirectoryPath, params string[] csFilePaths)
+        public DocNetStatus DocumentCsFiles(string outputDirectoryPath, IEnumerable<string> csFilePaths)
         {
             var outputStatus = ValidateAndCreateOutputDirectory(outputDirectoryPath);
             if (outputStatus != DocNetStatus.Success) return outputStatus;
@@ -104,6 +123,8 @@ namespace DocNet.Core
             catch (Exception ex)
             {
                 // Todo: Add error handling for multiple exception types
+                _log.Error(ex);
+                return DocNetStatus.UnknownFailure;
             }
             return DocNetStatus.Success;
         }
@@ -121,7 +142,7 @@ namespace DocNet.Core
                     _outputDirectoryPath = Directory.GetCurrentDirectory();
                     return DocNetStatus.Success;
                 }
-                catch (UnauthorizedAccessException ex)
+                catch (UnauthorizedAccessException)
                 {
                     _log.Error("Access denied. Unable to retrieve current directory.");
                     return DocNetStatus.InvalidOutputPath;

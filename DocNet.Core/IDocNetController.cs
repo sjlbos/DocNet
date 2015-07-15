@@ -1,11 +1,13 @@
-﻿namespace DocNet.Core
+﻿using System.Collections.Generic;
+
+namespace DocNet.Core
 {
     public interface IDocNetController
     {
-        DocNetStatus DocumentSolution(string outputDirectoryPath, string solutionFilePath);
+        DocNetStatus DocumentSolutions(string outputDirectoryPath, IEnumerable<string> solutionFilePaths);
 
-        DocNetStatus DocumentCsProject(string outputDirectoryPath, string projectFilePath);
+        DocNetStatus DocumentCsProjects(string outputDirectoryPath, IEnumerable<string> projectFilePaths);
 
-        DocNetStatus DocumentCsFiles(string outputDirectoryPath, params string[] csFilePaths);
+        DocNetStatus DocumentCsFiles(string outputDirectoryPath, IEnumerable<string> csFilePaths);
     }
 }
