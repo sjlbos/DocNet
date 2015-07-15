@@ -59,6 +59,8 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramArguments.cs" />
+    <Compile Include="ProgramMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
