@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using DocNet.Core.Models.CSharp;
 using DocNet.Core.Output.Html.Views;
@@ -79,17 +80,7 @@ namespace DocNet.Core.Output.Html
             string interfaceFilePath = Path.Combine(outputDirectory, interfaceModel.FullName + ".html");
             WriteView<InterfaceDetail, InterfaceModel>(interfaceFilePath, interfaceModel);
 
-            // Process Methods
-            foreach (var method in interfaceModel.Methods)
-            {
-                ProcessMethod(method, outputDirectory);
-            }
-
-            // Process Properties
-            foreach (var property in interfaceModel.Properties)
-            {
-                ProcessProperty(property, outputDirectory);
-            }
+            ProcessInterfaceMembers(interfaceModel, outputDirectory);
         }
 
         private void ProcessClass(ClassModel classModel, string outputDirectory)
@@ -97,29 +88,8 @@ namespace DocNet.Core.Output.Html
             string classFilePath = Path.Combine(outputDirectory, classModel.FullName + ".html");
             WriteView<ClassDetail, ClassModel>(classFilePath, classModel);
 
-            // Process Nested Types
-            foreach(var nestedType in classModel.NestedTypes)
-            {
-                ProcessCsType(nestedType, outputDirectory);
-            }
-
-            // Process Constructors
-            foreach(var constructor in classModel.Constructors)
-            {
-                ProcessConstructor(constructor, outputDirectory);
-            }
-
-            // Process Methods
-            foreach(var method in classModel.Methods)
-            {
-                ProcessMethod(method, outputDirectory);
-            }
-
-            // Process Properties
-            foreach(var property in classModel.Properties)
-            {
-                ProcessProperty(property, outputDirectory);
-            }
+            ProcessInterfaceMembers(classModel, outputDirectory);
+            ProcessClassAndStructMembers(classModel, outputDirectory);
         }
 
         private void ProcessStruct(StructModel structModel, string outputDirectory)
@@ -127,29 +97,8 @@ namespace DocNet.Core.Output.Html
             string structFilePath = Path.Combine(outputDirectory, structModel.Name + ".html");
             WriteView<StructDetail, StructModel>(structFilePath, structModel);
 
-            // Process Nested Types
-            foreach (var nestedType in structModel.NestedTypes)
-            {
-                ProcessCsType(nestedType, outputDirectory);
-            }
-
-            // Process Constructors
-            foreach (var constructor in structModel.Constructors)
-            {
-                ProcessConstructor(constructor, outputDirectory);
-            }
-
-            // Process Methods
-            foreach (var method in structModel.Methods)
-            {
-                ProcessMethod(method, outputDirectory);
-            }
-
-            // Process Properties
-            foreach (var property in structModel.Properties)
-            {
-                ProcessProperty(property, outputDirectory);
-            }
+            ProcessInterfaceMembers(structModel, outputDirectory);
+            ProcessClassAndStructMembers(structModel, outputDirectory);
         }
 
         private void ProcessEnum(EnumModel enumModel, string outputDirectory)
@@ -182,18 +131,58 @@ namespace DocNet.Core.Output.Html
             WriteView<PropertyDetail, PropertyModel>(propertyFilePath, propertyModel);
         }
 
-        private void ProcessCsType(CsTypeModel csType, string outputDirectory)
+        private void ProcessInterfaceMembers(InterfaceBase model, string outputDirectory)
         {
-            if (csType is ClassModel)
-                ProcessClass(csType as ClassModel, outputDirectory);
-            else if (csType is StructModel)
-                ProcessStruct(csType as StructModel, outputDirectory);
-            else if (csType is InterfaceModel)
-                ProcessInterface(csType as InterfaceModel, outputDirectory);
-            else if (csType is EnumModel)
-                ProcessEnum(csType as EnumModel, outputDirectory);
-            else if (csType is DelegateModel)
-                ProcessDelegate(csType as DelegateModel, outputDirectory);
+            // Process Methods
+            foreach (var method in model.Methods)
+            {
+                ProcessMethod(method, outputDirectory);
+            }
+
+            // Process Properties
+            foreach (var property in model.Properties)
+            {
+                ProcessProperty(property, outputDirectory);
+            }
+        }
+
+        private void ProcessClassAndStructMembers(ClassAndStructBase model, string outputDirectory)
+        {
+            // Process Constructors
+            foreach (var constructor in model.Constructors)
+            {
+                ProcessConstructor(constructor, outputDirectory);
+            }
+
+            // Process Nested Interfaces
+            foreach (var interfaceModel in model.InnerInterfaces)
+            {
+                ProcessInterface(interfaceModel, outputDirectory);
+            }
+
+            // Process Nested Classes
+            foreach (var classModel in model.InnerClasses)
+            {
+                ProcessClass(classModel, outputDirectory);
+            }
+
+            // Process Nested Structs
+            foreach (var structModel in model.InnerStructs)
+            {
+                ProcessStruct(structModel, outputDirectory);
+            }
+
+            // Process Nested Enums
+            foreach (var enumModel in model.InnerEnums)
+            {
+                ProcessEnum(enumModel, outputDirectory);
+            }
+
+            // Process Nested Delegates
+            foreach (var delegateModel in model.InnerDelegates)
+            {
+                ProcessDelegate(delegateModel, outputDirectory);
+            }
         }
 
         private void WriteView<TView, TModel>(string filePath, TModel model) where TView:BaseTemplate<TModel>, new()

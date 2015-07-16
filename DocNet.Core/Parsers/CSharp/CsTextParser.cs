@@ -94,16 +94,13 @@ namespace DocNet.Core.Parsers.CSharp
 
     internal class CsCommentWalker : CSharpSyntaxWalker
     {
-        public NamespaceModel GlobalNamespace { get; private set; }
-
-        private NamespaceModel _currentNamespace;
-        private InterfaceModel _currentInterface;
+        private ICsParentElement _currentParent;
 
         public CsCommentWalker(NamespaceModel globalNamespace)
         {
             if (globalNamespace == null)
                 throw new ArgumentNullException("globalNamespace");
-            GlobalNamespace = globalNamespace;
+            _currentParent = globalNamespace;
         }
 
         #region Node Processors
@@ -112,19 +109,16 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if(node == null) throw new ArgumentNullException("node");
 
-            var newNamespace = new NamespaceModel
-            {
-                Name = node.Name.ToString(),
-                ParentNamespace = _currentNamespace
-            };
-            var parentNamespace = _currentNamespace;
-            _currentNamespace = newNamespace;
-            if(parentNamespace == null)
-                GlobalNamespace.ChildNamespaces.Add(newNamespace);
-            else
-                parentNamespace.ChildNamespaces.Add(newNamespace);
+            var newNamespace = new NamespaceModel { Name = node.Name.ToString() };
+            if(_currentParent != null)
+                _currentParent.AddChild(newNamespace);
+
+            var oldParent = _currentParent;
+            _currentParent = newNamespace;
+
             base.VisitNamespaceDeclaration(node);
-            _currentNamespace = parentNamespace;
+
+            _currentParent = oldParent;
         }
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
@@ -134,22 +128,20 @@ namespace DocNet.Core.Parsers.CSharp
             var newInterface = new InterfaceModel
             {
                 Name = node.Identifier.Text,
-                Namespace = _currentNamespace,
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node),
-                TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses)
+                TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
+                InheritanceList = GetInheritanceList(node.BaseList)
             };
 
-            SetInheritanceList(newInterface, node.BaseList);
-
-            if (TypeIsNested())
-                LinkTypeToParent(newInterface);
-            else
-                _currentNamespace.Interfaces.Add(newInterface); 
-            
-            var parentInterface = _currentInterface;
-            _currentInterface = newInterface;         
+            if(_currentParent != null)
+                _currentParent.AddChild(newInterface);
+           
+            var oldParent = _currentParent;
+            _currentParent = newInterface;
+       
             base.VisitInterfaceDeclaration(node);
-            _currentInterface = parentInterface;
+
+            _currentParent = oldParent;
         }
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
@@ -159,27 +151,21 @@ namespace DocNet.Core.Parsers.CSharp
             var newClass = new ClassModel
             {
                 Name = node.Identifier.Text,
-                Namespace = _currentNamespace,
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node)
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node),
+                TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
+                InheritanceList = GetInheritanceList(node.BaseList)
             };
-
-            if(node.TypeParameterList != null)
-            {
-                newClass.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
-            }
-
-            SetInheritanceList(newClass, node.BaseList);
             SetClassModifiers(newClass, node.Modifiers);
 
-            if(TypeIsNested())
-                LinkTypeToParent(newClass);
-            else
-                _currentNamespace.Classes.Add(newClass);
+            if(_currentParent != null)
+                _currentParent.AddChild(newClass);
 
-            var parentInterface = _currentInterface;
-            _currentInterface = newClass;     
+            var oldParent = _currentParent;
+            _currentParent = newClass;
+             
             base.VisitClassDeclaration(node);
-            _currentInterface = parentInterface;
+
+            _currentParent = oldParent;
         }
 
         public override void VisitStructDeclaration(StructDeclarationSyntax node)
@@ -189,27 +175,21 @@ namespace DocNet.Core.Parsers.CSharp
             var newStruct = new StructModel
             {
                 Name = node.Identifier.Text,
-                Namespace = _currentNamespace,
                 AccessModifier = GetAccessModifier(node.Modifiers),
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node)
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node),
+                TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
+                InheritanceList = GetInheritanceList(node.BaseList)
             };
 
-            if (node.TypeParameterList != null)
-            {
-                newStruct.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
-            }
+            if (_currentParent != null)
+                _currentParent.AddChild(newStruct);
 
-            SetInheritanceList(newStruct, node.BaseList);
+            var oldParent = _currentParent;
+            _currentParent = newStruct;
 
-            if(TypeIsNested())
-                LinkTypeToParent(newStruct);
-            else
-                _currentNamespace.Structs.Add(newStruct);
-
-            var previousInterface = _currentInterface;
-            _currentInterface = newStruct;
             base.VisitStructDeclaration(node);
-            _currentInterface = previousInterface;
+
+            _currentParent = oldParent;
         }
 
         public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
@@ -219,15 +199,12 @@ namespace DocNet.Core.Parsers.CSharp
             var newEnum = new EnumModel
             {
                 Name = node.Identifier.Text,
-                Namespace = _currentNamespace,
                 AccessModifier = GetAccessModifier(node.Modifiers),
                 DocComment = GetCommentFromNode<DocComment>(node)
             };
 
-            if (TypeIsNested())
-                LinkTypeToParent(newEnum);
-            else
-                _currentNamespace.Enums.Add(newEnum);
+            if(_currentParent != null)
+                _currentParent.AddChild(newEnum);
 
             base.VisitEnumDeclaration(node);
         }
@@ -239,22 +216,14 @@ namespace DocNet.Core.Parsers.CSharp
             var newDelegate = new DelegateModel
             {
                 Name = node.Identifier.Text,
-                Namespace = _currentNamespace,
-                Parent = _currentInterface,
                 Parameters = GetParameterList(node.ParameterList.Parameters),
                 ReturnType = node.ReturnType.ToString(),
-                DocComment = GetCommentFromNode<MethodDocComment>(node)
+                DocComment = GetCommentFromNode<MethodDocComment>(node),
+                TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses)
             };
 
-            if (node.TypeParameterList != null)
-            {
-                newDelegate.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
-            }
-
-            if(TypeIsNested())
-                LinkTypeToParent(newDelegate);
-            else
-                _currentNamespace.Delegates.Add(newDelegate);
+            if(_currentParent != null)
+                _currentParent.AddChild(newDelegate);
 
             base.VisitDelegateDeclaration(node);
         }
@@ -266,14 +235,14 @@ namespace DocNet.Core.Parsers.CSharp
             var newConstructor = new ConstructorModel
             {
                 Name = node.Identifier.Text,
-                Parent = _currentInterface as ClassAndStructModel,
                 DocComment = GetCommentFromNode<MethodDocComment>(node),
                 Parameters = GetParameterList(node.ParameterList.Parameters)
             };
 
             SetConstructorModifiers(newConstructor, node.Modifiers); 
 
-            ((ClassAndStructModel) _currentInterface).Constructors.Add(newConstructor);
+            if(_currentParent != null)
+                _currentParent.AddChild(newConstructor);
 
             base.VisitConstructorDeclaration(node);
         }
@@ -285,20 +254,16 @@ namespace DocNet.Core.Parsers.CSharp
             var newMethod = new MethodModel
             {
                 Name = node.Identifier.Text,
-                Parent = _currentInterface,
                 DocComment = GetCommentFromNode<MethodDocComment>(node),
                 Parameters = GetParameterList(node.ParameterList.Parameters),
-                ReturnType = node.ReturnType.ToString()
+                ReturnType = node.ReturnType.ToString(),
+                TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses)       
             };
-
-            if(node.TypeParameterList != null)
-            {
-                newMethod.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
-            }
 
             SetMethodModifiers(newMethod, node.Modifiers);
 
-            _currentInterface.Methods.Add(newMethod);
+            if(_currentParent != null)
+                _currentParent.AddChild(newMethod);
 
             base.VisitMethodDeclaration(node);
         }
@@ -311,14 +276,14 @@ namespace DocNet.Core.Parsers.CSharp
             {
                 Name = node.Identifier.Text,
                 TypeName = node.Type.ToString(),
-                Parent = _currentInterface,
                 DocComment = GetCommentFromNode<PropertyDocComment>(node)
             };
             
             SetPropertyModifiers(newProperty, node.Modifiers);
             SetAccessorProperties(newProperty, node.AccessorList.Accessors);
 
-            _currentInterface.Properties.Add(newProperty);
+            if(_currentParent != null)
+                _currentParent.AddChild(newProperty);
 
             base.VisitPropertyDeclaration(node);
         }
@@ -326,26 +291,6 @@ namespace DocNet.Core.Parsers.CSharp
         #endregion
 
         #region Helper Methods
-
-        private bool TypeIsNested()
-        {
-            return _currentInterface != null;
-        }
-
-        private void LinkTypeToParent(CsTypeModel type)
-        {
-            type.Parent = _currentInterface;
-            if (_currentInterface == null) return;
-
-            if(_currentInterface is ClassAndStructModel)
-            {
-                ((ClassAndStructModel) _currentInterface).NestedTypes.Add(type);
-            }
-            else
-            {
-                throw new CsParsingException("Type encountered inside of non-nestable type.");
-            }
-        }
 
         #region Comment Helpers
 
@@ -500,10 +445,11 @@ namespace DocNet.Core.Parsers.CSharp
 
         #region Parameter Helpers
 
-        private static IList<TypeParameterModel> GetTypeParameterList(SeparatedSyntaxList<TypeParameterSyntax> typeParams, SyntaxList<TypeParameterConstraintClauseSyntax> constraints)
+        private static IList<TypeParameterModel> GetTypeParameterList(TypeParameterListSyntax typeParamList, SyntaxList<TypeParameterConstraintClauseSyntax> constraints)
         {
+            if(typeParamList == null) return new List<TypeParameterModel>();
             var paramConstraintMap = constraints.ToDictionary(constraint => constraint.Name.ToString(), constraint => constraint.Constraints.ToString());
-            return typeParams.Select(typeParam => typeParam.Identifier.ToString()).Select(paramName => new TypeParameterModel
+            return typeParamList.Parameters.Select(typeParam => typeParam.Identifier.ToString()).Select(paramName => new TypeParameterModel
             {
                 Name = paramName, 
                 Constraint = paramConstraintMap.ContainsKey(paramName) ? paramConstraintMap[paramName] : null
@@ -556,15 +502,11 @@ namespace DocNet.Core.Parsers.CSharp
             }
         }
 
-        private static void SetInheritanceList(InterfaceModel interfaceModel, BaseListSyntax baseList)
+        private static IList<string> GetInheritanceList(BaseListSyntax baseList)
         {
-            if(baseList == null) return;
-            foreach(var type in baseList.Types)
-            {
-                interfaceModel.InheritanceList.Add(type.ToString());
-            }
+            if(baseList == null) return new List<string>();
+            return baseList.Types.Select(t => t.ToString()).ToList();
         }
-
 
         #endregion
     }

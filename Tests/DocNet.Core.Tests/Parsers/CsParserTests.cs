@@ -34,38 +34,84 @@ namespace DocNet.Core.Tests.Parsers
             // Arrange
             string inputCode = File.ReadAllText(SimpleNestedElementFile);
             var parser = new CsTextParser();
+            
             var expectedGlobalNamespace = new NamespaceModel();
+            
             var topLevelNamespace = new NamespaceModel { Name = "N1" };
+            expectedGlobalNamespace.AddChild(topLevelNamespace);
+
+            var classN1L1 = new ClassModel
+            {
+                Name = "ClassN1L1",
+                AccessModifier = AccessModifier.Public,
+                Constructors = new []{ new ConstructorModel{ Name = "ClassN1L1", AccessModifier = AccessModifier.Public} },
+                Methods = new[] { new MethodModel { Name = "Method_ClassN1L1", ReturnType = "void", AccessModifier =  AccessModifier.Public} }
+            };
+            topLevelNamespace.AddChild(classN1L1);
+
+            var classC1L2 = new ClassModel
+            {
+                Name = "ClassC1L2",
+                AccessModifier = AccessModifier.Public,
+                Constructors = new[] { new ConstructorModel { Name = "ClassC1L2", AccessModifier = AccessModifier.Public } },
+                Methods = new[] { new MethodModel { Name = "Method_ClassC1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
+            };
+            var structC1L2 = new StructModel
+            {
+                Name = "StructC1L2",
+                AccessModifier = AccessModifier.Public,
+                Methods = new[] { new MethodModel { Name = "Method_StructC1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
+            };
+            classN1L1.AddChild(classC1L2);
+            classN1L1.AddChild(structC1L2);
+
+
+            var structN1L1 = new StructModel
+            {
+                Name = "StructN1L1",
+                AccessModifier = AccessModifier.Public,
+                Methods = new []{ new MethodModel{ Name = "Method_StructN1L1", ReturnType = "void", AccessModifier = AccessModifier.Public } }
+            };
+            topLevelNamespace.AddChild(structN1L1);
+
+            var classS1L2 = new ClassModel
+            {
+                Name = "ClassS1L2",
+                AccessModifier = AccessModifier.Public,
+                Constructors = new []{ new ConstructorModel{ Name = "ClassS1L2", AccessModifier = AccessModifier.Public } },
+                Methods = new []{ new MethodModel{ Name = "Method_ClassS1L2", ReturnType = "void", AccessModifier = AccessModifier.Public }}
+            };
+            var structS1L2 = new StructModel
+            {
+                Name = "StructS1L2",
+                AccessModifier = AccessModifier.Public,
+                Methods = new []{ new MethodModel{ Name = "Method_StructS1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
+            };
+            structN1L1.AddChild(classS1L2);
+            structN1L1.AddChild(structS1L2);
+
+            var classN2L1 = new ClassModel
+            {
+                Name = "ClassN2L1",
+                AccessModifier = AccessModifier.Public
+            };
+            var structN2L1 = new StructModel
+            {
+                Name = "StructN2L1",
+                AccessModifier = AccessModifier.Public
+            };
+
             var nestedNamespace = new NamespaceModel { Name = "N2" };
-            var classN1L1 = new ClassModel {Name = "ClassN1L1", Namespace = topLevelNamespace};
-            var classC1L2 = new ClassModel {Name = "ClassC1L2"};
-            var classS1L2 = new ClassModel {Name = "ClassS1L2"};
-            var classN2L1 = new ClassModel {Name = "ClassN2L1", Namespace = nestedNamespace};
-            var structN1L1 = new StructModel {Name = "StructN1L1", Namespace = topLevelNamespace};
-            var structC1L2 = new StructModel {Name = "StructC1L2"};
-            var structS1L2 = new StructModel {Name = "StructS1L2"};
-            var structN2L1 = new StructModel {Name = "StructN2L1", Namespace = nestedNamespace};
+            topLevelNamespace.AddChild(nestedNamespace);
 
-            classN1L1.NestedTypes.Add(classC1L2);
-            classN1L1.NestedTypes.Add(structC1L2);
-
-            structN1L1.NestedTypes.Add(classS1L2);
-            structC1L2.NestedTypes.Add(structS1L2);
-
-            topLevelNamespace.Classes.Add(classN1L1);
-            topLevelNamespace.Structs.Add(structN1L1);
-
-            nestedNamespace.Classes.Add(classN2L1);
-            nestedNamespace.Structs.Add(structN2L1);
-            topLevelNamespace.ChildNamespaces.Add(nestedNamespace);
-
-            expectedGlobalNamespace.ChildNamespaces.Add(topLevelNamespace);
+            nestedNamespace.AddChild(classN2L1);
+            nestedNamespace.AddChild(structN2L1);
 
             // Act
             var returnedGlobalNamespace = parser.GetGlobalNamespace(inputCode);
 
             // Assert
-            Assert.That(returnedGlobalNamespace, Is.EqualTo(expectedGlobalNamespace));              
+            Assert.True(expectedGlobalNamespace.Equals(returnedGlobalNamespace));
         }
     }
 }

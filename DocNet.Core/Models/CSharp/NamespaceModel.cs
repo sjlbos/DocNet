@@ -1,52 +1,169 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using DocNet.Core.Exceptions;
 
 namespace DocNet.Core.Models.CSharp
 {
-    public class NamespaceModel : IEquatable<NamespaceModel>
+    public class NamespaceModel : NamespaceElement, ICsParentElement, IEquatable<NamespaceModel>
     {
-        public string Name { get; set; }
-        public NamespaceModel ParentNamespace { get; set; }
-        public IList<NamespaceModel> ChildNamespaces { get; set; } 
-        public IList<ClassModel> Classes { get; set; }
-        public IList<DelegateModel> Delegates { get; set; }
-        public IList<EnumModel> Enums { get; set; }
-        public IList<InterfaceModel> Interfaces { get; set; }
-        public IList<StructModel> Structs { get; set; }
+        private readonly IDictionary<string, NestableCsElement> _namespaceElements;
+        private readonly IDictionary<string, NamespaceElement> _directDescendants;
 
-        public string FullName
+        #region Element Management
+
+        public void AddChild(NestableCsElement child)
         {
-            get
+            if (child == null) 
+                throw new ArgumentNullException("child");
+            if (String.IsNullOrWhiteSpace(child.Name) || String.IsNullOrWhiteSpace(child.FullName))
+                throw new IllegalChildElementException("Child element has missing name.");
+
+            if (child is NamespaceElement)
             {
-                if (String.IsNullOrEmpty(Name)) return null;
-                if (ParentNamespace == null || String.IsNullOrEmpty(ParentNamespace.Name)) return Name;
-                return ParentNamespace.Name + "." + Name;
+                if (child.Parent == null || NamespaceElementIsDirectDescendant(child))
+                {
+                    child.Parent = this;
+                    if (_directDescendants.ContainsKey(child.Name)) throw new NamingCollisionException(child.Name);
+                    _directDescendants.Add(child.Name, child as NamespaceElement);
+                }
+            }
+
+            // Only the root (global) namespace will index by full name
+            if (Parent == null)
+            {
+                if (_namespaceElements.ContainsKey(child.FullName))
+                    throw new NamingCollisionException(child.FullName);
+
+                _namespaceElements.Add(child.FullName, child);
+                if (child is ICsParentElement)
+                {
+                    foreach (var childElement in (child as ICsParentElement))
+                    {
+                        AddChild(childElement);
+                    }
+                }
+            }
+            else
+            {
+                Parent.AddChild(child);
             }
         }
 
+        public NestableCsElement this[string name]
+        {
+            get
+            {       
+                if (_directDescendants.ContainsKey(name)) 
+                    return _directDescendants[name]; 
+                if (Parent != null) 
+                    return Parent[name];
+                if (_namespaceElements.ContainsKey(name)) 
+                    return _namespaceElements[name]; 
+                return null;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<NestableCsElement> GetEnumerator()
+        {
+            return _namespaceElements.Values.GetEnumerator();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IList<NamespaceModel> ChildNamespaces
+        {
+            get { return _directDescendants.Values.OfType<NamespaceModel>().ToList().AsReadOnly(); }
+            set
+            {
+                foreach (var namespaceModel in value)
+                {
+                    AddChild(namespaceModel);
+                }
+            }
+        }
+
+        public IList<ClassModel> Classes
+        {
+            get { return _directDescendants.Values.OfType<ClassModel>().ToList().AsReadOnly(); }
+            set
+            {
+                foreach (var classModel in value)
+                {
+                    AddChild(classModel);
+                }
+            }
+        }
+
+        public IList<DelegateModel> Delegates
+        {
+            get { return _directDescendants.Values.OfType<DelegateModel>().ToList().AsReadOnly(); }
+            set
+            {
+                foreach (var delegateModel in value)
+                {
+                    AddChild(delegateModel);
+                }
+            }
+        }
+
+        public IList<EnumModel> Enums
+        {
+            get { return _directDescendants.Values.OfType<EnumModel>().ToList().AsReadOnly(); }
+            set
+            {
+                foreach (var enumModel in value)
+                {
+                    AddChild(enumModel);
+                }
+            }
+        }
+
+        public IList<InterfaceModel> Interfaces
+        {
+            get { return _directDescendants.Values.OfType<InterfaceModel>().ToList().AsReadOnly(); }
+            set
+            {
+                foreach (var interfaceModel in value)
+                {
+                    AddChild(interfaceModel);
+                }
+            }
+        }
+
+        public IList<StructModel> Structs
+        {
+            get { return _directDescendants.Values.OfType<StructModel>().ToList().AsReadOnly(); }
+            set
+            {
+                foreach (var structModel in value)
+                {
+                    AddChild(structModel);
+                }
+            }
+        }
+
+        #endregion
+
         public NamespaceModel()
         {
-            ChildNamespaces = new List<NamespaceModel>();
-            Classes = new List<ClassModel>();
-            Interfaces = new List<InterfaceModel>();
-            Delegates = new List<DelegateModel>();
-            Structs = new List<StructModel>();
-            Enums = new List<EnumModel>();
+            _namespaceElements = new Dictionary<string, NestableCsElement>();
+            _directDescendants = new Dictionary<string, NamespaceElement>();
         }
 
         #region Equality Members
 
         public override int GetHashCode()
         {
-            int hashCode = Name != null ? Name.GetHashCode() : 0;
-            hashCode = (hashCode*397) ^ (ParentNamespace != null ? ParentNamespace.GetHashCode() : 0);
-            hashCode = (hashCode*397) ^ (ChildNamespaces != null ? ChildNamespaces.GetHashCode() : 0);
-            hashCode = (hashCode*397) ^ (Classes != null ? Classes.GetHashCode() : 0);
-            hashCode = (hashCode*397) ^ (Delegates != null ? Delegates.GetHashCode() : 0);
-            hashCode = (hashCode*397) ^ (Enums != null ? Enums.GetHashCode() : 0);
-            hashCode = (hashCode*397) ^ (Interfaces != null ? Interfaces.GetHashCode() : 0);
-            hashCode = (hashCode*397) ^ (Structs != null ? Structs.GetHashCode() : 0);
-            return hashCode;
+            return base.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -58,26 +175,15 @@ namespace DocNet.Core.Models.CSharp
         {
             if (other == null) return false;
             if (this == other) return true;
-
-            // List element equality is not checked in order to avoid infinite recursion of equality comparisons
-            return String.Equals(Name, other.Name) &&
-                   (ParentNamespace == null
-                       ? (other.ParentNamespace == null)
-                       : ParentNamespace.Equals(other.ParentNamespace)) &&
-                   ListsHaveEqualSize(ChildNamespaces, other.ChildNamespaces) &&
-                   ListsHaveEqualSize(Classes, other.Classes) &&
-                   ListsHaveEqualSize(Delegates, other.Delegates) &&
-                   ListsHaveEqualSize(Enums, other.Enums) &&
-                   ListsHaveEqualSize(Structs, other.Structs);
-        }
-
-        private static bool ListsHaveEqualSize<T>(IList<T> a, IList<T> b)
-        {
-            if (a == b) return true;
-            if (a == null || b == null) return false;
-            return a.Count == b.Count;
+            return base.Equals(other) &&
+                   this.OrderBy(e => e.FullName).SequenceEqual(other.OrderBy(e => e.FullName));
         }
 
         #endregion
+
+        private bool NamespaceElementIsDirectDescendant(NestableCsElement element)
+        {
+            return element.Parent == this;
+        }
     }
 }

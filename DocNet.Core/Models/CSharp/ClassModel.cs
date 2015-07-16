@@ -2,7 +2,7 @@
 
 namespace DocNet.Core.Models.CSharp
 {
-    public class ClassModel : ClassAndStructModel, IEquatable<ClassModel>
+    public class ClassModel : ClassAndStructBase, IEquatable<ClassModel>
     {
         public bool IsAbstract { get; set; }
         public bool IsStatic { get; set; }
@@ -15,6 +15,7 @@ namespace DocNet.Core.Models.CSharp
             int hashCode = base.GetHashCode();
             hashCode = (hashCode * 397) ^ IsAbstract.GetHashCode();
             hashCode = (hashCode * 397) ^ IsStatic.GetHashCode();
+            hashCode = (hashCode * 397) ^ IsSealed.GetHashCode();
             return hashCode;
         }
 
@@ -29,7 +30,8 @@ namespace DocNet.Core.Models.CSharp
             if(this == other) return true;
             return base.Equals(other) &&
                    IsAbstract == other.IsAbstract &&
-                   IsStatic == other.IsStatic;
+                   IsStatic == other.IsStatic &&
+                   IsSealed == other.IsSealed;
         }
 
         #endregion
