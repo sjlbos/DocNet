@@ -78,30 +78,122 @@ namespace DocNet.Core.Output.Html
         {
             string interfaceFilePath = Path.Combine(outputDirectory, interfaceModel.FullName + ".html");
             WriteView<InterfaceDetail, InterfaceModel>(interfaceFilePath, interfaceModel);
+
+            // Process Methods
+            foreach (var method in interfaceModel.Methods)
+            {
+                ProcessMethod(method, outputDirectory);
+            }
+
+            // Process Properties
+            foreach (var property in interfaceModel.Properties)
+            {
+                ProcessProperty(property, outputDirectory);
+            }
         }
 
         private void ProcessClass(ClassModel classModel, string outputDirectory)
         {
             string classFilePath = Path.Combine(outputDirectory, classModel.FullName + ".html");
             WriteView<ClassDetail, ClassModel>(classFilePath, classModel);
+
+            // Process Nested Types
+            foreach(var nestedType in classModel.NestedTypes)
+            {
+                ProcessCsType(nestedType, outputDirectory);
+            }
+
+            // Process Constructors
+            foreach(var constructor in classModel.Constructors)
+            {
+                ProcessConstructor(constructor, outputDirectory);
+            }
+
+            // Process Methods
+            foreach(var method in classModel.Methods)
+            {
+                ProcessMethod(method, outputDirectory);
+            }
+
+            // Process Properties
+            foreach(var property in classModel.Properties)
+            {
+                ProcessProperty(property, outputDirectory);
+            }
         }
 
         private void ProcessStruct(StructModel structModel, string outputDirectory)
         {
-            string structFilePath = Path.Combine(outputDirectory, structModel.FullName + ".html");
+            string structFilePath = Path.Combine(outputDirectory, structModel.Name + ".html");
             WriteView<StructDetail, StructModel>(structFilePath, structModel);
+
+            // Process Nested Types
+            foreach (var nestedType in structModel.NestedTypes)
+            {
+                ProcessCsType(nestedType, outputDirectory);
+            }
+
+            // Process Constructors
+            foreach (var constructor in structModel.Constructors)
+            {
+                ProcessConstructor(constructor, outputDirectory);
+            }
+
+            // Process Methods
+            foreach (var method in structModel.Methods)
+            {
+                ProcessMethod(method, outputDirectory);
+            }
+
+            // Process Properties
+            foreach (var property in structModel.Properties)
+            {
+                ProcessProperty(property, outputDirectory);
+            }
         }
 
         private void ProcessEnum(EnumModel enumModel, string outputDirectory)
         {
-            string enumFilePath = Path.Combine(outputDirectory, enumModel.FullName + ".html");
+            string enumFilePath = Path.Combine(outputDirectory, enumModel.Name + ".html");
             WriteView<EnumDetail, EnumModel>(enumFilePath, enumModel);
         }
 
         private void ProcessDelegate(DelegateModel delegateModel, string outputDirectory)
         {
-            string delegateFilePath = Path.Combine(outputDirectory, delegateModel.FullName + ".html");
+            string delegateFilePath = Path.Combine(outputDirectory, delegateModel.Name + ".html");
             WriteView<DelegateDetail, DelegateModel>(delegateFilePath, delegateModel);
+        }
+
+        private void ProcessConstructor(ConstructorModel constructorModel, string outputDirectory)
+        {
+            string constructorFilePath = Path.Combine(outputDirectory, constructorModel.Name + ".html");
+            WriteView<ConstructorDetail, ConstructorModel>(constructorFilePath, constructorModel);
+        }
+
+        private void ProcessMethod(MethodModel methodModel, string outputDirectory)
+        {
+            string methodFilePath = Path.Combine(outputDirectory, methodModel.Name + ".html");
+            WriteView<MethodDetail, MethodModel>(methodFilePath, methodModel);
+        }
+
+        private void ProcessProperty(PropertyModel propertyModel, string outputDirectory)
+        {
+            string propertyFilePath = Path.Combine(outputDirectory, propertyModel.Name + ".html");
+            WriteView<PropertyDetail, PropertyModel>(propertyFilePath, propertyModel);
+        }
+
+        private void ProcessCsType(CsTypeModel csType, string outputDirectory)
+        {
+            if (csType is ClassModel)
+                ProcessClass(csType as ClassModel, outputDirectory);
+            else if (csType is StructModel)
+                ProcessStruct(csType as StructModel, outputDirectory);
+            else if (csType is InterfaceModel)
+                ProcessInterface(csType as InterfaceModel, outputDirectory);
+            else if (csType is EnumModel)
+                ProcessEnum(csType as EnumModel, outputDirectory);
+            else if (csType is DelegateModel)
+                ProcessDelegate(csType as DelegateModel, outputDirectory);
         }
 
         private void WriteView<TView, TModel>(string filePath, TModel model) where TView:BaseTemplate<TModel>, new()
