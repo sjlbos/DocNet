@@ -53,6 +53,26 @@ namespace DocNet.Core.Tests.Output.Helpers
                         new TypeParameterModel { Name = "V"} 
                     }
                 }
+            },
+            new object[]
+            {
+                "public interface IDummy : IEquatable<IDummy>",
+                new InterfaceModel
+                {
+                    Name = "IDummy",
+                    AccessModifier = AccessModifier.Public,
+                    InheritanceList = new []{ "IEquatable<IDummy>" }
+                }
+            },
+            new object[]
+            {
+                "public interface IDummy : IFoo, IBar",
+                new InterfaceModel
+                {
+                    Name = "IDummy",
+                    AccessModifier = AccessModifier.Public,
+                    InheritanceList = new []{ "IFoo", "IBar" }
+                }
             }
         };
 
@@ -120,6 +140,26 @@ namespace DocNet.Core.Tests.Output.Helpers
                         new TypeParameterModel{ Name = "V" }
                     }
                 }
+            },
+            new object[]
+            {
+                "public class Dummy : IEquatable<Dummy>",
+                new ClassModel
+                {
+                    Name = "Dummy",
+                    AccessModifier = AccessModifier.Public,
+                    InheritanceList = new []{ "IEquatable<Dummy>" }
+                }
+            },
+            new object[]
+            {
+                "public class Dummy : IFoo, IBar",
+                new ClassModel
+                {
+                    Name = "Dummy",
+                    AccessModifier = AccessModifier.Public,
+                    InheritanceList = new []{ "IFoo", "IBar" }
+                }
             }
         };
 
@@ -174,6 +214,26 @@ namespace DocNet.Core.Tests.Output.Helpers
                         new TypeParameterModel{Name = "T"},
                         new TypeParameterModel{Name = "V"}
                     }
+                }
+            },
+            new object[]
+            {
+                "public struct Dummy : IEquatable<Dummy>",
+                new StructModel
+                {
+                    Name = "Dummy",
+                    AccessModifier = AccessModifier.Public,
+                    InheritanceList = new []{ "IEquatable<Dummy>"}
+                }
+            },
+            new object[]
+            {
+                "public struct Dummy : IFoo, IBar",
+                new StructModel
+                {
+                    Name = "Dummy",
+                    AccessModifier = AccessModifier.Public,
+                    InheritanceList = new [] { "IFoo", "IBar" }
                 }
             }
         };

@@ -7,13 +7,13 @@ namespace NamespaceOne
     /// </summary>
     public class Class1
     {
-        public string foo { get; private set; }
+        
     }
 
     /// <summary>
     /// Class2 Summary
     /// </summary>
-    public class Class2
+    public class Class2 : Class1, IEquatable<Class2>
     {
         
     }

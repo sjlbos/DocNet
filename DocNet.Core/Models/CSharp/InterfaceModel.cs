@@ -9,6 +9,7 @@ namespace DocNet.Core.Models.CSharp
         public IList<TypeParameterModel> TypeParameters { get; set; } 
         public IList<MethodModel> Methods;
         public IList<PropertyModel> Properties;
+        public IList<string> InheritanceList; 
         public InterfaceDocComment DocComment { get; set; }
 
         public InterfaceModel()
@@ -16,6 +17,7 @@ namespace DocNet.Core.Models.CSharp
             TypeParameters = new List<TypeParameterModel>();
             Methods = new List<MethodModel>();
             Properties = new List<PropertyModel>();
+            InheritanceList = new List<string>();
         }
 
         #region Equality Members

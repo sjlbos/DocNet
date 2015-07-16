@@ -139,6 +139,8 @@ namespace DocNet.Core.Parsers.CSharp
                 TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses)
             };
 
+            SetInheritanceList(newInterface, node.BaseList);
+
             if (TypeIsNested())
                 LinkTypeToParent(newInterface);
             else
@@ -166,6 +168,7 @@ namespace DocNet.Core.Parsers.CSharp
                 newClass.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
             }
 
+            SetInheritanceList(newClass, node.BaseList);
             SetClassModifiers(newClass, node.Modifiers);
 
             if(TypeIsNested())
@@ -195,6 +198,8 @@ namespace DocNet.Core.Parsers.CSharp
             {
                 newStruct.TypeParameters = GetTypeParameterList(node.TypeParameterList.Parameters, node.ConstraintClauses);
             }
+
+            SetInheritanceList(newStruct, node.BaseList);
 
             if(TypeIsNested())
                 LinkTypeToParent(newStruct);
@@ -550,6 +555,16 @@ namespace DocNet.Core.Parsers.CSharp
                 }
             }
         }
+
+        private static void SetInheritanceList(InterfaceModel interfaceModel, BaseListSyntax baseList)
+        {
+            if(baseList == null) return;
+            foreach(var type in baseList.Types)
+            {
+                interfaceModel.InheritanceList.Add(type.ToString());
+            }
+        }
+
 
         #endregion
     }

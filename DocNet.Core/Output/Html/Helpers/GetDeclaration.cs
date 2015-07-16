@@ -35,10 +35,8 @@ namespace DocNet.Core.Output.Html.Helpers
             sb.Append(GetAccessModifierString(interfaceModel.AccessModifier));
             sb.Append(" interface ");
             sb.Append(interfaceModel.Name);
-            if (interfaceModel.TypeParameters.Any())
-            {
-                AppendGenericsList(sb, interfaceModel.TypeParameters);
-            }
+            AppendGenericsList(sb, interfaceModel.TypeParameters);
+            AppendInheritanceList(sb, interfaceModel.InheritanceList);
 
             return sb.ToString();
         }
@@ -73,10 +71,9 @@ namespace DocNet.Core.Output.Html.Helpers
             }
             sb.Append(" class ");
             sb.Append(classModel.Name);
-            if (classModel.TypeParameters.Any())
-            {
-                AppendGenericsList(sb, classModel.TypeParameters);
-            }
+            AppendGenericsList(sb, classModel.TypeParameters);
+            AppendInheritanceList(sb, classModel.InheritanceList);
+
             return sb.ToString();
         }
 
@@ -97,10 +94,9 @@ namespace DocNet.Core.Output.Html.Helpers
             sb.Append(GetAccessModifierString(structModel.AccessModifier));
             sb.Append(" struct ");
             sb.Append(structModel.Name);
-            if (structModel.TypeParameters.Any())
-            {
-                AppendGenericsList(sb, structModel.TypeParameters);
-            }
+            AppendGenericsList(sb, structModel.TypeParameters);
+            AppendInheritanceList(sb, structModel.InheritanceList);
+
             return sb.ToString();
         }
 
@@ -310,7 +306,7 @@ namespace DocNet.Core.Output.Html.Helpers
 
         private static void AppendGenericsList(StringBuilder sb, IEnumerable<TypeParameterModel> typeParameters)
         {
-            if (!typeParameters.Any()) return;
+            if (typeParameters == null || !typeParameters.Any()) return;
             sb.Append("<");
             sb.Append(String.Join(", ", typeParameters.Select(t => t.Name)));
             sb.Append(">");
@@ -321,6 +317,13 @@ namespace DocNet.Core.Output.Html.Helpers
             sb.Append("(");
             sb.Append(String.Join(", ", parameterList.Select(p => p.TypeName + " " + p.Name)));
             sb.Append(")");
+        }
+
+        private static void AppendInheritanceList(StringBuilder sb, IEnumerable<string> inheritanceList)
+        {
+            if(inheritanceList == null || !inheritanceList.Any()) return;
+            sb.Append(" : ");
+            sb.Append(String.Join(", ", inheritanceList));
         }
 
         #endregion
