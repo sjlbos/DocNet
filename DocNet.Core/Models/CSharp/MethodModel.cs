@@ -19,5 +19,11 @@ namespace DocNet.Core.Models.CSharp
         public bool IsSealed { get; set; }
         public InterfaceModel Parent { get; set; }
         public MethodDocComment DocComment { get; set; }
+
+        public MethodModel()
+        {
+            TypeParameters = new List<TypeParameterModel>();
+            Parameters = new List<ParameterModel>();
+        }
     }
 }

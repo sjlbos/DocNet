@@ -13,6 +13,7 @@ namespace DocNet.Core.Models.CSharp
 
         public InterfaceModel()
         {
+            TypeParameters = new List<TypeParameterModel>();
             Methods = new List<MethodModel>();
             Properties = new List<PropertyModel>();
         }

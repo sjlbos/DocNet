@@ -14,6 +14,11 @@ namespace DocNet.Core.Models.CSharp
         public ClassAndStructModel Parent { get; set; }
         public MethodDocComment DocComment { get; set; }
 
+        public ConstructorModel()
+        {
+            Parameters = new List<ParameterModel>();
+        }
+
         #region Equality Members
 
         public override int GetHashCode()

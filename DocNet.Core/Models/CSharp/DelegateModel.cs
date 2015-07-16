@@ -9,5 +9,11 @@ namespace DocNet.Core.Models.CSharp
         public IList<ParameterModel> Parameters { get; set; }
         public string ReturnType { get; set; }
         public MethodDocComment DocComment { get; set; }
+
+        public DelegateModel()
+        {
+            TypeParameters = new List<TypeParameterModel>();
+            Parameters = new List<ParameterModel>();
+        }
     }
 }

@@ -91,6 +91,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommentTag.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Output\Html\Helpers\GetDeclaration.cs" />
     <Compile Include="Output\Html\HtmlDocumentationGenerator.cs" />
     <Compile Include="Models\Comments\DocComment.cs" />
     <Compile Include="Models\Comments\InterfaceDocComment.cs" />
