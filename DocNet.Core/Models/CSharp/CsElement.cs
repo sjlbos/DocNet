@@ -5,6 +5,7 @@ namespace DocNet.Core.Models.CSharp
     public abstract class CsElement : IEquatable<CsElement>
     {
         public string Name { get; set; }
+        public abstract string UniqueName { get; }
         public abstract string FullName { get; }
 
         #region Equality Members
@@ -12,6 +13,7 @@ namespace DocNet.Core.Models.CSharp
         public override int GetHashCode()
         {
             int hashCode = Name != null ? Name.GetHashCode() : 0;
+            hashCode = (hashCode * 397) ^ (UniqueName != null ? UniqueName.GetHashCode() : 0);
             hashCode = (hashCode * 397) ^ (FullName != null ? FullName.GetHashCode() : 0);
             return hashCode;
         }
@@ -26,6 +28,7 @@ namespace DocNet.Core.Models.CSharp
             if(other == null) return false;
             if(this == other) return true;
             return String.Equals(Name, other.Name) &&
+                   String.Equals(UniqueName, other.UniqueName) &&
                    String.Equals(FullName, other.FullName);
         }
 

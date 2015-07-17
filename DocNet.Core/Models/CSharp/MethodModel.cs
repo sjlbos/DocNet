@@ -7,6 +7,20 @@ namespace DocNet.Core.Models.CSharp
 {
     public class MethodModel : NestableCsElement, IEquatable<MethodModel>
     {
+        public override string UniqueName
+        {
+            get
+            {
+                var outputString = Name;
+                if(Parameters != null && Parameters.Any())
+                {
+                    outputString += ":";
+                    outputString += String.Join(",", Parameters.Select(p => p.TypeName));
+                }
+                return outputString;
+            }
+        }
+
         public AccessModifier AccessModifier { get; set; }
         public IList<TypeParameterModel> TypeParameters { get; set; }
         public IList<ParameterModel> Parameters { get; set; }

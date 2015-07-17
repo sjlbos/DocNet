@@ -12,8 +12,8 @@ namespace DocNet.Core.Models.CSharp
             get
             {
                 if(Parent == null || String.IsNullOrWhiteSpace(Parent.FullName))
-                    return Name;
-                return Parent.FullName + "." + Name;
+                    return UniqueName;
+                return Parent.FullName + "." + UniqueName;
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Linq;
 using DocNet.Core.Parsers.CSharp;
 using DocNet.Core.Models.CSharp;
+using NUnit.Core;
 using NUnit.Framework;
 
 namespace DocNet.Core.Tests.Parsers
@@ -11,8 +12,8 @@ namespace DocNet.Core.Tests.Parsers
     {
         private const string TestFileDirectory = @"..\..\..\TestData";
         private static readonly string SimpleMultiNamespaceFile = Path.Combine(TestFileDirectory, "SimpleMultiNamespaceFile.cs");
-
-        private static readonly string SimpleNestedElementFile = Path.Combine(TestFileDirectory, "SimpleNestedElementFile.cs");
+        private static readonly string NestedElementFile = Path.Combine(TestFileDirectory, "NestedElementFile.cs");
+        private static readonly string PartialElementFile = Path.Combine(TestFileDirectory, "PartialElementFile.cs");
 
         [Test]
         public void TestGetNamespaceTreesReturnsAllNamepsaces()
@@ -32,7 +33,7 @@ namespace DocNet.Core.Tests.Parsers
         public void TestNestedTypesAreFoundAndLinkedTogether()
         {
             // Arrange
-            string inputCode = File.ReadAllText(SimpleNestedElementFile);
+            string inputCode = File.ReadAllText(NestedElementFile);
             var parser = new CsTextParser();
             
             var expectedGlobalNamespace = new NamespaceModel();
@@ -112,6 +113,41 @@ namespace DocNet.Core.Tests.Parsers
 
             // Assert
             Assert.True(expectedGlobalNamespace.Equals(returnedGlobalNamespace));
+        }
+
+        [Test]
+        public void TestPartialElementsAreMergedTogether()
+        {
+            // Arrange
+            string inputCode = File.ReadAllText(PartialElementFile);
+            var parser = new CsTextParser();
+
+            // Act
+            var returnedNamespace = parser.GetGlobalNamespace(inputCode);
+
+            // Assert
+            Assert.NotNull(returnedNamespace);
+            Assert.That(returnedNamespace.ChildNamespaces, Has.Count.EqualTo(1));
+            
+            var namespaceFoo = returnedNamespace["Foo"] as NamespaceModel;
+            Assert.That(namespaceFoo.Interfaces, Has.Count.EqualTo(1));
+            Assert.That(namespaceFoo.Classes, Has.Count.EqualTo(1));
+            Assert.That(namespaceFoo.Structs, Has.Count.EqualTo(1));
+
+            var interfaceBar = namespaceFoo["IBar"] as InterfaceModel;
+            var classBar = namespaceFoo["Bar"] as ClassModel;
+            var structBaz = namespaceFoo["Baz"] as StructModel;
+
+            Assert.That(interfaceBar.InheritanceList, Has.Count.EqualTo(1));
+            Assert.That(interfaceBar.Methods, Has.Count.EqualTo(2));
+            
+            Assert.That(classBar.InheritanceList, Has.Count.EqualTo(2));
+            Assert.That(classBar.Methods, Has.Count.EqualTo(4));
+            Assert.That(classBar.Properties, Has.Count.EqualTo(2));
+
+            Assert.That(structBaz.InheritanceList, Has.Count.EqualTo(2));
+            Assert.That(structBaz.Methods, Has.Count.EqualTo(4));
+            Assert.That(structBaz.Properties, Has.Count.EqualTo(2));
         }
     }
 }

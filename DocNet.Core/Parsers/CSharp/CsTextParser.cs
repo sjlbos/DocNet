@@ -109,12 +109,26 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if(node == null) throw new ArgumentNullException("node");
 
-            var newNamespace = new NamespaceModel { Name = node.Name.ToString() };
-            if(_currentParent != null)
-                _currentParent.AddChild(newNamespace);
+            NamespaceModel currentNamespace;
+            string namespaceName = node.Name.ToString();
+
+            // Create a new namespace model if the current namespace has not yet been encountered
+            if(_currentParent[namespaceName] == null)
+            {
+                currentNamespace = new NamespaceModel { Name = namespaceName }; 
+                _currentParent.AddChild(currentNamespace);
+            }
+            // Otherwise, use the existing namespace
+            else
+            {
+                if(!(_currentParent[namespaceName] is NamespaceModel)) 
+                    throw new NamingCollisionException(namespaceName);
+
+                currentNamespace = _currentParent[namespaceName] as NamespaceModel;
+            }     
 
             var oldParent = _currentParent;
-            _currentParent = newNamespace;
+            _currentParent = currentNamespace;
 
             base.VisitNamespaceDeclaration(node);
 
@@ -125,22 +139,35 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if(node == null) throw new ArgumentNullException("node");
 
-            var newInterface = new InterfaceModel
+            var currentInterface = new InterfaceModel
             {
                 Name = node.Identifier.Text,
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
-                InheritanceList = GetInheritanceList(node.BaseList)
+                InheritanceList = GetInheritanceList(node.BaseList),
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node)
             };
+            SetInterfaceBaseModifiers(currentInterface, node.Modifiers);
 
-            if(_currentParent != null)
-                _currentParent.AddChild(newInterface);
+            if(currentInterface.IsPartial)
+            {
+                if(!MergeExistingBaseInterfaceDeclarations(ref currentInterface))
+                {
+                    // Interface was not merged and therefore has not yet been encountered
+                    _currentParent.AddChild(currentInterface);
+                }           
+            }
+            else
+            {
+                _currentParent.AddChild(currentInterface);
+            }
            
+            // Update current parent
             var oldParent = _currentParent;
-            _currentParent = newInterface;
+            _currentParent = currentInterface;
        
             base.VisitInterfaceDeclaration(node);
 
+            // Restore old parent
             _currentParent = oldParent;
         }
 
@@ -148,23 +175,35 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if (node == null) throw new ArgumentNullException("node");
 
-            var newClass = new ClassModel
+            var currentClass = new ClassModel
             {
                 Name = node.Identifier.Text,
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 InheritanceList = GetInheritanceList(node.BaseList)
             };
-            SetClassModifiers(newClass, node.Modifiers);
+            SetClassModifiers(currentClass, node.Modifiers);
 
-            if(_currentParent != null)
-                _currentParent.AddChild(newClass);
+            if (currentClass.IsPartial)
+            {
+                if (!MergeExistingBaseInterfaceDeclarations(ref currentClass))
+                {
+                    // Class was not merged and therefore has not yet been encountered
+                    _currentParent.AddChild(currentClass);
+                }
+            }
+            else
+            {
+                _currentParent.AddChild(currentClass);
+            }
 
+            // Update current parent
             var oldParent = _currentParent;
-            _currentParent = newClass;
+            _currentParent = currentClass;
              
             base.VisitClassDeclaration(node);
 
+            // Restore old parent
             _currentParent = oldParent;
         }
 
@@ -172,23 +211,35 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if (node == null) throw new ArgumentNullException("node");
 
-            var newStruct = new StructModel
+            var currentStruct = new StructModel
             {
                 Name = node.Identifier.Text,
-                AccessModifier = GetAccessModifier(node.Modifiers),
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 InheritanceList = GetInheritanceList(node.BaseList)
             };
+            SetInterfaceBaseModifiers(currentStruct, node.Modifiers);
 
-            if (_currentParent != null)
-                _currentParent.AddChild(newStruct);
+            if (currentStruct.IsPartial)
+            {
+                if (!MergeExistingBaseInterfaceDeclarations(ref currentStruct))
+                {
+                    // Class was not merged and therefore has not yet been encountered
+                    _currentParent.AddChild(currentStruct);
+                }
+            }
+            else
+            {
+                _currentParent.AddChild(currentStruct);
+            }
 
+            // Update current parent
             var oldParent = _currentParent;
-            _currentParent = newStruct;
+            _currentParent = currentStruct;
 
             base.VisitStructDeclaration(node);
 
+            // Restore old parent
             _currentParent = oldParent;
         }
 
@@ -292,6 +343,24 @@ namespace DocNet.Core.Parsers.CSharp
 
         #region Helper Methods
 
+
+        private bool MergeExistingBaseInterfaceDeclarations<T>(ref T currentInterface) where T:InterfaceBase
+        {
+            var otherDeclaration = _currentParent[currentInterface.UniqueName];
+            if(otherDeclaration == null) return false;
+            
+            if(!(otherDeclaration is T))
+                throw new NamingCollisionException(currentInterface.UniqueName);
+                
+            T otherT = otherDeclaration as T;
+            if(!otherT.IsPartial)
+                throw new NamingCollisionException(currentInterface.UniqueName);
+
+            otherT.InheritanceList = otherT.InheritanceList.Union(currentInterface.InheritanceList).ToList();
+            currentInterface = otherT;
+            return true;
+        }
+
         #region Comment Helpers
 
         private static T GetCommentFromNode<T>(SyntaxNode node) where T : DocComment
@@ -350,9 +419,18 @@ namespace DocNet.Core.Parsers.CSharp
             return tempModifier;
         }
 
+        private static void SetInterfaceBaseModifiers(InterfaceBase interfaceBase, SyntaxTokenList modifiers)
+        {
+            interfaceBase.AccessModifier = GetAccessModifier(modifiers);
+            if(modifiers.Any(m => m.Kind() == SyntaxKind.PartialKeyword))
+            {
+                interfaceBase.IsPartial = true;
+            }
+        }
+
         private static void SetClassModifiers(ClassModel classModel, SyntaxTokenList modifiers)
         {
-            classModel.AccessModifier = GetAccessModifier(modifiers);
+            SetInterfaceBaseModifiers(classModel, modifiers);
             foreach (var modifier in modifiers)
             {
                 switch (modifier.Kind())

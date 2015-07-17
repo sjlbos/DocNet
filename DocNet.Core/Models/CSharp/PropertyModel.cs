@@ -6,6 +6,11 @@ namespace DocNet.Core.Models.CSharp
 {
     public class PropertyModel : NestableCsElement, IEquatable<PropertyModel>
     {
+        public override string UniqueName
+        {
+            get { return Name; }
+        }
+
         public string TypeName { get; set; }
         public bool HasGetter { get; set; }
         public bool HasSetter { get; set; }

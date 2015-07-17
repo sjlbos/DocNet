@@ -7,6 +7,20 @@ namespace DocNet.Core.Models.CSharp
 {
     public class DelegateModel : CsType, IEquatable<DelegateModel>
     {
+        public override string UniqueName
+        {
+            get
+            {
+                var outputString = Name;
+                if (Parameters != null && Parameters.Any())
+                {
+                    outputString += ":";
+                    outputString += String.Join(",", Parameters.Select(p => p.TypeName));
+                }
+                return outputString;
+            }
+        }
+
         public IList<TypeParameterModel> TypeParameters { get; set; }
         public IList<ParameterModel> Parameters { get; set; }
         public string ReturnType { get; set; }

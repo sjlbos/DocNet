@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using DocNet.Core.Exceptions;
 using DocNet.Core.Models.Comments;
@@ -17,33 +18,33 @@ namespace DocNet.Core.Models.CSharp
         {
             if (child == null)
                 throw new ArgumentNullException("child");
-            if (String.IsNullOrWhiteSpace(child.Name) || String.IsNullOrWhiteSpace(child.FullName))
+            if (String.IsNullOrWhiteSpace(child.Name))
                 throw new IllegalChildElementException("Child element has missing name.");
             if (!NestedElementIsLegal(child))
-                throw new IllegalChildElementException("Interface can not have children of type " + child.GetType());
+                throw new IllegalChildElementException(GetType() + " cannot have children of type " + child.GetType());
 
             if (child.Parent == null || NestedElementIsDirectDescendant(child))
             {
                 child.Parent = this;
 
-                if (_interfaceElements.ContainsKey(child.Name))
-                    throw new NamingCollisionException(child.Name);
+                if (_interfaceElements.ContainsKey(child.UniqueName))
+                    throw new NamingCollisionException(child.UniqueName);
 
-                _interfaceElements.Add(child.Name, child);
+                _interfaceElements.Add(child.UniqueName, child);
             }
 
-            if (Parent != null)
+            if (Parent != null && Parent[child.UniqueName] == null)
                 Parent.AddChild(child);
         }
 
-        public NestableCsElement this[string name]
+        public NestableCsElement this[string uniqueName]
         {
             get
             {
-                if (_interfaceElements.ContainsKey(name))
-                    return _interfaceElements[name];
+                if (_interfaceElements.ContainsKey(uniqueName))
+                    return _interfaceElements[uniqueName];
                 if (Parent != null)
-                    return Parent[name];
+                    return Parent[uniqueName];
                 return null;
             }
         }
@@ -62,9 +63,19 @@ namespace DocNet.Core.Models.CSharp
 
         #region Properties
 
+        public override string UniqueName
+        {
+            get { return Name + 
+                ((TypeParameters != null && TypeParameters.Any()) 
+                    ?  TypeParameters.Count().ToString(CultureInfo.InvariantCulture) 
+                    : String.Empty); 
+            }
+        }
+
         public IList<TypeParameterModel> TypeParameters { get; set; }
         public IList<string> InheritanceList { get; set; }
         public InterfaceDocComment DocComment { get; set; }
+        public bool IsPartial { get; set; }
 
         public IList<MethodModel> Methods
         {
@@ -118,6 +129,7 @@ namespace DocNet.Core.Models.CSharp
             if (other == null) return false;
             if (this == other) return true;
             return base.Equals(other) &&
+                    IsPartial == other.IsPartial &&
                     (TypeParameters == null ? (other.TypeParameters == null) : TypeParameters.SequenceEqual(other.TypeParameters)) &&
                     (Properties == null ? (other.Properties == null) : Properties.SequenceEqual(other.Properties)) &&
                     (Methods == null ? (other.Methods == null) : Methods.SequenceEqual(other.Methods)) &&

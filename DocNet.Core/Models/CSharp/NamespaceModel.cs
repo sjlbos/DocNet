@@ -25,8 +25,9 @@ namespace DocNet.Core.Models.CSharp
                 if (child.Parent == null || NamespaceElementIsDirectDescendant(child))
                 {
                     child.Parent = this;
-                    if (_directDescendants.ContainsKey(child.Name)) throw new NamingCollisionException(child.Name);
-                    _directDescendants.Add(child.Name, child as NamespaceElement);
+                    if (_directDescendants.ContainsKey(child.UniqueName)) 
+                        throw new NamingCollisionException(child.UniqueName);
+                    _directDescendants.Add(child.UniqueName, child as NamespaceElement);
                 }
             }
 
@@ -51,16 +52,16 @@ namespace DocNet.Core.Models.CSharp
             }
         }
 
-        public NestableCsElement this[string name]
+        public NestableCsElement this[string uniqueName]
         {
             get
             {       
-                if (_directDescendants.ContainsKey(name)) 
-                    return _directDescendants[name]; 
+                if (_directDescendants.ContainsKey(uniqueName)) 
+                    return _directDescendants[uniqueName]; 
                 if (Parent != null) 
-                    return Parent[name];
-                if (_namespaceElements.ContainsKey(name)) 
-                    return _namespaceElements[name]; 
+                    return Parent[uniqueName];
+                if (_namespaceElements.ContainsKey(uniqueName)) 
+                    return _namespaceElements[uniqueName]; 
                 return null;
             }
         }
@@ -78,6 +79,11 @@ namespace DocNet.Core.Models.CSharp
         #endregion
 
         #region Properties
+
+        public override string UniqueName
+        {
+            get { return Name; }
+        }
 
         public IList<NamespaceModel> ChildNamespaces
         {
