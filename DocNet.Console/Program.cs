@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DocNet.Core.Exceptions;
 using log4net;
 using CommandLine;
@@ -18,14 +19,20 @@ namespace DocNet.Console
         public static int Main(string[] args)
         {
             var programArgs = new ProgramArguments();
-
+            
             if (!Parser.Default.ParseArguments(args, programArgs))
-                LogErrorAndExit("Invalid arguments.\n" + GetHelpMessage(programArgs),
-                    DocNetStatus.InvalidProgramArguments);
+            {
+                Log.Error("Invalid arguments.");
+                Log.Error(GetHelpMessage(programArgs));
+                return (int)DocNetStatus.InvalidProgramArguments;
+            }
 
-            if (programArgs.HelpSpecified)
-                LogHelpMessageAndExit(programArgs);
-
+            if(programArgs.HelpSpecified)
+            {
+                Log.Info(GetHelpMessage(programArgs));
+                return (int) DocNetStatus.Success;
+            }
+                
             if (programArgs.DirectoryModeSpecified)
                 programArgs.InputPaths = GetCsFileListFromDirectoryList(programArgs.InputPaths, programArgs.UseRecursiveSearch);
 
@@ -44,17 +51,18 @@ namespace DocNet.Console
             if(args == null)
                 throw new ArgumentNullException("args");
 
-            var projectParser = new ProjectParser();
+            string currentDirectoryPath = Directory.GetCurrentDirectory();
 
-            _config = new ControllerConfiguration()
+            var projectParser = new ProjectParser();
+            _config = new ControllerConfiguration
             {
                 Logger = LogManager.GetLogger(typeof(DocNetController)),
                 SolutionParser = new OnionSolutionParserWrapper(projectParser),
                 ProjectParser = projectParser,
                 CsParser = new CsTextParser(),
                 DocumentationGenerator = new HtmlDocumentationGenerator(),
-                OutputDirectoryPath = args.OutputDirectory,
-                InputFilePaths = args.InputPaths
+                OutputDirectoryPath = MakePathAbsolute(currentDirectoryPath, args.OutputDirectory),
+                InputFilePaths = args.InputPaths.Select(p => MakePathAbsolute(currentDirectoryPath, p))
             };
         }
 
@@ -96,26 +104,20 @@ namespace DocNet.Console
             return fileList;
         }
 
-        #region Logging
+        private static string MakePathAbsolute(string currentDirectoryPath, string path)
+        {
+            if(String.IsNullOrWhiteSpace(path)) return path; 
+            if(!Path.IsPathRooted(path))
+            {
+                return Path.GetFullPath(Path.Combine(currentDirectoryPath, path));
+            }
+            return path;
+        }
 
         private static string GetHelpMessage(ProgramArguments args)
         {
             return CommandLine.Text.HelpText.AutoBuild(args);
         }
-
-        private static void LogErrorAndExit(string errorMessage, DocNetStatus returnCode)
-        {
-            Log.Fatal(errorMessage);   
-            Environment.Exit((int) returnCode);
-        }
-
-        private static void LogHelpMessageAndExit(ProgramArguments args)
-        {
-            Log.Info(GetHelpMessage(args));
-            Environment.Exit((int)DocNetStatus.Success);
-        }
-
-        #endregion  
     
         #endregion
     }
