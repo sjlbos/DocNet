@@ -19,10 +19,17 @@ namespace DocNet.Console
         public static int Main(string[] args)
         {
             var programArgs = new ProgramArguments();
-
-            if (!Parser.Default.ParseArguments(args, programArgs))
+            
+            if (Parser.Default.ParseArguments(args, programArgs))
+            {
+                ConvertToAbsolutePaths(programArgs);
+            }
+            else
+            {
                 LogErrorAndExit("Invalid arguments.\n" + GetHelpMessage(programArgs),
-                    DocNetStatus.InvalidProgramArguments);
+                DocNetStatus.InvalidProgramArguments);           
+            }
+
 
             if (programArgs.HelpSpecified)
                 LogHelpMessageAndExit(programArgs);
@@ -124,6 +131,30 @@ namespace DocNet.Console
         }
 
         #region Path Validation
+
+        private static void ConvertToAbsolutePaths(ProgramArguments programArgs)
+        {
+            if (programArgs.InputPaths == null || !programArgs.InputPaths.Any())
+                LogErrorAndExit("No input paths specified.", DocNetStatus.InvalidInputPath);
+            
+            if (String.IsNullOrWhiteSpace(programArgs.OutputDirectory))
+            {
+                LogErrorAndExit("No output directory specified.", DocNetStatus.InvalidOutputPath);
+            }
+            for(int i = 0; i< programArgs.InputPaths.Count; i++)
+            {
+                if (!Path.IsPathRooted(programArgs.InputPaths[i]))
+                {
+                    programArgs.InputPaths[i] = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\" + programArgs.InputPaths[i]);
+                }
+            }
+
+            if (!Path.IsPathRooted(programArgs.OutputDirectory))
+            {
+                programArgs.OutputDirectory = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\" + programArgs.OutputDirectory);
+            }
+
+        }
 
         private void ValidateOutputDirectory()
         {
