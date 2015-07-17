@@ -14,56 +14,56 @@
 @helper RenderSummary(SummaryTag summaryTag)
 {
     <div class="summary-comment">
-        @RenderTopLevelContainer(summaryTag)
+        RenderTopLevelContainer(summaryTag);
     </div>
 }
 
 @helper RenderRemarks(RemarksTag remarksTag)
 {
     <div class="remarks-comment">
-        @RenderTopLevelContainer(remarksTag)
+        RenderTopLevelContainer(remarksTag);
     </div>
 }
 
 @helper RenderExample(ExampleTag exampleTag)
 {
     <div class="example-comment">
-        @RenderTopLevelContainer(exampleTag)
+        RenderTopLevelContainer(exampleTag);
     </div>
 }
 
 @helper RenderReturns(ReturnsTag returnsTag)
 {
     <div class="returns-comment">
-        @RenderTopLevelContainer(returnsTag)
+        RenderTopLevelContainer(returnsTag);
     </div>
 }
 
 @helper RenderValue(ValueTag valueTag)
 {
     <div class="value-comment">
-        @RenderTopLevelContainer(valueTag)
+        RenderTopLevelContainer(valueTag);
     </div>
 }
 
 @helper RenderParam(ParameterTag paramTag)
 {
     <div class="parameter-comment">
-        @RenderTopLevelContainer(paramTag)
+        RenderTopLevelContainer(paramTag);
     </div>
 }
 
 @helper RenderTypeParam(TypeParameterTag typeParamTag)
 {
     <div class="type-parameter-comment">
-        @RenderTopLevelContainer(typeParamTag)
+        RenderTopLevelContainer(typeParamTag);
     </div>
 }
 
 @helper RenderException(ExceptionTag exceptionTag)
 {
     <div class="exception-comment">
-        @RenderTopLevelContainer(exceptionTag)
+        RenderTopLevelContainer(exceptionTag);
     </div>
 }
 
@@ -83,7 +83,7 @@
 {
     foreach (var element in container.Items)
      {
-        @RenderContainerElement(element)
+         RenderContainerElement(element);
      }
 }
 
@@ -91,7 +91,7 @@
 {
     foreach (var element in container.Items)
     {
-        @RenderContainerElement(element)
+        RenderContainerElement(element);
     }
 }
 
@@ -99,37 +99,37 @@
 {
     if (element is ParagraphTag)
     {
-        @RenderPara(element as ParagraphTag)
+        RenderPara(element as ParagraphTag);
         return;
     }
     if (element is CTag)
     {
-        @RenderC(element as CTag)
+        RenderC(element as CTag);
         return;
     }
     if (element is CodeTag)
     {
-        @RenderCode(element as CodeTag)
+        RenderCode(element as CodeTag);
         return;
     }
     if (element is ListTag)
     {
-        @RenderList(element as ListTag)
+        RenderList();
         return;
     }
     if (element is ParameterReferenceTag)
     {
-        @RenderParamRef(element as ParameterReferenceTag)
+        RenderParamRef(element as ParameterReferenceTag);
         return;
     }
     if (element is SeeTag)
     {
-        @RenderSee(element as SeeTag)
+        RenderSee(element as SeeTag);
         return;
     }
     if (element is TypeParameterReferenceTag)
     {
-        @RenderTypeParamRef(element as TypeParameterReferenceTag)
+        RenderTypeParamRef(element as TypeParameterReferenceTag);
         return;
     }
 }
@@ -150,7 +150,7 @@
     </div>  
 }
 
-@helper RenderList(ListTag listTag)
+@helper RenderList()
 {
     
 }
@@ -172,5 +172,5 @@
 
 @helper  RenderPara(ParagraphTag paragraphTag)
 {
-    <p>@RenderContainer(paragraphTag)</p>
+    <p>RenderContainer(paragraphTag);</p>
 }

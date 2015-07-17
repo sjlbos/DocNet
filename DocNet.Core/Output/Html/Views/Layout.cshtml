@@ -1,0 +1,76 @@
+﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
+@using DocNet.Core.Models.CSharp
+@using DocNet.Core.Output.Html.Views
+@inherits BaseTemplate<InterfaceModel>
+
+@{
+	var itemPath = 0;
+    var projectName = 0;
+	var hierarchy = new []{0};
+    var parent = 0;
+	var view = 0;
+	var count = 0;
+	var inTree = "";
+	var glyph = "right";
+    var childOfItem = 0;
+}
+
+<?xml version="1.0" encoding="utf-8" ?>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/collapse.js"></script>
+    <script src="js/custom.js"></script>
+    <title>@(projectName) Documentation - @(view) by DocNet</title>
+</head>
+
+<body>
+    <div class="container-fluid main">
+        <div class="page-header row">
+            <div class="col-md-2"><h1>DocNet</h1></div>
+            <div class="col-md-10">
+                <h2>@(view)</h2>
+            </div>
+        </div>
+        <div class="row main">
+            <div class="col-md-2 sidebar">
+                <h2>Sidebar</h2>
+                <div id="over"><ol>
+                    @foreach (int item in hierarchy){
+						if( item == parent){
+							if(view == childOfItem){
+								inTree = " in";
+								glyph = "down";
+							}
+                    
+							<li>
+					            <div class="expand link" onclick="hide(this, @(count))"><span class="glyphicon glyphicon-menu-@(glyph)" aria-hidden="true"></span></div><a href="@(itemPath)">@(item)</a>
+				            <ol class="collapse@(inTree)" id="collapse@(count)"></ol></li>
+							count = count + 1;
+						}
+						else{
+							<li><span class="expand"></span><a href="@(itemPath)">@(item)</a></li>
+						}
+					}
+                </ol></div>
+            </div>
+            <div class="col-md-10 content">
+                @(view)
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">DocNet was created by Stephen Bos, Scott Byrne, Chris Carr, and Keith Rollans.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

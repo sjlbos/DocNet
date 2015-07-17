@@ -1,6 +1,101 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
+@using DocNet.Razor.Helpers
 @inherits BaseTemplate<MethodModel>
 
-<p>Method: @Model.Name</p>
+<p><h1>Method: dualAdd</h1></p>
+<!--Summary
+    Type Parameters
+    Returns
+    Parameters
+    Exceptions
+    Remarks
+    Example
+    See Also-->
+
+<!--Summary-->
+<p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
+
+<!--Type Parameters-->
+<p>
+    <h3>Type Parameters</h3>
+    <table cellpadding="10">
+        <tr>
+            <td><i>item1</i></td>
+            <td>Type: T1</td>
+            <td>The object to be added to the first list</td>
+        </tr>
+        <tr>
+            <td><i>item2</i></td>
+            <td>Type: T2</td>
+            <td>The object to be added to the second list</td>
+        </tr>
+    </table>
+</p>
+
+<!--Returns-->
+<p>
+    <h3>Returns</h3>
+    <table cellpadding="10">
+        <tr>
+            <td>Type: bool</td>
+            <td>True if both adds succeeded, false otherwise</td>
+        </tr>
+    </table>
+</p>
+
+<!--Parameters-->
+<p>
+    <h3>Parameters</h3>
+    <table cellpadding="10">
+        <tr>
+            <td><i>MaxSize1</i></td>
+            <td>Type: int</td>
+            <td>The maximum size of the first list (&lt;0 means infinite list)</td>
+        </tr>
+        <tr>
+            <td><i>MaxSize2</i></td>
+            <td>Type: int</td>
+            <td>The maximum size of the second list (&lt;0 means infinite list)</td>
+        </tr>
+    </table>
+</p>
+
+<!--Exceptions-->
+<p>
+    <h3>Exceptions</h3>
+    <table cellpadding="10">
+        <tr>
+            <td>NullPointerException</td>
+            <td>One of the item's is null</td>
+        </tr>
+        <tr>
+            <td>BullshitException</td>
+            <td>Exists solely because I want 2 items under every category</td>
+        </tr>
+    </table>
+</p>
+
+<!--Remarks-->
+<p>
+    <h3>Remarks</h3>
+    This is entirely unremarkable.
+</p>
+
+<!--Example-->
+<p>
+    <h3>Example</h3>
+    The following snippet demonstrates usage of the method.
+    <br /><br />
+    DualList&lt;int, double&gt; dl = new DualList();<br />
+    dl.dualAdd(1,5.6,7,7);
+</p>
+
+<!--See Also-->
+<p>
+    <h3>See Also</h3><br />
+    <b>Reference</b><br />
+    This page<br />
+    This other page
+</p>
