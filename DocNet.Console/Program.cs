@@ -21,8 +21,12 @@ namespace DocNet.Console
             var programArgs = new ProgramArguments();
 
             if (!Parser.Default.ParseArguments(args, programArgs))
+            {
                 LogErrorAndExit("Invalid arguments.\n" + GetHelpMessage(programArgs),
-                    DocNetStatus.InvalidProgramArguments);
+                DocNetStatus.InvalidProgramArguments);
+            }
+
+
 
             if (programArgs.HelpSpecified)
                 LogHelpMessageAndExit(programArgs);
@@ -37,14 +41,13 @@ namespace DocNet.Console
 
         private readonly IDocNetController _controller;
         private readonly ProgramMode _mode;
-        private readonly IList<string> _inputPaths;
-        private readonly string _outputDirectory;
+        private IList<string> _inputPaths;
+        private string _outputDirectory;
 
         public Program(ProgramArguments args)
         {
             _mode = GetProgramMode(args);
-            _inputPaths = args.InputPaths;
-            _outputDirectory = args.OutputDirectory;
+            ConvertPathArgumentsToAbsolutePaths(args);
 
             var projectParser = new ProjectParser();
             _controller = new DocNetController(
@@ -124,6 +127,26 @@ namespace DocNet.Console
         }
 
         #region Path Validation
+
+        private void ConvertPathArgumentsToAbsolutePaths(ProgramArguments programArgs)
+        {
+            if (programArgs.InputPaths == null || !programArgs.InputPaths.Any())
+                LogErrorAndExit("No input paths specified.", DocNetStatus.InvalidInputPath);
+            
+            if (String.IsNullOrWhiteSpace(programArgs.OutputDirectory))
+            {
+                LogErrorAndExit("No output directory specified.", DocNetStatus.InvalidOutputPath);
+            }
+
+            _inputPaths = programArgs.InputPaths.Select(ConvertToAbsolutePath).ToList();
+
+            _outputDirectory = ConvertToAbsolutePath(programArgs.OutputDirectory);
+        }
+
+        private static string ConvertToAbsolutePath(string path)
+        {
+            return !Path.IsPathRooted(path) ? Path.GetFullPath(Directory.GetCurrentDirectory() + "\\" + path) : path;
+        }
 
         private void ValidateOutputDirectory()
         {
