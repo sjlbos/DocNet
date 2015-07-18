@@ -12,6 +12,7 @@ namespace DocNet.Core.Models.CSharp
             get { return this.OfType<ConstructorModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var constructor in value)
                 {
                     AddChild(constructor);
@@ -24,6 +25,7 @@ namespace DocNet.Core.Models.CSharp
             get { return this.OfType<InterfaceModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var childInterface in value)
                 {
                     AddChild(childInterface);
@@ -36,6 +38,7 @@ namespace DocNet.Core.Models.CSharp
             get { return this.OfType<ClassModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var childClass in value)
                 {
                     AddChild(childClass);
@@ -48,6 +51,7 @@ namespace DocNet.Core.Models.CSharp
             get { return this.OfType<StructModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var childStruct in value)
                 {
                     AddChild(childStruct);
@@ -60,6 +64,7 @@ namespace DocNet.Core.Models.CSharp
             get { return this.OfType<EnumModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var childEnum in value)
                 {
                     AddChild(childEnum);
@@ -72,6 +77,7 @@ namespace DocNet.Core.Models.CSharp
             get { return this.OfType<DelegateModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var childDelegate in value)
                 {
                     AddChild(childDelegate);

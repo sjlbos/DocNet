@@ -35,6 +35,8 @@ namespace DocNet.Core.Models.Comments.Xml
 
         public bool Equals(Container other)
         {
+            if(other == null) return false;
+            if(this == other) return true;
             return Items == null ? (other.Items == null) : Items.SequenceEqual(other.Items);
         }
 
@@ -118,6 +120,8 @@ namespace DocNet.Core.Models.Comments.Xml
 
         public bool Equals(TopLevelContainer other)
         {
+            if(other == null) return false;
+            if(this == other) return true;
             return Items == null ? (other.Items == null) : Items.SequenceEqual(other.Items);
         }
 
@@ -307,7 +311,7 @@ namespace DocNet.Core.Models.Comments.Xml
     [XmlType("see")]
     public class SeeTag : ReferenceElement { }
 
-    [Serializable]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1722:IdentifiersShouldNotHaveIncorrectPrefix"), Serializable]
     [XmlType("c")]
     public class CTag : IEquatable<CTag>
     {

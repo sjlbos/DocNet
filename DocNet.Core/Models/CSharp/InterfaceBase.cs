@@ -87,6 +87,7 @@ namespace DocNet.Core.Models.CSharp
             get { return this.OfType<MethodModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var method in value)
                 {
                     AddChild(method);
@@ -99,6 +100,7 @@ namespace DocNet.Core.Models.CSharp
             get { return this.OfType<PropertyModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var property in value)
                 {
                     AddChild(property);
@@ -146,6 +148,7 @@ namespace DocNet.Core.Models.CSharp
 
         protected bool NestedElementIsDirectDescendant(NestableCsElement element)
         {
+            if(element == null) return false;
             return element.Parent == this;
         }
 

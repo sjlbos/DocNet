@@ -10,12 +10,16 @@ namespace DocNet.Core.Output.Html
     {
         private const string NamespaceFileName = "index.html";
 
+        private string _rootOutputDirectory;
+
         public void GenerateDocumentation(NamespaceModel globalNamespace, string outputDirectory)
         {
             if(globalNamespace == null)
                 throw new ArgumentNullException("globalNamespace");
             if(!Directory.Exists(outputDirectory))
                 throw new DirectoryNotFoundException(outputDirectory);
+
+            _rootOutputDirectory = outputDirectory;
 
             ProcessNamespace(globalNamespace, outputDirectory);
         }

@@ -20,14 +20,15 @@ namespace DocNet.Core.Models.CSharp
             if (String.IsNullOrWhiteSpace(child.Name) || String.IsNullOrWhiteSpace(child.FullName))
                 throw new IllegalChildElementException("Child element has missing name.");
 
-            if (child is NamespaceElement)
+            var namespaceElement = child as NamespaceElement;
+            if (namespaceElement != null)
             {
                 if (child.Parent == null || NamespaceElementIsDirectDescendant(child))
                 {
                     child.Parent = this;
                     if (_directDescendants.ContainsKey(child.UniqueName)) 
                         throw new NamingCollisionException(child.UniqueName);
-                    _directDescendants.Add(child.UniqueName, child as NamespaceElement);
+                    _directDescendants.Add(child.UniqueName, namespaceElement);
                 }
             }
 
@@ -38,9 +39,10 @@ namespace DocNet.Core.Models.CSharp
                     throw new NamingCollisionException(child.FullName);
 
                 _namespaceElements.Add(child.FullName, child);
-                if (child is ICsParentElement)
+                var parentElement = child as ICsParentElement;
+                if (parentElement != null)
                 {
-                    foreach (var childElement in (child as ICsParentElement))
+                    foreach (var childElement in (parentElement))
                     {
                         AddChild(childElement);
                     }
@@ -90,6 +92,7 @@ namespace DocNet.Core.Models.CSharp
             get { return _directDescendants.Values.OfType<NamespaceModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var namespaceModel in value)
                 {
                     AddChild(namespaceModel);
@@ -102,6 +105,7 @@ namespace DocNet.Core.Models.CSharp
             get { return _directDescendants.Values.OfType<ClassModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var classModel in value)
                 {
                     AddChild(classModel);
@@ -114,6 +118,7 @@ namespace DocNet.Core.Models.CSharp
             get { return _directDescendants.Values.OfType<DelegateModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var delegateModel in value)
                 {
                     AddChild(delegateModel);
@@ -126,6 +131,7 @@ namespace DocNet.Core.Models.CSharp
             get { return _directDescendants.Values.OfType<EnumModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var enumModel in value)
                 {
                     AddChild(enumModel);
@@ -138,6 +144,7 @@ namespace DocNet.Core.Models.CSharp
             get { return _directDescendants.Values.OfType<InterfaceModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var interfaceModel in value)
                 {
                     AddChild(interfaceModel);
@@ -150,6 +157,7 @@ namespace DocNet.Core.Models.CSharp
             get { return _directDescendants.Values.OfType<StructModel>().ToList().AsReadOnly(); }
             set
             {
+                if(value == null) return;
                 foreach (var structModel in value)
                 {
                     AddChild(structModel);

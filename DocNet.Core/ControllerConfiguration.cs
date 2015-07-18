@@ -26,13 +26,13 @@ namespace DocNet.Core
             if(Logger == null)
                 throw new ConfigurationException("Logger is null.", DocNetStatus.InternalError);
             if(SolutionParser == null)
-                throw new ConfigurationException("SolutionParser is null.", DocNetStatus.InternalError);
+                throw new ConfigurationException("Solution parser is null.", DocNetStatus.InternalError);
             if(ProjectParser == null)
-                throw new ConfigurationException("ProjectParser is null.", DocNetStatus.InternalError);
+                throw new ConfigurationException("Project parser is null.", DocNetStatus.InternalError);
             if(CsParser == null)
-                throw new ConfigurationException("CsParser is null.", DocNetStatus.InternalError);
+                throw new ConfigurationException("C# parser is null.", DocNetStatus.InternalError);
             if(DocumentationGenerator == null)
-                throw new ConfigurationException("DocumentationGenerator is null.", DocNetStatus.InternalError);
+                throw new ConfigurationException("Documentation generator is null.", DocNetStatus.InternalError);
 
             ValidateOutputDirectory();
             ValidateInputFilePaths();

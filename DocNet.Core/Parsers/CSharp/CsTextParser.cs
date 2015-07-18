@@ -345,11 +345,11 @@ namespace DocNet.Core.Parsers.CSharp
         {
             var otherDeclaration = _currentParent[currentInterface.UniqueName];
             if(otherDeclaration == null) return false;
-            
-            if(!(otherDeclaration is T))
+
+            T otherT = otherDeclaration as T;
+            if(otherT == null)
                 throw new NamingCollisionException(currentInterface.UniqueName);
                 
-            T otherT = otherDeclaration as T;
             if(!otherT.IsPartial)
                 throw new NamingCollisionException(currentInterface.UniqueName);
 

@@ -108,6 +108,7 @@ namespace DocNet.Core.Output.Html.Helpers
         /// A string of the form <c>[access modifier] enum [name]</c> 
         /// or an empty string if the provided EnumModel is null or has a null or empty "Name" property.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public static string OfEnum(EnumModel enumModel)
         {
             if (enumModel == null || String.IsNullOrWhiteSpace(enumModel.Name))

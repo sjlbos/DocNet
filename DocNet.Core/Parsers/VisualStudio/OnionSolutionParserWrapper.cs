@@ -34,11 +34,17 @@ namespace DocNet.Core.Parsers.VisualStudio
 
             foreach (var project in parsedSolution.Projects)
             {
+                if(!ProjectFileIsValid(project.Path)) continue;
                 string projectPath = Path.Combine(Path.GetDirectoryName(solutionPath) ?? String.Empty, project.Path);
                 solutionModel.Projects.Add(_projectParser.ParseProjectFile(projectPath));
             }
 
             return solutionModel;
+        }
+
+        private bool ProjectFileIsValid(string projectPath)
+        {
+            return ".csproj".Equals(Path.GetExtension(projectPath));
         }
     }
 }

@@ -41,6 +41,9 @@ namespace DocNet.Console
 
         public Program(ProgramArguments args)
         {
+            if(args == null)
+                throw new ArgumentNullException("args");
+
             var projectParser = new ProjectParser();
 
             _config = new ControllerConfiguration()
@@ -55,6 +58,7 @@ namespace DocNet.Console
             };
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public DocNetStatus Run()
         {
             try

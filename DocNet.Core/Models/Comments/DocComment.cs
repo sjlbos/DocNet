@@ -20,6 +20,7 @@ namespace DocNet.Core.Models.Comments
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static T FromXml<T>(string commentXml) where T:DocComment
         {
             if (commentXml == null)
