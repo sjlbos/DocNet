@@ -87,7 +87,7 @@ namespace DocNet.Core
 
         private bool InputFileListContainsDuplicatePaths()
         {
-            return InputFilePaths.Distinct().Count() == InputFilePaths.Count();
+            return InputFilePaths.Distinct().Count() != InputFilePaths.Count();
         }
     }
 }

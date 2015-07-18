@@ -15,14 +15,14 @@ namespace DocNet.Core
 {
     public class DocNetController : IDocNetController
     {
+        private const string RootFolderName = "html";
+
         private readonly ILog _log;
         private readonly ISolutionParser _solutionParser;
         private readonly IProjectParser _projectParser;
         private readonly ICsParser _csParser;
         private readonly IDocumentationGenerator _documentationGenerator;
-        private readonly string _outputDirectory;
         private readonly IEnumerable<string> _inputFilePaths; 
-
         private string _outputDirectoryPath;
 
         public DocNetController(ControllerConfiguration config)
@@ -37,16 +37,23 @@ namespace DocNet.Core
             _projectParser = config.ProjectParser;
             _csParser = config.CsParser;
             _documentationGenerator = config.DocumentationGenerator;
+            _outputDirectoryPath = config.OutputDirectoryPath;
+            _inputFilePaths = config.InputFilePaths;
         }
 
         public DocNetStatus Execute()
         {
-            var result = CreateOutputDirectory();
-            if (result != DocNetStatus.Success) return result;
+            _outputDirectoryPath = Path.Combine(_outputDirectoryPath, RootFolderName);
+
+            var purgeResult = PurgeOutputDirectory();
+            if(purgeResult != DocNetStatus.Success) return purgeResult;
+
+            var createResult = CreateOutputDirectory();
+            if (createResult != DocNetStatus.Success) return createResult;
 
             try
             {
-                var globalNamespace = new NamespaceModel{ Name = "::global" };
+                var globalNamespace = new NamespaceModel();
                 foreach (var filePath in GetCsFileList())
                 {
                     _log.InfoFormat("Parsing \"{0}\".", filePath);
@@ -118,6 +125,46 @@ namespace DocNet.Core
             return uniquePaths;
         }
 
+        private DocNetStatus PurgeOutputDirectory()
+        {
+            try
+            {
+                if(Directory.Exists(_outputDirectoryPath))
+                {
+                    Directory.Delete(_outputDirectoryPath, true);
+                }
+            }
+            catch(UnauthorizedAccessException ex)
+            {
+                _log.Error("Access denied on output directory.");
+                _log.Debug(ex);
+                return DocNetStatus.UnreachableInputPath;
+            }
+            catch(ArgumentException ex)
+            {
+                _log.Error("Output path contains invalid characters.");
+                _log.Debug(ex);
+                return DocNetStatus.InvalidOutputPath;
+            }
+            catch(PathTooLongException ex)
+            {
+                _log.Error("Output path is too long.");
+                _log.Debug(ex);
+                return DocNetStatus.InvalidOutputPath;
+            }
+            catch(IOException ex)
+            {
+                _log.ErrorFormat(CultureInfo.CurrentCulture,
+                    "Unable to delete output directory \"{0}\". The folder may be in use by another process.",
+                    _outputDirectoryPath
+                    );
+                _log.Debug(ex);
+                return DocNetStatus.UnreachableOutputPath;
+            }
+
+            return DocNetStatus.Success;
+        }
+
         private DocNetStatus CreateOutputDirectory()
         {
             try
@@ -165,6 +212,5 @@ namespace DocNet.Core
         }
 
         #endregion
-
     }
 }

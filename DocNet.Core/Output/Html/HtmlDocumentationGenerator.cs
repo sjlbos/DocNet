@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using DocNet.Core.Models.CSharp;
 using DocNet.Core.Output.Html.Views;
@@ -9,10 +8,7 @@ namespace DocNet.Core.Output.Html
 {
     public class HtmlDocumentationGenerator : IDocumentationGenerator
     {
-        private const string GlobalNamespaceDirectoryName = "html";
         private const string NamespaceFileName = "index.html";
-
-        private string _rootOutputDirectory;
 
         public void GenerateDocumentation(NamespaceModel globalNamespace, string outputDirectory)
         {
@@ -21,9 +17,7 @@ namespace DocNet.Core.Output.Html
             if(!Directory.Exists(outputDirectory))
                 throw new DirectoryNotFoundException(outputDirectory);
 
-            _rootOutputDirectory = Path.Combine(outputDirectory, GlobalNamespaceDirectoryName);
-            Directory.CreateDirectory(_rootOutputDirectory);
-            ProcessNamespace(globalNamespace, _rootOutputDirectory);
+            ProcessNamespace(globalNamespace, outputDirectory);
         }
 
         #region Helper Methods
