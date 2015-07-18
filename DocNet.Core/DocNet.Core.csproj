@@ -86,7 +86,10 @@
     <Compile Include="..\.global\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ControllerConfiguration.cs" />
+    <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\IllegalChildElementException.cs" />
+    <Compile Include="Exceptions\InvalidFileTypeException.cs" />
     <Compile Include="Exceptions\NamingCollisionException.cs" />
     <Compile Include="Models\CSharp\ClassAndStructBase.cs" />
     <Compile Include="Models\CSharp\CsElement.cs" />

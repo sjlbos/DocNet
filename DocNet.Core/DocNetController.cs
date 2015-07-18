@@ -1,13 +1,14 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using DocNet.Core.Exceptions;
 using DocNet.Core.Output;
 using DocNet.Core.Parsers.CSharp;
 using DocNet.Core.Parsers.VisualStudio;
 using DocNet.Core.Models.CSharp;
-using DocNet.Core.Models.VisualStudio;
 using log4net;
 
 namespace DocNet.Core
@@ -19,139 +20,109 @@ namespace DocNet.Core
         private readonly IProjectParser _projectParser;
         private readonly ICsParser _csParser;
         private readonly IDocumentationGenerator _documentationGenerator;
+        private readonly string _outputDirectory;
+        private readonly IEnumerable<string> _inputFilePaths; 
 
         private string _outputDirectoryPath;
 
-        public DocNetController(ILog logger, ISolutionParser solutionParser, IProjectParser projectParser, ICsParser csParser, IDocumentationGenerator documentationGenerator)
+        public DocNetController(ControllerConfiguration config)
         {
-            if(logger == null)
-                throw new ArgumentNullException("logger");
-            if(solutionParser == null)
-                throw new ArgumentNullException("solutionParser");
-            if(projectParser == null)
-                throw new ArgumentNullException("projectParser");
-            if(csParser == null)
-                throw new ArgumentNullException("csParser");
-            if(documentationGenerator == null)
-                throw new ArgumentNullException("documentationGenerator");
+            if(config == null)
+                throw new ArgumentNullException("config");
 
-            _log = logger;
-            _solutionParser = solutionParser;
-            _projectParser = projectParser;
-            _csParser = csParser;
-            _documentationGenerator = documentationGenerator;
+            config.Validate();
+
+            _log = config.Logger;
+            _solutionParser = config.SolutionParser;
+            _projectParser = config.ProjectParser;
+            _csParser = config.CsParser;
+            _documentationGenerator = config.DocumentationGenerator;
         }
 
-        #region Public Interface
-
-        public DocNetStatus DocumentSolutions(string outputDirectoryPath, IEnumerable<string> solutionFilePaths)
+        public DocNetStatus Execute()
         {
-            var outputStatus = ValidateAndCreateOutputDirectory(outputDirectoryPath);
-            if (outputStatus != DocNetStatus.Success) return outputStatus;
-
-            foreach (var solutionPath in solutionFilePaths)
-            {
-                var inputStatus = ValidateInputFile(solutionPath);
-                if (inputStatus != DocNetStatus.Success) return outputStatus;
-            }
+            var result = CreateOutputDirectory();
+            if (result != DocNetStatus.Success) return result;
 
             try
             {
-                var globalNamespace = new NamespaceModel();
-                foreach (var solutionPath in solutionFilePaths)
+                var globalNamespace = new NamespaceModel{ Name = "::global" };
+                foreach (var filePath in GetCsFileList())
                 {
-                    ParseSolutionFile(solutionPath, globalNamespace);
-                }        
+                    _log.InfoFormat("Parsing \"{0}\".", filePath);
+                    ParseCsFile(filePath, globalNamespace);
+                }
                 _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
             }
-            catch (Exception ex)
+            catch (InvalidFileTypeException)
             {
-                // Todo: Add error handling for multiple exception types
-                _log.Error(ex);
-                return DocNetStatus.UnknownFailure;
+                return DocNetStatus.InvalidInputPath;
             }
 
             return DocNetStatus.Success;
         }
 
-        public DocNetStatus DocumentCsProjects(string outputDirectoryPath, IEnumerable<string> projectFilePaths)
+        #region Helper Methods
+
+        private void ParseCsFile(string csFilePath, NamespaceModel globalNamespace)
         {
-            var outputStatus = ValidateAndCreateOutputDirectory(outputDirectoryPath);
-            if (outputStatus != DocNetStatus.Success) return outputStatus;
-
-            foreach (var projectFilePath in projectFilePaths)
+            using (var csFile = File.OpenRead(csFilePath))
             {
-                var inputStatus = ValidateInputFile(projectFilePath);
-                if (inputStatus != DocNetStatus.Success) return outputStatus;
+                _csParser.ParseIntoNamespace(csFile, globalNamespace);
             }
-
-            try
-            {
-                var globalNamespace = new NamespaceModel();
-                foreach (var projectFilePath in projectFilePaths)
-                {                  
-                    ParseProjectFile(projectFilePath, globalNamespace);                  
-                }
-                _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
-            }
-            catch (Exception ex)
-            {
-                // Todo: Add error handling for multiple exception types
-                _log.Error(ex);
-                return DocNetStatus.UnknownFailure;
-            }
-            
-            return DocNetStatus.Success;
         }
 
-        public DocNetStatus DocumentCsFiles(string outputDirectoryPath, IEnumerable<string> csFilePaths)
+        private IList<string> GetCsFileList()
         {
-            var outputStatus = ValidateAndCreateOutputDirectory(outputDirectoryPath);
-            if (outputStatus != DocNetStatus.Success) return outputStatus;
-
-            try
+            var csFiles = new List<string>();
+            foreach (var inputPath in _inputFilePaths)
             {
-                var globalNamespace = new NamespaceModel();
-                foreach (var csFilePath in csFilePaths)
+                string fileExtension = Path.GetExtension(inputPath);
+                switch (fileExtension)
                 {
-                    var inputStatus = ValidateInputFile(csFilePath);
-                    if (inputStatus != DocNetStatus.Success) return inputStatus;
-                    ParseCsFile(csFilePath, globalNamespace);
+                    case ".cs":
+                        csFiles.Add(inputPath);
+                        break;
+                    case ".csproj":
+                        var projectFiles = _projectParser.ParseProjectFile(inputPath).IncludedFilePaths;
+                        csFiles.AddRange(projectFiles);
+                        break;                 
+                    case ".sln":
+                        var solution = _solutionParser.ParseSolutionFile(inputPath);
+                        foreach (var project in solution.Projects)
+                        {
+                            csFiles.AddRange(project.IncludedFilePaths);
+                        }
+                        break;
+                    default:
+                        _log.ErrorFormat(CultureInfo.CurrentCulture,
+                            "Input path \"{0}\" is a valid file type.", inputPath);
+                        throw new InvalidFileTypeException(inputPath);
                 }
-                _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
             }
-            catch (Exception ex)
-            {
-                // Todo: Add error handling for multiple exception types
-                _log.Error(ex);
-                return DocNetStatus.UnknownFailure;
-            }
-            return DocNetStatus.Success;
+            return RemoveDuplicatePaths(csFiles);
         }
 
-        #endregion
-
-        #region Input Validators
-
-        private DocNetStatus ValidateAndCreateOutputDirectory(string outputDirectoryPath)
+        private IList<string> RemoveDuplicatePaths(IList<string> inputPaths)
         {
-            if (String.IsNullOrWhiteSpace(outputDirectoryPath))
+            var uniquePaths = inputPaths.Distinct().ToList();
+            if (uniquePaths.Count() != inputPaths.Count)
             {
-                try
+                var duplicates = inputPaths.Except(uniquePaths);
+                foreach (var duplicate in duplicates)
                 {
-                    _outputDirectoryPath = Directory.GetCurrentDirectory();
-                    return DocNetStatus.Success;
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    _log.Error("Access denied. Unable to retrieve current directory.");
-                    return DocNetStatus.InvalidOutputPath;
+                    _log.WarnFormat(CultureInfo.CurrentCulture,
+                        "Duplicate input file \"{0}\" will be skipped.", duplicate);
                 }
             }
+            return uniquePaths;
+        }
 
+        private DocNetStatus CreateOutputDirectory()
+        {
             try
             {
-                var directoryInfo = Directory.CreateDirectory(outputDirectoryPath);
+                var directoryInfo = Directory.CreateDirectory(_outputDirectoryPath);
                 _outputDirectoryPath = directoryInfo.FullName;
                 return DocNetStatus.Success;
             }
@@ -193,90 +164,7 @@ namespace DocNet.Core
             }
         }
 
-        private DocNetStatus ValidateInputFile(string filePath)
-        {
-            if (String.IsNullOrWhiteSpace(filePath))
-            {
-                _log.Error("Input file path is empty.");
-                return DocNetStatus.InvalidInputPath;
-            }
-
-            if (!File.Exists(filePath))
-            {
-                _log.ErrorFormat("Unable to find input file \"{0}\".", filePath);
-                return DocNetStatus.InvalidInputPath;
-            }
-
-            return DocNetStatus.Success;
-        }
-
         #endregion
 
-        #region Parser Wrappers
-
-        private void ParseSolutionFile(string solutionFilePath, NamespaceModel globalNamespace)
-        {
-            _log.InfoFormat("Reading solution file \"{0}\".", solutionFilePath);
-            var solutionModel = _solutionParser.ParseSolutionFile(solutionFilePath);
-            ParseSolutionFile(solutionModel, globalNamespace);
-        }
-
-        private void ParseSolutionFile(SolutionModel solutionModel, NamespaceModel globalNamespace)
-        {
-            _log.InfoFormat("Proessing solution file \"{0}\"...", solutionModel.Name);
-            if (!solutionModel.Projects.Any())
-            {
-                _log.InfoFormat("The solution \"{0}\" contains no C# project files.", solutionModel.Name);
-                return;
-            }
-
-            foreach (var projectModel in solutionModel.Projects)
-            {
-                ParseProjectFile(projectModel, globalNamespace);
-            }
-
-            _log.Info("Solution processing complete.");
-        }
-
-        private void ParseProjectFile(string projectFilePath, NamespaceModel globalNamespace)
-        {
-            _log.InfoFormat("Reading project file \"{0}\".", projectFilePath);
-            var projectModel = _projectParser.ParseProjectFile(projectFilePath);
-            ParseProjectFile(projectModel, globalNamespace);
-        }
-
-        private void ParseProjectFile(ProjectModel projectModel, NamespaceModel globalNamespace)
-        {
-            _log.InfoFormat("Processing project file \"{0}\"...", projectModel.Name);
-            if (!projectModel.IncludedFilePaths.Any())
-            {
-                _log.InfoFormat("The project \"{0}\" contains no C# files.", projectModel.Name);
-                return;
-            }
-
-            foreach (var csFilePath in projectModel.IncludedFilePaths)
-            {
-                ParseCsFile(csFilePath, globalNamespace);
-            }
-
-            _log.Info("Project processing complete.");
-        }
-
-        private void ParseCsFile(string csFilePath, NamespaceModel globalNamespace)
-        {
-            _log.InfoFormat("Processing \"{0}\".", csFilePath);
-            using (var csFile = File.OpenRead(csFilePath))
-            {
-                _csParser.ParseIntoNamespace(csFile, globalNamespace);   
-            }
-        }
-
-        #endregion
-
-        #region Processors
-
-
-
-        #endregion
     }
 }

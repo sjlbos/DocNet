@@ -9,6 +9,7 @@ namespace DocNet.Core
         UnreachableInputPath,
         InvalidOutputPath,
         UnreachableOutputPath,
-        InvalidProgramArguments
+        InvalidProgramArguments,
+        InternalError
     }
 }

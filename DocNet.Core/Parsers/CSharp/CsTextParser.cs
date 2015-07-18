@@ -292,8 +292,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             SetConstructorModifiers(newConstructor, node.Modifiers); 
 
-            if(_currentParent != null)
-                _currentParent.AddChild(newConstructor);
+            _currentParent.AddChild(newConstructor);
 
             base.VisitConstructorDeclaration(node);
         }
@@ -313,8 +312,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             SetMethodModifiers(newMethod, node.Modifiers);
 
-            if(_currentParent != null)
-                _currentParent.AddChild(newMethod);
+            _currentParent.AddChild(newMethod);
 
             base.VisitMethodDeclaration(node);
         }
@@ -333,8 +331,7 @@ namespace DocNet.Core.Parsers.CSharp
             SetPropertyModifiers(newProperty, node.Modifiers);
             SetAccessorProperties(newProperty, node.AccessorList.Accessors);
 
-            if(_currentParent != null)
-                _currentParent.AddChild(newProperty);
+            _currentParent.AddChild(newProperty);
 
             base.VisitPropertyDeclaration(node);
         }

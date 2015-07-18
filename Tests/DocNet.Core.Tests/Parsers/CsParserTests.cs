@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using DocNet.Core.Parsers.CSharp;
 using DocNet.Core.Models.CSharp;
-using NUnit.Core;
 using NUnit.Framework;
 
 namespace DocNet.Core.Tests.Parsers

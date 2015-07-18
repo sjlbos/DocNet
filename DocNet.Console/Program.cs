@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+using DocNet.Core.Exceptions;
 using log4net;
 using CommandLine;
 using System.IO;
@@ -27,6 +26,9 @@ namespace DocNet.Console
             if (programArgs.HelpSpecified)
                 LogHelpMessageAndExit(programArgs);
 
+            if (programArgs.DirectoryModeSpecified)
+                programArgs.InputPaths = GetCsFileListFromDirectoryList(programArgs.InputPaths, programArgs.UseRecursiveSearch);
+
             var program = new Program(programArgs);
             return (int)program.Run();
         }
@@ -35,79 +37,46 @@ namespace DocNet.Console
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 
-        private readonly IDocNetController _controller;
-        private readonly ProgramMode _mode;
-        private readonly IList<string> _inputPaths;
-        private readonly string _outputDirectory;
+        private readonly ControllerConfiguration _config;
 
         public Program(ProgramArguments args)
         {
-            _mode = GetProgramMode(args);
-            _inputPaths = args.InputPaths;
-            _outputDirectory = args.OutputDirectory;
-
             var projectParser = new ProjectParser();
-            _controller = new DocNetController(
-                LogManager.GetLogger(typeof(DocNetController)),
-                new OnionSolutionParserWrapper(projectParser),
-                projectParser,
-                new CsTextParser(), 
-                new HtmlDocumentationGenerator()
-                );
+
+            _config = new ControllerConfiguration()
+            {
+                Logger = LogManager.GetLogger(typeof(DocNetController)),
+                SolutionParser = new OnionSolutionParserWrapper(projectParser),
+                ProjectParser = projectParser,
+                CsParser = new CsTextParser(),
+                DocumentationGenerator = new HtmlDocumentationGenerator(),
+                OutputDirectoryPath = args.OutputDirectory,
+                InputFilePaths = args.InputPaths
+            };
         }
 
         public DocNetStatus Run()
         {
             try
             {
-                Log.Info("Welcome to DocNet!");
-                ValidateOutputDirectory();
-                ValidateInputPaths();
-                switch (_mode)
-                {
-                    case ProgramMode.FileMode:
-                        return _controller.DocumentCsFiles(_outputDirectory, _inputPaths);
-                    case ProgramMode.ProjectMode:
-                        return _controller.DocumentCsProjects(_outputDirectory, _inputPaths);
-                    case ProgramMode.SolutionMode:
-                        return _controller.DocumentSolutions(_outputDirectory, _inputPaths);
-                    case ProgramMode.SingleDirectoryMode:
-                        var fileList = GetCsFileListFromDirectoryList(_inputPaths, false);
-                        if (fileList.Any()) 
-                            return _controller.DocumentCsFiles(_outputDirectory, fileList);
-                        Log.Info("No .cs files found.");
-                        return DocNetStatus.Success;   
-                    case ProgramMode.RecursiveDirectoryMode:
-                        fileList = GetCsFileListFromDirectoryList(_inputPaths, true);
-                        if (fileList.Any()) 
-                            return _controller.DocumentCsFiles(_outputDirectory, fileList);
-                        Log.Info("No .cs files found.");
-                        return DocNetStatus.Success;
-                }
+                var controller = new DocNetController(_config);
+                return controller.Execute();
+            }
+            catch (ConfigurationException ex)
+            {
+                Log.Debug(ex);
+                Log.Fatal(ex.Message);
+                return ex.Status;
             }
             catch (Exception ex)
             {
                 Log.Debug(ex);
-                LogErrorAndExit("An unknown error occured.", DocNetStatus.UnknownFailure);
+                Log.Fatal("An unknown error occured.");
+                return DocNetStatus.UnknownFailure;
             }
-
-            return DocNetStatus.Success;
         }
 
         #region Helper Methods
-
-        private static ProgramMode GetProgramMode(ProgramArguments args)
-        {
-            if (args.DirectoryModeSpecified)
-                return args.UseRecursiveSearch ? ProgramMode.RecursiveDirectoryMode : ProgramMode.SingleDirectoryMode;
-            if (args.FileModeSpecified)
-                return ProgramMode.FileMode;
-            if(args.ProjectModeSpecified)
-                return ProgramMode.ProjectMode;
-            if(args.SolutionModeSpecified)
-                return ProgramMode.SolutionMode;
-            return ProgramMode.SingleDirectoryMode;
-        }
 
         private static IList<string> GetCsFileListFromDirectoryList(IEnumerable<string> inputDirectoryPaths, bool recursiveSearch)
         {
@@ -122,123 +91,6 @@ namespace DocNet.Console
             }
             return fileList;
         }
-
-        #region Path Validation
-
-        private void ValidateOutputDirectory()
-        {
-            if (String.IsNullOrWhiteSpace(_outputDirectory))
-            {
-                LogErrorAndExit("No output directory specified.", DocNetStatus.InvalidOutputPath);
-            }
-
-            if (!Directory.Exists(_outputDirectory))
-            {
-                LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Output directory \"{0}\" does not exist.",
-                    _outputDirectory),
-                    DocNetStatus.InvalidOutputPath);
-            }
-        }
-
-        private void ValidateInputPaths()
-        {
-            if (_inputPaths == null || !_inputPaths.Any())
-                LogErrorAndExit("No input paths specified.", DocNetStatus.InvalidInputPath);
-
-            switch (_mode)
-            {
-                case ProgramMode.SingleDirectoryMode:
-                case ProgramMode.RecursiveDirectoryMode:
-                    foreach(var path in _inputPaths)
-                    {
-                        ValidateDirectoryPath(path);
-                    }
-                    break;
-                case ProgramMode.FileMode:
-                    foreach(var path in _inputPaths)
-                    {
-                        ValidateCsFilePath(path);
-                    }
-                    break;
-                case ProgramMode.ProjectMode:
-                    foreach (var path in _inputPaths)
-                    {
-                        ValidateProjectFilePath(path);
-                    }
-                    break;
-                case ProgramMode.SolutionMode:
-                    foreach(var path in _inputPaths)
-                    {
-                        ValidateSolutionFilePath(path);
-                    }
-                    break;
-            }
-        }
-
-        private static void ValidateDirectoryPath(string directoryPath)
-        {
-            if (!Directory.Exists(directoryPath))
-            {
-                LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Input directory \"{0}\" could not be found.", directoryPath), 
-                    DocNetStatus.InvalidInputPath);
-            }
-        }
-
-        private static void ValidateCsFilePath(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Input file \"{0}\" does not exist.", filePath),
-                    DocNetStatus.InvalidInputPath);
-            }
-
-            if(!".cs".Equals(Path.GetExtension(filePath)))
-            {
-                LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Input file \"{0}\" is not a .cs file."),
-                    DocNetStatus.InvalidInputPath);
-            }
-        }
-
-        private static void ValidateProjectFilePath(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Input project \"{0}\" does not exist.", filePath),
-                    DocNetStatus.InvalidInputPath);
-            }
-
-            if (!".csproj".Equals(Path.GetExtension(filePath)))
-            {
-                LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Input project \"{0}\" is not a .csproj file."),
-                    DocNetStatus.InvalidInputPath);
-            }
-        }
-
-        private static void ValidateSolutionFilePath(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Input solution \"{0}\" does not exist.", filePath),
-                    DocNetStatus.InvalidInputPath);
-            }
-
-            if (!".sln".Equals(Path.GetExtension(filePath)))
-            {
-                LogErrorAndExit(String.Format(CultureInfo.CurrentCulture,
-                    "Input solution \"{0}\" is not a .sln file."),
-                    DocNetStatus.InvalidInputPath);
-            }
-        }
-
-
-        #endregion
 
         #region Logging
 

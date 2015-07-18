@@ -28,12 +28,17 @@ namespace DocNet.Core.Models.CSharp
                 child.Parent = this;
 
                 if (_interfaceElements.ContainsKey(child.UniqueName))
-                    throw new NamingCollisionException(child.UniqueName);
+                {
+                    if (_interfaceElements[child.UniqueName] != child)
+                    {
+                        throw new NamingCollisionException(child.UniqueName);
+                    }
+                }
 
                 _interfaceElements.Add(child.UniqueName, child);
             }
 
-            if (Parent != null && Parent[child.UniqueName] == null)
+            if (Parent != null)
                 Parent.AddChild(child);
         }
 
