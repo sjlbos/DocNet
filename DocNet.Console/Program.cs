@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DocNet.Core.Exceptions;
 using log4net;
 using CommandLine;
 using System.IO;
@@ -37,7 +36,10 @@ namespace DocNet.Console
                 programArgs.InputPaths = GetCsFileListFromDirectoryList(programArgs.InputPaths, programArgs.UseRecursiveSearch);
 
             var program = new Program(programArgs);
-            return (int)program.Run();
+
+            int status = (int)program.Run();
+            System.Console.ReadLine();
+            return status;
         }
 
         #endregion
@@ -56,7 +58,6 @@ namespace DocNet.Console
             var projectParser = new ProjectParser();
             _config = new ControllerConfiguration
             {
-                Logger = LogManager.GetLogger(typeof(DocNetController)),
                 SolutionParser = new OnionSolutionParserWrapper(projectParser),
                 ProjectParser = projectParser,
                 CsParser = new CsTextParser(),
@@ -73,12 +74,6 @@ namespace DocNet.Console
             {
                 var controller = new DocNetController(_config);
                 return controller.Execute();
-            }
-            catch (ConfigurationException ex)
-            {
-                Log.Debug(ex);
-                Log.Fatal(ex.Message);
-                return ex.Status;
             }
             catch (Exception ex)
             {

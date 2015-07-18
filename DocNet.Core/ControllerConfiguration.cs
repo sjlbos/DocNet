@@ -13,7 +13,6 @@ namespace DocNet.Core
 {
     public class ControllerConfiguration
     {
-        public ILog Logger { get; set; }
         public ISolutionParser SolutionParser { get; set; }
         public IProjectParser ProjectParser { get; set; }
         public ICsParser CsParser { get; set; }
@@ -23,8 +22,6 @@ namespace DocNet.Core
 
         public void Validate()
         {
-            if(Logger == null)
-                throw new ConfigurationException("Logger is null.", DocNetStatus.InternalError);
             if(SolutionParser == null)
                 throw new ConfigurationException("Solution parser is null.", DocNetStatus.InternalError);
             if(ProjectParser == null)

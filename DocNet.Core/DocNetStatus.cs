@@ -10,6 +10,7 @@ namespace DocNet.Core
         InvalidOutputPath,
         UnreachableOutputPath,
         InvalidProgramArguments,
-        InternalError
+        InternalError,
+        ParsingError
     }
 }

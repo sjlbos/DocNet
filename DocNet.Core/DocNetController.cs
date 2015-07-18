@@ -17,12 +17,14 @@ namespace DocNet.Core
     {
         private const string RootFolderName = "html";
 
+        private readonly ControllerConfiguration _config;
+
         private readonly ILog _log;
-        private readonly ISolutionParser _solutionParser;
-        private readonly IProjectParser _projectParser;
-        private readonly ICsParser _csParser;
-        private readonly IDocumentationGenerator _documentationGenerator;
-        private readonly IEnumerable<string> _inputFilePaths; 
+        private ISolutionParser _solutionParser;
+        private IProjectParser _projectParser;
+        private ICsParser _csParser;
+        private IDocumentationGenerator _documentationGenerator;
+        private IEnumerable<string> _inputFilePaths; 
         private string _outputDirectoryPath;
 
         public DocNetController(ControllerConfiguration config)
@@ -30,46 +32,86 @@ namespace DocNet.Core
             if(config == null)
                 throw new ArgumentNullException("config");
 
-            config.Validate();
-
-            _log = config.Logger;
-            _solutionParser = config.SolutionParser;
-            _projectParser = config.ProjectParser;
-            _csParser = config.CsParser;
-            _documentationGenerator = config.DocumentationGenerator;
-            _outputDirectoryPath = config.OutputDirectoryPath;
-            _inputFilePaths = config.InputFilePaths;
+            _config = config;
+            _log = LogManager.GetLogger(typeof(DocNetController));
         }
 
         public DocNetStatus Execute()
         {
-            _outputDirectoryPath = Path.Combine(_outputDirectoryPath, RootFolderName);
-
-            var purgeResult = PurgeOutputDirectory();
-            if(purgeResult != DocNetStatus.Success) return purgeResult;
-
-            var createResult = CreateOutputDirectory();
-            if (createResult != DocNetStatus.Success) return createResult;
+            _log.Info(String.Empty);
+            _log.Info("DocNet started...");
 
             try
             {
+                // Read in configuration
+                UnpackAndValidateConfig();
+
+                _outputDirectoryPath = Path.Combine(_outputDirectoryPath, RootFolderName);
+
+                // Delete existing output directory
+                var purgeResult = PurgeOutputDirectory();
+                if(purgeResult != DocNetStatus.Success) return purgeResult;
+
+                // Create output directory
+                var createResult = CreateOutputDirectory();
+                if(createResult != DocNetStatus.Success) return createResult;
+
+                // Get list of unque input files
+                var uniqueInputFileList = GetCsFileList();
+                _log.Info(String.Empty);
+                _log.Info("Documentation will be generated using the following input files:");
+                foreach(var filePath in uniqueInputFileList)
+                {
+                    _log.Info("    " + filePath);
+                }
+
+                // Parse each input file
                 var globalNamespace = new NamespaceModel();
-                foreach (var filePath in GetCsFileList())
+                _log.Info(String.Empty);
+                foreach(var filePath in uniqueInputFileList)
                 {
                     _log.InfoFormat("Parsing \"{0}\".", filePath);
                     ParseCsFile(filePath, globalNamespace);
                 }
+
+                // Generate documentation
+                _log.Info("\nGenerating documentation...");
                 _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
+                _log.Info("Documentation generation complete.");
+                _log.Info(String.Empty);
+                _log.Info("Thank you for using DocNet!");
             }
-            catch (InvalidFileTypeException)
+            catch(ConfigurationException ex)
+            {
+                _log.Debug(ex);
+                _log.Fatal(ex.Message);
+                return ex.Status;
+            }
+            catch(InvalidFileTypeException)
             {
                 return DocNetStatus.InvalidInputPath;
+            }
+            catch(CsParsingException)
+            {
+                return DocNetStatus.ParsingError;
             }
 
             return DocNetStatus.Success;
         }
 
         #region Helper Methods
+
+        private void UnpackAndValidateConfig()
+        {
+            _config.Validate();
+
+            _solutionParser = _config.SolutionParser;
+            _projectParser = _config.ProjectParser;
+            _csParser = _config.CsParser;
+            _documentationGenerator = _config.DocumentationGenerator;
+            _outputDirectoryPath = _config.OutputDirectoryPath;
+            _inputFilePaths = _config.InputFilePaths;
+        }
 
         private void ParseCsFile(string csFilePath, NamespaceModel globalNamespace)
         {
@@ -131,6 +173,8 @@ namespace DocNet.Core
             {
                 if(Directory.Exists(_outputDirectoryPath))
                 {
+                    _log.InfoFormat(CultureInfo.CurrentCulture,
+                        "Purging output directory \"{0}\".", _outputDirectoryPath);
                     Directory.Delete(_outputDirectoryPath, true);
                 }
             }
@@ -169,8 +213,9 @@ namespace DocNet.Core
         {
             try
             {
-                var directoryInfo = Directory.CreateDirectory(_outputDirectoryPath);
-                _outputDirectoryPath = directoryInfo.FullName;
+                _log.InfoFormat(CultureInfo.CurrentCulture,
+                    "Creating output directory \"{0}\".", _outputDirectoryPath);
+                Directory.CreateDirectory(_outputDirectoryPath);
                 return DocNetStatus.Success;
             }
             catch (UnauthorizedAccessException ex)
