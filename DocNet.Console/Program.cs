@@ -26,8 +26,6 @@ namespace DocNet.Console
                 DocNetStatus.InvalidProgramArguments);
             }
 
-
-
             if (programArgs.HelpSpecified)
                 LogHelpMessageAndExit(programArgs);
 
