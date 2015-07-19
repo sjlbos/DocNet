@@ -1,6 +1,61 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
+@using DocNet.Core.Models.Comments.Xml
+@using DocNet.Razor.Helpers
 @inherits BaseTemplate<NamespaceModel>
 
-<p>Namespace: @Model.FullName</p>
+<!--Name-->
+<p><h1>Namespace: @Model.FullName</h1></p>
+
+<!--Classes-->
+<p>
+    <h3>Classes</h3>
+    <table cellpadding="10">
+        @foreach (ClassModel c in Model.Classes){
+            <tr>
+                <td>@c.Name</td>
+                <td>@{CommentTag.RenderSummary(c.DocComment.Summary);}</td>
+            </tr>
+        }
+    </table>
+</p>
+
+<!--Structures-->
+<p>
+    <h3>Structures</h3>
+    <table cellpadding="10">
+        @foreach (StructModel s in Model.Structs){
+            <tr>
+                <td>@s.Name</td>
+                <td>@{CommentTag.RenderSummary(s.DocComment.Summary);}</td>
+            </tr>
+        }
+    </table>
+</p>
+
+<!--Delegates-->
+<p>
+    <h3>Delegates</h3>
+    <table cellpadding="10">
+        @foreach (DelegateModel d in Model.Delegates){
+            <tr>
+                <td>@d.Name</td>
+                <td>@{CommentTag.RenderSummary(d.DocComment.Summary);}</td>
+            </tr>
+        }
+    </table>
+</p>
+
+<!--Enumerations-->
+<p>
+    <h3>Enumerations</h3>
+    <table cellpadding="10">
+        @foreach (EnumModel e in Model.Enums){
+            <tr>
+                <td>@e.Name</td>
+                <td>@{CommentTag.RenderSummary(e.DocComment.Summary);}</td>
+            </tr>
+        }
+    </table>
+</p>
