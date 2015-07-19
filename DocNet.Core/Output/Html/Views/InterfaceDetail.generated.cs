@@ -28,6 +28,12 @@ namespace DocNet.Razor.Views
     #line default
     #line hidden
     
+    #line 4 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+    using DocNet.Razor.Helpers;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     public partial class InterfaceDetail : BaseTemplate<InterfaceModel>
     {
@@ -42,12 +48,88 @@ WriteLiteral("\r\n");
 
 
 
+
 WriteLiteral("\r\n<p>Interface: ");
 
 
             
-            #line 6 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 7 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
          Write(Model.FullName);
+
+            
+            #line default
+            #line hidden
+
+            
+            #line 7 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+                             WriteLiteral("</p>\r\n\r\n<!--Summary\r\n    Methods\r\n    Remarks\r\n    See Also-->\r\n\r\n<!--Summary-->\r" +
+"\n<p>");
+
+            
+            #line default
+            #line hidden
+            
+            #line 15 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+     CommentTag.RenderSummary(Model.DocComment.Summary);
+            
+            #line default
+            #line hidden
+WriteLiteral("</p>\r\n\r\n<!--Methods-->\r\n<p>\r\n    <table cellpadding=\"10\">\r\n");
+
+
+            
+            #line 20 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+         foreach (MethodModel m in Model.Methods){
+
+            
+            #line default
+            #line hidden
+WriteLiteral("            <tr>\r\n                <td>");
+
+
+            
+            #line 22 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+               Write(m.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                <td>");
+
+
+            
+            #line 23 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+               Write(m.DocComment.Summary);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n            </tr>\r\n");
+
+
+            
+            #line 25 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+        }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Remarks-->\r\n<p>\r\n    <h3>Remarks</h3>\r\n");
+
+
+            
+            #line 32 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+      CommentTag.RenderRemarks(Model.DocComment.Remarks);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</p>\r\n\r\n<!--See Also-->\r\n<p>\r\n    <h3>See Also</h3>\r\n");
+
+
+            
+            #line 38 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+      CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);
 
             
             #line default

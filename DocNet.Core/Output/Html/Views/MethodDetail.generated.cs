@@ -61,7 +61,7 @@ WriteLiteral("\r\n<p><h1>");
 
             
             #line 8 "..\..\Output\Html\Views\MethodDetail.cshtml"
-  Write(Model.Name);
+  Write(Model.FullName);
 
             
             #line default
@@ -69,7 +69,7 @@ WriteLiteral("\r\n<p><h1>");
 
             
             #line 8 "..\..\Output\Html\Views\MethodDetail.cshtml"
-                  WriteLiteral("</h1></p>\r\n<!--Summary\r\n    Type Parameters\r\n    Returns\r\n    Parameters\r\n    Exc" +
+                      WriteLiteral("</h1></p>\r\n<!--Summary\r\n    Type Parameters\r\n    Returns\r\n    Parameters\r\n    Exc" +
 "eptions\r\n    Remarks\r\n    Example\r\n    See Also-->\r\n\r\n<!--Summary-->\r\n<p>");
 
             

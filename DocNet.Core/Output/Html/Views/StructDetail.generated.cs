@@ -28,6 +28,12 @@ namespace DocNet.Razor.Views
     #line default
     #line hidden
     
+    #line 4 "..\..\Output\Html\Views\StructDetail.cshtml"
+    using DocNet.Razor.Helpers;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     public partial class StructDetail : BaseTemplate<StructModel>
     {
@@ -42,12 +48,130 @@ WriteLiteral("\r\n");
 
 
 
+
 WriteLiteral("\r\n<p>Struct: ");
 
 
             
-            #line 6 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 7 "..\..\Output\Html\Views\StructDetail.cshtml"
       Write(Model.FullName);
+
+            
+            #line default
+            #line hidden
+
+            
+            #line 7 "..\..\Output\Html\Views\StructDetail.cshtml"
+                          WriteLiteral("</p>\r\n\r\n<!--Summary\r\n    Constructors\r\n    Methods\r\n    Remarks\r\n    See Also-->\r" +
+"\n\r\n<!--Summary-->\r\n<p>");
+
+            
+            #line default
+            #line hidden
+            
+            #line 16 "..\..\Output\Html\Views\StructDetail.cshtml"
+     CommentTag.RenderSummary(Model.DocComment.Summary);
+            
+            #line default
+            #line hidden
+WriteLiteral("</p>\r\n\r\n<!--Constructors-->\r\n<p>\r\n    <h3>Constructors</h3>\r\n    <table cellpaddi" +
+"ng=\"10\">\r\n");
+
+
+            
+            #line 22 "..\..\Output\Html\Views\StructDetail.cshtml"
+         foreach (ConstructorModel c in Model.Constructors){
+
+            
+            #line default
+            #line hidden
+WriteLiteral("            <tr>\r\n                <td>");
+
+
+            
+            #line 24 "..\..\Output\Html\Views\StructDetail.cshtml"
+               Write(c.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                <td>");
+
+
+            
+            #line 25 "..\..\Output\Html\Views\StructDetail.cshtml"
+               Write(c.DocComment.Summary);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n            </tr>\r\n");
+
+
+            
+            #line 27 "..\..\Output\Html\Views\StructDetail.cshtml"
+        }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Methods-->\r\n<p>\r\n    <h3>Methods</h3>\r\n    <table cellp" +
+"adding=\"10\">\r\n");
+
+
+            
+            #line 35 "..\..\Output\Html\Views\StructDetail.cshtml"
+         foreach (MethodModel m in Model.Methods){
+
+            
+            #line default
+            #line hidden
+WriteLiteral("            <tr>\r\n                <td>");
+
+
+            
+            #line 37 "..\..\Output\Html\Views\StructDetail.cshtml"
+               Write(m.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                <td>");
+
+
+            
+            #line 38 "..\..\Output\Html\Views\StructDetail.cshtml"
+               Write(m.DocComment.Summary);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n            </tr>\r\n");
+
+
+            
+            #line 40 "..\..\Output\Html\Views\StructDetail.cshtml"
+        }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Remarks-->\r\n<p>\r\n    <h3>Remarks</h3>\r\n");
+
+
+            
+            #line 47 "..\..\Output\Html\Views\StructDetail.cshtml"
+      CommentTag.RenderRemarks(Model.DocComment.Remarks);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</p>\r\n\r\n<!--See Also-->\r\n<p>\r\n    <h3>See Also</h3>\r\n");
+
+
+            
+            #line 53 "..\..\Output\Html\Views\StructDetail.cshtml"
+      CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);
 
             
             #line default

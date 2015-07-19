@@ -28,6 +28,12 @@ namespace DocNet.Razor.Views
     #line default
     #line hidden
     
+    #line 4 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+    using DocNet.Razor.Helpers;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     public partial class ConstructorDetail : BaseTemplate<ConstructorModel>
     {
@@ -42,12 +48,47 @@ WriteLiteral("\r\n");
 
 
 
-WriteLiteral("\r\n<p>Constructor: ");
+
+WriteLiteral("\r\n<p><h1>Constructor: ");
 
 
             
-            #line 6 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-           Write(Model.Name);
+            #line 7 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+               Write(Model.Name);
+
+            
+            #line default
+            #line hidden
+
+            
+            #line 7 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+                               WriteLiteral("</h1></p>\r\n\r\n<!--Summary\r\n    Remarks\r\n    See Also-->\r\n\r\n<!--Summary-->\r\n<p>");
+
+            
+            #line default
+            #line hidden
+            
+            #line 14 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+     CommentTag.RenderSummary(Model.DocComment.Summary);
+            
+            #line default
+            #line hidden
+WriteLiteral("</p>\r\n\r\n<!--Remarks-->\r\n<p>\r\n    <h3>Remarks</h3>\r\n");
+
+
+            
+            #line 19 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+      CommentTag.RenderRemarks(Model.DocComment.Remarks);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</p>\r\n\r\n<!--See Also-->\r\n<p>\r\n    <h3>See Also</h3>\r\n");
+
+
+            
+            #line 25 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+      CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);
 
             
             #line default

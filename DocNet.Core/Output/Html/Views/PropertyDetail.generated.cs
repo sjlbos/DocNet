@@ -16,12 +16,6 @@ namespace DocNet.Razor.Views
     using System.Linq;
     using System.Text;
     
-    #line 5 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-    using DocNet.Core.Models.Comments.Xml;
-    
-    #line default
-    #line hidden
-    
     #line 2 "..\..\Output\Html\Views\PropertyDetail.cshtml"
     using DocNet.Core.Models.CSharp;
     
@@ -55,12 +49,11 @@ WriteLiteral("\r\n");
 
 
 
-
 WriteLiteral("\r\n<p><h1>");
 
 
             
-            #line 8 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+            #line 7 "..\..\Output\Html\Views\PropertyDetail.cshtml"
   Write(Model.FullName);
 
             
@@ -71,7 +64,7 @@ WriteLiteral("</h1></p>\r\n\r\n<!--Type\r\n    Summary\r\n    Remarks\r\n    Exa
 
 
             
-            #line 17 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+            #line 16 "..\..\Output\Html\Views\PropertyDetail.cshtml"
         Write(Model.TypeName);
 
             
@@ -79,14 +72,14 @@ WriteLiteral("</h1></p>\r\n\r\n<!--Type\r\n    Summary\r\n    Remarks\r\n    Exa
             #line hidden
 
             
-            #line 17 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+            #line 16 "..\..\Output\Html\Views\PropertyDetail.cshtml"
                             WriteLiteral("</h2></p>\r\n\r\n<!--Summary-->\r\n<p>");
 
             
             #line default
             #line hidden
             
-            #line 20 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+            #line 19 "..\..\Output\Html\Views\PropertyDetail.cshtml"
      CommentTag.RenderSummary(Model.DocComment.Summary);
             
             #line default
@@ -95,7 +88,7 @@ WriteLiteral("</p>\r\n\r\n<!--Remarks-->\r\n<p>\r\n    <h3>Remarks</h3>\r\n");
 
 
             
-            #line 25 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+            #line 24 "..\..\Output\Html\Views\PropertyDetail.cshtml"
       CommentTag.RenderRemarks(Model.DocComment.Remarks);
 
             
@@ -105,7 +98,7 @@ WriteLiteral("</p>\r\n\r\n<!--Example-->\r\n<p>\r\n    <h3>Example</h3>\r\n");
 
 
             
-            #line 31 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+            #line 30 "..\..\Output\Html\Views\PropertyDetail.cshtml"
       CommentTag.RenderExample(Model.DocComment.Example);
 
             
@@ -115,7 +108,7 @@ WriteLiteral("</p>\r\n\r\n<!--See Also-->\r\n<p>\r\n    <h3>See Also</h3>\r\n");
 
 
             
-            #line 37 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+            #line 36 "..\..\Output\Html\Views\PropertyDetail.cshtml"
       CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);
 
             

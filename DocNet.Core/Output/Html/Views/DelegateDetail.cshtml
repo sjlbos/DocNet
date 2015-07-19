@@ -1,6 +1,77 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
+@using DocNet.Core.Models.Comments.Xml
+@using DocNet.Razor.Helpers
 @inherits BaseTemplate<DelegateModel>
 
-<p>Delegate: @Model.FullName</p>
+<p><h1>Delegate: @Model.FullName</h1></p>
+
+<!--Summary
+    Type Parameters
+    Returns
+    Parameters
+    Exceptions
+    Remarks
+    Example
+    See Also-->
+
+<!--Summary-->
+<p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
+
+<!--Type Parameters-->
+<p>
+    <h3>Type Parameters</h3>
+    <table cellpadding="10">
+        @foreach (TypeParameterTag t in Model.DocComment.TypeParameters)
+        {
+            <tr>@{CommentTag.RenderTypeParam(t);}</tr>
+        }
+    </table>
+</p>
+
+<!--Returns-->
+<p>
+    <h3>Returns</h3>
+    @{CommentTag.RenderReturns(Model.DocComment.Returns);}
+</p>
+
+<!--Parameters-->
+<p>
+    <h3>Parameters</h3>
+    <table cellpadding="10">
+        @foreach (ParameterTag p in Model.DocComment.Parameters)
+        {
+            <tr>@{CommentTag.RenderParam(p);}</tr>
+        }
+    </table>
+</p>
+
+<!--Exceptions-->
+<p>
+    <h3>Exceptions</h3>
+    <table cellpadding="10">
+        @foreach (ExceptionTag e in Model.DocComment.Exceptions)
+        {
+            <tr>@{CommentTag.RenderException(e);}</tr>
+        }
+    </table>
+</p>
+
+<!--Remarks-->
+<p>
+    <h3>Remarks</h3>
+    @{CommentTag.RenderRemarks(Model.DocComment.Remarks);}
+</p>
+
+<!--Example-->
+<p>
+    <h3>Example</h3>
+    @{CommentTag.RenderExample(Model.DocComment.Example);}
+</p>
+
+<!--See Also-->
+<p>
+    <h3>See Also</h3>
+    @{CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);}
+</p>

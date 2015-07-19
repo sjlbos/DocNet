@@ -1,6 +1,54 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
+@using DocNet.Razor.Helpers
 @inherits BaseTemplate<StructModel>
 
 <p>Struct: @Model.FullName</p>
+
+<!--Summary
+    Constructors
+    Methods
+    Remarks
+    See Also-->
+
+<!--Summary-->
+<p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
+
+<!--Constructors-->
+<p>
+    <h3>Constructors</h3>
+    <table cellpadding="10">
+        @foreach (ConstructorModel c in Model.Constructors){
+            <tr>
+                <td>@c.Name</td>
+                <td>@c.DocComment.Summary</td>
+            </tr>
+        }
+    </table>
+</p>
+
+<!--Methods-->
+<p>
+    <h3>Methods</h3>
+    <table cellpadding="10">
+        @foreach (MethodModel m in Model.Methods){
+            <tr>
+                <td>@m.Name</td>
+                <td>@m.DocComment.Summary</td>
+            </tr>
+        }
+    </table>
+</p>
+
+<!--Remarks-->
+<p>
+    <h3>Remarks</h3>
+    @{CommentTag.RenderRemarks(Model.DocComment.Remarks);}
+</p>
+
+<!--See Also-->
+<p>
+    <h3>See Also</h3>
+    @{CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);}
+</p>
