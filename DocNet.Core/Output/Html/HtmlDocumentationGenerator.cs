@@ -206,21 +206,27 @@ namespace DocNet.Core.Output.Html
             }
         }
 
-        private static void WriteView<TView, TModel>(string fileName, string outputDirectory, TModel model) where TView:BaseTemplate<TModel>, new()
+        private static void WriteView<TView, TModel>(string fileName, string outputDirectory, TModel model) where TView:BodyTemplate<TModel>, new()
         {
             string filePath = Path.Combine(outputDirectory, fileName);
             Log.InfoFormat(CultureInfo.CurrentCulture,
                 "Writing \"{0}\".", filePath);
             using (var writer = new StreamWriter(filePath))
             {
-                var view = new TView
+                var page = new Page
                 {
                     Writer = writer,
+                    GlobalNamespace = null,
                     OutputDirectoryAbsolutePath = outputDirectory,
-                    ViewAbsolutePath = filePath,
-                    Model = model
+                    Body = new TView
+                    {
+                        Model = model,
+                        GlobalNamespace = null,
+                        OutputDirectoryAbsolutePath = outputDirectory
+                    }
                 };
-                view.Execute();
+
+                page.Execute();
             }
         }
 

@@ -118,6 +118,7 @@
     <Compile Include="DocNetStatus.cs" />
     <Compile Include="IDocNetController.cs" />
     <Compile Include="Output\Html\Views\BaseTemplate.cs" />
+    <Compile Include="Output\Html\Views\BodyTemplate.cs" />
     <Compile Include="Output\Html\Views\DelegateDetail.generated.cs">
       <DependentUpon>DelegateDetail.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -143,6 +144,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Output\Html\Views\Page.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Page.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\Html\Views\PageTemplate.cs" />
     <Compile Include="Output\Html\Views\PropertyDetail.generated.cs">
       <DependentUpon>PropertyDetail.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -237,13 +244,16 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ConstructorDetail.generated.cs</LastGenOutput>
     </None>
+    <None Include="Output\Html\Views\Page.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Page.generated.cs</LastGenOutput>
+    </None>
     <None Include="Output\Html\Views\PropertyDetail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PropertyDetail.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Views\StructDetail.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>StructDetail.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Views\InterfaceDetail.cshtml">
       <Generator>RazorGenerator</Generator>

@@ -16,22 +16,34 @@ namespace DocNet.Razor.Views
     using System.Linq;
     using System.Text;
     
-    #line 2 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-    using DocNet.Core.Models.CSharp;
-    
-    #line default
-    #line hidden
-    
-    #line 3 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+    #line 2 "..\..\Output\Html\Views\Page.cshtml"
     using DocNet.Core.Output.Html.Views;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class ConstructorDetail : BodyTemplate<ConstructorModel>
+    public partial class Page : PageTemplate
     {
 #line hidden
+#line hidden
+public System.Web.WebPages.HelperResult RenderBody()
+{
+return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+
+
+
+#line 7 "..\..\Output\Html\Views\Page.cshtml"
+ 
+    Body.Execute();
+
+#line default
+#line hidden
+
+});
+
+}
+
 
         public override void Execute()
         {
@@ -41,19 +53,20 @@ WriteLiteral("\r\n");
 
 
 
+WriteLiteral("\r\n\r\n");
 
-WriteLiteral("\r\n<p>Constructor: ");
+
+
+WriteLiteral("\r\n\r\n<h1>Title</h1>\r\n");
 
 
             
-            #line 6 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-           Write(Model.Name);
+            #line 12 "..\..\Output\Html\Views\Page.cshtml"
+Write(RenderBody());
 
             
             #line default
             #line hidden
-WriteLiteral("</p>");
-
 
         }
     }
