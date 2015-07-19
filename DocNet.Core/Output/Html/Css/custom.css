@@ -6,6 +6,9 @@
 .link {
 	cursor: pointer;
 }
+#head {
+	color: #1C7EFF;
+}
 .page-header{
 	background-color: #EEEEEE;
 }
