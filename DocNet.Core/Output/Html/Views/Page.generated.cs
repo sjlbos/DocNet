@@ -78,12 +78,13 @@ WriteLiteral(@"
 <body>
     <div class=""container-fluid main"">
         <div class=""page-header row"">
-            <div class=""col-md-2""><h1>DocNet</h1></div>
-            <div class=""col-md-10"">
+            <div class=""col-md-3"">
+                <h1>Doc<span id=""head"">Net</span></h1></div>
+            <div class=""col-md-9"">
             </div>
         </div>
         <div class=""row main"">
-            <div class=""col-md-2 sidebar"">
+            <div class=""col-md-3 sidebar"">
                 <h2>Sidebar</h2>
                 <div id=""over"">
                     <ol>
@@ -91,18 +92,18 @@ WriteLiteral(@"
 
 
             
-            #line 28 "..\..\Output\Html\Views\Page.cshtml"
+            #line 29 "..\..\Output\Html\Views\Page.cshtml"
                    Write(PageHelper.RenderSidebar());
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n                    </ol>\r\n                </div>\r\n            </div>\r\n        " +
-"    <div class=\"col-md-10 content\">\r\n                ");
+"    <div class=\"col-md-9 content\">\r\n                ");
 
 
             
-            #line 33 "..\..\Output\Html\Views\Page.cshtml"
+            #line 34 "..\..\Output\Html\Views\Page.cshtml"
            Write(RenderBody());
 
             
