@@ -19,7 +19,7 @@ namespace DocNet.Console
         [Option('o', "output", HelpText = "The output directory where the program will store generated documentation.", Required = true)]
         public string OutputDirectory { get; set; }
 
-        [OptionList('i', "input", Separator = ' ', Required = true, HelpText = "Paths to program input files or directories (mode dependent).")]
+        [OptionList('i', "input", Separator = ',', Required = true, HelpText = "Paths to program input files or directories (mode dependent).")]
         public IList<string> InputPaths { get; set; }
     }
 }

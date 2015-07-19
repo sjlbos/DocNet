@@ -32,6 +32,8 @@ namespace DocNet.Console
                 Log.Info(GetHelpMessage(programArgs));
                 return (int) DocNetStatus.Success;
             }
+
+            programArgs.InputPaths = RemoveInitialWhitespacefromPaths(programArgs.InputPaths);
                 
             if (programArgs.DirectoryModeSpecified)
                 programArgs.InputPaths = GetCsFileListFromDirectoryList(programArgs.InputPaths, programArgs.UseRecursiveSearch);
@@ -123,6 +125,15 @@ namespace DocNet.Console
         private static string GetHelpMessage(ProgramArguments args)
         {
             return CommandLine.Text.HelpText.AutoBuild(args);
+        }
+
+        private static IList<string> RemoveInitialWhitespacefromPaths(IList<string> inputPaths)
+        {
+            for (int i = 0; i < inputPaths.Count(); i++)
+            {
+                inputPaths[i] = inputPaths[i].Trim();
+            }
+            return inputPaths;
         }
     
         #endregion

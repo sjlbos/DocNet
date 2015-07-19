@@ -84,12 +84,14 @@ namespace DocNet.Core
                 Log.Fatal(ex.Message);
                 return ex.Status;
             }
-            catch(InvalidFileTypeException)
+            catch(InvalidFileTypeException ex)
             {
+                Log.Debug(ex);
                 return DocNetStatus.InvalidInputPath;
             }
-            catch(CsParsingException)
+            catch(CsParsingException ex)
             {
+                Log.Debug(ex);
                 return DocNetStatus.ParsingError;
             }
 
