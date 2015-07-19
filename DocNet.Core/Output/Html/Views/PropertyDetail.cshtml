@@ -1,56 +1,38 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
+@using DocNet.Razor.Helpers
+@using DocNet.Core.Models.Comments.Xml
 @inherits BaseTemplate<PropertyModel>
 
-<p><h1>Property: Filename</h1></p>
+<p><h1>@Model.FullName</h1></p>
 
 <!--Type
     Summary
-    Exceptions
     Remarks
     Examples
     See Also-->
 
 <!--Type-->
-<p><h2>Type: String</h2></p>
+<p><h2>Type: @Model.TypeName</h2></p>
 
 <!--Summary-->
-<p>The name of the input file.</p>
-
-<!--Exceptions-->
-<p>
-    <h3>Exceptions</h3>
-    <table cellpadding="10">
-        <tr>
-            <td>FileNotFoundException</td>
-            <td>The file specified by the input filename does not exist.</td>
-        </tr>
-        <tr>
-            <td>BullshitException</td>
-            <td>Exists solely because I want 2 items under every category</td>
-        </tr>
-    </table>
-</p>
+<p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
 
 <!--Remarks-->
 <p>
     <h3>Remarks</h3>
-    This is entirely unremarkable.
+    @{CommentTag.RenderRemarks(Model.DocComment.Remarks);}
 </p>
 
 <!--Example-->
 <p>
     <h3>Example</h3>
-    The following snippet demonstrates usage of the property.
-    <br /><br />
-    Filestream fs = File.Open(filename, FileMode.Open);
+    @{CommentTag.RenderExample(Model.DocComment.Example);}
 </p>
 
 <!--See Also-->
 <p>
     <h3>See Also</h3>
-    <b>Reference</b><br />
-    This page<br />
-    This other page
+    @{CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);}
 </p>
