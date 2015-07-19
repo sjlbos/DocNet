@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using DocNet.Core.Models.CSharp;
 using DocNet.Core.Output.Html.Views;
 using DocNet.Razor.Views;
@@ -17,14 +18,17 @@ namespace DocNet.Core.Output.Html
 
 
         private static readonly string MarkupFileDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Export");
-        private readonly IEnumerable<string> _markupFilesToExport; 
+        
+        private readonly IEnumerable<string> _cssFiles;
+        private readonly IEnumerable<string> _scriptFiles; 
 
         public HtmlDocumentationGenerator(IEnumerable<string> markupFilesToExport)
         {
             if(markupFilesToExport == null)
                 throw new ArgumentNullException("markupFilesToExport");
 
-            _markupFilesToExport = markupFilesToExport;
+            _cssFiles = markupFilesToExport.Where(name => name.EndsWith(".css", StringComparison.Ordinal));
+            _scriptFiles = markupFilesToExport.Where(name => name.EndsWith(".js", StringComparison.Ordinal));
         }
 
         public void GenerateDocumentation(NamespaceModel globalNamespace, string outputDirectory)
@@ -43,14 +47,23 @@ namespace DocNet.Core.Output.Html
         private void CopyExportFilesToDirectory(string outputDirectory)
         {
             Log.Debug("Copying .css and .js files to output directory.");
-            foreach(var fileName in _markupFilesToExport)
+            foreach(var fileName in _cssFiles)
             {
-                string sourcePath = Path.Combine(MarkupFileDirectoryPath, fileName);
-                string destPath = Path.Combine(outputDirectory, fileName);
-                Log.DebugFormat(CultureInfo.CurrentCulture,
-                    "Copying \"{0}\" to \"{1}\".", sourcePath, destPath);
-                File.Copy(sourcePath, destPath, true);
+                CopyExportFileToDirectory(fileName, outputDirectory);
             }
+            foreach (var fileName in _scriptFiles)
+            {
+                CopyExportFileToDirectory(fileName, outputDirectory);
+            }
+        }
+
+        private void CopyExportFileToDirectory(string fileName, string outputDirectory)
+        {
+            string sourcePath = Path.Combine(MarkupFileDirectoryPath, fileName);
+            string destPath = Path.Combine(outputDirectory, fileName);
+            Log.DebugFormat(CultureInfo.CurrentCulture,
+                "Copying \"{0}\" to \"{1}\".", sourcePath, destPath);
+            File.Copy(sourcePath, destPath, true);
         }
 
         private void ProcessNamespace(NamespaceModel currentNamespace, string outputDirectory)
@@ -206,7 +219,8 @@ namespace DocNet.Core.Output.Html
             }
         }
 
-        private static void WriteView<TView, TModel>(string fileName, string outputDirectory, TModel model) where TView:BodyTemplate<TModel>, new()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        private void WriteView<TView, TModel>(string fileName, string outputDirectory, TModel model) where TView:BodyTemplate<TModel>, new()
         {
             string filePath = Path.Combine(outputDirectory, fileName);
             Log.InfoFormat(CultureInfo.CurrentCulture,
@@ -218,6 +232,8 @@ namespace DocNet.Core.Output.Html
                     Writer = writer,
                     GlobalNamespace = null,
                     OutputDirectoryAbsolutePath = outputDirectory,
+                    ScriptFiles = _scriptFiles,
+                    CssFiles = _cssFiles,
                     Body = new TView
                     {
                         Model = model,

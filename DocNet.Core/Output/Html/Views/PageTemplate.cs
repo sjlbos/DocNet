@@ -16,7 +16,8 @@ namespace DocNet.Core.Output.Html.Views
             set
             {
                 _body = value;
-                _body.Writer = Writer;
+                if(_body != null)
+                    _body.Writer = Writer;
             }
         }
 
