@@ -96,6 +96,11 @@
       <DependentUpon>CommentTag.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Output\Html\Helpers\GetDeclaration.cs" />
+    <Compile Include="Output\Html\Helpers\PageHelper.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PageHelper.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Output\Html\HtmlDocumentationGenerator.cs" />
     <Compile Include="Models\Comments\DocComment.cs" />
     <Compile Include="Models\Comments\InterfaceDocComment.cs" />
@@ -188,6 +193,11 @@
     <Compile Include="Models\VisualStudio\SolutionModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Output\Html\Css\Bootstrap\bootstrap-theme.css" />
+    <Content Include="Output\Html\Css\Bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Output\Html\Css\Bootstrap\bootstrap.css" />
+    <Content Include="Output\Html\Css\Bootstrap\bootstrap.min.css" />
+    <Content Include="Output\Html\Css\Custom\custom.css" />
     <Content Include="Output\Html\Css\Highlight\arta.css" />
     <Content Include="Output\Html\Css\Highlight\ascetic.css" />
     <Content Include="Output\Html\Css\Highlight\brown_paper.css" />
@@ -217,13 +227,25 @@
     <Content Include="Output\Html\Css\Highlight\vs.css" />
     <Content Include="Output\Html\Css\Highlight\xcode.css" />
     <Content Include="Output\Html\Css\Highlight\zenburn.css" />
+    <Content Include="Output\Html\Javascript\Bootstrap\bootstrap.js" />
+    <Content Include="Output\Html\Javascript\Bootstrap\bootstrap.min.js" />
+    <Content Include="Output\Html\Javascript\Bootstrap\collapse.js" />
+    <Content Include="Output\Html\Javascript\Bootstrap\npm.js" />
+    <Content Include="Output\Html\Javascript\Custom\custom.js" />
     <Content Include="Output\Html\Javascript\Highlight\highlight.pack.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Output\Html\Css\Bootstrap\bootstrap-theme.css.map" />
+    <None Include="Output\Html\Css\Bootstrap\bootstrap.css.map" />
     <None Include="Output\Html\Helpers\CommentTag.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CommentTag.generated.cs</LastGenOutput>
     </None>
+    <None Include="Output\Html\Helpers\PageHelper.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PageHelper.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Javascript\JQuery\jquery-1.9.1.min.map" />
     <None Include="Output\Html\Views\DelegateDetail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DelegateDetail.generated.cs</LastGenOutput>
@@ -278,6 +300,9 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.intellisense.js" />
+    <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.js" />
+    <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />

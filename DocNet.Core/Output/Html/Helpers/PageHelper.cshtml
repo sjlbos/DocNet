@@ -1,0 +1,25 @@
+﻿@*Generator: WebPagesHelper GeneratePrettyNames: true Namespace: DocNet.Razor.Helpers *@
+@using System.Collections.Generic
+
+
+
+@helper RenderHead(IEnumerable<string> includedCss, IEnumerable<string> includedScripts)
+{
+    <head>
+        <meta charset="utf-8">
+        @foreach (var cssFile in includedCss)
+        {
+            <link href="@(cssFile)" rel="stylesheet"/>
+        }
+        @foreach (var jsFile in includedScripts)
+        {
+            <script src="@(jsFile)"></script>
+        }
+        <title>DocNet Output</title>
+    </head>
+}
+
+@helper RenderSidebar()
+{
+    <br/><br/><br/><br/><br/><br/>
+}

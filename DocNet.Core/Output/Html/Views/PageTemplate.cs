@@ -1,12 +1,15 @@
 ﻿
+using System.Collections.Generic;
 using System.IO;
 
 namespace DocNet.Core.Output.Html.Views
 {
     public abstract class PageTemplate : BaseTemplate
     {
-        private BodyTemplate _body;
+        public IEnumerable<string> CssFiles { get; set; }
+        public IEnumerable<string> ScriptFiles { get; set; } 
 
+        private BodyTemplate _body;
         public BodyTemplate Body
         {
             get { return _body; }
