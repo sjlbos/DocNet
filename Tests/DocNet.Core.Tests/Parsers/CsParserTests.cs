@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using DocNet.Core.Parsers.CSharp;
 using DocNet.Core.Models.CSharp;
@@ -14,6 +13,7 @@ namespace DocNet.Core.Tests.Parsers
         private static readonly string SimpleMultiNamespaceFile = Path.Combine(TestFileDirectory, "SimpleMultiNamespaceFile.cs");
         private static readonly string NestedElementFile = Path.Combine(TestFileDirectory, "NestedElementFile.cs");
         private static readonly string PartialElementFile = Path.Combine(TestFileDirectory, "PartialElementFile.cs");
+        private static readonly string DuplicateSignatureFile = Path.Combine(TestFileDirectory, "ClassWithDuplicateSignatures.cs");
 
         [Test]
         public void TestGetNamespaceTreesReturnsAllNamepsaces()
@@ -148,6 +148,22 @@ namespace DocNet.Core.Tests.Parsers
             Assert.That(structBaz.InheritanceList, Has.Count.EqualTo(2));
             Assert.That(structBaz.Methods, Has.Count.EqualTo(4));
             Assert.That(structBaz.Properties, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void TestInterfacesWithDuplicateMethodSignaturesAreParsedCorrectly()
+        {
+            // Arrange
+            string inputCode = File.ReadAllText(DuplicateSignatureFile);
+            var parser = new CsTextParser();
+
+            // Act
+            var returnedNamespace = parser.GetGlobalNamespace(inputCode);
+
+            // Assert
+            Assert.That(returnedNamespace.Classes, Has.Count.EqualTo(1));
+            Assert.That(returnedNamespace.Classes[0].Methods, Has.Count.EqualTo(2));
+            Assert.That(returnedNamespace.Classes[0].Properties.Count.Equals(2));
         }
     }
 }

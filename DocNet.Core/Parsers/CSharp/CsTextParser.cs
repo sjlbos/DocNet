@@ -301,9 +301,13 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if(node == null) throw new ArgumentNullException("node");
 
+            string methodName = (node.ExplicitInterfaceSpecifier != null)
+                ? node.ExplicitInterfaceSpecifier + node.Identifier.Text
+                : node.Identifier.Text;
+
             var newMethod = new MethodModel
             {
-                Name = node.Identifier.Text,
+                Name = methodName,
                 DocComment = GetCommentFromNode<MethodDocComment>(node),
                 Parameters = GetParameterList(node.ParameterList.Parameters),
                 ReturnType = node.ReturnType.ToString(),
@@ -321,9 +325,13 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if(node == null) throw new ArgumentNullException("node");
 
+            string propertyName = (node.ExplicitInterfaceSpecifier != null)
+                ? node.ExplicitInterfaceSpecifier + "." + node.Identifier.Text
+                : node.Identifier.Text;
+
             var newProperty = new PropertyModel
             {
-                Name = node.Identifier.Text,
+                Name = propertyName,
                 TypeName = node.Type.ToString(),
                 DocComment = GetCommentFromNode<PropertyDocComment>(node)
             };

@@ -23,6 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocNet.Core.Tests", "Tests\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestData", "TestData", "{BD13E37E-243C-4551-A5EF-C2DD7A85E8C8}"
 	ProjectSection(SolutionItems) = preProject
+		Tests\TestData\ClassWithDuplicateSignatures.cs = Tests\TestData\ClassWithDuplicateSignatures.cs
 		Tests\TestData\NestedElementFile.cs = Tests\TestData\NestedElementFile.cs
 		Tests\TestData\PartialElementFile.cs = Tests\TestData\PartialElementFile.cs
 		Tests\TestData\SimpleMultiNamespaceFile.cs = Tests\TestData\SimpleMultiNamespaceFile.cs
