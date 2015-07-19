@@ -14,8 +14,8 @@ namespace DocNet.Core.Models.CSharp
                 var outputString = Name;
                 if (Parameters != null && Parameters.Any())
                 {
-                    outputString += ":";
-                    outputString += String.Join(",", Parameters.Select(p => p.TypeName));
+                    outputString += "_";
+                    outputString += String.Join("_", Parameters.Select(p => p.TypeName));
                 }
                 return outputString;
             }

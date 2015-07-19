@@ -15,11 +15,9 @@ namespace DocNet.Core
 {
     public class DocNetController : IDocNetController
     {
-        private const string RootFolderName = "html";
+        private static readonly ILog Log = LogManager.GetLogger(typeof(DocNetController));
 
         private readonly ControllerConfiguration _config;
-
-        private readonly ILog _log;
         private ISolutionParser _solutionParser;
         private IProjectParser _projectParser;
         private ICsParser _csParser;
@@ -33,20 +31,19 @@ namespace DocNet.Core
                 throw new ArgumentNullException("config");
 
             _config = config;
-            _log = LogManager.GetLogger(typeof(DocNetController));
         }
 
         public DocNetStatus Execute()
         {
-            _log.Info(String.Empty);
-            _log.Info("DocNet started...");
+            Log.Info(String.Empty);
+            Log.Info("DocNet started...");
 
             try
             {
                 // Read in configuration
                 UnpackAndValidateConfig();
 
-                _outputDirectoryPath = Path.Combine(_outputDirectoryPath, RootFolderName);
+                _outputDirectoryPath = Path.Combine(_outputDirectoryPath, _config.RootDirectoryName);
 
                 // Delete existing output directory
                 var purgeResult = PurgeOutputDirectory();
@@ -58,33 +55,33 @@ namespace DocNet.Core
 
                 // Get list of unque input files
                 var uniqueInputFileList = GetCsFileList();
-                _log.Info(String.Empty);
-                _log.Info("Documentation will be generated using the following input files:");
+                Log.Info(String.Empty);
+                Log.Info("Documentation will be generated using the following input files:");
                 foreach(var filePath in uniqueInputFileList)
                 {
-                    _log.Info("    " + filePath);
+                    Log.Info("    " + filePath);
                 }
 
                 // Parse each input file
                 var globalNamespace = new NamespaceModel();
-                _log.Info(String.Empty);
+                Log.Info(String.Empty);
                 foreach(var filePath in uniqueInputFileList)
                 {
-                    _log.InfoFormat("Parsing \"{0}\".", filePath);
+                    Log.InfoFormat("Parsing \"{0}\".", filePath);
                     ParseCsFile(filePath, globalNamespace);
                 }
 
                 // Generate documentation
-                _log.Info("\nGenerating documentation...");
+                Log.Info("\nGenerating documentation...");
                 _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
-                _log.Info("Documentation generation complete.");
-                _log.Info(String.Empty);
-                _log.Info("Thank you for using DocNet!");
+                Log.Info("Documentation generation complete.");
+                Log.Info(String.Empty);
+                Log.Info("Thank you for using DocNet!");
             }
             catch(ConfigurationException ex)
             {
-                _log.Debug(ex);
-                _log.Fatal(ex.Message);
+                Log.Debug(ex);
+                Log.Fatal(ex.Message);
                 return ex.Status;
             }
             catch(InvalidFileTypeException)
@@ -144,7 +141,7 @@ namespace DocNet.Core
                         }
                         break;
                     default:
-                        _log.ErrorFormat(CultureInfo.CurrentCulture,
+                        Log.ErrorFormat(CultureInfo.CurrentCulture,
                             "Input path \"{0}\" is a valid file type.", inputPath);
                         throw new InvalidFileTypeException(inputPath);
                 }
@@ -160,7 +157,7 @@ namespace DocNet.Core
                 var duplicates = inputPaths.Except(uniquePaths);
                 foreach (var duplicate in duplicates)
                 {
-                    _log.WarnFormat(CultureInfo.CurrentCulture,
+                    Log.WarnFormat(CultureInfo.CurrentCulture,
                         "Duplicate input file \"{0}\" will be skipped.", duplicate);
                 }
             }
@@ -173,36 +170,36 @@ namespace DocNet.Core
             {
                 if(Directory.Exists(_outputDirectoryPath))
                 {
-                    _log.InfoFormat(CultureInfo.CurrentCulture,
+                    Log.InfoFormat(CultureInfo.CurrentCulture,
                         "Purging output directory \"{0}\".", _outputDirectoryPath);
                     Directory.Delete(_outputDirectoryPath, true);
                 }
             }
             catch(UnauthorizedAccessException ex)
             {
-                _log.Error("Access denied on output directory.");
-                _log.Debug(ex);
+                Log.Error("Access denied on output directory.");
+                Log.Debug(ex);
                 return DocNetStatus.UnreachableInputPath;
             }
             catch(ArgumentException ex)
             {
-                _log.Error("Output path contains invalid characters.");
-                _log.Debug(ex);
+                Log.Error("Output path contains invalid characters.");
+                Log.Debug(ex);
                 return DocNetStatus.InvalidOutputPath;
             }
             catch(PathTooLongException ex)
             {
-                _log.Error("Output path is too long.");
-                _log.Debug(ex);
+                Log.Error("Output path is too long.");
+                Log.Debug(ex);
                 return DocNetStatus.InvalidOutputPath;
             }
             catch(IOException ex)
             {
-                _log.ErrorFormat(CultureInfo.CurrentCulture,
+                Log.ErrorFormat(CultureInfo.CurrentCulture,
                     "Unable to delete output directory \"{0}\". The folder may be in use by another process.",
                     _outputDirectoryPath
                     );
-                _log.Debug(ex);
+                Log.Debug(ex);
                 return DocNetStatus.UnreachableOutputPath;
             }
 
@@ -213,45 +210,45 @@ namespace DocNet.Core
         {
             try
             {
-                _log.InfoFormat(CultureInfo.CurrentCulture,
+                Log.InfoFormat(CultureInfo.CurrentCulture,
                     "Creating output directory \"{0}\".", _outputDirectoryPath);
                 Directory.CreateDirectory(_outputDirectoryPath);
                 return DocNetStatus.Success;
             }
             catch (UnauthorizedAccessException ex)
             {
-                _log.Error("Access denied on output directory.");
-                _log.Debug(ex);
+                Log.Error("Access denied on output directory.");
+                Log.Debug(ex);
                 return DocNetStatus.UnreachableOutputPath;
             }
             catch (ArgumentException ex)
             {
-                _log.Error("Output path contains invalid characters.");
-                _log.Debug(ex);
+                Log.Error("Output path contains invalid characters.");
+                Log.Debug(ex);
                 return DocNetStatus.InvalidOutputPath;
             }
             catch (NotSupportedException ex)
             {
-                _log.Error("Output path contains invalid characters.");
-                _log.Debug(ex);
+                Log.Error("Output path contains invalid characters.");
+                Log.Debug(ex);
                 return DocNetStatus.InvalidOutputPath;
             }
             catch (PathTooLongException ex)
             {
-                _log.Error("Output path is too long.");
-                _log.Debug(ex);
+                Log.Error("Output path is too long.");
+                Log.Debug(ex);
                 return DocNetStatus.InvalidOutputPath;
             }
             catch (DirectoryNotFoundException ex)
             {
-                _log.Error("Part of the output path could not be found.");
-                _log.Debug(ex);
+                Log.Error("Part of the output path could not be found.");
+                Log.Debug(ex);
                 return DocNetStatus.InvalidOutputPath;
             }
             catch (IOException ex)
             {
-                _log.Error("Output path points to a file or unrecognized network.");
-                _log.Debug(ex);
+                Log.Error("Output path points to a file or unrecognized network.");
+                Log.Debug(ex);
                 return DocNetStatus.InvalidOutputPath;
             }
         }

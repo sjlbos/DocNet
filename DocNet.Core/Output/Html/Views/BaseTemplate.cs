@@ -7,7 +7,7 @@ namespace DocNet.Core.Output.Html.Views
     {
         public TextWriter Writer { get; set; }
         public T Model { get; set; }
-        public string RootDirectoryAbsolutePath { get; set; }
+        public string OutputDirectoryAbsolutePath { get; set; }
         public string ViewAbsolutePath { get; set; }
 
         public abstract void Execute();

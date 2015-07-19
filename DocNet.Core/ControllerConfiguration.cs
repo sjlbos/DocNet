@@ -7,7 +7,6 @@ using DocNet.Core.Exceptions;
 using DocNet.Core.Output;
 using DocNet.Core.Parsers.CSharp;
 using DocNet.Core.Parsers.VisualStudio;
-using log4net;
 
 namespace DocNet.Core
 {
@@ -17,6 +16,8 @@ namespace DocNet.Core
         public IProjectParser ProjectParser { get; set; }
         public ICsParser CsParser { get; set; }
         public IDocumentationGenerator DocumentationGenerator { get; set; }
+        public string RootDirectoryName { get; set; }
+
         public string OutputDirectoryPath { get; set; }
         public IEnumerable<string> InputFilePaths { get; set; }
 
@@ -30,6 +31,8 @@ namespace DocNet.Core
                 throw new ConfigurationException("C# parser is null.", DocNetStatus.InternalError);
             if(DocumentationGenerator == null)
                 throw new ConfigurationException("Documentation generator is null.", DocNetStatus.InternalError);
+            if(String.IsNullOrWhiteSpace(RootDirectoryName))
+                throw new ConfigurationException("Root directory name is not specified.", DocNetStatus.InvalidOutputPath);
 
             ValidateOutputDirectory();
             ValidateInputFilePaths();

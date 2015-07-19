@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using log4net;
 using CommandLine;
@@ -46,12 +47,21 @@ namespace DocNet.Console
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 
+        private const string DefaultRootDirectoryName = "DocNet";
+
         private readonly ControllerConfiguration _config;
 
         public Program(ProgramArguments args)
         {
             if(args == null)
                 throw new ArgumentNullException("args");
+
+            var exportedFileConfig = (FileListConfigurationSection)ConfigurationManager.GetSection("exportedMarkupFiles");
+            var exportedFileList = new List<string>();
+            foreach(var fileElement in exportedFileConfig.Files)
+            {
+                exportedFileList.Add(((FileElement)fileElement).Name);
+            }
 
             string currentDirectoryPath = Directory.GetCurrentDirectory();
 
@@ -61,9 +71,10 @@ namespace DocNet.Console
                 SolutionParser = new OnionSolutionParserWrapper(projectParser),
                 ProjectParser = projectParser,
                 CsParser = new CsTextParser(),
-                DocumentationGenerator = new HtmlDocumentationGenerator(),
+                DocumentationGenerator = new HtmlDocumentationGenerator(exportedFileList),
                 OutputDirectoryPath = MakePathAbsolute(currentDirectoryPath, args.OutputDirectory),
-                InputFilePaths = args.InputPaths.Select(p => MakePathAbsolute(currentDirectoryPath, p))
+                InputFilePaths = args.InputPaths.Select(p => MakePathAbsolute(currentDirectoryPath, p)),
+                RootDirectoryName = ConfigurationManager.AppSettings["RootDirectoryName"] ?? DefaultRootDirectoryName
             };
         }
 

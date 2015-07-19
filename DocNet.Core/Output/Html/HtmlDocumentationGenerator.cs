@@ -1,16 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using DocNet.Core.Models.CSharp;
 using DocNet.Core.Output.Html.Views;
 using DocNet.Razor.Views;
+using log4net;
 
 namespace DocNet.Core.Output.Html
 {
     public class HtmlDocumentationGenerator : IDocumentationGenerator
     {
-        private const string NamespaceFileName = "index.html";
+        private static readonly ILog Log = LogManager.GetLogger(typeof(HtmlDocumentationGenerator));
 
-        private string _rootOutputDirectory;
+        private const string RootFileName = "index.html";
+
+
+        private static readonly string MarkupFileDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Export");
+        private readonly IEnumerable<string> _markupFilesToExport; 
+
+        public HtmlDocumentationGenerator(IEnumerable<string> markupFilesToExport)
+        {
+            if(markupFilesToExport == null)
+                throw new ArgumentNullException("markupFilesToExport");
+
+            _markupFilesToExport = markupFilesToExport;
+        }
 
         public void GenerateDocumentation(NamespaceModel globalNamespace, string outputDirectory)
         {
@@ -19,27 +34,35 @@ namespace DocNet.Core.Output.Html
             if(!Directory.Exists(outputDirectory))
                 throw new DirectoryNotFoundException(outputDirectory);
 
-            _rootOutputDirectory = outputDirectory;
-
+            CopyExportFilesToDirectory(outputDirectory);
             ProcessNamespace(globalNamespace, outputDirectory);
         }
 
         #region Helper Methods
 
+        private void CopyExportFilesToDirectory(string outputDirectory)
+        {
+            Log.Debug("Copying .css and .js files to output directory.");
+            foreach(var fileName in _markupFilesToExport)
+            {
+                string sourcePath = Path.Combine(MarkupFileDirectoryPath, fileName);
+                string destPath = Path.Combine(outputDirectory, fileName);
+                Log.DebugFormat(CultureInfo.CurrentCulture,
+                    "Copying \"{0}\" to \"{1}\".", sourcePath, destPath);
+                File.Copy(sourcePath, destPath, true);
+            }
+        }
+
         private void ProcessNamespace(NamespaceModel currentNamespace, string outputDirectory)
         {
             // Create namespace file
-            string namespaceDetailFilePath = Path.Combine(outputDirectory, NamespaceFileName);
-            WriteView<NamespaceDetail, NamespaceModel>(namespaceDetailFilePath, currentNamespace);
+            string namespaceFileName = currentNamespace.FullName != null ? currentNamespace.FullName + ".html" : RootFileName;
+            WriteView<NamespaceDetail, NamespaceModel>(namespaceFileName, outputDirectory, currentNamespace);
 
             // Process Child Namespaces
             foreach (var childNamespace in currentNamespace.ChildNamespaces)
             {
-                // Make namespace directory
-                string namespaceDirectoryPath = Path.Combine(outputDirectory, childNamespace.Name);
-                Directory.CreateDirectory(namespaceDirectoryPath);
-
-                ProcessNamespace(childNamespace, namespaceDirectoryPath);
+                ProcessNamespace(childNamespace, outputDirectory);
             }
 
             // Process Child Interfaces
@@ -75,16 +98,16 @@ namespace DocNet.Core.Output.Html
 
         private void ProcessInterface(InterfaceModel interfaceModel, string outputDirectory)
         {
-            string interfaceFilePath = Path.Combine(outputDirectory, interfaceModel.FullName + ".html");
-            WriteView<InterfaceDetail, InterfaceModel>(interfaceFilePath, interfaceModel);
+            string interfaceFileName = interfaceModel.FullName + ".html";
+            WriteView<InterfaceDetail, InterfaceModel>(interfaceFileName, outputDirectory, interfaceModel);
 
             ProcessInterfaceMembers(interfaceModel, outputDirectory);
         }
 
         private void ProcessClass(ClassModel classModel, string outputDirectory)
         {
-            string classFilePath = Path.Combine(outputDirectory, classModel.FullName + ".html");
-            WriteView<ClassDetail, ClassModel>(classFilePath, classModel);
+            string classFileName = classModel.FullName + ".html";
+            WriteView<ClassDetail, ClassModel>(classFileName, outputDirectory, classModel);
 
             ProcessInterfaceMembers(classModel, outputDirectory);
             ProcessClassAndStructMembers(classModel, outputDirectory);
@@ -92,8 +115,8 @@ namespace DocNet.Core.Output.Html
 
         private void ProcessStruct(StructModel structModel, string outputDirectory)
         {
-            string structFilePath = Path.Combine(outputDirectory, structModel.Name + ".html");
-            WriteView<StructDetail, StructModel>(structFilePath, structModel);
+            string structFileName = structModel.FullName + ".html";
+            WriteView<StructDetail, StructModel>(structFileName, outputDirectory, structModel);
 
             ProcessInterfaceMembers(structModel, outputDirectory);
             ProcessClassAndStructMembers(structModel, outputDirectory);
@@ -101,32 +124,32 @@ namespace DocNet.Core.Output.Html
 
         private void ProcessEnum(EnumModel enumModel, string outputDirectory)
         {
-            string enumFilePath = Path.Combine(outputDirectory, enumModel.Name + ".html");
-            WriteView<EnumDetail, EnumModel>(enumFilePath, enumModel);
+            string enumFileName = enumModel.FullName + ".html";
+            WriteView<EnumDetail, EnumModel>(enumFileName, outputDirectory, enumModel);
         }
 
         private void ProcessDelegate(DelegateModel delegateModel, string outputDirectory)
         {
-            string delegateFilePath = Path.Combine(outputDirectory, delegateModel.Name + ".html");
-            WriteView<DelegateDetail, DelegateModel>(delegateFilePath, delegateModel);
+            string delegateFileName = delegateModel.FullName + ".html";
+            WriteView<DelegateDetail, DelegateModel>(delegateFileName, outputDirectory, delegateModel);
         }
 
         private void ProcessConstructor(ConstructorModel constructorModel, string outputDirectory)
         {
-            string constructorFilePath = Path.Combine(outputDirectory, constructorModel.Name + ".html");
-            WriteView<ConstructorDetail, ConstructorModel>(constructorFilePath, constructorModel);
+            string constructorFileName = constructorModel.FullName + ".html";
+            WriteView<ConstructorDetail, ConstructorModel>(constructorFileName, outputDirectory, constructorModel);
         }
 
         private void ProcessMethod(MethodModel methodModel, string outputDirectory)
         {
-            string methodFilePath = Path.Combine(outputDirectory, methodModel.Name + ".html");
-            WriteView<MethodDetail, MethodModel>(methodFilePath, methodModel);
+            string methodFileName = methodModel.FullName + ".html";
+            WriteView<MethodDetail, MethodModel>(methodFileName, outputDirectory, methodModel);
         }
 
         private void ProcessProperty(PropertyModel propertyModel, string outputDirectory)
         {
-            string propertyFilePath = Path.Combine(outputDirectory, propertyModel.Name + ".html");
-            WriteView<PropertyDetail, PropertyModel>(propertyFilePath, propertyModel);
+            string propertyFileName = propertyModel.FullName + ".html";
+            WriteView<PropertyDetail, PropertyModel>(propertyFileName, outputDirectory, propertyModel);
         }
 
         private void ProcessInterfaceMembers(InterfaceBase model, string outputDirectory)
@@ -183,14 +206,17 @@ namespace DocNet.Core.Output.Html
             }
         }
 
-        private void WriteView<TView, TModel>(string filePath, TModel model) where TView:BaseTemplate<TModel>, new()
+        private static void WriteView<TView, TModel>(string fileName, string outputDirectory, TModel model) where TView:BaseTemplate<TModel>, new()
         {
+            string filePath = Path.Combine(outputDirectory, fileName);
+            Log.InfoFormat(CultureInfo.CurrentCulture,
+                "Writing \"{0}\".", filePath);
             using (var writer = new StreamWriter(filePath))
             {
                 var view = new TView
                 {
                     Writer = writer,
-                    RootDirectoryAbsolutePath = _rootOutputDirectory,
+                    OutputDirectoryAbsolutePath = outputDirectory,
                     ViewAbsolutePath = filePath,
                     Model = model
                 };

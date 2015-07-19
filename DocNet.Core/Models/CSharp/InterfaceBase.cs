@@ -70,7 +70,10 @@ namespace DocNet.Core.Models.CSharp
 
         public override string UniqueName
         {
-            get { return Name + 
+            get
+            {
+                if(Name == null) return null;
+                return Name + 
                 ((TypeParameters != null && TypeParameters.Any()) 
                     ?  TypeParameters.Count().ToString(CultureInfo.InvariantCulture) 
                     : String.Empty); 
