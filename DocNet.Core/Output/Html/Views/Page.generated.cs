@@ -76,8 +76,8 @@ Write(PageHelper.RenderHead(CssFiles, ScriptFiles));
             #line hidden
 WriteLiteral(@"
 <body>
-    <div class=""container-fluid main"">
-        <div class=""page-header row"">
+    <div class=""container-fluid"">
+        <div class=""page-head row"">
             <div class=""col-md-3"">
                 <h1>Doc<span id=""head"">Net</span></h1></div>
             <div class=""col-md-9"">
