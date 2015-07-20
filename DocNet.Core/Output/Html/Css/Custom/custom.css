@@ -25,7 +25,7 @@
 	padding-left: 15px;
 	padding-right: 15px;
 	background-color: white;
-	flex: 1;
+	flex: 1 0 auto;
 }
 
 .sidebar {
@@ -44,7 +44,7 @@
 	background-color: white;
 	border-radius: 5px;
 	padding: 5px;
-	flex: 1;
+	flex: 1 0 auto;
 }
 
 #side-well{
@@ -55,7 +55,7 @@
 	background-color: white;
 	width: 320px;
 	display: flex;
-	flex 1;
+	flex 1 0 auto;
 	flex-direction: column;
 }
 
@@ -76,7 +76,7 @@ html {
 
 .main {
   	display: flex;
-  	flex: 1;
+  	flex: 1 0 auto;
   	flex-direction: row;
 }
 
@@ -91,7 +91,7 @@ h1 {
 
 .flex-body {
 	display: flex;
-	flex: 1;
+	flex: 1 0 auto;
 	flex-direction: column;
 	min-height: 100vh;
 }
