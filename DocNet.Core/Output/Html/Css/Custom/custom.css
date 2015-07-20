@@ -8,30 +8,22 @@
 	cursor: pointer;
 }
 
-#head {
-	color: #1C7EFF;
-}
-
 .page-head{
-	background-color: blue; #EEEEEE;
 	padding: 15px;
-	border-bottom: 1px solid #EEE;
 	flex 1 1 100%;
 }
 
 .content{
-	padding-top: 1em;	
-	padding-bottom: 3em;
-	padding-left: 15px;
-	padding-right: 15px;
-	background-color: white;
-	flex: 1 0 auto;
+	padding: 15px;
+	margin-right: 15px;
+	margin-bottom: 3em;
+	border-radius: 5px;
+	flex: 1 0 auto;	
+	box-shadow: 0px 0px 5px 3px #AAAAAA inset;
 }
 
 .sidebar {
-	border-right: 1px solid #EEEEEE;
-	background-color: #E2E2E2;
-	padding: 15px 15px 3em 15px;
+	padding: 0px 15px 3em 15px;
 	flex: 0 0 350px;
 	display: flex;
 	flex-direction: row;
@@ -41,18 +33,16 @@
 	overflow-x: scroll;
 	overflow-y: auto;
 	white-space: nowrap;
-	background-color: white;
 	border-radius: 5px;
-	padding: 5px;
+	padding: 0px 5px 5px;;
 	flex: 1 0 auto;
 }
 
 #side-well{
-	padding: 8px;
+	padding: 0px 8px 5px;
 	padding-bottom: 5px;
-	box-shadow: 0px 0px 5px 3px #DDDDDD inset;	
+	box-shadow: 0px 0px 5px 3px #AAAAAA inset;	
 	border-radius: 5px;
-	background-color: white;
 	width: 320px;
 	display: flex;
 	flex 1 0 auto;
@@ -80,10 +70,6 @@ html {
   	flex-direction: row;
 }
 
-body {
-  	background-color: green; #EEEEEE;
-}
-
 h1 {
 	margin-top: auto;
 	margin-bottom: auto;
@@ -101,7 +87,6 @@ h1 {
   	bottom: 0;
   	width: 100%;
   	height: 2em;
-  	background-color: red; #e2e2e2;
   	text-align: center;
 }
 

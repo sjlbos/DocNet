@@ -75,38 +75,39 @@ Write(PageHelper.RenderHead(CssFiles, ScriptFiles));
             #line default
             #line hidden
 WriteLiteral(@"
-<body>
+<body class=""primary"">
     <div class=""flex-body"">
-        <div class=""page-head"">
-            <div><h1>Doc<span id=""head"">Net</span></h1></div>
+        <div class=""page-head primary"">
+            <div><h1><span id=""head1"">Doc</span><span id=""head2"">Net</span></h1></div>
         </div>
         <div class=""main"">
-            <div class=""sidebar"">
-                <div id=""side-well"">
+            <div class=""sidebar primary"">
+                <div id=""side-well"" class=""normal"">
                     <div id=""over"">
+                        <h2>Hierarchy</h2>
                         ");
 
 
             
-            #line 25 "..\..\Output\Html\Views\Page.cshtml"
+            #line 26 "..\..\Output\Html\Views\Page.cshtml"
                    Write(PageHelper.RenderSidebar());
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                    </div>\r\n                </div>\r\n             </div>\r\n      " +
-"       <div class=\"content\">\r\n                 ");
+WriteLiteral("\r\n                    </div>\r\n                </div>\r\n            </div>\r\n       " +
+"     <div class=\"content normal\">\r\n                ");
 
 
             
-            #line 30 "..\..\Output\Html\Views\Page.cshtml"
-            Write(RenderBody());
+            #line 31 "..\..\Output\Html\Views\Page.cshtml"
+           Write(RenderBody());
 
             
             #line default
             #line hidden
 WriteLiteral(@"
-             </div>
+            </div>
         </div>
         <footer class=""footer"">
             <div class=""container"">
