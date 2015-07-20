@@ -14,9 +14,9 @@ namespace DocNet.Core.Output.Html
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(HtmlDocumentationGenerator));
 
-        private const string RootFileName = "index.html";
-
-
+        private const string OutputFileExtension = ".html";
+        private const string RootFileName = "index" + OutputFileExtension;
+        
         private static readonly string MarkupFileDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Export");
         
         private readonly IEnumerable<string> _cssFiles;
@@ -40,6 +40,15 @@ namespace DocNet.Core.Output.Html
 
             CopyExportFilesToDirectory(outputDirectory);
             ProcessNamespace(globalNamespace, outputDirectory);
+        }
+
+        public string GetFileNameForCsElement(CsElement element)
+        {
+            if (element == null)
+                throw new ArgumentNullException("element");
+            if (element.FullName == null) 
+                throw new ArgumentException("CsElement has null name property.");
+            return SanitizeOutputFileName(element.FullName) + OutputFileExtension;
         }
 
         #region Helper Methods
@@ -69,7 +78,7 @@ namespace DocNet.Core.Output.Html
         private void ProcessNamespace(NamespaceModel currentNamespace, string outputDirectory)
         {
             // Create namespace file
-            string namespaceFileName = currentNamespace.FullName != null ? currentNamespace.FullName + ".html" : RootFileName;
+            string namespaceFileName = currentNamespace.FullName != null ? GetFileNameForCsElement(currentNamespace) : RootFileName;
             WriteView<NamespaceDetail, NamespaceModel>(namespaceFileName, outputDirectory, currentNamespace);
 
             // Process Child Namespaces
@@ -111,7 +120,7 @@ namespace DocNet.Core.Output.Html
 
         private void ProcessInterface(InterfaceModel interfaceModel, string outputDirectory)
         {
-            string interfaceFileName = interfaceModel.FullName + ".html";
+            string interfaceFileName = GetFileNameForCsElement(interfaceModel);
             WriteView<InterfaceDetail, InterfaceModel>(interfaceFileName, outputDirectory, interfaceModel);
 
             ProcessInterfaceMembers(interfaceModel, outputDirectory);
@@ -119,7 +128,7 @@ namespace DocNet.Core.Output.Html
 
         private void ProcessClass(ClassModel classModel, string outputDirectory)
         {
-            string classFileName = classModel.FullName + ".html";
+            string classFileName = GetFileNameForCsElement(classModel);
             WriteView<ClassDetail, ClassModel>(classFileName, outputDirectory, classModel);
 
             ProcessInterfaceMembers(classModel, outputDirectory);
@@ -128,7 +137,7 @@ namespace DocNet.Core.Output.Html
 
         private void ProcessStruct(StructModel structModel, string outputDirectory)
         {
-            string structFileName = structModel.FullName + ".html";
+            string structFileName = GetFileNameForCsElement(structModel);
             WriteView<StructDetail, StructModel>(structFileName, outputDirectory, structModel);
 
             ProcessInterfaceMembers(structModel, outputDirectory);
@@ -137,31 +146,31 @@ namespace DocNet.Core.Output.Html
 
         private void ProcessEnum(EnumModel enumModel, string outputDirectory)
         {
-            string enumFileName = enumModel.FullName + ".html";
+            string enumFileName = GetFileNameForCsElement(enumModel);
             WriteView<EnumDetail, EnumModel>(enumFileName, outputDirectory, enumModel);
         }
 
         private void ProcessDelegate(DelegateModel delegateModel, string outputDirectory)
         {
-            string delegateFileName = delegateModel.FullName + ".html";
+            string delegateFileName = GetFileNameForCsElement(delegateModel);
             WriteView<DelegateDetail, DelegateModel>(delegateFileName, outputDirectory, delegateModel);
         }
 
         private void ProcessConstructor(ConstructorModel constructorModel, string outputDirectory)
         {
-            string constructorFileName = constructorModel.FullName + ".html";
+            string constructorFileName = GetFileNameForCsElement(constructorModel);
             WriteView<ConstructorDetail, ConstructorModel>(constructorFileName, outputDirectory, constructorModel);
         }
 
         private void ProcessMethod(MethodModel methodModel, string outputDirectory)
         {
-            string methodFileName = methodModel.FullName + ".html";
+            string methodFileName = GetFileNameForCsElement(methodModel);
             WriteView<MethodDetail, MethodModel>(methodFileName, outputDirectory, methodModel);
         }
 
         private void ProcessProperty(PropertyModel propertyModel, string outputDirectory)
         {
-            string propertyFileName = propertyModel.FullName + ".html";
+            string propertyFileName = GetFileNameForCsElement(propertyModel);
             WriteView<PropertyDetail, PropertyModel>(propertyFileName, outputDirectory, propertyModel);
         }
 
@@ -222,7 +231,7 @@ namespace DocNet.Core.Output.Html
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void WriteView<TView, TModel>(string fileName, string outputDirectory, TModel model) where TView:BodyTemplate<TModel>, new()
         {
-            string filePath = SanitizeOutputFileName(Path.Combine(outputDirectory, fileName));
+            string filePath = Path.Combine(outputDirectory, fileName);
             Log.InfoFormat(CultureInfo.CurrentCulture,
                 "Writing \"{0}\".", filePath);
             using (var writer = new StreamWriter(filePath))
