@@ -222,7 +222,7 @@ namespace DocNet.Core.Output.Html
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void WriteView<TView, TModel>(string fileName, string outputDirectory, TModel model) where TView:BodyTemplate<TModel>, new()
         {
-            string filePath = Path.Combine(outputDirectory, fileName);
+            string filePath = SanitizeOutputFileName(Path.Combine(outputDirectory, fileName));
             Log.InfoFormat(CultureInfo.CurrentCulture,
                 "Writing \"{0}\".", filePath);
             using (var writer = new StreamWriter(filePath))
@@ -244,6 +244,13 @@ namespace DocNet.Core.Output.Html
 
                 page.Execute();
             }
+        }
+
+        private static string SanitizeOutputFileName(string fileName)
+        {
+            return fileName
+                    .Replace('<', '{')
+                    .Replace('>', '}');
         }
 
         #endregion
