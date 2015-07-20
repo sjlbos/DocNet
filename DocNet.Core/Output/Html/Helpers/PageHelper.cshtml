@@ -9,17 +9,41 @@
         <meta charset="utf-8">
         @foreach (var cssFile in includedCss)
         {
-            <link href="@(cssFile)" rel="stylesheet"/>
+        <link href="@(cssFile)" rel="stylesheet"/>
         }
         @foreach (var jsFile in includedScripts)
         {
-            <script src="@(jsFile)"></script>
+        <script src="@(jsFile)"></script>
         }
+        <script>hljs.initHighlightingOnLoad();</script>
         <title>DocNet Output</title>
     </head>
 }
 
 @helper RenderSidebar()
 {
-    <br/><br/><br/><br/><br/><br/>
+    @*
+
+        var count = 0; //To make the individual sections hide correctly
+        var inTree = ""; //To expand the tree down to the current page
+        var glyph = "right"; //To match the glyphicon to the expanded sections
+
+        <div id="over"><ol>
+        @foreach (int item in hierarchy){
+            if( item == parent){
+                if(view == childOfItem){
+                    inTree = " in";
+                    glyph = "down";
+                }
+
+                <li>
+                    <div class="expand link" onclick="hide(this, @(count))"><span class="glyphicon glyphicon-menu-@(glyph)" aria-hidden="true"></span></div><a href="@(itemPath)">@(item)</a>
+                <ol class="collapse@(inTree)" id="collapse@(count)"></ol></li>
+                count = count + 1;
+            }
+            else{
+                <li><span class="expand"></span><a href="@(itemPath)">@(item)</a></li>
+            }
+        }
+    </ol></div>*@
 }

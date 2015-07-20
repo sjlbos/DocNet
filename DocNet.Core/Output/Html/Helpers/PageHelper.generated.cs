@@ -56,7 +56,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <head>\r\n        <meta charset=\"ut
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "            <link href=\"");
+WriteLiteralTo(@__razor_helper_writer, "        <link href=\"");
 
 
 
@@ -85,7 +85,7 @@ WriteLiteralTo(@__razor_helper_writer, "\" rel=\"stylesheet\"/>\r\n");
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "            <script src=\"");
+WriteLiteralTo(@__razor_helper_writer, "        <script src=\"");
 
 
 
@@ -105,11 +105,12 @@ WriteLiteralTo(@__razor_helper_writer, "\"></script>\r\n");
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "        <title>DocNet Output</title>\r\n    </head>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "        <script>hljs.initHighlightingOnLoad();</script>\r\n        <title>DocNet Ou" +
+"tput</title>\r\n    </head>\r\n");
 
 
 
-#line 20 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+#line 21 "..\..\Output\Html\Helpers\PageHelper.cshtml"
 
 #line default
 #line hidden
@@ -125,37 +126,16 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 23 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+#line 24 "..\..\Output\Html\Helpers\PageHelper.cshtml"
  
-
+    
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <br/>");
 
 
-
-WriteLiteralTo(@__razor_helper_writer, "<br/>");
-
-
-
-WriteLiteralTo(@__razor_helper_writer, "<br/>");
-
-
-
-WriteLiteralTo(@__razor_helper_writer, "<br/>");
-
-
-
-WriteLiteralTo(@__razor_helper_writer, "<br/>");
-
-
-
-WriteLiteralTo(@__razor_helper_writer, "<br/>\r\n");
-
-
-
-#line 25 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+#line 48 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+                 
 
 #line default
 #line hidden

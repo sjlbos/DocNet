@@ -21,6 +21,7 @@
 }
 
 .content{
+	padding-top: 1em;	
 	padding-bottom: 2em;
 	border-left: 1px solid #EEEEEE;
 	background-color: white;
