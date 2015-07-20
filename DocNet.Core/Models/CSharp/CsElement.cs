@@ -4,7 +4,7 @@ namespace DocNet.Core.Models.CSharp
 {
     public abstract class CsElement : IEquatable<CsElement>
     {
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
         public abstract string UniqueName { get; }
         public abstract string FullName { get; }
 

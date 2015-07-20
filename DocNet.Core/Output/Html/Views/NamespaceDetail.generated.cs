@@ -29,7 +29,7 @@ namespace DocNet.Razor.Views
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class NamespaceDetail : BodyTemplate<NamespaceModel>
+    public partial class NamespaceDetail : BodyTemplate<NamespaceBase>
     {
 #line hidden
 

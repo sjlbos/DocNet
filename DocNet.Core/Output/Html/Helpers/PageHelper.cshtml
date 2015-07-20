@@ -1,5 +1,9 @@
 ﻿@*Generator: WebPagesHelper GeneratePrettyNames: true Namespace: DocNet.Razor.Helpers *@
 @using System.Collections.Generic
+@using System.Linq
+@using DocNet.Core.Exceptions
+@using DocNet.Core.Models.CSharp
+@using DocNet.Core.Output.Html
 
 
 
@@ -20,30 +24,41 @@
     </head>
 }
 
-@helper RenderSidebar()
+@helper RenderSidebar(GlobalNamespaceModel globalNamespace, INestableElement currentViewModel)
 {
-    @*
+    <div id="over">
+        @RenderParentElement(globalNamespace, currentViewModel, 0)
+    </div>
+}
 
-        var count = 0; //To make the individual sections hide correctly
-        var inTree = ""; //To expand the tree down to the current page
-        var glyph = "right"; //To match the glyphicon to the expanded sections
+@helper RenderParentElement(IParentElement parent, INestableElement currentViewModel, int nestingLevel)
+{
+    var sortedChildren = parent.OrderBy(child => child.UniqueName);
+    bool isExpanded = parent.HasDescendant(currentViewModel);
 
-        <div id="over"><ol>
-        @foreach (int item in hierarchy){
-            if( item == parent){
-                if(view == childOfItem){
-                    inTree = " in";
-                    glyph = "down";
-                }
+    var parentElement = parent as CsElement;
+    if (parentElement == null)
+    {
+        throw new DocumentationGenerationException("Parent element is not a CsElement.");
+    }
 
-                <li>
-                    <div class="expand link" onclick="hide(this, @(count))"><span class="glyphicon glyphicon-menu-@(glyph)" aria-hidden="true"></span></div><a href="@(itemPath)">@(item)</a>
-                <ol class="collapse@(inTree)" id="collapse@(count)"></ol></li>
-                count = count + 1;
-            }
-            else{
-                <li><span class="expand"></span><a href="@(itemPath)">@(item)</a></li>
-            }
+    <ul>
+        <li>
+            <div class="expand link" onclick="hide(this, @nestingLevel)"><span class="glyphicon glyphicon-menu-@(isExpanded ? "down" : "right")" aria-hidden="true"></span></div><a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement)">@parentElement.UniqueName</a>
+            <ul class="collapse@(isExpanded ? "in" : "")" id="collapse@nestingLevel"></ul>
+        </li>
+    </ul>
+
+
+    foreach (var child in sortedChildren)
+    {
+        if (child is IParentElement)
+        {
+            @RenderParentElement(child as IParentElement, currentViewModel, nestingLevel + 1)
         }
-    </ol></div>*@
+        else
+        {
+            <li><span class="expand"></span><a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.UniqueName</a></li>
+        }
+    }
 }

@@ -80,16 +80,18 @@
     </Compile>
     <Compile Include="ControllerConfiguration.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
+    <Compile Include="Exceptions\DocumentationGenerationException.cs" />
     <Compile Include="Exceptions\IllegalChildElementException.cs" />
     <Compile Include="Exceptions\InvalidFileTypeException.cs" />
     <Compile Include="Exceptions\NamingCollisionException.cs" />
     <Compile Include="Models\CSharp\ClassAndStructBase.cs" />
     <Compile Include="Models\CSharp\CsElement.cs" />
     <Compile Include="Models\CSharp\CsType.cs" />
-    <Compile Include="Models\CSharp\ICsParentElement.cs" />
+    <Compile Include="Models\CSharp\GlobalNamespaceModel.cs" />
+    <Compile Include="Models\CSharp\IParentElement.cs" />
     <Compile Include="Models\CSharp\InterfaceBase.cs" />
-    <Compile Include="Models\CSharp\NamespaceElement.cs" />
-    <Compile Include="Models\CSharp\NestableCsElement.cs" />
+    <Compile Include="Models\CSharp\NamespaceBase.cs" />
+    <Compile Include="Models\CSharp\INestableElement.cs" />
     <Compile Include="Output\Html\Helpers\CommentTag.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

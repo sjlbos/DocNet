@@ -36,7 +36,7 @@ namespace DocNet.Core.Tests.Parsers
             string inputCode = File.ReadAllText(NestedElementFile);
             var parser = new CsTextParser();
             
-            var expectedGlobalNamespace = new NamespaceModel();
+            var expectedGlobalNamespace = new GlobalNamespaceModel();
             
             var topLevelNamespace = new NamespaceModel { Name = "N1" };
             expectedGlobalNamespace.AddChild(topLevelNamespace);

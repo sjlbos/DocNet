@@ -8,7 +8,7 @@ namespace DocNet.Core.Output.Html.Views
     {
         public virtual TextWriter Writer { get; set; }
         public string OutputDirectoryAbsolutePath { get; set; }
-        public NamespaceModel GlobalNamespace { get; set; }
+        public GlobalNamespaceModel GlobalNamespace { get; set; }
 
         public abstract void Execute();
 

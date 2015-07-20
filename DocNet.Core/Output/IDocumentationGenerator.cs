@@ -5,6 +5,6 @@ namespace DocNet.Core.Output
 {
     public interface IDocumentationGenerator
     {
-        void GenerateDocumentation(NamespaceModel globalNamespace, string outputDirectory);
+        void GenerateDocumentation(GlobalNamespaceModel globalNamespace, string outputDirectory);
     }
 }
