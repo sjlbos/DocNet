@@ -87,7 +87,8 @@
   <PropertyGroup>
     <PostBuildEvent>if not exist "$(TargetDir)Export" mkdir "$(TargetDir)Export";
 for /r "$(SolutionDir)DocNet.Core\Output\Html\Javascript" %25%25q in (*.js) do copy /Y "%25%25q" "$(TargetDir)Export";
-for /r "$(SolutionDir)DocNet.Core\Output\Html\Css" %25%25q in (*.css) do copy /Y "%25%25q" "$(TargetDir)Export";</PostBuildEvent>
+for /r "$(SolutionDir)DocNet.Core\Output\Html\Css" %25%25q in (*.css) do copy /Y "%25%25q" "$(TargetDir)Export";
+for /r "$(SolutionDir)DocNet.Core\Output\Html\fonts" %25%25q in (*.*) do copy /Y "%25%25q" "$(TargetDir)Export";</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
