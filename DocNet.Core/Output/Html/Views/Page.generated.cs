@@ -76,48 +76,44 @@ Write(PageHelper.RenderHead(CssFiles, ScriptFiles));
             #line hidden
 WriteLiteral(@"
 <body>
-    <div class=""container-fluid"">
-        <div class=""page-head row"">
-            <div class=""col-md-3"">
-                <h1>Doc<span id=""head"">Net</span></h1></div>
-            <div class=""col-md-9"">
-            </div>
+    <div class=""flex-body"">
+        <div class=""page-head"">
+            <div><h1>Doc<span id=""head"">Net</span></h1></div>
         </div>
-        <div class=""row main"">
-            <div class=""col-md-3 sidebar"">
-                <h2>Sidebar</h2>
-                <div id=""over"">
-                    <ol>
+        <div class=""main"">
+            <div class=""sidebar"">
+                <div id=""side-well"">
+                    <div id=""over"">
                         ");
 
 
             
-            #line 29 "..\..\Output\Html\Views\Page.cshtml"
+            #line 25 "..\..\Output\Html\Views\Page.cshtml"
                    Write(PageHelper.RenderSidebar());
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                    </ol>\r\n                </div>\r\n            </div>\r\n        " +
-"    <div class=\"col-md-9 content\">\r\n                ");
+WriteLiteral("\r\n                    </div>\r\n                </div>\r\n             </div>\r\n      " +
+"       <div class=\"content\">\r\n                 ");
 
 
             
-            #line 34 "..\..\Output\Html\Views\Page.cshtml"
-           Write(RenderBody());
+            #line 30 "..\..\Output\Html\Views\Page.cshtml"
+            Write(RenderBody());
 
             
             #line default
             #line hidden
 WriteLiteral(@"
+             </div>
+        </div>
+        <footer class=""footer"">
+            <div class=""container"">
+                <p class=""text-muted"">DocNet was created by Stephen Bos, Scott Byrne, Chris Carr, and Keith Rollans.</p>
             </div>
-        </div>
+        </footer>
     </div>
-    <footer class=""footer"">
-        <div class=""container"">
-            <p class=""text-muted"">DocNet was created by Stephen Bos, Scott Byrne, Chris Carr, and Keith Rollans.</p>
-        </div>
-    </footer>
 </body>
 
 </html>
