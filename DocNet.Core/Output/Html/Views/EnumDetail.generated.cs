@@ -74,8 +74,8 @@ WriteLiteral("\r\n<p>Enum: ");
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n\r\n<!--Members-->\r\n<p>\r\n    <h3>Members</h3>\r\n    <table cellpadding=\"10\">\r\n" +
-"");
+WriteLiteral("</p>\r\n\r\n<!--Members-->\r\n<p>\r\n    <h3>Members</h3>\r\n    <table class=\"table table-" +
+"bordered table-hover\">\r\n");
 
 
             

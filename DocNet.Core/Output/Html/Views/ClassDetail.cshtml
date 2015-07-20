@@ -24,7 +24,7 @@
 <!--Constructors-->
 <p>
     <h3>Constructors</h3>
-    <table cellpadding="10">
+    <table class="table table-bordered table-hover">
         @foreach(ConstructorModel c in Model.Constructors){
             <tr>
                 <td>@c.Name</td>
@@ -37,7 +37,7 @@
 <!--Properties-->
 <p>
     <h3>Properties</h3>
-    <table cellpadding="10">
+    <table class="table table-bordered table-hover">
         @foreach (PropertyModel p in Model.Properties){
             <tr>
                 <td>@p.Name</td>
@@ -50,7 +50,7 @@
 <!--Methods-->
 <p>
     <h3>Methods</h3>
-    <table cellpadding="10">
+    <table class="table table-bordered table-hover">
         @foreach (MethodModel m in Model.Methods){
             <tr>
                 <td>@m.Name</td>

@@ -81,8 +81,8 @@ WriteLiteral("\r\n<p><h1>");
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n\r\n<!--Type Parameters-->\r\n<p>\r\n    <h3>Type Parameters</h3>\r\n    <table cel" +
-"lpadding=\"10\">\r\n");
+WriteLiteral("</p>\r\n\r\n<!--Type Parameters-->\r\n<p>\r\n    <h3>Type Parameters</h3>\r\n    <table cla" +
+"ss=\"table table-bordered table-hover\">\r\n");
 
 
             
@@ -126,13 +126,13 @@ WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Returns-->\r\n<p>\r\n    <h3>Retur
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n\r\n<!--Parameters-->\r\n<p>\r\n    <h3>Parameters</h3>\r\n    <table cellpadding=\"" +
-"10\">\r\n");
+WriteLiteral("</p>\r\n\r\n<!--Parameters-->\r\n<p>\r\n    <h3>Parameters</h3>\r\n    <table class=\"table " +
+"table-bordered table-hover\">\r\n");
 
 
             
             #line 41 "..\..\Output\Html\Views\MethodDetail.cshtml"
-         foreach(ParameterTag p in Model.DocComment.Parameters){
+         foreach (ParameterTag p in Model.DocComment.Parameters){
 
             
             #line default
@@ -162,7 +162,7 @@ WriteLiteral("</tr>\r\n");
             #line default
             #line hidden
 WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Exceptions-->\r\n<p>\r\n    <h3>Exceptions</h3>\r\n    <table" +
-" cellpadding=\"10\">\r\n");
+" class=\"table table-bordered table-hover\">\r\n");
 
 
             

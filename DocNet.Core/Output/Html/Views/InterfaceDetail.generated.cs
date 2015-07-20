@@ -74,7 +74,8 @@ WriteLiteral("\r\n<p>Interface: ");
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n\r\n<!--Methods-->\r\n<p>\r\n    <table cellpadding=\"10\">\r\n");
+WriteLiteral("</p>\r\n\r\n<!--Methods-->\r\n<p>\r\n    <table class=\"table table-bordered table-hover\">" +
+"\r\n");
 
 
             

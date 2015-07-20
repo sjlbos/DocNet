@@ -74,8 +74,8 @@ WriteLiteral("\r\n<p>Struct: ");
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n\r\n<!--Constructors-->\r\n<p>\r\n    <h3>Constructors</h3>\r\n    <table cellpaddi" +
-"ng=\"10\">\r\n");
+WriteLiteral("</p>\r\n\r\n<!--Constructors-->\r\n<p>\r\n    <h3>Constructors</h3>\r\n    <table class=\"ta" +
+"ble table-bordered table-hover\">\r\n");
 
 
             
@@ -115,8 +115,8 @@ WriteLiteral("</td>\r\n            </tr>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Methods-->\r\n<p>\r\n    <h3>Methods</h3>\r\n    <table cellp" +
-"adding=\"10\">\r\n");
+WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Methods-->\r\n<p>\r\n    <h3>Methods</h3>\r\n    <table class" +
+"=\"table table-bordered table-hover\">\r\n");
 
 
             

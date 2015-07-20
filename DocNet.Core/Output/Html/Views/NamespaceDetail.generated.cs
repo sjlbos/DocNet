@@ -66,8 +66,8 @@ WriteLiteral("\r\n<!--Name-->\r\n<p><h1>");
             
             #line default
             #line hidden
-WriteLiteral("</h1></p>\r\n\r\n<!--Classes-->\r\n<p>\r\n    <h3>Classes</h3>\r\n    <table cellpadding=\"1" +
-"0\">\r\n");
+WriteLiteral("</h1></p>\r\n\r\n<!--Classes-->\r\n<p>\r\n    <h3>Classes</h3>\r\n    <table class=\"table t" +
+"able-bordered table-hover\">\r\n");
 
 
             
@@ -112,7 +112,7 @@ WriteLiteral("</td>\r\n            </tr>\r\n");
             #line default
             #line hidden
 WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Structures-->\r\n<p>\r\n    <h3>Structures</h3>\r\n    <table" +
-" cellpadding=\"10\">\r\n");
+" class=\"table table-bordered table-hover\">\r\n");
 
 
             
@@ -157,7 +157,7 @@ WriteLiteral("</td>\r\n            </tr>\r\n");
             #line default
             #line hidden
 WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Delegates-->\r\n<p>\r\n    <h3>Delegates</h3>\r\n    <table c" +
-"ellpadding=\"10\">\r\n");
+"lass=\"table table-bordered table-hover\">\r\n");
 
 
             
@@ -202,7 +202,7 @@ WriteLiteral("</td>\r\n            </tr>\r\n");
             #line default
             #line hidden
 WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Enumerations-->\r\n<p>\r\n    <h3>Enumerations</h3>\r\n    <t" +
-"able cellpadding=\"10\">\r\n");
+"able class=\"table table-bordered table-hover\">\r\n");
 
 
             
