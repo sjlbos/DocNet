@@ -18,7 +18,8 @@ namespace DocNet.Core.Output.Html
         private const string RootFileName = "index" + OutputFileExtension;
         
         private static readonly string MarkupFileDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Export");
-        
+
+        private readonly IEnumerable<string> _allExportedFiles; 
         private readonly IEnumerable<string> _cssFiles;
         private readonly IEnumerable<string> _scriptFiles; 
 
@@ -27,6 +28,7 @@ namespace DocNet.Core.Output.Html
             if(markupFilesToExport == null)
                 throw new ArgumentNullException("markupFilesToExport");
 
+            _allExportedFiles = markupFilesToExport;
             _cssFiles = markupFilesToExport.Where(name => name.EndsWith(".css", StringComparison.Ordinal));
             _scriptFiles = markupFilesToExport.Where(name => name.EndsWith(".js", StringComparison.Ordinal));
         }
@@ -55,14 +57,10 @@ namespace DocNet.Core.Output.Html
 
         private void CopyExportFilesToDirectory(string outputDirectory)
         {
-            Log.Debug("Copying .css and .js files to output directory.");
-            foreach(var fileName in _cssFiles)
+            Log.Debug("Copying exported files to output directory.");
+            foreach (var file in _allExportedFiles)
             {
-                CopyExportFileToDirectory(fileName, outputDirectory);
-            }
-            foreach (var fileName in _scriptFiles)
-            {
-                CopyExportFileToDirectory(fileName, outputDirectory);
+                CopyExportFileToDirectory(file, outputDirectory);
             }
         }
 
