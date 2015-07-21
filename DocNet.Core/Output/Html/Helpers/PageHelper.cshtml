@@ -26,11 +26,11 @@
 
 @helper RenderSidebar(GlobalNamespaceModel globalNamespace, CsElement currentViewModel)
 {
-    var sortedChilren = globalNamespace.OrderBy(child => child.DisplayName);
+    var sortedChildren = globalNamespace.OrderBy(child => child.DisplayName);
     <div id="over">
         <h2>Hierarchy</h2>
         <ul>
-            @RenderChildList(sortedChilren, true, currentViewModel)
+            @RenderChildList(sortedChildren, true, currentViewModel)
         </ul>    
     </div>
 }
@@ -40,6 +40,7 @@
     var sortedChildren = parent.OrderBy(child => child.DisplayName);
     bool hasChildren = sortedChildren.Any();    
     bool isExpanded = (parent == currentViewModel) || parent.HasDescendant(currentViewModel as INestableElement);
+    bool isCurrentView = (parent == currentViewModel);
 
     var parentElement = parent as CsElement;
     if (parentElement == null)
@@ -58,7 +59,7 @@
                 <span class="expand"></span>
             }            
         </div>
-        <a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement)">@parentElement.DisplayName</a>
+        <a class="side-link@(isCurrentView ? " current" : "")" href="@HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement)">@parentElement.DisplayName</a>
         @if(hasChildren)
         {
             @RenderChildList(sortedChildren, isExpanded, currentViewModel)
@@ -72,13 +73,14 @@
 
         @foreach (var child in children)
         {
+            bool isCurrentView = (child == currentViewModel);
             if (child is IParentElement)
             {
                 @RenderParentElement(child as IParentElement, currentViewModel)
             }
             else
             {
-                <li><span class="expand"></span><a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.DisplayName</a></li>
+                <li><span class="expand"></span><a class="side-link@(isCurrentView ? " current" : "")" href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.DisplayName</a></li>
             }
         }
     </ul>
