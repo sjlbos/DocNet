@@ -1,13 +1,8 @@
-function hide(obj, num) {	
-	useID = '#collapse' + num;
-	
-	if(obj.innerHTML == '<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>'){
-		obj.innerHTML = '<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>';
-		$(useID).collapse('toggle');
-	}
-	
-	else {
-		obj.innerHTML = '<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>';
-		$(useID).collapse('toggle');
-	}
+function ToggleSidebarNode(clicked) {
+    var node = $(clicked);
+    var glyph = node.find("span");
+    glyph.toggleClass("glyphicon-menu-right");
+    glyph.toggleClass("glyphicon-menu-down");
+    var childList = node.siblings(".child-list");
+    childList.collapse('toggle');
 }

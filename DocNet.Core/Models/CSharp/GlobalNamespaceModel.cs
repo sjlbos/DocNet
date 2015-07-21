@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
 
 namespace DocNet.Core.Models.CSharp
 {
@@ -16,7 +15,7 @@ namespace DocNet.Core.Models.CSharp
 
         public override string UniqueName
         {
-            get { return String.Empty; }
+            get { return "::global"; }
         }
 
         public override string FullName

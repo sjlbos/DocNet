@@ -49,7 +49,7 @@ namespace DocNet.Core.Output.Html
             _outputDirectory = outputDirectory;
 
             CopyExportFilesToDirectory(_outputDirectory);
-            ProcessNamespace(globalNamespace);
+            ProcessNamespace(_globalNamespace);
         }
 
         public static string GetFileNameForCsElement(CsElement element)

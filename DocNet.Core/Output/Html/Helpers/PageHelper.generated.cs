@@ -118,7 +118,7 @@ WriteTo(@__razor_helper_writer, jsFile);
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "\"></script>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "\" type=\"text/javascript\"></script>\r\n");
 
 
 
@@ -143,7 +143,7 @@ WriteLiteralTo(@__razor_helper_writer, "        <script>hljs.initHighlightingOnL
 }
 
 
-public static System.Web.WebPages.HelperResult RenderSidebar(GlobalNamespaceModel globalNamespace, INestableElement currentViewModel)
+public static System.Web.WebPages.HelperResult RenderSidebar(GlobalNamespaceModel globalNamespace, CsElement currentViewModel)
 {
 return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
@@ -151,25 +151,26 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 #line 28 "..\..\Output\Html\Helpers\PageHelper.cshtml"
  
+    var sortedChilren = globalNamespace.OrderBy(child => child.UniqueName);
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <div id=\"over\">\r\n        <h2>Hierarchy</h2>\r\n        ");
-
-
-
-#line 31 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-WriteTo(@__razor_helper_writer, RenderParentElement(globalNamespace, currentViewModel, 0));
-
-#line default
-#line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "    <div id=\"over\">\r\n        <h2>Hierarchy</h2>\r\n        <ul>\r\n            ");
 
 
 
 #line 33 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+WriteTo(@__razor_helper_writer, RenderChildList(sortedChilren, true, currentViewModel));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "\r\n        </ul>    \r\n    </div>\r\n");
+
+
+
+#line 36 "..\..\Output\Html\Helpers\PageHelper.cshtml"
 
 #line default
 #line hidden
@@ -179,16 +180,17 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 }
 
 
-public static System.Web.WebPages.HelperResult RenderParentElement(IParentElement parent, INestableElement currentViewModel, int nestingLevel)
+public static System.Web.WebPages.HelperResult RenderParentElement(IParentElement parent, CsElement currentViewModel)
 {
 return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 36 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+#line 39 "..\..\Output\Html\Helpers\PageHelper.cshtml"
  
     var sortedChildren = parent.OrderBy(child => child.UniqueName);
-    bool isExpanded = parent.HasDescendant(currentViewModel);
+    bool hasChildren = sortedChildren.Any();    
+    bool isExpanded = (parent == currentViewModel) || parent.HasDescendant(currentViewModel as INestableElement);
 
     var parentElement = parent as CsElement;
     if (parentElement == null)
@@ -200,33 +202,55 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <ul>\r\n        <li>\r\n            <div class=\"expand link\" onclick=\"hide(this, " +
-"");
+WriteLiteralTo(@__razor_helper_writer, "    <li>\r\n        <div class=\"expand link\" onclick=\"ToggleSidebarNode(this)\">\r\n");
 
 
 
-#line 48 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                          WriteTo(@__razor_helper_writer, nestingLevel);
-
-#line default
-#line hidden
-
-WriteLiteralTo(@__razor_helper_writer, ")\"><span class=\"glyphicon glyphicon-menu-");
-
-
-
-#line 48 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                                                                                 WriteTo(@__razor_helper_writer, isExpanded ? "down" : "right");
+#line 52 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+             if(hasChildren)
+            {
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "\" aria-hidden=\"true\"></span></div><a href=\"");
+WriteLiteralTo(@__razor_helper_writer, "                <span class=\"glyphicon ");
 
 
 
-#line 48 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                                                                                                                                                           WriteTo(@__razor_helper_writer, HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement));
+#line 54 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+         WriteTo(@__razor_helper_writer, isExpanded ? "glyphicon-menu-down" : "glyphicon-menu-right");
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "\"></span>\r\n");
+
+
+
+#line 55 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+            }
+            else
+            {
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "                <span class=\"expand\"></span>\r\n");
+
+
+
+#line 59 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+            }            
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "        </div>\r\n        <a href=\"");
+
+
+
+#line 61 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+WriteTo(@__razor_helper_writer, HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement));
 
 #line default
 #line hidden
@@ -235,60 +259,110 @@ WriteLiteralTo(@__razor_helper_writer, "\">");
 
 
 
-#line 48 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                                                                                                                                                                                                                               WriteTo(@__razor_helper_writer, parentElement.UniqueName);
+#line 61 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+                                                      WriteTo(@__razor_helper_writer, parentElement.UniqueName);
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "</a>\r\n            <ul class=\"collapse");
+WriteLiteralTo(@__razor_helper_writer, "</a>\r\n");
 
 
 
-#line 49 "..\..\Output\Html\Helpers\PageHelper.cshtml"
- WriteTo(@__razor_helper_writer, isExpanded ? "in" : "");
-
-#line default
-#line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "\" id=\"collapse@nestingLevel\"></ul>\r\n        </li>\r\n    </ul>\r\n");
-
-
-
-#line 52 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-
-
-    foreach (var child in sortedChildren)
-    {
-        if (child is IParentElement)
+#line 62 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+         if(hasChildren)
         {
             
 #line default
 #line hidden
 
 
-#line 58 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-WriteTo(@__razor_helper_writer, RenderParentElement(child as IParentElement, currentViewModel, nestingLevel + 1));
+#line 64 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+WriteTo(@__razor_helper_writer, RenderChildList(sortedChildren, isExpanded, currentViewModel));
 
 #line default
 #line hidden
 
 
-#line 58 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                                                                                             
-        }
-        else
+#line 64 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+                                                                          
+        }     
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "    </li>\r\n");
+
+
+
+#line 67 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+
+#line default
+#line hidden
+
+});
+
+}
+
+
+public static System.Web.WebPages.HelperResult RenderChildList(IEnumerable<INestableElement> children, bool isExpanded, CsElement currentViewModel)
+{
+return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+
+
+
+#line 70 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+ 
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "    <ul class=\"child-list ");
+
+
+
+#line 71 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+WriteTo(@__razor_helper_writer, isExpanded ? "collapse.in" : "collapse");
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "\">\r\n\r\n");
+
+
+
+#line 73 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+         foreach (var child in children)
         {
+            if (child is IParentElement)
+            {
+                
+#line default
+#line hidden
+
+
+#line 77 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+WriteTo(@__razor_helper_writer, RenderParentElement(child as IParentElement, currentViewModel));
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "            <li><span class=\"expand\"></span><a href=\"");
+
+#line 77 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+                                                                               
+            }
+            else
+            {
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "                <li><span class=\"expand\"></span><a href=\"");
 
 
 
-#line 62 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                      WriteTo(@__razor_helper_writer, HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement));
+#line 81 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+                          WriteTo(@__razor_helper_writer, HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement));
 
 #line default
 #line hidden
@@ -297,8 +371,8 @@ WriteLiteralTo(@__razor_helper_writer, "\">");
 
 
 
-#line 62 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                                                                                               WriteTo(@__razor_helper_writer, child.UniqueName);
+#line 81 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+                                                                                                   WriteTo(@__razor_helper_writer, child.UniqueName);
 
 #line default
 #line hidden
@@ -307,9 +381,18 @@ WriteLiteralTo(@__razor_helper_writer, "</a></li>\r\n");
 
 
 
-#line 63 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+#line 82 "..\..\Output\Html\Helpers\PageHelper.cshtml"
+            }
         }
-    }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "    </ul>\r\n");
+
+
+
+#line 85 "..\..\Output\Html\Helpers\PageHelper.cshtml"
 
 #line default
 #line hidden

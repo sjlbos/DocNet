@@ -17,25 +17,29 @@
         }
         @foreach (var jsFile in includedScripts)
         {
-        <script src="@(jsFile)"></script>
+        <script src="@(jsFile)" type="text/javascript"></script>
         }
         <script>hljs.initHighlightingOnLoad();</script>
         <title>DocNet Output</title>
     </head>
 }
 
-@helper RenderSidebar(GlobalNamespaceModel globalNamespace, INestableElement currentViewModel)
+@helper RenderSidebar(GlobalNamespaceModel globalNamespace, CsElement currentViewModel)
 {
+    var sortedChilren = globalNamespace.OrderBy(child => child.UniqueName);
     <div id="over">
         <h2>Hierarchy</h2>
-        @RenderParentElement(globalNamespace, currentViewModel, 0)
+        <ul>
+            @RenderChildList(sortedChilren, true, currentViewModel)
+        </ul>    
     </div>
 }
 
-@helper RenderParentElement(IParentElement parent, INestableElement currentViewModel, int nestingLevel)
+@helper RenderParentElement(IParentElement parent, CsElement currentViewModel)
 {
     var sortedChildren = parent.OrderBy(child => child.UniqueName);
-    bool isExpanded = parent.HasDescendant(currentViewModel);
+    bool hasChildren = sortedChildren.Any();    
+    bool isExpanded = (parent == currentViewModel) || parent.HasDescendant(currentViewModel as INestableElement);
 
     var parentElement = parent as CsElement;
     if (parentElement == null)
@@ -43,23 +47,39 @@
         throw new DocumentationGenerationException("Parent element is not a CsElement.");
     }
 
-    <ul>
-        <li>
-            <div class="expand link" onclick="hide(this, @nestingLevel)"><span class="glyphicon glyphicon-menu-@(isExpanded ? "down" : "right")" aria-hidden="true"></span></div><a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement)">@parentElement.UniqueName</a>
-            <ul class="collapse@(isExpanded ? "in" : "")" id="collapse@nestingLevel"></ul>
-        </li>
+    <li>
+        <div class="expand link" onclick="ToggleSidebarNode(this)">
+            @if(hasChildren)
+            {
+                <span class="glyphicon @(isExpanded ? "glyphicon-menu-down" : "glyphicon-menu-right")"></span>
+            }
+            else
+            {
+                <span class="expand"></span>
+            }            
+        </div>
+        <a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement)">@parentElement.UniqueName</a>
+        @if(hasChildren)
+        {
+            @RenderChildList(sortedChildren, isExpanded, currentViewModel)
+        }     
+    </li>
+}
+
+@helper RenderChildList(IEnumerable<INestableElement> children, bool isExpanded, CsElement currentViewModel)
+{
+    <ul class="child-list @(isExpanded ? "collapse.in" : "collapse")">
+
+        @foreach (var child in children)
+        {
+            if (child is IParentElement)
+            {
+                @RenderParentElement(child as IParentElement, currentViewModel)
+            }
+            else
+            {
+                <li><span class="expand"></span><a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.UniqueName</a></li>
+            }
+        }
     </ul>
-
-
-    foreach (var child in sortedChildren)
-    {
-        if (child is IParentElement)
-        {
-            @RenderParentElement(child as IParentElement, currentViewModel, nestingLevel + 1)
-        }
-        else
-        {
-            <li><span class="expand"></span><a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.UniqueName</a></li>
-        }
-    }
 }
