@@ -22,9 +22,17 @@ namespace DocNet.Console
             
             if (!Parser.Default.ParseArguments(args, programArgs))
             {
-                Log.Error("Invalid arguments.");
-                Log.Error(GetHelpMessage(programArgs));
-                return (int)DocNetStatus.InvalidProgramArguments;
+                if (programArgs.HelpSpecified)
+                {
+                    Log.Info(GetHelpMessage(programArgs));
+                    return (int) DocNetStatus.Success;
+                }
+                else
+                {
+                    Log.Error("Invalid arguments.");
+                    Log.Error(GetHelpMessage(programArgs));
+                    return (int) DocNetStatus.InvalidProgramArguments;
+                }
             }
 
             if(programArgs.HelpSpecified)

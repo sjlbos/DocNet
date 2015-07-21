@@ -13,7 +13,7 @@ namespace DocNet.Console
         [Option('d', "directory", HelpText = "Specifies that the program should accept directories as input.", Required = false, MutuallyExclusiveSet = "directoryMode")]
         public bool DirectoryModeSpecified { get; set; }
 
-        [Option('r', "recursive", HelpText = "Specifies that the program should recursively search for .cs files.", Required = false, MutuallyExclusiveSet = "directoryMode")]
+        [Option('r', "recursive", HelpText = "Specifies that the program should recursively search for .cs files. (used alongside directory flag)", Required = false, MutuallyExclusiveSet = "directoryMode")]
         public bool UseRecursiveSearch { get; set; }
 
         [Option('o', "output", HelpText = "The output directory where the program will store generated documentation.", Required = true)]
