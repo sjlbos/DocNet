@@ -9,7 +9,7 @@ namespace DocNet.Core.Models.CSharp
 
         public override string Name
         {
-            get { return string.Empty; }
+            get { return null; }
             set { /* do nothing */ }
         }
 
@@ -20,7 +20,7 @@ namespace DocNet.Core.Models.CSharp
 
         public override string FullName
         {
-            get { return String.Empty; }
+            get { return null; }
         }
 
         #endregion

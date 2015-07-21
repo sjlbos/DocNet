@@ -136,11 +136,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Output\Html\Views\Layout.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Layout.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Output\Html\Views\MethodDetail.generated.cs">
       <DependentUpon>MethodDetail.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -159,11 +154,6 @@
     <Compile Include="Output\Html\Views\PageTemplate.cs" />
     <Compile Include="Output\Html\Views\PropertyDetail.generated.cs">
       <DependentUpon>PropertyDetail.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Output\Html\Views\StructDetail.generated.cs">
-      <DependentUpon>StructDetail.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -261,10 +251,6 @@
     <None Include="Output\Html\Views\EnumDetail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>EnumDetail.generated.cs</LastGenOutput>
-    </None>
-    <None Include="Output\Html\Views\Layout.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Layout.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Views\MethodDetail.cshtml">
       <Generator>RazorGenerator</Generator>
