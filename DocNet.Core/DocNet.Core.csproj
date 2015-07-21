@@ -182,6 +182,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NamespaceDetail.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Output\Html\Views\StructDetail1.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StructDetail.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Output\IDocumentationGenerator.cs" />
     <Compile Include="Parsers\CSharp\CsTextParser.cs" />
     <Compile Include="Parsers\CSharp\ICsParser.cs" />
@@ -279,6 +284,7 @@
     </None>
     <None Include="Output\Html\Views\StructDetail.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>StructDetail1.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Views\InterfaceDetail.cshtml">
       <Generator>RazorGenerator</Generator>
