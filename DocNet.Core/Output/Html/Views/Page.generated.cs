@@ -83,24 +83,22 @@ WriteLiteral(@"
         <div class=""main"">
             <div class=""sidebar primary"">
                 <div id=""side-well"" class=""normal"">
-                    <div id=""over"">
-                        <h2>Hierarchy</h2>
-                        ");
+                    ");
 
 
             
-            #line 26 "..\..\Output\Html\Views\Page.cshtml"
-                   Write(PageHelper.RenderSidebar(GlobalNamespace, Body.Model));
+            #line 24 "..\..\Output\Html\Views\Page.cshtml"
+               Write(PageHelper.RenderSidebar(GlobalNamespace, Body.Model));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                    </div>\r\n                </div>\r\n            </div>\r\n       " +
-"     <div class=\"content normal\">\r\n                ");
+WriteLiteral("\r\n                </div>\r\n            </div>\r\n            <div class=\"content nor" +
+"mal\">\r\n                ");
 
 
             
-            #line 31 "..\..\Output\Html\Views\Page.cshtml"
+            #line 28 "..\..\Output\Html\Views\Page.cshtml"
            Write(RenderBody());
 
             
