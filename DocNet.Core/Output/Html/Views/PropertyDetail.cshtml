@@ -1,16 +1,13 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
+@using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<PropertyModel>
 
 <p><h1>@Model.FullInternalName</h1></p>
 
-<!--Type
-    Summary
-    Remarks
-    Examples
-    See Also-->
+@PageSection.RenderDeclarationBlock(GetDeclaration.OfProperty(Model))
 
 <!--Type-->
 <p><h2>Type: @Model.TypeName</h2></p>

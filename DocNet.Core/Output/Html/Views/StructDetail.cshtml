@@ -1,16 +1,13 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
+@using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<StructModel>
 
 <p>Struct: @Model.FullInternalName</p>
 
-<!--Summary
-    Constructors
-    Methods
-    Remarks
-    See Also-->
+@PageSection.RenderDeclarationBlock(GetDeclaration.OfStruct(Model))
 
 <!--Summary-->
 <p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>

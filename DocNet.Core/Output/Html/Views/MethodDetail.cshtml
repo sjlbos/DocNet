@@ -2,18 +2,13 @@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Core.Models.Comments.Xml
+@using DocNet.Core.Output.Html.Helpers
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<MethodModel>
 
 <p><h1>@Model.FullInternalName</h1></p>
-<!--Summary
-    Type Parameters
-    Returns
-    Parameters
-    Exceptions
-    Remarks
-    Example
-    See Also-->
+
+@PageSection.RenderDeclarationBlock(GetDeclaration.OfMethod(Model))
 
 <!--Summary-->
 <p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>

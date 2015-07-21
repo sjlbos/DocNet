@@ -10,7 +10,6 @@
 
 .page-head{
 	padding: 15px;
-	flex 1 1 100%;
 }
 
 .content{
@@ -45,7 +44,6 @@
 	border-radius: 5px;
 	width: 320px;
 	display: flex;
-	flex 1 0 auto;
 	flex-direction: column;
 }
 
@@ -97,4 +95,8 @@ h1 {
 
 .current {
     font-weight: bold;
+}
+
+.code-block {
+    margin: 0px 15px;
 }

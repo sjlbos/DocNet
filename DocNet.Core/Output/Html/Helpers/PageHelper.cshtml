@@ -19,7 +19,11 @@
         {
         <script src="@(jsFile)" type="text/javascript"></script>
         }
-        <script>hljs.initHighlightingOnLoad();</script>
+        <script>hljs.initHighlightingOnLoad();
+            $(document).ready(function () {
+                hljs.configure({ languages: [] });
+            });
+        </script>
         <title>DocNet Output</title>
     </head>
 }

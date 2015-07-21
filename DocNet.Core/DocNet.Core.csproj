@@ -103,6 +103,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PageHelper.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Output\Html\Helpers\PageSection.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PageSection.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Output\Html\HtmlDocumentationGenerator.cs" />
     <Compile Include="Models\Comments\DocComment.cs" />
     <Compile Include="Models\Comments\InterfaceDocComment.cs" />
@@ -242,6 +247,10 @@
     <None Include="Output\Html\Helpers\PageHelper.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PageHelper.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Helpers\PageSection.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PageSection.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Javascript\JQuery\jquery-1.9.1.min.map" />
     <None Include="Output\Html\Views\DelegateDetail.cshtml">

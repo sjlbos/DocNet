@@ -1,16 +1,13 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
+@using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<EnumModel>
 
 <p>Enum: @Model.FullInternalName</p>
 
-<!--Summary
-    Members
-    Remarks
-    Examples
-    See Also-->
+@PageSection.RenderDeclarationBlock(GetDeclaration.OfEnum(Model))
 
 <!--Summary-->
 <p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
