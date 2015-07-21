@@ -317,12 +317,12 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <ul class=\"child-list ");
+WriteLiteralTo(@__razor_helper_writer, "    <ul class=\"child-list collapse ");
 
 
 
 #line 71 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-WriteTo(@__razor_helper_writer, isExpanded ? "collapse.in" : "collapse");
+     WriteTo(@__razor_helper_writer, isExpanded ? "in" : "");
 
 #line default
 #line hidden

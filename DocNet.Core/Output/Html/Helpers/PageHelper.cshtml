@@ -68,7 +68,7 @@
 
 @helper RenderChildList(IEnumerable<INestableElement> children, bool isExpanded, CsElement currentViewModel)
 {
-    <ul class="child-list @(isExpanded ? "collapse.in" : "collapse")">
+    <ul class="child-list collapse @(isExpanded ? "in" : "")">
 
         @foreach (var child in children)
         {
