@@ -61,7 +61,7 @@ WriteLiteral("\r\n<!--Name-->\r\n<p><h1>Class: ");
 
             
             #line 9 "..\..\Output\Html\Views\ClassDetail.cshtml"
-         Write(Model.FullName);
+         Write(Model.FullInternalName);
 
             
             #line default
@@ -98,7 +98,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 30 "..\..\Output\Html\Views\ClassDetail.cshtml"
-               Write(c.Name);
+               Write(c.Identifier);
 
             
             #line default
@@ -143,7 +143,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 43 "..\..\Output\Html\Views\ClassDetail.cshtml"
-               Write(p.Name);
+               Write(p.Identifier);
 
             
             #line default
@@ -188,7 +188,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 56 "..\..\Output\Html\Views\ClassDetail.cshtml"
-               Write(m.Name);
+               Write(m.Identifier);
 
             
             #line default

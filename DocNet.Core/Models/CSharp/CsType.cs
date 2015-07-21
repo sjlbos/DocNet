@@ -24,14 +24,29 @@ namespace DocNet.Core.Models.CSharp
 
         #endregion
 
-        public override string FullName
+        public override string FullNameQualifier
+        {
+            get { return Parent != null ? Parent.FullDisplayName : null; }
+        }
+
+        public override string FullDisplayName
         {
             get
             {
-                if (Name == null) return null;
+                if (DisplayName == null) return null;
+                if (Parent == null || Parent.FullDisplayName == null) return DisplayName;
+                return FullNameQualifier + "." + DisplayName;
+            }
+        }
+
+        public override string FullInternalName
+        {
+            get
+            {
+                if (Identifier == null) return null;
                 if (Parent != null)
-                    return Parent.FullName + "." + Name;
-                return Name;
+                    return Parent.FullInternalName + "_" + InternalName;
+                return Identifier;
             }
         }
 

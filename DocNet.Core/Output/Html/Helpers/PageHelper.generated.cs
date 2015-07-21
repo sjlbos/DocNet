@@ -151,7 +151,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 #line 28 "..\..\Output\Html\Helpers\PageHelper.cshtml"
  
-    var sortedChilren = globalNamespace.OrderBy(child => child.UniqueName);
+    var sortedChilren = globalNamespace.OrderBy(child => child.DisplayName);
 
 #line default
 #line hidden
@@ -188,7 +188,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 #line 39 "..\..\Output\Html\Helpers\PageHelper.cshtml"
  
-    var sortedChildren = parent.OrderBy(child => child.UniqueName);
+    var sortedChildren = parent.OrderBy(child => child.DisplayName);
     bool hasChildren = sortedChildren.Any();    
     bool isExpanded = (parent == currentViewModel) || parent.HasDescendant(currentViewModel as INestableElement);
 
@@ -260,7 +260,7 @@ WriteLiteralTo(@__razor_helper_writer, "\">");
 
 
 #line 61 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                                                      WriteTo(@__razor_helper_writer, parentElement.UniqueName);
+                                                      WriteTo(@__razor_helper_writer, parentElement.DisplayName);
 
 #line default
 #line hidden
@@ -372,7 +372,7 @@ WriteLiteralTo(@__razor_helper_writer, "\">");
 
 
 #line 81 "..\..\Output\Html\Helpers\PageHelper.cshtml"
-                                                                                                   WriteTo(@__razor_helper_writer, child.UniqueName);
+                                                                                                   WriteTo(@__razor_helper_writer, child.DisplayName);
 
 #line default
 #line hidden

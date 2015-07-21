@@ -31,20 +31,20 @@ namespace DocNet.Core.Models.CSharp
         {
             if (child == null)
                 throw new ArgumentNullException("child");
-            if (String.IsNullOrWhiteSpace(child.UniqueName))
+            if (String.IsNullOrWhiteSpace(child.InternalName))
                 throw new IllegalChildElementException("Child element has missing name.");
             if (!NestedElementIsLegal(child))
                 throw new IllegalChildElementException(GetType() + " cannot have children of type " + child.GetType());
-            if (_interfaceElements.ContainsKey(child.UniqueName))
-                throw new NamingCollisionException(child.UniqueName);
+            if (_interfaceElements.ContainsKey(child.InternalName))
+                throw new NamingCollisionException(child.InternalName);
 
             child.Parent = this;
-            _interfaceElements.Add(child.UniqueName, child);
+            _interfaceElements.Add(child.InternalName, child);
         }
 
         public bool HasDirectDescendant(INestableElement child)
         {
-            return child != null && _interfaceElements.ContainsKey(child.UniqueName);
+            return child != null && _interfaceElements.ContainsKey(child.InternalName);
         }
 
         public bool HasDescendant(INestableElement child)
@@ -65,9 +65,9 @@ namespace DocNet.Core.Models.CSharp
             return false;
         }
 
-        public virtual INestableElement this[string uniqueName]
+        public virtual INestableElement this[string internalName]
         {
-            get { return _interfaceElements.ContainsKey(uniqueName) ? _interfaceElements[uniqueName] : null; }
+            get { return _interfaceElements.ContainsKey(internalName) ? _interfaceElements[internalName] : null; }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -84,14 +84,24 @@ namespace DocNet.Core.Models.CSharp
 
         #region Properties
 
-        public override string UniqueName
+        public override string DisplayName
         {
             get
             {
-                if(Name == null) return null;
-                return Name + 
+                if (Identifier == null) return null;
+                if (!TypeParameters.Any()) return Identifier;
+                return Identifier + "<" + String.Join(",", TypeParameters.Select(p => p.Name)) + ">";
+            }
+        }
+
+        public override string InternalName
+        {
+            get
+            {
+                if(Identifier == null) return null;
+                return Identifier + 
                 ((TypeParameters != null && TypeParameters.Any()) 
-                    ?  TypeParameters.Count().ToString(CultureInfo.InvariantCulture) 
+                    ? "`" + TypeParameters.Count().ToString(CultureInfo.InvariantCulture) 
                     : String.Empty); 
             }
         }

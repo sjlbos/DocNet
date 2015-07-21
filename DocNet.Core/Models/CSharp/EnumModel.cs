@@ -5,9 +5,14 @@ namespace DocNet.Core.Models.CSharp
 {
     public class EnumModel : CsType
     {
-        public override string UniqueName
+        public override string DisplayName
         {
-            get { return Name; }
+            get { return Identifier; }
+        }
+
+        public override string InternalName
+        {
+            get { return Identifier; }
         }
 
         public DocComment DocComment { get; set; }

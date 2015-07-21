@@ -54,7 +54,7 @@ WriteLiteral("\r\n<p>Enum: ");
 
             
             #line 7 "..\..\Output\Html\Views\EnumDetail.cshtml"
-    Write(Model.FullName);
+    Write(Model.FullInternalName);
 
             
             #line default

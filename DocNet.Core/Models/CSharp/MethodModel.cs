@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using DocNet.Core.Models.Comments;
 
@@ -7,34 +8,63 @@ namespace DocNet.Core.Models.CSharp
 {
     public class MethodModel : CsElement, INestableElement, IEquatable<MethodModel>
     {
-        public override string FullName
+        public override string DisplayName
         {
             get
             {
-                if (Name == null) return null;
+                if (Identifier == null) return null;
+                string displayName = Identifier;
+                if (TypeParameters != null && TypeParameters.Any())
+                    displayName += "<" + String.Join(",", TypeParameters.Select(p => p.Name)) + ">";
+                displayName += "(";
+                if (Parameters != null)
+                    displayName += String.Join(",", Parameters.Select(p => p.TypeName));
+                return displayName + ")";
+            }
+        }
+
+        public override string FullNameQualifier
+        {
+            get { return Parent != null ? Parent.FullDisplayName : null; }
+        }
+
+        public override string FullDisplayName
+        {
+            get
+            {
+                if (DisplayName == null) return null;
+                if (Parent == null || Parent.FullDisplayName == null) return DisplayName;
+                return FullNameQualifier + ":" + DisplayName;
+            }
+        }
+
+        public override string InternalName
+        {
+            get
+            {
+                var internalName = Identifier;
+                if (TypeParameters != null && TypeParameters.Any())
+                    internalName += "`" + TypeParameters.Count().ToString(CultureInfo.InvariantCulture); 
+                if (Parameters != null)
+                    internalName += String.Join("_", Parameters.Select(p => p.TypeName));
+                return internalName;
+            }
+        }
+
+        public override string FullInternalName
+        {
+            get
+            {
+                if (Identifier == null) return null;
                 if (Parent != null)
-                    return Parent.FullName + "_" + Name;
-                return Name;
+                    return Parent.FullInternalName + "_" + InternalName;
+                return Identifier;
             }
         }
 
         #region INestableElement
 
         public IParentElement Parent { get; set; }
-
-        public override string UniqueName
-        {
-            get
-            {
-                var outputString = Name;
-                if (Parameters != null && Parameters.Any())
-                {
-                    outputString += "_";
-                    outputString += String.Join("_", Parameters.Select(p => p.TypeName));
-                }
-                return outputString;
-            }
-        }
 
         public bool IsDirectDescendentOf(IParentElement parent)
         {

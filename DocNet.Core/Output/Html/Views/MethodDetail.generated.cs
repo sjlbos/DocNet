@@ -61,7 +61,7 @@ WriteLiteral("\r\n<p><h1>");
 
             
             #line 8 "..\..\Output\Html\Views\MethodDetail.cshtml"
-  Write(Model.FullName);
+  Write(Model.FullInternalName);
 
             
             #line default

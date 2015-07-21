@@ -115,7 +115,7 @@ namespace DocNet.Core.Parsers.CSharp
             // Create a new namespace model if the current namespace has not yet been encountered
             if(_currentParent[namespaceName] == null)
             {
-                currentNamespace = new NamespaceModel { Name = namespaceName }; 
+                currentNamespace = new NamespaceModel { Identifier = namespaceName }; 
                 _currentParent.AddChild(currentNamespace);
             }
             // Otherwise, use the existing namespace
@@ -141,7 +141,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             var currentInterface = new InterfaceModel
             {
-                Name = node.Identifier.Text,
+                Identifier = node.Identifier.Text,
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 InheritanceList = GetInheritanceList(node.BaseList),
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node)
@@ -177,7 +177,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             var currentClass = new ClassModel
             {
-                Name = node.Identifier.Text,
+                Identifier = node.Identifier.Text,
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 InheritanceList = GetInheritanceList(node.BaseList)
@@ -213,7 +213,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             var currentStruct = new StructModel
             {
-                Name = node.Identifier.Text,
+                Identifier = node.Identifier.Text,
                 DocComment = GetCommentFromNode<InterfaceDocComment>(node),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 InheritanceList = GetInheritanceList(node.BaseList)
@@ -249,7 +249,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             var newEnum = new EnumModel
             {
-                Name = node.Identifier.Text,
+                Identifier = node.Identifier.Text,
                 AccessModifier = GetAccessModifier(node.Modifiers),
                 DocComment = GetCommentFromNode<DocComment>(node)
             };
@@ -266,7 +266,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             var newDelegate = new DelegateModel
             {
-                Name = node.Identifier.Text,
+                Identifier = node.Identifier.Text,
                 Parameters = GetParameterList(node.ParameterList.Parameters),
                 ReturnType = node.ReturnType.ToString(),
                 DocComment = GetCommentFromNode<MethodDocComment>(node),
@@ -285,7 +285,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             var newConstructor = new ConstructorModel
             {
-                Name = node.Identifier.Text,
+                Identifier = node.Identifier.Text,
                 DocComment = GetCommentFromNode<MethodDocComment>(node),
                 Parameters = GetParameterList(node.ParameterList.Parameters)
             };
@@ -307,7 +307,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             var newMethod = new MethodModel
             {
-                Name = methodName,
+                Identifier = methodName,
                 DocComment = GetCommentFromNode<MethodDocComment>(node),
                 Parameters = GetParameterList(node.ParameterList.Parameters),
                 ReturnType = node.ReturnType.ToString(),
@@ -331,7 +331,7 @@ namespace DocNet.Core.Parsers.CSharp
 
             var newProperty = new PropertyModel
             {
-                Name = propertyName,
+                Identifier = propertyName,
                 TypeName = node.Type.ToString(),
                 DocComment = GetCommentFromNode<PropertyDocComment>(node)
             };
@@ -351,15 +351,15 @@ namespace DocNet.Core.Parsers.CSharp
 
         private bool MergeExistingBaseInterfaceDeclarations<T>(ref T currentInterface) where T:InterfaceBase
         {
-            var otherDeclaration = _currentParent[currentInterface.UniqueName];
+            var otherDeclaration = _currentParent[currentInterface.InternalName];
             if(otherDeclaration == null) return false;
 
             T otherT = otherDeclaration as T;
             if(otherT == null)
-                throw new NamingCollisionException(currentInterface.UniqueName);
+                throw new NamingCollisionException(currentInterface.InternalName);
                 
             if(!otherT.IsPartial)
-                throw new NamingCollisionException(currentInterface.UniqueName);
+                throw new NamingCollisionException(currentInterface.InternalName);
 
             otherT.InheritanceList = otherT.InheritanceList.Union(currentInterface.InheritanceList).ToList();
             currentInterface = otherT;

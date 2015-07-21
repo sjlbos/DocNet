@@ -5,8 +5,13 @@ namespace DocNet.Core.Models.CSharp
 {
     public interface IParentElement: IEnumerable<INestableElement>
     {
-        string FullName { get; }
-        INestableElement this[string uniqueName] { get; }
+        string DisplayName { get; }
+        string FullNameQualifier { get; }
+        string FullDisplayName { get; }
+        string InternalName { get; }
+        string FullInternalName { get; }
+
+        INestableElement this[string internalName] { get; }
 
         void AddChild(INestableElement child);
         bool HasDirectDescendant(INestableElement child);

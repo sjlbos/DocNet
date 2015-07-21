@@ -3,8 +3,11 @@
     public interface INestableElement
     {
         IParentElement Parent { get; set; }
-        string UniqueName { get; }
-        string FullName { get; }
+        string DisplayName { get; }
+        string FullNameQualifier { get; }
+        string FullDisplayName { get; }
+        string InternalName { get; }
+        string FullInternalName { get; }
 
         bool IsDescendentOf(IParentElement parent);
         bool IsDirectDescendentOf(IParentElement parent);

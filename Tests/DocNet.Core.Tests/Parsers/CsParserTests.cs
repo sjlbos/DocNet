@@ -38,30 +38,30 @@ namespace DocNet.Core.Tests.Parsers
             
             var expectedGlobalNamespace = new GlobalNamespaceModel();
             
-            var topLevelNamespace = new NamespaceModel { Name = "N1" };
+            var topLevelNamespace = new NamespaceModel { Identifier = "N1" };
             expectedGlobalNamespace.AddChild(topLevelNamespace);
 
             var classN1L1 = new ClassModel
             {
-                Name = "ClassN1L1",
+                Identifier = "ClassN1L1",
                 AccessModifier = AccessModifier.Public,
-                Constructors = new []{ new ConstructorModel{ Name = "ClassN1L1", AccessModifier = AccessModifier.Public} },
-                Methods = new[] { new MethodModel { Name = "Method_ClassN1L1", ReturnType = "void", AccessModifier =  AccessModifier.Public} }
+                Constructors = new []{ new ConstructorModel{ Identifier = "ClassN1L1", AccessModifier = AccessModifier.Public} },
+                Methods = new[] { new MethodModel { Identifier = "Method_ClassN1L1", ReturnType = "void", AccessModifier =  AccessModifier.Public} }
             };
             topLevelNamespace.AddChild(classN1L1);
 
             var classC1L2 = new ClassModel
             {
-                Name = "ClassC1L2",
+                Identifier = "ClassC1L2",
                 AccessModifier = AccessModifier.Public,
-                Constructors = new[] { new ConstructorModel { Name = "ClassC1L2", AccessModifier = AccessModifier.Public } },
-                Methods = new[] { new MethodModel { Name = "Method_ClassC1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
+                Constructors = new[] { new ConstructorModel { Identifier = "ClassC1L2", AccessModifier = AccessModifier.Public } },
+                Methods = new[] { new MethodModel { Identifier = "Method_ClassC1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
             };
             var structC1L2 = new StructModel
             {
-                Name = "StructC1L2",
+                Identifier = "StructC1L2",
                 AccessModifier = AccessModifier.Public,
-                Methods = new[] { new MethodModel { Name = "Method_StructC1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
+                Methods = new[] { new MethodModel { Identifier = "Method_StructC1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
             };
             classN1L1.AddChild(classC1L2);
             classN1L1.AddChild(structC1L2);
@@ -69,40 +69,40 @@ namespace DocNet.Core.Tests.Parsers
 
             var structN1L1 = new StructModel
             {
-                Name = "StructN1L1",
+                Identifier = "StructN1L1",
                 AccessModifier = AccessModifier.Public,
-                Methods = new []{ new MethodModel{ Name = "Method_StructN1L1", ReturnType = "void", AccessModifier = AccessModifier.Public } }
+                Methods = new []{ new MethodModel{ Identifier = "Method_StructN1L1", ReturnType = "void", AccessModifier = AccessModifier.Public } }
             };
             topLevelNamespace.AddChild(structN1L1);
 
             var classS1L2 = new ClassModel
             {
-                Name = "ClassS1L2",
+                Identifier = "ClassS1L2",
                 AccessModifier = AccessModifier.Public,
-                Constructors = new []{ new ConstructorModel{ Name = "ClassS1L2", AccessModifier = AccessModifier.Public } },
-                Methods = new []{ new MethodModel{ Name = "Method_ClassS1L2", ReturnType = "void", AccessModifier = AccessModifier.Public }}
+                Constructors = new []{ new ConstructorModel{ Identifier = "ClassS1L2", AccessModifier = AccessModifier.Public } },
+                Methods = new []{ new MethodModel{ Identifier = "Method_ClassS1L2", ReturnType = "void", AccessModifier = AccessModifier.Public }}
             };
             var structS1L2 = new StructModel
             {
-                Name = "StructS1L2",
+                Identifier = "StructS1L2",
                 AccessModifier = AccessModifier.Public,
-                Methods = new []{ new MethodModel{ Name = "Method_StructS1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
+                Methods = new []{ new MethodModel{ Identifier = "Method_StructS1L2", ReturnType = "void", AccessModifier = AccessModifier.Public } }
             };
             structN1L1.AddChild(classS1L2);
             structN1L1.AddChild(structS1L2);
 
             var classN2L1 = new ClassModel
             {
-                Name = "ClassN2L1",
+                Identifier = "ClassN2L1",
                 AccessModifier = AccessModifier.Public
             };
             var structN2L1 = new StructModel
             {
-                Name = "StructN2L1",
+                Identifier = "StructN2L1",
                 AccessModifier = AccessModifier.Public
             };
 
-            var nestedNamespace = new NamespaceModel { Name = "N2" };
+            var nestedNamespace = new NamespaceModel { Identifier = "N2" };
             topLevelNamespace.AddChild(nestedNamespace);
 
             nestedNamespace.AddChild(classN2L1);

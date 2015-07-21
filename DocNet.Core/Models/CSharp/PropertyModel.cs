@@ -6,25 +6,45 @@ namespace DocNet.Core.Models.CSharp
 {
     public class PropertyModel : CsElement, INestableElement, IEquatable<PropertyModel>
     {
-        public override string FullName
+        public override string DisplayName
+        {
+            get { return Identifier; }
+        }
+
+        public override string FullNameQualifier
+        {
+            get { return Parent != null ? Parent.FullDisplayName : null; }
+        }
+
+        public override string FullDisplayName
         {
             get
             {
-                if (Name == null) return null;
+                if (DisplayName == null) return null;
+                if (Parent == null || Parent.FullDisplayName == null) return DisplayName;
+                return FullNameQualifier + ":" + DisplayName;
+            }
+        }
+
+        public override string InternalName
+        {
+            get { return Identifier; }
+        }
+
+        public override string FullInternalName
+        {
+            get
+            {
+                if (Identifier == null) return null;
                 if (Parent != null)
-                    return Parent.FullName + "_" + Name;
-                return Name;
+                    return Parent.FullInternalName + "_" + InternalName;
+                return Identifier;
             }
         }
 
         #region INestableElement
 
         public IParentElement Parent { get; set; }
-
-        public override string UniqueName
-        {
-            get { return Name; }
-        }
 
         public bool IsDirectDescendentOf(IParentElement parent)
         {

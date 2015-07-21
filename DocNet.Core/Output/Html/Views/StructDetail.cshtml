@@ -4,7 +4,7 @@
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<StructModel>
 
-<p>Struct: @Model.FullName</p>
+<p>Struct: @Model.FullInternalName</p>
 
 <!--Summary
     Constructors
@@ -21,7 +21,7 @@
     <table class="table table-bordered table-hover">
         @foreach (ConstructorModel c in Model.Constructors){
             <tr>
-                <td>@c.Name</td>
+                <td>@c.Identifier</td>
                 <td>@c.DocComment.Summary</td>
             </tr>
         }
@@ -34,7 +34,7 @@
     <table class="table table-bordered table-hover">
         @foreach (MethodModel m in Model.Methods){
             <tr>
-                <td>@m.Name</td>
+                <td>@m.Identifier</td>
                 <td>@m.DocComment.Summary</td>
             </tr>
         }

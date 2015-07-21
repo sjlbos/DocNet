@@ -1,24 +1,36 @@
-﻿
-using System;
-
-namespace DocNet.Core.Models.CSharp
+﻿namespace DocNet.Core.Models.CSharp
 {
     public class GlobalNamespaceModel : NamespaceBase
     {
         #region Properties
 
-        public override string Name
+        public override string Identifier
         {
             get { return null; }
             set { /* do nothing */ }
         }
 
-        public override string UniqueName
+        public override string DisplayName
         {
-            get { return "::global"; }
+            get { return null; }
         }
 
-        public override string FullName
+        public override string FullNameQualifier
+        {
+            get { return null; }
+        }
+
+        public override string FullDisplayName
+        {
+            get { return null; }
+        }
+
+        public override string InternalName
+        {
+            get { return null; }
+        }
+
+        public override string FullInternalName
         {
             get { return null; }
         }

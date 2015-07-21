@@ -54,7 +54,7 @@ WriteLiteral("\r\n<p>Interface: ");
 
             
             #line 7 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-         Write(Model.FullName);
+         Write(Model.FullInternalName);
 
             
             #line default
@@ -90,7 +90,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 22 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-               Write(m.Name);
+               Write(m.Identifier);
 
             
             #line default

@@ -26,7 +26,7 @@
 
 @helper RenderSidebar(GlobalNamespaceModel globalNamespace, CsElement currentViewModel)
 {
-    var sortedChilren = globalNamespace.OrderBy(child => child.UniqueName);
+    var sortedChilren = globalNamespace.OrderBy(child => child.DisplayName);
     <div id="over">
         <h2>Hierarchy</h2>
         <ul>
@@ -37,7 +37,7 @@
 
 @helper RenderParentElement(IParentElement parent, CsElement currentViewModel)
 {
-    var sortedChildren = parent.OrderBy(child => child.UniqueName);
+    var sortedChildren = parent.OrderBy(child => child.DisplayName);
     bool hasChildren = sortedChildren.Any();    
     bool isExpanded = (parent == currentViewModel) || parent.HasDescendant(currentViewModel as INestableElement);
 
@@ -58,7 +58,7 @@
                 <span class="expand"></span>
             }            
         </div>
-        <a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement)">@parentElement.UniqueName</a>
+        <a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(parentElement)">@parentElement.DisplayName</a>
         @if(hasChildren)
         {
             @RenderChildList(sortedChildren, isExpanded, currentViewModel)
@@ -78,7 +78,7 @@
             }
             else
             {
-                <li><span class="expand"></span><a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.UniqueName</a></li>
+                <li><span class="expand"></span><a href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.DisplayName</a></li>
             }
         }
     </ul>

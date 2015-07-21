@@ -61,7 +61,7 @@ WriteLiteral("\r\n<!--Name-->\r\n<p><h1>");
 
             
             #line 9 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-  Write(Model.FullName);
+  Write(Model.FullInternalName);
 
             
             #line default
@@ -82,7 +82,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 17 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-               Write(c.Name);
+               Write(c.Identifier);
 
             
             #line default
@@ -127,7 +127,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 30 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-               Write(s.Name);
+               Write(s.Identifier);
 
             
             #line default
@@ -172,7 +172,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 43 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-               Write(d.Name);
+               Write(d.Identifier);
 
             
             #line default
@@ -217,7 +217,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 56 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-               Write(e.Name);
+               Write(e.Identifier);
 
             
             #line default

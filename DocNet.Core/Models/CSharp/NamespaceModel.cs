@@ -26,20 +26,39 @@ namespace DocNet.Core.Models.CSharp
 
         #region Properties
 
-        public override string FullName
+        public override string DisplayName
+        {
+            get { return Identifier; }
+        }
+
+        public override string FullNameQualifier
+        {
+            get { return Parent != null ? Parent.FullDisplayName : null; }
+        }
+
+        public override string FullDisplayName
         {
             get
             {
-                if (Name == null) return null;
-                if (Parent != null)
-                    return Parent.FullName + "." + Name;
-                return Name;
+                if (DisplayName == null) return null;
+                if (Parent == null || Parent.FullDisplayName == null) return DisplayName;
+                return FullNameQualifier + "." + DisplayName;
             }
         }
 
-        public override string UniqueName
+        public override string FullInternalName
         {
-            get { return Name; }
+            get
+            {
+                if (InternalName == null) return null;
+                if (Parent.FullInternalName == null) return InternalName;
+                return Parent.FullInternalName + "." + InternalName;
+            }
+        }
+
+        public override string InternalName
+        {
+            get { return Identifier; }
         }
 
         #endregion

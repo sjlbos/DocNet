@@ -16,7 +16,7 @@ namespace DocNet.Core.Tests.Output.Helpers
         {
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfInterface(null)));
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfInterface(new InterfaceModel())));
-            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfInterface(new InterfaceModel{ Name = "   "})));
+            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfInterface(new InterfaceModel{ Identifier = "   "})));
         }
 
         private static readonly object[] IntertfaceTestCases =
@@ -26,7 +26,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public interface IDummy",
                 new InterfaceModel
                 {
-                    Name = "IDummy",
+                    Identifier = "IDummy",
                     AccessModifier = AccessModifier.Public
                 }
             },
@@ -35,7 +35,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "internal interface IDummy<T>",
                 new InterfaceModel
                 {
-                    Name = "IDummy",
+                    Identifier = "IDummy",
                     AccessModifier = AccessModifier.Internal,
                     TypeParameters = new [] { new TypeParameterModel { Name = "T" } }
                 }
@@ -45,7 +45,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected interface IDummy<T, V>",
                 new InterfaceModel
                 {
-                    Name = "IDummy",
+                    Identifier = "IDummy",
                     AccessModifier = AccessModifier.Protected,
                     TypeParameters = new []
                     {
@@ -59,7 +59,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public interface IDummy : IEquatable<IDummy>",
                 new InterfaceModel
                 {
-                    Name = "IDummy",
+                    Identifier = "IDummy",
                     AccessModifier = AccessModifier.Public,
                     InheritanceList = new []{ "IEquatable<IDummy>" }
                 }
@@ -69,7 +69,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public interface IDummy : IFoo, IBar",
                 new InterfaceModel
                 {
-                    Name = "IDummy",
+                    Identifier = "IDummy",
                     AccessModifier = AccessModifier.Public,
                     InheritanceList = new []{ "IFoo", "IBar" }
                 }
@@ -91,7 +91,7 @@ namespace DocNet.Core.Tests.Output.Helpers
         {
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfClass(null)));
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfClass(new ClassModel())));
-            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfClass(new ClassModel { Name = "   " })));
+            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfClass(new ClassModel { Identifier = "   " })));
         }
 
         private static readonly object[] ClassTestCases =
@@ -101,7 +101,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public class Dummy",
                 new ClassModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public
                 }
             },
@@ -110,7 +110,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "private abstract class Dummy",
                 new ClassModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Private,
                     IsAbstract = true
                 }
@@ -120,7 +120,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected static class Dummy<T>",
                 new ClassModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Protected,
                     IsStatic = true,
                     TypeParameters = new []{ new TypeParameterModel{ Name = "T" }}
@@ -131,7 +131,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected internal sealed class Dummy<T, V>",
                 new ClassModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.ProtectedInternal,
                     IsSealed = true,
                     TypeParameters = new []
@@ -146,7 +146,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public class Dummy : IEquatable<Dummy>",
                 new ClassModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public,
                     InheritanceList = new []{ "IEquatable<Dummy>" }
                 }
@@ -156,7 +156,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public class Dummy : IFoo, IBar",
                 new ClassModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public,
                     InheritanceList = new []{ "IFoo", "IBar" }
                 }
@@ -178,7 +178,7 @@ namespace DocNet.Core.Tests.Output.Helpers
         {
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfStruct(null)));
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfStruct(new StructModel())));
-            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfStruct(new StructModel { Name = "   " })));
+            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfStruct(new StructModel { Identifier = "   " })));
         }
 
         private static readonly object[] StructTestCases =
@@ -188,7 +188,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public struct Dummy",
                 new StructModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public
                 }
             },
@@ -197,7 +197,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected struct Dummy<T>",
                 new StructModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Protected,
                     TypeParameters = new []{ new TypeParameterModel{Name = "T"} }
                 }
@@ -207,7 +207,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "internal struct Dummy<T, V>",
                 new StructModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Internal,
                     TypeParameters = new []
                     {
@@ -221,7 +221,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public struct Dummy : IEquatable<Dummy>",
                 new StructModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public,
                     InheritanceList = new []{ "IEquatable<Dummy>"}
                 }
@@ -231,7 +231,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public struct Dummy : IFoo, IBar",
                 new StructModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public,
                     InheritanceList = new [] { "IFoo", "IBar" }
                 }
@@ -253,7 +253,7 @@ namespace DocNet.Core.Tests.Output.Helpers
         {
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfEnum(null)));
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfEnum(new EnumModel())));
-            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfEnum(new EnumModel { Name = "   " })));
+            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfEnum(new EnumModel { Identifier = "   " })));
         }
 
         private static readonly object[] EnumTestCases =
@@ -263,7 +263,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public enum Dummy",
                 new EnumModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public
                 }
             }
@@ -284,7 +284,7 @@ namespace DocNet.Core.Tests.Output.Helpers
         {
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfDelegate(null)));
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfDelegate(new DelegateModel())));
-            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfDelegate(new DelegateModel{ Name = "   " })));
+            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfDelegate(new DelegateModel{ Identifier = "   " })));
         }
 
         private static readonly object[] DelegateTestCases =
@@ -294,7 +294,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public delegate void Dummy()",
                 new DelegateModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public,
                     ReturnType = "void",
                 }      
@@ -304,7 +304,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected delegate Foo Dummy(Bar bar)",
                 new DelegateModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Protected,
                     ReturnType = "Foo",
                     Parameters = new []{ new ParameterModel { Name = "bar", TypeName = "Bar" }}
@@ -315,7 +315,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "internal delegate T Dummy<T>(Foo foo, Bar bar)",
                 new DelegateModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Internal,
                     ReturnType = "T",
                     Parameters = new []
@@ -331,7 +331,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected internal delegate T Dummy<T, V>(V value)",
                 new DelegateModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.ProtectedInternal,
                     ReturnType = "T",
                     Parameters = new [] { new ParameterModel { Name = "value", TypeName = "V"} },
@@ -359,7 +359,7 @@ namespace DocNet.Core.Tests.Output.Helpers
         {
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfConstructor(null)));
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfConstructor(new ConstructorModel())));
-            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfConstructor(new ConstructorModel{ Name = "   " })));
+            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfConstructor(new ConstructorModel{ Identifier = "   " })));
         }
 
         private static readonly object[] ConstructorTestCases =
@@ -369,7 +369,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public Dummy()",
                 new ConstructorModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public
                 }
             },
@@ -378,7 +378,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected Dummy(Foo foo)",
                 new ConstructorModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Protected,
                     Parameters = new []{ new ParameterModel{Name = "foo", TypeName = "Foo"} }
                 }
@@ -388,7 +388,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "internal static Dummy(Foo foo, Bar bar)",
                 new ConstructorModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Internal,
                     IsStatic = true,
                     Parameters = new []
@@ -415,7 +415,7 @@ namespace DocNet.Core.Tests.Output.Helpers
         {
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfMethod(null)));
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfMethod(new MethodModel())));
-            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfMethod(new MethodModel { Name = "   " })));
+            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfMethod(new MethodModel { Identifier = "   " })));
         }
 
         private static readonly object[] MethodTestCass =
@@ -425,7 +425,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public void Dummy()",
                 new MethodModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Public,
                     ReturnType = "void"
                 }
@@ -435,7 +435,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "private static Foo Dummy(Bar bar)",
                 new MethodModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Private,
                     IsStatic = true,
                     ReturnType = "Foo",
@@ -447,7 +447,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected override abstract T Dummy<T>(Foo foo, Bar bar)",
                 new MethodModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Protected,
                     IsOverride = true,
                     IsAbstract = true,
@@ -465,7 +465,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected internal virtual async void Dummy<T, V>(T t, V v)",
                 new MethodModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.ProtectedInternal,
                     IsVirtual = true,
                     IsAsync = true,
@@ -487,7 +487,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "new internal sealed void Dummy()",
                 new MethodModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     AccessModifier = AccessModifier.Internal,
                     HidesBaseImplementation = true,
                     IsSealed = true,
@@ -511,7 +511,7 @@ namespace DocNet.Core.Tests.Output.Helpers
         {
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfProperty(null)));
             Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfProperty(new PropertyModel())));
-            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfProperty(new PropertyModel { Name = "   " })));
+            Assert.That(String.Empty, Is.EqualTo(GetDeclaration.OfProperty(new PropertyModel { Identifier = "   " })));
         }
 
         private static readonly object[] PropertyTestCases =
@@ -521,7 +521,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public bool Dummy { get; set; }",
                 new PropertyModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     TypeName = "bool",
                     AccessModifier = AccessModifier.Public,
                     HasGetter = true,
@@ -535,7 +535,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "protected override sealed string Dummy { set; }",
                 new PropertyModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     TypeName = "string",
                     AccessModifier = AccessModifier.Protected,
                     IsOverride = true,
@@ -549,7 +549,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "new protected internal virtual int Dummy { get; }",
                 new PropertyModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     TypeName = "int",
                     AccessModifier = AccessModifier.ProtectedInternal,
                     HidesBaseImplementation = true,
@@ -563,7 +563,7 @@ namespace DocNet.Core.Tests.Output.Helpers
                 "public abstract bool Dummy { get; private set; }",
                 new PropertyModel
                 {
-                    Name = "Dummy",
+                    Identifier = "Dummy",
                     TypeName = "bool",
                     AccessModifier = AccessModifier.Public,
                     IsAbstract = true,

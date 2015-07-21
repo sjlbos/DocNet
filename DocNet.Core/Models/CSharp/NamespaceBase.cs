@@ -18,29 +18,29 @@ namespace DocNet.Core.Models.CSharp
 
         #region IParentElement Interface
 
-        public virtual INestableElement this[string uniqueName]
+        public virtual INestableElement this[string internalName]
         {
-            get { return _namespaceElements.ContainsKey(uniqueName) ? _namespaceElements[uniqueName] : null; }
+            get { return _namespaceElements.ContainsKey(internalName) ? _namespaceElements[internalName] : null; }
         }
 
         public virtual void AddChild(INestableElement child)
         {
             if (child == null)
                 throw new ArgumentNullException("child");
-            if (String.IsNullOrWhiteSpace(child.UniqueName))
+            if (String.IsNullOrWhiteSpace(child.InternalName))
                 throw new IllegalChildElementException("Child element has missing name.");
             if (!NestedElementIsLegal(child))
                 throw new IllegalChildElementException(GetType() + " cannot have children of type " + child.GetType());
-            if (_namespaceElements.ContainsKey(child.UniqueName))
-                throw new NamingCollisionException(child.UniqueName);
+            if (_namespaceElements.ContainsKey(child.InternalName))
+                throw new NamingCollisionException(child.InternalName);
 
             child.Parent = this;
-            _namespaceElements.Add(child.UniqueName, child);
+            _namespaceElements.Add(child.InternalName, child);
         }
 
         public virtual bool HasDirectDescendant(INestableElement child)
         {
-            return child != null && _namespaceElements.ContainsKey(child.UniqueName);
+            return child != null && _namespaceElements.ContainsKey(child.InternalName);
         }
 
         public virtual bool HasDescendant(INestableElement child)
@@ -178,7 +178,7 @@ namespace DocNet.Core.Models.CSharp
             if (other == null) return false;
             if (this == other) return true;
             return base.Equals(other) &&
-                   this.OrderBy(e => e.UniqueName).SequenceEqual(other.OrderBy(e => e.UniqueName));
+                   this.OrderBy(e => e.InternalName).SequenceEqual(other.OrderBy(e => e.InternalName));
         }
 
         #endregion

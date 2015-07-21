@@ -61,7 +61,7 @@ WriteLiteral("\r\n<p><h1>Delegate: ");
 
             
             #line 8 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-            Write(Model.FullName);
+            Write(Model.FullInternalName);
 
             
             #line default

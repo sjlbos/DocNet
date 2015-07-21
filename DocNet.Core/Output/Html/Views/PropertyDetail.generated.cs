@@ -54,7 +54,7 @@ WriteLiteral("\r\n<p><h1>");
 
             
             #line 7 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-  Write(Model.FullName);
+  Write(Model.FullInternalName);
 
             
             #line default

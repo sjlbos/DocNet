@@ -54,7 +54,7 @@ WriteLiteral("\r\n<p>Struct: ");
 
             
             #line 7 "..\..\Output\Html\Views\StructDetail.cshtml"
-      Write(Model.FullName);
+      Write(Model.FullInternalName);
 
             
             #line default
@@ -90,7 +90,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 24 "..\..\Output\Html\Views\StructDetail.cshtml"
-               Write(c.Name);
+               Write(c.Identifier);
 
             
             #line default
@@ -131,7 +131,7 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 37 "..\..\Output\Html\Views\StructDetail.cshtml"
-               Write(m.Name);
+               Write(m.Identifier);
 
             
             #line default

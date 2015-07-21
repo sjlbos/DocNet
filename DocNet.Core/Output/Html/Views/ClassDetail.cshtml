@@ -6,7 +6,7 @@
 @inherits BodyTemplate<ClassModel>
 
 <!--Name-->
-<p><h1>Class: @Model.FullName</h1></p>
+<p><h1>Class: @Model.FullInternalName</h1></p>
 
 <!--Name
     Summary
@@ -27,7 +27,7 @@
     <table class="table table-bordered table-hover">
         @foreach(ConstructorModel c in Model.Constructors){
             <tr>
-                <td>@c.Name</td>
+                <td>@c.Identifier</td>
                 <td>@{CommentTag.RenderSummary(c.DocComment.Summary);}</td>
             </tr>
         }
@@ -40,7 +40,7 @@
     <table class="table table-bordered table-hover">
         @foreach (PropertyModel p in Model.Properties){
             <tr>
-                <td>@p.Name</td>
+                <td>@p.Identifier</td>
                 <td>@{CommentTag.RenderSummary(p.DocComment.Summary);}</td>
             </tr>
         }
@@ -53,7 +53,7 @@
     <table class="table table-bordered table-hover">
         @foreach (MethodModel m in Model.Methods){
             <tr>
-                <td>@m.Name</td>
+                <td>@m.Identifier</td>
                 <td>@{CommentTag.RenderSummary(m.DocComment.Summary);}</td>
             </tr>
         }

@@ -4,7 +4,7 @@
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<InterfaceModel>
 
-<p>Interface: @Model.FullName</p>
+<p>Interface: @Model.FullInternalName</p>
 
 <!--Summary
     Methods
@@ -19,7 +19,7 @@
     <table class="table table-bordered table-hover">
         @foreach (MethodModel m in Model.Methods){
             <tr>
-                <td>@m.Name</td>
+                <td>@m.Identifier</td>
                 <td>@m.DocComment.Summary</td>
             </tr>
         }

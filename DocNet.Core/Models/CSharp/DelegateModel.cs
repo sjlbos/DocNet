@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using DocNet.Core.Models.Comments;
 
@@ -7,17 +8,31 @@ namespace DocNet.Core.Models.CSharp
 {
     public class DelegateModel : CsType, IEquatable<DelegateModel>
     {
-        public override string UniqueName
+        public override string DisplayName
         {
             get
             {
-                var outputString = Name;
-                if (Parameters != null && Parameters.Any())
-                {
-                    outputString += "_";
-                    outputString += String.Join("_", Parameters.Select(p => p.TypeName));
-                }
-                return outputString;
+                if (Identifier == null) return null;
+                string displayName = Identifier;
+                if (TypeParameters != null && TypeParameters.Any())
+                    displayName += "<" + String.Join(",", TypeParameters.Select(p => p.Name)) + ">";
+                displayName += "(";
+                if (Parameters != null)
+                    displayName += String.Join(",", Parameters.Select(p => p.TypeName));
+                return displayName + ")";
+            }
+        }
+
+        public override string InternalName
+        {
+            get
+            {
+                var internalName = Identifier;
+                if (TypeParameters != null && TypeParameters.Any())
+                    internalName += "`" + TypeParameters.Count().ToString(CultureInfo.InvariantCulture);
+                if (Parameters != null)
+                    internalName += String.Join("_", Parameters.Select(p => p.TypeName));
+                return internalName;
             }
         }
 

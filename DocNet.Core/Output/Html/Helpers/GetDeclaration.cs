@@ -24,17 +24,17 @@ namespace DocNet.Core.Output.Html.Helpers
         /// <param name="interfaceModel">The InterfaceModel to get the declaration of.</param>
         /// <returns>
         /// A string of the form <c>[access modifier] interface [name]</c> 
-        /// or an empty string if the provided InterfaceModel is null or has a null or empty "Name" property.
+        /// or an empty string if the provided InterfaceModel is null or has a null or empty "Identifier" property.
         /// </returns>
         public static string OfInterface(InterfaceModel interfaceModel)
         {
-            if (interfaceModel == null || String.IsNullOrWhiteSpace(interfaceModel.Name))
+            if (interfaceModel == null || String.IsNullOrWhiteSpace(interfaceModel.Identifier))
                 return String.Empty;
 
             var sb = new StringBuilder();
             sb.Append(GetAccessModifierString(interfaceModel.AccessModifier));
             sb.Append(" interface ");
-            sb.Append(interfaceModel.Name);
+            sb.Append(interfaceModel.Identifier);
             AppendGenericsList(sb, interfaceModel.TypeParameters);
             AppendInheritanceList(sb, interfaceModel.InheritanceList);
 
@@ -48,11 +48,11 @@ namespace DocNet.Core.Output.Html.Helpers
         /// <returns>
         /// A string of the form 
         /// <c>[access modifier] [static|abstract|sealed] class [name][generic types][:base class, interface list]</c>
-        /// or an empty string if the provided ClassModel is null or has a null or empty "Name" property.
+        /// or an empty string if the provided ClassModel is null or has a null or empty "Identifier" property.
         /// </returns>
         public static string OfClass(ClassModel classModel)
         {
-            if (classModel == null || String.IsNullOrWhiteSpace(classModel.Name))
+            if (classModel == null || String.IsNullOrWhiteSpace(classModel.Identifier))
                 return String.Empty;
 
             var sb = new StringBuilder();
@@ -70,7 +70,7 @@ namespace DocNet.Core.Output.Html.Helpers
                 sb.Append(" sealed");
             }
             sb.Append(" class ");
-            sb.Append(classModel.Name);
+            sb.Append(classModel.Identifier);
             AppendGenericsList(sb, classModel.TypeParameters);
             AppendInheritanceList(sb, classModel.InheritanceList);
 
@@ -83,17 +83,17 @@ namespace DocNet.Core.Output.Html.Helpers
         /// <param name="structModel">The StructModel to get the declaration of.</param>
         /// <returns>
         ///  A string of the form <c>[access modifier] struct [name][generic types][:interface list]</c>
-        /// or an empty string if the provided StructModel is null or has a null or empty "Name" property.
+        /// or an empty string if the provided StructModel is null or has a null or empty "Identifier" property.
         /// </returns>
         public static string OfStruct(StructModel structModel)
         {
-            if (structModel == null || String.IsNullOrWhiteSpace(structModel.Name))
+            if (structModel == null || String.IsNullOrWhiteSpace(structModel.Identifier))
                 return String.Empty;
 
             var sb = new StringBuilder();
             sb.Append(GetAccessModifierString(structModel.AccessModifier));
             sb.Append(" struct ");
-            sb.Append(structModel.Name);
+            sb.Append(structModel.Identifier);
             AppendGenericsList(sb, structModel.TypeParameters);
             AppendInheritanceList(sb, structModel.InheritanceList);
 
@@ -106,18 +106,18 @@ namespace DocNet.Core.Output.Html.Helpers
         /// <param name="enumModel">The EnumModel to get the declaration of.</param>
         /// <returns>
         /// A string of the form <c>[access modifier] enum [name]</c> 
-        /// or an empty string if the provided EnumModel is null or has a null or empty "Name" property.
+        /// or an empty string if the provided EnumModel is null or has a null or empty "Identifier" property.
         /// </returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public static string OfEnum(EnumModel enumModel)
         {
-            if (enumModel == null || String.IsNullOrWhiteSpace(enumModel.Name))
+            if (enumModel == null || String.IsNullOrWhiteSpace(enumModel.Identifier))
                 return String.Empty;
 
             return String.Format(CultureInfo.InvariantCulture,
                 "{0} enum {1}", 
                 GetAccessModifierString(enumModel.AccessModifier),
-                enumModel.Name);
+                enumModel.Identifier);
         }
 
         /// <summary>
@@ -126,11 +126,11 @@ namespace DocNet.Core.Output.Html.Helpers
         /// <param name="delegateModel">The DelegateModel to get the declaration of.</param>
         /// <returns>
         /// A string of the form <c>[access modifier] delegate [return type] [name][generic types][parameters]</c> 
-        /// or an empty string if the provided DelegateModel is null or has a null or empty "Name" property.
+        /// or an empty string if the provided DelegateModel is null or has a null or empty "Identifier" property.
         /// </returns>
         public static string OfDelegate(DelegateModel delegateModel)
         {
-            if (delegateModel == null || String.IsNullOrWhiteSpace(delegateModel.Name))
+            if (delegateModel == null || String.IsNullOrWhiteSpace(delegateModel.Identifier))
                 return String.Empty;
 
             var sb = new StringBuilder();
@@ -138,7 +138,7 @@ namespace DocNet.Core.Output.Html.Helpers
             sb.Append(" delegate ");
             sb.Append(delegateModel.ReturnType);
             sb.Append(" ");
-            sb.Append(delegateModel.Name);
+            sb.Append(delegateModel.Identifier);
             AppendGenericsList(sb, delegateModel.TypeParameters);
             AppendParameterList(sb, delegateModel.Parameters);
 
@@ -151,11 +151,11 @@ namespace DocNet.Core.Output.Html.Helpers
         /// <param name="constructorModel">The ConstructorModel to get the declaration of.</param>
         /// <returns>
         /// A string of the form <c>[access modifier] [static] [name][parameters]</c> 
-        /// or an empty string if the provided ConstructorModel is null or has a null or empty "Name" property.
+        /// or an empty string if the provided ConstructorModel is null or has a null or empty "Identifier" property.
         /// </returns>
         public static string OfConstructor(ConstructorModel constructorModel)
         {
-            if (constructorModel == null || String.IsNullOrWhiteSpace(constructorModel.Name))
+            if (constructorModel == null || String.IsNullOrWhiteSpace(constructorModel.Identifier))
                 return String.Empty;
 
             var sb = new StringBuilder();
@@ -165,7 +165,7 @@ namespace DocNet.Core.Output.Html.Helpers
                 sb.Append(" static");
             }
             sb.Append(" ");
-            sb.Append(constructorModel.Name);
+            sb.Append(constructorModel.Identifier);
             AppendParameterList(sb, constructorModel.Parameters);
 
             return sb.ToString();
@@ -178,11 +178,11 @@ namespace DocNet.Core.Output.Html.Helpers
         /// <returns>
         /// A string of the form 
         /// <c>[new] [access modifier] [static|virtual|abstract|sealed|override] [async] [return type] [name][generic types][parameters]</c> 
-        /// or an empty string if the provided MethodModel is null or has a null or empty "Name" property.
+        /// or an empty string if the provided MethodModel is null or has a null or empty "Identifier" property.
         /// </returns>
         public static string OfMethod(MethodModel methodModel)
         {
-            if (methodModel == null || String.IsNullOrWhiteSpace(methodModel.Name))
+            if (methodModel == null || String.IsNullOrWhiteSpace(methodModel.Identifier))
                 return String.Empty;
 
             var sb = new StringBuilder();
@@ -212,7 +212,7 @@ namespace DocNet.Core.Output.Html.Helpers
             sb.Append(" ");
             sb.Append(methodModel.ReturnType);
             sb.Append(" ");
-            sb.Append(methodModel.Name);
+            sb.Append(methodModel.Identifier);
             AppendGenericsList(sb, methodModel.TypeParameters);
             AppendParameterList(sb, methodModel.Parameters);
 
@@ -226,11 +226,11 @@ namespace DocNet.Core.Output.Html.Helpers
         /// <returns>
         /// A string of the form 
         /// <c>[new] [access modifier] [static|virtual|abstract|sealed|override] [type] [name] [accessor list]</c> 
-        /// or an empty string if the provided PropertyModel is null or has a null or empty "Name" property.
+        /// or an empty string if the provided PropertyModel is null or has a null or empty "Identifier" property.
         /// </returns>
         public static string OfProperty(PropertyModel propertyModel)
         {
-            if (propertyModel == null || String.IsNullOrWhiteSpace(propertyModel.Name))
+            if (propertyModel == null || String.IsNullOrWhiteSpace(propertyModel.Identifier))
                 return String.Empty;
 
             var sb = new StringBuilder();
@@ -257,7 +257,7 @@ namespace DocNet.Core.Output.Html.Helpers
             sb.Append(" ");
             sb.Append(propertyModel.TypeName);
             sb.Append(" ");
-            sb.Append(propertyModel.Name);
+            sb.Append(propertyModel.Identifier);
             sb.Append(" { ");
 
             if (propertyModel.HasGetter)

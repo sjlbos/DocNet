@@ -56,11 +56,11 @@ namespace DocNet.Core.Output.Html
         {
             if (element == null)
                 throw new ArgumentNullException("element");
-            if (element.FullName == null) 
-                throw new ArgumentException("CsElement has null name property.");
             if (element is GlobalNamespaceModel)
                 return RootFileName;
-            return SanitizeOutputFileName(element.FullName) + OutputFileExtension;
+            if (element.FullInternalName == null) 
+                throw new ArgumentException("CsElement has null name property.");
+            return element.FullInternalName + ".html";
         }
 
         #endregion
@@ -265,13 +265,6 @@ namespace DocNet.Core.Output.Html
 
                 page.Execute();
             }
-        }
-
-        private static string SanitizeOutputFileName(string fileName)
-        {
-            return fileName
-                    .Replace('<', '{')
-                    .Replace('>', '}');
         }
 
         #endregion

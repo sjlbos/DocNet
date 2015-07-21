@@ -54,7 +54,7 @@ WriteLiteral("\r\n<p><h1>Constructor: ");
 
             
             #line 7 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-               Write(Model.Name);
+               Write(Model.Identifier);
 
             
             #line default
