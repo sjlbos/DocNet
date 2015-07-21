@@ -8,50 +8,66 @@ using DocNet.Core.Models.Comments;
 
 namespace DocNet.Core.Models.CSharp
 {
-    public abstract class InterfaceBase : CsType, ICsParentElement, IEquatable<InterfaceBase>
+    public abstract class InterfaceBase : CsType, IParentElement, IEquatable<InterfaceBase>
     {
-        #region Element Management
+        protected InterfaceBase()
+        {
+            _interfaceElements = new Dictionary<string, INestableElement>();
+            TypeParameters = new List<TypeParameterModel>();
+            InheritanceList = new List<string>();
+        }
 
-        private readonly IDictionary<string, NestableCsElement> _interfaceElements;
+        #region IParentElement Interface
 
-        public void AddChild(NestableCsElement child)
+        public virtual bool NestedElementIsLegal(INestableElement element)
+        {
+            return element is MethodModel
+                || element is PropertyModel;
+        }
+
+        private readonly IDictionary<string, INestableElement> _interfaceElements;
+
+        public void AddChild(INestableElement child)
         {
             if (child == null)
                 throw new ArgumentNullException("child");
-            if (String.IsNullOrWhiteSpace(child.Name))
+            if (String.IsNullOrWhiteSpace(child.UniqueName))
                 throw new IllegalChildElementException("Child element has missing name.");
             if (!NestedElementIsLegal(child))
                 throw new IllegalChildElementException(GetType() + " cannot have children of type " + child.GetType());
+            if (_interfaceElements.ContainsKey(child.UniqueName))
+                throw new NamingCollisionException(child.UniqueName);
 
-            if (child.Parent == null || NestedElementIsDirectDescendant(child))
-            {
-                child.Parent = this;
-
-                if (_interfaceElements.ContainsKey(child.UniqueName))
-                {
-                    if (_interfaceElements[child.UniqueName] != child)
-                    {
-                        throw new NamingCollisionException(child.UniqueName);
-                    }
-                }
-
-                _interfaceElements.Add(child.UniqueName, child);
-            }
-
-            if (Parent != null)
-                Parent.AddChild(child);
+            child.Parent = this;
+            _interfaceElements.Add(child.UniqueName, child);
         }
 
-        public NestableCsElement this[string uniqueName]
+        public bool HasDirectDescendant(INestableElement child)
         {
-            get
+            return child != null && _interfaceElements.ContainsKey(child.UniqueName);
+        }
+
+        public bool HasDescendant(INestableElement child)
+        {
+            if (child == null)
+                return false;
+
+            while (child.Parent != null)
             {
-                if (_interfaceElements.ContainsKey(uniqueName))
-                    return _interfaceElements[uniqueName];
-                if (Parent != null)
-                    return Parent[uniqueName];
-                return null;
+                if (child.Parent == this)
+                    return true;
+
+                child = child.Parent as INestableElement;
+
+                if (child == null)
+                    return false;
             }
+            return false;
+        }
+
+        public virtual INestableElement this[string uniqueName]
+        {
+            get { return _interfaceElements.ContainsKey(uniqueName) ? _interfaceElements[uniqueName] : null; }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -59,7 +75,7 @@ namespace DocNet.Core.Models.CSharp
             return GetEnumerator();
         }
 
-        public IEnumerator<NestableCsElement> GetEnumerator()
+        public IEnumerator<INestableElement> GetEnumerator()
         {
             return _interfaceElements.Values.GetEnumerator();
         }
@@ -113,13 +129,6 @@ namespace DocNet.Core.Models.CSharp
 
         #endregion
 
-        protected InterfaceBase()
-        {
-            _interfaceElements = new Dictionary<string, NestableCsElement>();
-            TypeParameters = new List<TypeParameterModel>();
-            InheritanceList = new List<string>();
-        }
-
         #region Equality Members
 
         public override int GetHashCode()
@@ -149,16 +158,5 @@ namespace DocNet.Core.Models.CSharp
 
         #endregion
 
-        protected bool NestedElementIsDirectDescendant(NestableCsElement element)
-        {
-            if(element == null) return false;
-            return element.Parent == this;
-        }
-
-        protected virtual bool NestedElementIsLegal(NestableCsElement element)
-        {
-            return element is MethodModel ||
-                   element is PropertyModel;
-        }
     }
 }

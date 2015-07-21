@@ -35,7 +35,7 @@ namespace DocNet.Razor.Views
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class EnumDetail : BaseTemplate<EnumModel>
+    public partial class EnumDetail : BodyTemplate<EnumModel>
     {
 #line hidden
 
@@ -135,7 +135,7 @@ WriteLiteral("</p>\r\n\r\n<!--See Also-->\r\n<p>\r\n    <h3>See Also</h3>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("</p>");
+WriteLiteral("</p>\r\n");
 
 
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using DocNet.Core.Models.CSharp;
 using DocNet.Core.Output.Html.Views;
 using DocNet.Razor.Views;
@@ -13,215 +14,264 @@ namespace DocNet.Core.Output.Html
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(HtmlDocumentationGenerator));
 
-        private const string RootFileName = "index.html";
-
-
+        private const string OutputFileExtension = ".html";
+        private const string RootFileName = "index" + OutputFileExtension;
+        
         private static readonly string MarkupFileDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Export");
-        private readonly IEnumerable<string> _markupFilesToExport; 
+
+        private readonly IEnumerable<string> _allExportedFiles; 
+        private readonly IEnumerable<string> _cssFiles;
+        private readonly IEnumerable<string> _scriptFiles;
+
+        private GlobalNamespaceModel _globalNamespace;
+        private string _outputDirectory;
 
         public HtmlDocumentationGenerator(IEnumerable<string> markupFilesToExport)
         {
             if(markupFilesToExport == null)
                 throw new ArgumentNullException("markupFilesToExport");
 
-            _markupFilesToExport = markupFilesToExport;
+            _allExportedFiles = markupFilesToExport;
+            _cssFiles = markupFilesToExport.Where(name => name.EndsWith(".css", StringComparison.Ordinal));
+            _scriptFiles = markupFilesToExport.Where(name => name.EndsWith(".js", StringComparison.Ordinal));
         }
 
-        public void GenerateDocumentation(NamespaceModel globalNamespace, string outputDirectory)
+        #region Public Interface
+
+        public void GenerateDocumentation(GlobalNamespaceModel globalNamespace, string outputDirectory)
         {
             if(globalNamespace == null)
                 throw new ArgumentNullException("globalNamespace");
             if(!Directory.Exists(outputDirectory))
                 throw new DirectoryNotFoundException(outputDirectory);
 
-            CopyExportFilesToDirectory(outputDirectory);
-            ProcessNamespace(globalNamespace, outputDirectory);
+            _globalNamespace = globalNamespace;
+            _outputDirectory = outputDirectory;
+
+            CopyExportFilesToDirectory(_outputDirectory);
+            ProcessNamespace(_globalNamespace);
         }
+
+        public static string GetFileNameForCsElement(CsElement element)
+        {
+            if (element == null)
+                throw new ArgumentNullException("element");
+            if (element.FullName == null) 
+                throw new ArgumentException("CsElement has null name property.");
+            if (element is GlobalNamespaceModel)
+                return RootFileName;
+            return SanitizeOutputFileName(element.FullName) + OutputFileExtension;
+        }
+
+        #endregion
 
         #region Helper Methods
 
         private void CopyExportFilesToDirectory(string outputDirectory)
         {
-            Log.Debug("Copying .css and .js files to output directory.");
-            foreach(var fileName in _markupFilesToExport)
+            Log.Debug("Copying exported files to output directory.");
+            foreach (var file in _allExportedFiles)
             {
-                string sourcePath = Path.Combine(MarkupFileDirectoryPath, fileName);
-                string destPath = Path.Combine(outputDirectory, fileName);
-                Log.DebugFormat(CultureInfo.CurrentCulture,
-                    "Copying \"{0}\" to \"{1}\".", sourcePath, destPath);
-                File.Copy(sourcePath, destPath, true);
+                CopyExportFileToDirectory(file, outputDirectory);
             }
         }
 
-        private void ProcessNamespace(NamespaceModel currentNamespace, string outputDirectory)
+        private void CopyExportFileToDirectory(string fileName, string outputDirectory)
+        {
+            string sourcePath = Path.Combine(MarkupFileDirectoryPath, fileName);
+            string destPath = Path.Combine(outputDirectory, fileName);
+            Log.DebugFormat(CultureInfo.CurrentCulture,
+                "Copying \"{0}\" to \"{1}\".", sourcePath, destPath);
+            File.Copy(sourcePath, destPath, true);
+        }
+
+        private void ProcessNamespace(NamespaceBase currentNamespace)
         {
             // Create namespace file
-            string namespaceFileName = currentNamespace.FullName != null ? currentNamespace.FullName + ".html" : RootFileName;
-            WriteView<NamespaceDetail, NamespaceModel>(namespaceFileName, outputDirectory, currentNamespace);
+            string namespaceFileName = GetFileNameForCsElement(currentNamespace);
+            WriteView<NamespaceDetail, NamespaceBase>(namespaceFileName, currentNamespace);
 
             // Process Child Namespaces
             foreach (var childNamespace in currentNamespace.ChildNamespaces)
             {
-                ProcessNamespace(childNamespace, outputDirectory);
+                ProcessNamespace(childNamespace);
             }
 
             // Process Child Interfaces
             foreach (var childInterface in currentNamespace.Interfaces)
             {
-                ProcessInterface(childInterface, outputDirectory);
+                ProcessInterface(childInterface);
             }
 
             // Process Child Classes
             foreach (var childClass in currentNamespace.Classes)
             {
-                ProcessClass(childClass, outputDirectory);   
+                ProcessClass(childClass);
             }
 
             // Process Child Structs
             foreach (var childStruct in currentNamespace.Structs)
             {
-                ProcessStruct(childStruct, outputDirectory);
+                ProcessStruct(childStruct);
             }
 
             // Process Child Enums
             foreach (var childEnum in currentNamespace.Enums)
             {
-                ProcessEnum(childEnum, outputDirectory);
+                ProcessEnum(childEnum);
             }
 
             // Process Child Delegates
             foreach (var childDelegate in currentNamespace.Delegates)
             {
-                ProcessDelegate(childDelegate, outputDirectory);
+                ProcessDelegate(childDelegate);
             }
         }
 
-        private void ProcessInterface(InterfaceModel interfaceModel, string outputDirectory)
+        private void ProcessInterface(InterfaceModel interfaceModel)
         {
-            string interfaceFileName = interfaceModel.FullName + ".html";
-            WriteView<InterfaceDetail, InterfaceModel>(interfaceFileName, outputDirectory, interfaceModel);
+            string interfaceFileName = GetFileNameForCsElement(interfaceModel);
+            WriteView<InterfaceDetail, InterfaceModel>(interfaceFileName, interfaceModel);
 
-            ProcessInterfaceMembers(interfaceModel, outputDirectory);
+            ProcessInterfaceMembers(interfaceModel);
         }
 
-        private void ProcessClass(ClassModel classModel, string outputDirectory)
+        private void ProcessClass(ClassModel classModel)
         {
-            string classFileName = classModel.FullName + ".html";
-            WriteView<ClassDetail, ClassModel>(classFileName, outputDirectory, classModel);
+            string classFileName = GetFileNameForCsElement(classModel);
+            WriteView<ClassDetail, ClassModel>(classFileName, classModel);
 
-            ProcessInterfaceMembers(classModel, outputDirectory);
-            ProcessClassAndStructMembers(classModel, outputDirectory);
+            ProcessInterfaceMembers(classModel);
+            ProcessClassAndStructMembers(classModel);
         }
 
-        private void ProcessStruct(StructModel structModel, string outputDirectory)
+        private void ProcessStruct(StructModel structModel)
         {
-            string structFileName = structModel.FullName + ".html";
-            WriteView<StructDetail, StructModel>(structFileName, outputDirectory, structModel);
+            string structFileName = GetFileNameForCsElement(structModel);
+            WriteView<StructDetail, StructModel>(structFileName, structModel);
 
-            ProcessInterfaceMembers(structModel, outputDirectory);
-            ProcessClassAndStructMembers(structModel, outputDirectory);
+            ProcessInterfaceMembers(structModel);
+            ProcessClassAndStructMembers(structModel);
         }
 
-        private void ProcessEnum(EnumModel enumModel, string outputDirectory)
+        private void ProcessEnum(EnumModel enumModel)
         {
-            string enumFileName = enumModel.FullName + ".html";
-            WriteView<EnumDetail, EnumModel>(enumFileName, outputDirectory, enumModel);
+            string enumFileName = GetFileNameForCsElement(enumModel);
+            WriteView<EnumDetail, EnumModel>(enumFileName, enumModel);
         }
 
-        private void ProcessDelegate(DelegateModel delegateModel, string outputDirectory)
+        private void ProcessDelegate(DelegateModel delegateModel)
         {
-            string delegateFileName = delegateModel.FullName + ".html";
-            WriteView<DelegateDetail, DelegateModel>(delegateFileName, outputDirectory, delegateModel);
+            string delegateFileName = GetFileNameForCsElement(delegateModel);
+            WriteView<DelegateDetail, DelegateModel>(delegateFileName, delegateModel);
         }
 
-        private void ProcessConstructor(ConstructorModel constructorModel, string outputDirectory)
+        private void ProcessConstructor(ConstructorModel constructorModel)
         {
-            string constructorFileName = constructorModel.FullName + ".html";
-            WriteView<ConstructorDetail, ConstructorModel>(constructorFileName, outputDirectory, constructorModel);
+            string constructorFileName = GetFileNameForCsElement(constructorModel);
+            WriteView<ConstructorDetail, ConstructorModel>(constructorFileName, constructorModel);
         }
 
-        private void ProcessMethod(MethodModel methodModel, string outputDirectory)
+        private void ProcessMethod(MethodModel methodModel)
         {
-            string methodFileName = methodModel.FullName + ".html";
-            WriteView<MethodDetail, MethodModel>(methodFileName, outputDirectory, methodModel);
+            string methodFileName = GetFileNameForCsElement(methodModel);
+            WriteView<MethodDetail, MethodModel>(methodFileName, methodModel);
         }
 
-        private void ProcessProperty(PropertyModel propertyModel, string outputDirectory)
+        private void ProcessProperty(PropertyModel propertyModel)
         {
-            string propertyFileName = propertyModel.FullName + ".html";
-            WriteView<PropertyDetail, PropertyModel>(propertyFileName, outputDirectory, propertyModel);
+            string propertyFileName = GetFileNameForCsElement(propertyModel);
+            WriteView<PropertyDetail, PropertyModel>(propertyFileName, propertyModel);
         }
 
-        private void ProcessInterfaceMembers(InterfaceBase model, string outputDirectory)
+        private void ProcessInterfaceMembers(InterfaceBase model)
         {
             // Process Methods
             foreach (var method in model.Methods)
             {
-                ProcessMethod(method, outputDirectory);
+                ProcessMethod(method);
             }
 
             // Process Properties
             foreach (var property in model.Properties)
             {
-                ProcessProperty(property, outputDirectory);
+                ProcessProperty(property);
             }
         }
 
-        private void ProcessClassAndStructMembers(ClassAndStructBase model, string outputDirectory)
+        private void ProcessClassAndStructMembers(ClassAndStructBase model)
         {
             // Process Constructors
             foreach (var constructor in model.Constructors)
             {
-                ProcessConstructor(constructor, outputDirectory);
+                ProcessConstructor(constructor);
             }
 
             // Process Nested Interfaces
             foreach (var interfaceModel in model.InnerInterfaces)
             {
-                ProcessInterface(interfaceModel, outputDirectory);
+                ProcessInterface(interfaceModel);
             }
 
             // Process Nested Classes
             foreach (var classModel in model.InnerClasses)
             {
-                ProcessClass(classModel, outputDirectory);
+                ProcessClass(classModel);
             }
 
             // Process Nested Structs
             foreach (var structModel in model.InnerStructs)
             {
-                ProcessStruct(structModel, outputDirectory);
+                ProcessStruct(structModel);
             }
 
             // Process Nested Enums
             foreach (var enumModel in model.InnerEnums)
             {
-                ProcessEnum(enumModel, outputDirectory);
+                ProcessEnum(enumModel);
             }
 
             // Process Nested Delegates
             foreach (var delegateModel in model.InnerDelegates)
             {
-                ProcessDelegate(delegateModel, outputDirectory);
+                ProcessDelegate(delegateModel);
             }
         }
 
-        private static void WriteView<TView, TModel>(string fileName, string outputDirectory, TModel model) where TView:BaseTemplate<TModel>, new()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        private void WriteView<TView, TModel>(string fileName, TModel model) 
+            where TView:BodyTemplate<TModel>, new()
+            where TModel:CsElement
         {
-            string filePath = Path.Combine(outputDirectory, fileName);
+            string filePath = Path.Combine(_outputDirectory, fileName);
             Log.InfoFormat(CultureInfo.CurrentCulture,
                 "Writing \"{0}\".", filePath);
             using (var writer = new StreamWriter(filePath))
             {
-                var view = new TView
+                var page = new Page
                 {
                     Writer = writer,
-                    OutputDirectoryAbsolutePath = outputDirectory,
-                    ViewAbsolutePath = filePath,
-                    Model = model
+                    GlobalNamespace = _globalNamespace,
+                    OutputDirectoryAbsolutePath = _outputDirectory,
+                    ScriptFiles = _scriptFiles,
+                    CssFiles = _cssFiles,
+                    Body = new TView
+                    {
+                        Model = model,
+                        GlobalNamespace = _globalNamespace,
+                        OutputDirectoryAbsolutePath = _outputDirectory
+                    }
                 };
-                view.Execute();
+
+                page.Execute();
             }
+        }
+
+        private static string SanitizeOutputFileName(string fileName)
+        {
+            return fileName
+                    .Replace('<', '{')
+                    .Replace('>', '}');
         }
 
         #endregion

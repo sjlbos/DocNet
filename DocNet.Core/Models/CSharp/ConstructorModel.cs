@@ -5,8 +5,23 @@ using DocNet.Core.Models.Comments;
 
 namespace DocNet.Core.Models.CSharp
 {
-    public class ConstructorModel : NestableCsElement, IEquatable<ConstructorModel>
+    public class ConstructorModel : CsElement, INestableElement, IEquatable<ConstructorModel>
     {
+        public override string FullName
+        {
+            get
+            {
+                if (Name == null) return null;
+                if (Parent != null)
+                    return Parent.FullName + "_" + Name;
+                return Name;
+            }
+        }
+
+        #region INestableElement
+
+        public IParentElement Parent { get; set; }
+
         public override string UniqueName
         {
             get
@@ -20,6 +35,22 @@ namespace DocNet.Core.Models.CSharp
                 return outputString;
             }
         }
+
+        public bool IsDirectDescendentOf(IParentElement parent)
+        {
+            return parent != null && parent == Parent;
+        }
+
+        public bool IsDescendentOf(IParentElement parent)
+        {
+            if (parent == null) return false;
+            if (parent == this.Parent) return true;
+            var localParentAsChild = this.Parent as INestableElement;
+            if (localParentAsChild == null) return false;
+            return localParentAsChild.IsDescendentOf(parent);
+        }
+
+        #endregion
 
         public AccessModifier AccessModifier { get; set; }
         public IList<ParameterModel> Parameters { get; set; }

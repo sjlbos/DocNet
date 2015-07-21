@@ -63,7 +63,7 @@ namespace DocNet.Core
                 }
 
                 // Parse each input file
-                var globalNamespace = new NamespaceModel();
+                var globalNamespace = new GlobalNamespaceModel();
                 Log.Info(String.Empty);
                 foreach(var filePath in uniqueInputFileList)
                 {
@@ -84,12 +84,14 @@ namespace DocNet.Core
                 Log.Fatal(ex.Message);
                 return ex.Status;
             }
-            catch(InvalidFileTypeException)
+            catch(InvalidFileTypeException ex)
             {
+                Log.Debug(ex);
                 return DocNetStatus.InvalidInputPath;
             }
-            catch(CsParsingException)
+            catch(CsParsingException ex)
             {
+                Log.Debug(ex);
                 return DocNetStatus.ParsingError;
             }
 
@@ -110,7 +112,7 @@ namespace DocNet.Core
             _inputFilePaths = _config.InputFilePaths;
         }
 
-        private void ParseCsFile(string csFilePath, NamespaceModel globalNamespace)
+        private void ParseCsFile(string csFilePath, GlobalNamespaceModel globalNamespace)
         {
             using (var csFile = File.OpenRead(csFilePath))
             {

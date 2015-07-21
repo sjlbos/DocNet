@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
+using DocNet.Core.Models.CSharp;
 
 namespace DocNet.Core.Output.Html.Views
 {
-    public abstract class BaseTemplate<T> : IDisposable
+    public abstract class BaseTemplate : IDisposable
     {
-        public TextWriter Writer { get; set; }
-        public T Model { get; set; }
+        public virtual TextWriter Writer { get; set; }
         public string OutputDirectoryAbsolutePath { get; set; }
-        public string ViewAbsolutePath { get; set; }
+        public GlobalNamespaceModel GlobalNamespace { get; set; }
 
         public abstract void Execute();
 

@@ -35,7 +35,7 @@ namespace DocNet.Razor.Views
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class PropertyDetail : BaseTemplate<PropertyModel>
+    public partial class PropertyDetail : BodyTemplate<PropertyModel>
     {
 #line hidden
 

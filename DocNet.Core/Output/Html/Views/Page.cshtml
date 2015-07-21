@@ -1,0 +1,39 @@
+﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
+@using DocNet.Core.Output.Html.Views
+@using DocNet.Razor.Helpers
+@inherits PageTemplate
+
+
+@helper RenderBody()
+{
+    Body.Execute();
+}
+
+<?xml version="1.0" encoding="utf-8" ?>
+
+<html>
+@PageHelper.RenderHead(CssFiles, ScriptFiles)
+<body class="primary">
+    <div class="flex-body">
+        <div class="page-head primary">
+            <div><h1><span id="head1">Doc</span><span id="head2">Net</span></h1></div>
+        </div>
+        <div class="main">
+            <div class="sidebar primary">
+                <div id="side-well" class="normal">
+                    @PageHelper.RenderSidebar(GlobalNamespace, Body.Model)
+                </div>
+            </div>
+            <div class="content normal">
+                @RenderBody()
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">DocNet was created by Stephen Bos, Scott Byrne, Chris Carr, and Keith Rollans.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -87,7 +87,7 @@ namespace DocNet.Core.Models.CSharp
 
         #endregion
 
-        protected override bool NestedElementIsLegal(NestableCsElement element)
+        public override bool NestedElementIsLegal(INestableElement element)
         {
             return base.NestedElementIsLegal(element) ||
                    element is ConstructorModel ||

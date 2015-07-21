@@ -80,22 +80,29 @@
     </Compile>
     <Compile Include="ControllerConfiguration.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
+    <Compile Include="Exceptions\DocumentationGenerationException.cs" />
     <Compile Include="Exceptions\IllegalChildElementException.cs" />
     <Compile Include="Exceptions\InvalidFileTypeException.cs" />
     <Compile Include="Exceptions\NamingCollisionException.cs" />
     <Compile Include="Models\CSharp\ClassAndStructBase.cs" />
     <Compile Include="Models\CSharp\CsElement.cs" />
     <Compile Include="Models\CSharp\CsType.cs" />
-    <Compile Include="Models\CSharp\ICsParentElement.cs" />
+    <Compile Include="Models\CSharp\GlobalNamespaceModel.cs" />
+    <Compile Include="Models\CSharp\IParentElement.cs" />
     <Compile Include="Models\CSharp\InterfaceBase.cs" />
-    <Compile Include="Models\CSharp\NamespaceElement.cs" />
-    <Compile Include="Models\CSharp\NestableCsElement.cs" />
+    <Compile Include="Models\CSharp\NamespaceBase.cs" />
+    <Compile Include="Models\CSharp\INestableElement.cs" />
     <Compile Include="Output\Html\Helpers\CommentTag.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CommentTag.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Output\Html\Helpers\GetDeclaration.cs" />
+    <Compile Include="Output\Html\Helpers\PageHelper.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PageHelper.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Output\Html\HtmlDocumentationGenerator.cs" />
     <Compile Include="Models\Comments\DocComment.cs" />
     <Compile Include="Models\Comments\InterfaceDocComment.cs" />
@@ -118,6 +125,7 @@
     <Compile Include="DocNetStatus.cs" />
     <Compile Include="IDocNetController.cs" />
     <Compile Include="Output\Html\Views\BaseTemplate.cs" />
+    <Compile Include="Output\Html\Views\BodyTemplate.cs" />
     <Compile Include="Output\Html\Views\DelegateDetail.generated.cs">
       <DependentUpon>DelegateDetail.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -143,6 +151,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Output\Html\Views\Page.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Page.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\Html\Views\PageTemplate.cs" />
     <Compile Include="Output\Html\Views\PropertyDetail.generated.cs">
       <DependentUpon>PropertyDetail.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -168,6 +182,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NamespaceDetail.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Output\Html\Views\StructDetail1.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StructDetail.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Output\IDocumentationGenerator.cs" />
     <Compile Include="Parsers\CSharp\CsTextParser.cs" />
     <Compile Include="Parsers\CSharp\ICsParser.cs" />
@@ -181,6 +200,11 @@
     <Compile Include="Models\VisualStudio\SolutionModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Output\Html\Css\Bootstrap\bootstrap-theme.css" />
+    <Content Include="Output\Html\Css\Bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Output\Html\Css\Bootstrap\bootstrap.css" />
+    <Content Include="Output\Html\Css\Bootstrap\bootstrap.min.css" />
+    <Content Include="Output\Html\Css\Custom\DocNet.Layout.css" />
     <Content Include="Output\Html\Css\Highlight\arta.css" />
     <Content Include="Output\Html\Css\Highlight\ascetic.css" />
     <Content Include="Output\Html\Css\Highlight\brown_paper.css" />
@@ -210,13 +234,26 @@
     <Content Include="Output\Html\Css\Highlight\vs.css" />
     <Content Include="Output\Html\Css\Highlight\xcode.css" />
     <Content Include="Output\Html\Css\Highlight\zenburn.css" />
+    <Content Include="Output\Html\Javascript\Bootstrap\bootstrap.js" />
+    <Content Include="Output\Html\Javascript\Bootstrap\bootstrap.min.js" />
+    <Content Include="Output\Html\Javascript\Bootstrap\collapse.js" />
+    <Content Include="Output\Html\Javascript\Bootstrap\npm.js" />
+    <Content Include="Output\Html\Javascript\Custom\DocNet.Scripts.js" />
+    <Content Include="Output\Html\Css\Custom\DocNet.Theme.css" />
     <Content Include="Output\Html\Javascript\Highlight\highlight.pack.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Output\Html\Css\Bootstrap\bootstrap-theme.css.map" />
+    <None Include="Output\Html\Css\Bootstrap\bootstrap.css.map" />
     <None Include="Output\Html\Helpers\CommentTag.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CommentTag.generated.cs</LastGenOutput>
     </None>
+    <None Include="Output\Html\Helpers\PageHelper.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PageHelper.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Html\Javascript\JQuery\jquery-1.9.1.min.map" />
     <None Include="Output\Html\Views\DelegateDetail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DelegateDetail.generated.cs</LastGenOutput>
@@ -237,13 +274,17 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ConstructorDetail.generated.cs</LastGenOutput>
     </None>
+    <None Include="Output\Html\Views\Page.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Page.generated.cs</LastGenOutput>
+    </None>
     <None Include="Output\Html\Views\PropertyDetail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PropertyDetail.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Views\StructDetail.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>StructDetail.generated.cs</LastGenOutput>
+      <LastGenOutput>StructDetail1.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Views\InterfaceDetail.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -268,6 +309,9 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.intellisense.js" />
+    <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.js" />
+    <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />

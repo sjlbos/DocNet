@@ -41,7 +41,7 @@ namespace DocNet.Razor.Views
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    public partial class NamespaceDetail : BaseTemplate<NamespaceModel>
+    public partial class NamespaceDetail : BodyTemplate<NamespaceBase>
     {
 #line hidden
 
@@ -246,7 +246,7 @@ WriteLiteral("</td>\r\n            </tr>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("    </table>\r\n</p>");
+WriteLiteral("    </table>\r\n</p>\r\n");
 
 
         }

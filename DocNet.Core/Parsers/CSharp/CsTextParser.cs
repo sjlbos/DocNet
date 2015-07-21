@@ -25,7 +25,7 @@ namespace DocNet.Core.Parsers.CSharp
         /// </summary>
         /// <param name="sourceCode">A string containing C# source code.</param>
         /// <returns>A model of the input source code's global namespace.</returns>
-        public NamespaceModel GetGlobalNamespace(string sourceCode)
+        public GlobalNamespaceModel GetGlobalNamespace(string sourceCode)
         {
             if(sourceCode == null)
                 throw new ArgumentNullException("sourceCode");
@@ -38,7 +38,7 @@ namespace DocNet.Core.Parsers.CSharp
         /// </summary>
         /// <param name="sourceCode">A string containing C# source code.</param>
         /// <param name="parentNamespace">A NamespaceModel object to which the types and namespaces contained in the input source code will be added.</param>
-        public void ParseIntoNamespace(string sourceCode, NamespaceModel parentNamespace)
+        public void ParseIntoNamespace(string sourceCode, GlobalNamespaceModel parentNamespace)
         {
             if(sourceCode == null)
                 throw new ArgumentNullException("sourceCode");
@@ -54,7 +54,7 @@ namespace DocNet.Core.Parsers.CSharp
         /// </summary>
         /// <param name="sourceFileStream">A Stream object pointing to a C# source code file.</param>
         /// <returns>A model of the input source code's global namespace.</returns>
-        public NamespaceModel GetGlobalNamespace(Stream sourceFileStream)
+        public GlobalNamespaceModel GetGlobalNamespace(Stream sourceFileStream)
         {
             if(sourceFileStream == null)
                 throw new ArgumentNullException("sourceFileStream");
@@ -67,7 +67,7 @@ namespace DocNet.Core.Parsers.CSharp
         /// </summary>
         /// <param name="sourceFileStream">A Stream object pointing to a C# source code file.</param>
         /// <param name="parentNamespace">A NamespaceModel object to which the types and namespaces contained in the input source code will be added.</param>
-        public void ParseIntoNamespace(FileStream sourceFileStream, NamespaceModel parentNamespace)
+        public void ParseIntoNamespace(FileStream sourceFileStream, GlobalNamespaceModel parentNamespace)
         {
             if (sourceFileStream == null)
                 throw new ArgumentNullException("sourceFileStream");
@@ -77,14 +77,14 @@ namespace DocNet.Core.Parsers.CSharp
             ParseIntoNamespace(sourceText, parentNamespace);
         }
 
-        private static NamespaceModel GetGlobalNamespace(SourceText csText)
+        private static GlobalNamespaceModel GetGlobalNamespace(SourceText csText)
         {
-            var namespaceModel = new NamespaceModel();
+            var namespaceModel = new GlobalNamespaceModel();
             ParseIntoNamespace(csText, namespaceModel);
             return namespaceModel;
         }
 
-        private static void ParseIntoNamespace(SourceText csText, NamespaceModel namespaceModel)
+        private static void ParseIntoNamespace(SourceText csText, GlobalNamespaceModel namespaceModel)
         {
             SyntaxTree tree = CSharpSyntaxTree.ParseText(csText);
             var walker = new CsCommentWalker(namespaceModel);
@@ -94,9 +94,9 @@ namespace DocNet.Core.Parsers.CSharp
 
     internal class CsCommentWalker : CSharpSyntaxWalker
     {
-        private ICsParentElement _currentParent;
+        private IParentElement _currentParent;
 
-        public CsCommentWalker(NamespaceModel globalNamespace)
+        public CsCommentWalker(GlobalNamespaceModel globalNamespace)
         {
             if (globalNamespace == null)
                 throw new ArgumentNullException("globalNamespace");
@@ -301,9 +301,13 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if(node == null) throw new ArgumentNullException("node");
 
+            string methodName = (node.ExplicitInterfaceSpecifier != null)
+                ? node.ExplicitInterfaceSpecifier + node.Identifier.Text
+                : node.Identifier.Text;
+
             var newMethod = new MethodModel
             {
-                Name = node.Identifier.Text,
+                Name = methodName,
                 DocComment = GetCommentFromNode<MethodDocComment>(node),
                 Parameters = GetParameterList(node.ParameterList.Parameters),
                 ReturnType = node.ReturnType.ToString(),
@@ -321,9 +325,13 @@ namespace DocNet.Core.Parsers.CSharp
         {
             if(node == null) throw new ArgumentNullException("node");
 
+            string propertyName = (node.ExplicitInterfaceSpecifier != null)
+                ? node.ExplicitInterfaceSpecifier + "." + node.Identifier.Text
+                : node.Identifier.Text;
+
             var newProperty = new PropertyModel
             {
-                Name = node.Identifier.Text,
+                Name = propertyName,
                 TypeName = node.Type.ToString(),
                 DocComment = GetCommentFromNode<PropertyDocComment>(node)
             };

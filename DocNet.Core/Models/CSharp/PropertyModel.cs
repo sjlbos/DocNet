@@ -4,12 +4,43 @@ using DocNet.Core.Models.Comments;
 
 namespace DocNet.Core.Models.CSharp
 {
-    public class PropertyModel : NestableCsElement, IEquatable<PropertyModel>
+    public class PropertyModel : CsElement, INestableElement, IEquatable<PropertyModel>
     {
+        public override string FullName
+        {
+            get
+            {
+                if (Name == null) return null;
+                if (Parent != null)
+                    return Parent.FullName + "_" + Name;
+                return Name;
+            }
+        }
+
+        #region INestableElement
+
+        public IParentElement Parent { get; set; }
+
         public override string UniqueName
         {
             get { return Name; }
         }
+
+        public bool IsDirectDescendentOf(IParentElement parent)
+        {
+            return parent != null && parent == Parent;
+        }
+
+        public bool IsDescendentOf(IParentElement parent)
+        {
+            if (parent == null) return false;
+            if (parent == this.Parent) return true;
+            var localParentAsChild = this.Parent as INestableElement;
+            if (localParentAsChild == null) return false;
+            return localParentAsChild.IsDescendentOf(parent);
+        }
+
+        #endregion
 
         public string TypeName { get; set; }
         public bool HasGetter { get; set; }
