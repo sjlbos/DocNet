@@ -199,7 +199,7 @@
     <Content Include="Output\Html\Css\Bootstrap\bootstrap-theme.min.css" />
     <Content Include="Output\Html\Css\Bootstrap\bootstrap.css" />
     <Content Include="Output\Html\Css\Bootstrap\bootstrap.min.css" />
-    <Content Include="Output\Html\Css\Custom\custom.css" />
+    <Content Include="Output\Html\Css\Custom\DocNet.Layout.css" />
     <Content Include="Output\Html\Css\Highlight\arta.css" />
     <Content Include="Output\Html\Css\Highlight\ascetic.css" />
     <Content Include="Output\Html\Css\Highlight\brown_paper.css" />
@@ -233,7 +233,8 @@
     <Content Include="Output\Html\Javascript\Bootstrap\bootstrap.min.js" />
     <Content Include="Output\Html\Javascript\Bootstrap\collapse.js" />
     <Content Include="Output\Html\Javascript\Bootstrap\npm.js" />
-    <Content Include="Output\Html\Javascript\Custom\custom.js" />
+    <Content Include="Output\Html\Javascript\Custom\DocNet.Scripts.js" />
+    <Content Include="Output\Html\Css\Custom\DocNet.Theme.css" />
     <Content Include="Output\Html\Javascript\Highlight\highlight.pack.js" />
   </ItemGroup>
   <ItemGroup>
