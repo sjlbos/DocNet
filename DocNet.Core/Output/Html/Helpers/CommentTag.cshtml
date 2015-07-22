@@ -81,6 +81,7 @@
 
 @helper RenderTopLevelContainer(TopLevelContainer container)
 {
+    if (container.Items == null) { return; }
     foreach (var element in container.Items)
      {
         @RenderContainerElement(element)
@@ -88,7 +89,8 @@
 }
 
 @helper RenderContainer(Container container)
-{
+{  
+    if (container.Items == null) { return; }
     foreach (var element in container.Items)
     {
         @RenderContainerElement(element);

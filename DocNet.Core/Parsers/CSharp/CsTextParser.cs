@@ -251,7 +251,8 @@ namespace DocNet.Core.Parsers.CSharp
             {
                 Identifier = node.Identifier.Text,
                 AccessModifier = GetAccessModifier(node.Modifiers),
-                DocComment = GetCommentFromNode<DocComment>(node)
+                DocComment = GetCommentFromNode<DocComment>(node),
+                Fields = node.Members.Select(m => m.Identifier.Text).ToList()
             };
 
             if(_currentParent != null)
