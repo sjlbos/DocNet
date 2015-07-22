@@ -13,7 +13,6 @@
     <div class="code-block">
         <pre><code class="cs">@declaration</code></pre>
     </div>
-
 }
 
 @helper _RenderSectionTitle(string title)
@@ -90,6 +89,52 @@
                         }
                 </td>
             </tr>
+            }
+        </table>
+    </p>
+}
+
+@helper RenderParameterTable(MethodModel methodModel)
+{
+    if (methodModel.Parameters == null || !methodModel.Parameters.Any()) { return; }
+    @_RenderParameterTable(methodModel.Parameters, methodModel.DocComment == null ? null : methodModel.DocComment.Parameters)
+}
+
+@helper RenderParameterTable(ConstructorModel constructorModel)
+{
+    if (constructorModel.Parameters == null || !constructorModel.Parameters.Any()) { return; }
+    @_RenderParameterTable(constructorModel.Parameters, constructorModel.DocComment == null ? null : constructorModel.DocComment.Parameters)
+}
+
+@helper RenderParameterTable(DelegateModel delegateModel)
+{
+    if (delegateModel.Parameters == null || !delegateModel.Parameters.Any()) { return; }
+    @_RenderParameterTable(delegateModel.Parameters, delegateModel.DocComment == null ? null : delegateModel.DocComment.Parameters)
+}
+
+@helper _RenderParameterTable(IList<ParameterModel> parameters, IList<ParameterTag> parameterComments)
+{
+    var paramToCommentMap = new Dictionary<string, ParameterTag>();
+    if (parameterComments != null)
+    {
+        paramToCommentMap = parameterComments.ToDictionary(tag => tag.Name, tag => tag);
+    }
+
+    @_RenderSectionTitle("Parameters")
+    <p>
+        <table class="table table-bordered table-hover">
+            @foreach (var param in parameters)
+            {
+                <tr>
+                    <td>@param.TypeName</td>
+                    <td>@param.Name</td>
+                    <td>
+                        @if (paramToCommentMap.ContainsKey(param.Name))
+                        {
+                            @CommentTag.RenderParam(paramToCommentMap[param.Name])
+                        }
+                    </td>
+                </tr>
             }
         </table>
     </p>

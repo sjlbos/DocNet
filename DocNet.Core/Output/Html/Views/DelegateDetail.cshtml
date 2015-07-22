@@ -27,15 +27,7 @@
         @CommentTag.RenderReturns(Model.DocComment.Returns)
     </p>
 
-    <!--Parameters-->
-    <p>
-        <h3>Parameters</h3>
-        <table class="table table-bordered table-hover">
-            @foreach (ParameterTag p in Model.DocComment.Parameters){
-                <tr><td>@CommentTag.RenderParam(p)</td></tr>
-            }
-        </table>
-    </p>
+    @PageSection.RenderParameterTable(Model)
 
     <!--Exceptions-->
     <p>
