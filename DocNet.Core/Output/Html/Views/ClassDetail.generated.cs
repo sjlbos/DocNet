@@ -187,7 +187,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
             
             #line 45 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                                                                           ;
+                                                                           
                         }
             
             #line default
@@ -259,7 +259,20 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line 65 "..\..\Output\Html\Views\ClassDetail.cshtml"
                          if (p.DocComment != null){
-                            CommentTag.RenderSummary(p.DocComment.Summary);
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 66 "..\..\Output\Html\Views\ClassDetail.cshtml"
+                       Write(CommentTag.RenderSummary(p.DocComment.Summary));
+
+            
+            #line default
+            #line hidden
+            
+            #line 66 "..\..\Output\Html\Views\ClassDetail.cshtml"
+                                                                           
                         }
             
             #line default
@@ -331,7 +344,20 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line 86 "..\..\Output\Html\Views\ClassDetail.cshtml"
                          if (m.DocComment != null){
-                            CommentTag.RenderSummary(m.DocComment.Summary);
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 87 "..\..\Output\Html\Views\ClassDetail.cshtml"
+                       Write(CommentTag.RenderSummary(m.DocComment.Summary));
+
+            
+            #line default
+            #line hidden
+            
+            #line 87 "..\..\Output\Html\Views\ClassDetail.cshtml"
+                                                                           
                         }
             
             #line default
