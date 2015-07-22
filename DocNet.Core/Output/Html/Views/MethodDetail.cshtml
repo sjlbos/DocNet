@@ -17,21 +17,11 @@
 
 @PageSection.RenderSummary(Model.DocComment)
 
-<!--Type Parameters-->
+@PageSection.RenderTypeParamTable(Model)
+
 @if (Model.DocComment != null)
 {
-    if (Model.DocComment.TypeParameters != null)
-    {
-        <p>
-            <h3>Type Parameters</h3>
-            <table class="table table-bordered table-hover">
-                @foreach (TypeParameterTag t in Model.DocComment.TypeParameters)
-                {
-                    <tr><td>@CommentTag.RenderTypeParam(t)</td></tr>
-                }
-            </table>
-        </p>
-    }
+
 
     if (Model.DocComment.Returns != null)
     {

@@ -107,6 +107,16 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 20 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+Write(PageSection.RenderTypeParamTable(Model));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 22 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
  if (Model.Methods.Any()){
 
             
@@ -120,7 +130,7 @@ WriteLiteral("    <p>\r\n        <table class=\"table table-bordered table-hover
 
 
             
-            #line 24 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
              foreach (MethodModel m in Model.Methods){
 
             
@@ -130,7 +140,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 26 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 28 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                    Write(m.Identifier);
 
             
@@ -138,28 +148,28 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
 
             
-            #line 26 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 28 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                                      WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
-            #line 27 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 29 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                          if (m.DocComment != null){
                             
             
             #line default
             #line hidden
             
-            #line 28 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 30 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                        Write(CommentTag.RenderSummary(m.DocComment.Summary));
 
             
             #line default
             #line hidden
             
-            #line 28 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 30 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                                                                            
                         }
             
@@ -169,7 +179,7 @@ WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 31 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 33 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
             }
 
             
@@ -179,7 +189,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 34 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 36 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
 }
 
             
@@ -189,7 +199,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 36 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 38 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
 Write(PageSection.RenderRemarks(Model.DocComment));
 
             
@@ -199,7 +209,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 38 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 40 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
 Write(PageSection.RenderExample(Model.DocComment));
 
             
@@ -209,7 +219,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 40 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 42 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

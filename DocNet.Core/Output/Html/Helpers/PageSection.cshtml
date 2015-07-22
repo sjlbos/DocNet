@@ -1,5 +1,11 @@
 ﻿@*Generator: WebPagesHelper GeneratePrettyNames: true Namespace: DocNet.Razor.Helpers *@
+@using System
+@using System.CodeDom
+@using System.Collections.Generic
+@using System.Linq
 @using DocNet.Core.Models.Comments
+@using DocNet.Core.Models.Comments.Xml
+@using DocNet.Core.Models.CSharp
 @using DocNet.Razor.Helpers
 
 @helper RenderDeclarationBlock(string declaration)
@@ -10,7 +16,7 @@
 
 }
 
-@helper RenderSectionTitle(string title)
+@helper _RenderSectionTitle(string title)
 {
     <p><h3>@title</h3></p>
 }
@@ -18,27 +24,73 @@
 @helper RenderSummary(DocComment docComment)
 {
     if (docComment == null || docComment.Summary == null) { return; }
-    @RenderSectionTitle("Summary")
+    @_RenderSectionTitle("Summary")
     <p>@CommentTag.RenderSummary(docComment.Summary)</p> 
 }
 
 @helper RenderRemarks(DocComment docComment)
 {
     if (docComment == null || docComment.Remarks == null) { return; }
-    @RenderSectionTitle("Remarks")
+    @_RenderSectionTitle("Remarks")
     <p>@CommentTag.RenderRemarks(docComment.Remarks)</p>
 }
 
 @helper RenderExample(DocComment docComment)
 {
     if (docComment == null || docComment.Example == null) { return; }
-    @RenderSectionTitle("Example")
+    @_RenderSectionTitle("Example")
     <p>@CommentTag.RenderExample(docComment.Example)</p>
 }
 
 @helper RenderSeeAlso(DocComment docComment)
 {
     if (docComment == null || docComment.SeeAlso == null) { return; }
-    @RenderSectionTitle("See Also")
+    @_RenderSectionTitle("See Also")
     <p>@CommentTag.RenderSeeAlso(docComment.SeeAlso)</p>
+}
+
+@helper RenderTypeParamTable(InterfaceBase interfaceModel)
+{
+    if (interfaceModel.TypeParameters == null || !interfaceModel.TypeParameters.Any()) { return; }
+    @_RenderTypeParamTable(interfaceModel.TypeParameters, interfaceModel.DocComment == null ? null : interfaceModel.DocComment.TypeParameters)
+}
+
+@helper RenderTypeParamTable(MethodModel methodModel)
+{
+    if (methodModel.TypeParameters == null || !methodModel.TypeParameters.Any()) { return; }
+    @_RenderTypeParamTable(methodModel.TypeParameters, methodModel.DocComment == null ? null : methodModel.DocComment.TypeParameters)
+}
+
+@helper RenderTypeParamTable(DelegateModel delegateModel)
+{
+    if (delegateModel.TypeParameters == null || !delegateModel.TypeParameters.Any()) { return; }
+    @_RenderTypeParamTable(delegateModel.TypeParameters, delegateModel.DocComment == null ? null : delegateModel.DocComment.TypeParameters)
+}
+
+@helper _RenderTypeParamTable(IList<TypeParameterModel> typeParams, IList<TypeParameterTag> typeParamComments)
+{
+    var paramToCommentMap = new Dictionary<string, TypeParameterTag>();
+    if (typeParamComments != null)
+    {
+        paramToCommentMap = typeParamComments.ToDictionary(tag => tag.Name, tag => tag);
+    }
+    
+    @_RenderSectionTitle("Type Parameters")
+
+    <p>
+        <table class="table table-bordered table-hover">
+            @foreach (var typeParam in typeParams)
+            {
+                <tr>
+                    <td>@(typeParam.Name + (!String.IsNullOrWhiteSpace(typeParam.Constraint) ? " : " + typeParam.Constraint : String.Empty)) </td>
+                    <td>
+                        @if (paramToCommentMap.ContainsKey(typeParam.Name))
+                        {
+                            @CommentTag.RenderTypeParam(paramToCommentMap[typeParam.Name])
+                        }
+                </td>
+            </tr>
+            }
+        </table>
+    </p>
 }

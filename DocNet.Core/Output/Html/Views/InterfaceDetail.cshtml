@@ -17,6 +17,8 @@
 
 @PageSection.RenderSummary(Model.DocComment)
 
+@PageSection.RenderTypeParamTable(Model)
+
 @if (Model.Methods.Any()){
     <!--Methods-->
     <p>
