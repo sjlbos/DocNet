@@ -17,7 +17,7 @@
 	margin-right: 15px;
 	margin-bottom: 3em;
 	border-radius: 5px;
-	flex: 1 0 auto;	
+	flex: 1 1 auto;	
 	box-shadow: 0px 0px 5px 3px #AAAAAA inset;
 }
 
@@ -99,4 +99,23 @@ h1 {
 
 .code-block {
     margin: 0px 15px;
+}
+
+table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.expand-table-cell {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+td:first-child{
+	width: 25%;
+}
+
+.expand-table-cell:hover {
+	white-space: normal;
 }

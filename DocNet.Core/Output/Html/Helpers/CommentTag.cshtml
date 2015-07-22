@@ -18,6 +18,13 @@
     </div>
 }
 
+@helper RenderTableSummary(SummaryTag summaryTag)
+{
+    <div class="expand-table-cell summary-comment">
+        @RenderTopLevelContainer(summaryTag)
+    </div>
+}
+
 @helper RenderRemarks(RemarksTag remarksTag)
 {
     <div class="remarks-comment">
