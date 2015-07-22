@@ -1,10 +1,44 @@
 ﻿@*Generator: WebPagesHelper GeneratePrettyNames: true Namespace: DocNet.Razor.Helpers *@
-
+@using DocNet.Core.Models.Comments
+@using DocNet.Razor.Helpers
 
 @helper RenderDeclarationBlock(string declaration)
 {
     <div class="code-block">
-        <pre><code class="cs">@(declaration)</code></pre>
+        <pre><code class="cs">@declaration</code></pre>
     </div>
 
+}
+
+@helper RenderSectionTitle(string title)
+{
+    <p><h3>@title</h3></p>
+}
+
+@helper RenderSummary(DocComment docComment)
+{
+    if (docComment == null || docComment.Summary == null) { return; }
+    @RenderSectionTitle("Summary")
+    <p>@CommentTag.RenderSummary(docComment.Summary)</p> 
+}
+
+@helper RenderRemarks(DocComment docComment)
+{
+    if (docComment == null || docComment.Remarks == null) { return; }
+    @RenderSectionTitle("Remarks")
+    <p>@CommentTag.RenderRemarks(docComment.Remarks)</p>
+}
+
+@helper RenderExample(DocComment docComment)
+{
+    if (docComment == null || docComment.Example == null) { return; }
+    @RenderSectionTitle("Example")
+    <p>@CommentTag.RenderExample(docComment.Example)</p>
+}
+
+@helper RenderSeeAlso(DocComment docComment)
+{
+    if (docComment == null || docComment.SeeAlso == null) { return; }
+    @RenderSectionTitle("See Also")
+    <p>@CommentTag.RenderSeeAlso(docComment.SeeAlso)</p>
 }

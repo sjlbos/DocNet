@@ -92,46 +92,21 @@ Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfClass(Model)));
             
             #line default
             #line hidden
-WriteLiteral("\r\n<!--Name\r\nSummary\r\nConstructors\r\nProperties\r\nMethods\r\nExceptions\r\nRemarks\r\nExam" +
-"ple\r\n    See Also-->\r\n\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 27 "..\..\Output\Html\Views\ClassDetail.cshtml"
- if (Model.DocComment != null) { 
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Summary-->\r\n");
-
-
-
-WriteLiteral("    <p>");
-
-
-            
-            #line 29 "..\..\Output\Html\Views\ClassDetail.cshtml"
-  Write(CommentTag.RenderSummary(Model.DocComment.Summary));
+            #line 18 "..\..\Output\Html\Views\ClassDetail.cshtml"
+Write(PageSection.RenderSummary(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 30 "..\..\Output\Html\Views\ClassDetail.cshtml"
-}
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-
-            
-            #line 32 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\ClassDetail.cshtml"
  if (Model.Constructors.Any()){
 
             
@@ -147,7 +122,7 @@ WriteLiteral("    <p>\r\n        <h3>Constructors</h3>\r\n        <table class=\
 
 
             
-            #line 41 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 29 "..\..\Output\Html\Views\ClassDetail.cshtml"
              foreach (ConstructorModel c in Model.Constructors){
 
             
@@ -157,7 +132,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 43 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 31 "..\..\Output\Html\Views\ClassDetail.cshtml"
                    Write(c.Identifier);
 
             
@@ -165,28 +140,28 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
 
             
-            #line 43 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 31 "..\..\Output\Html\Views\ClassDetail.cshtml"
                                      WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
-            #line 44 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 32 "..\..\Output\Html\Views\ClassDetail.cshtml"
                          if (c.DocComment != null){
                             
             
             #line default
             #line hidden
             
-            #line 45 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 33 "..\..\Output\Html\Views\ClassDetail.cshtml"
                        Write(CommentTag.RenderSummary(c.DocComment.Summary));
 
             
             #line default
             #line hidden
             
-            #line 45 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 33 "..\..\Output\Html\Views\ClassDetail.cshtml"
                                                                            
                         }
             
@@ -196,7 +171,7 @@ WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 48 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 36 "..\..\Output\Html\Views\ClassDetail.cshtml"
             }
 
             
@@ -206,7 +181,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 51 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 39 "..\..\Output\Html\Views\ClassDetail.cshtml"
 }
 
             
@@ -216,7 +191,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 53 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 41 "..\..\Output\Html\Views\ClassDetail.cshtml"
  if (Model.Properties.Any()){
 
             
@@ -232,7 +207,7 @@ WriteLiteral("    <p>\r\n        <h3>Properties</h3>\r\n        <table class=\"t
 
 
             
-            #line 62 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 50 "..\..\Output\Html\Views\ClassDetail.cshtml"
              foreach (PropertyModel p in Model.Properties){
 
             
@@ -242,7 +217,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 64 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 52 "..\..\Output\Html\Views\ClassDetail.cshtml"
                    Write(p.Identifier);
 
             
@@ -250,28 +225,28 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
 
             
-            #line 64 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 52 "..\..\Output\Html\Views\ClassDetail.cshtml"
                                      WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
-            #line 65 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 53 "..\..\Output\Html\Views\ClassDetail.cshtml"
                          if (p.DocComment != null){
                             
             
             #line default
             #line hidden
             
-            #line 66 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 54 "..\..\Output\Html\Views\ClassDetail.cshtml"
                        Write(CommentTag.RenderSummary(p.DocComment.Summary));
 
             
             #line default
             #line hidden
             
-            #line 66 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 54 "..\..\Output\Html\Views\ClassDetail.cshtml"
                                                                            
                         }
             
@@ -281,7 +256,7 @@ WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 69 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 57 "..\..\Output\Html\Views\ClassDetail.cshtml"
             }
 
             
@@ -291,7 +266,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 72 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 60 "..\..\Output\Html\Views\ClassDetail.cshtml"
 }
 
             
@@ -301,7 +276,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 74 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 62 "..\..\Output\Html\Views\ClassDetail.cshtml"
  if (Model.Methods.Any()){
 
             
@@ -317,7 +292,7 @@ WriteLiteral("    <p>\r\n        <h3>Methods</h3>\r\n        <table class=\"tabl
 
 
             
-            #line 83 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 71 "..\..\Output\Html\Views\ClassDetail.cshtml"
              foreach (MethodModel m in Model.Methods){
 
             
@@ -327,7 +302,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 85 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 73 "..\..\Output\Html\Views\ClassDetail.cshtml"
                    Write(m.Identifier);
 
             
@@ -335,28 +310,28 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
 
             
-            #line 85 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 73 "..\..\Output\Html\Views\ClassDetail.cshtml"
                                      WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
-            #line 86 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 74 "..\..\Output\Html\Views\ClassDetail.cshtml"
                          if (m.DocComment != null){
                             
             
             #line default
             #line hidden
             
-            #line 87 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 75 "..\..\Output\Html\Views\ClassDetail.cshtml"
                        Write(CommentTag.RenderSummary(m.DocComment.Summary));
 
             
             #line default
             #line hidden
             
-            #line 87 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 75 "..\..\Output\Html\Views\ClassDetail.cshtml"
                                                                            
                         }
             
@@ -366,7 +341,7 @@ WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 90 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 78 "..\..\Output\Html\Views\ClassDetail.cshtml"
             }
 
             
@@ -376,94 +351,44 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 93 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 81 "..\..\Output\Html\Views\ClassDetail.cshtml"
 }
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n<!--Exceptions-->\r\n\r\n<!--Explicit Interface Implementations-->\r\n");
+WriteLiteral("\r\n<!--Exceptions-->\r\n\r\n");
 
 
             
-            #line 98 "..\..\Output\Html\Views\ClassDetail.cshtml"
- if (Model.DocComment != null){
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Remarks-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n        ");
-
-
-            
-            #line 102 "..\..\Output\Html\Views\ClassDetail.cshtml"
-   Write(CommentTag.RenderRemarks(Model.DocComment.Remarks));
+            #line 85 "..\..\Output\Html\Views\ClassDetail.cshtml"
+Write(PageSection.RenderRemarks(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 104 "..\..\Output\Html\Views\ClassDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Example-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Example</h3>\r\n        ");
-
-
-            
-            #line 108 "..\..\Output\Html\Views\ClassDetail.cshtml"
-   Write(CommentTag.RenderExample(Model.DocComment.Example));
+            #line 87 "..\..\Output\Html\Views\ClassDetail.cshtml"
+Write(PageSection.RenderExample(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 110 "..\..\Output\Html\Views\ClassDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--See Also-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n        ");
-
-
-            
-            #line 114 "..\..\Output\Html\Views\ClassDetail.cshtml"
-   Write(CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso));
+            #line 89 "..\..\Output\Html\Views\ClassDetail.cshtml"
+Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n");
 
-
-            
-            #line 116 "..\..\Output\Html\Views\ClassDetail.cshtml"
-}
-
-            
-            #line default
-            #line hidden
 
         }
     }

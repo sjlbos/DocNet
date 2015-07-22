@@ -91,82 +91,43 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 17 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
- if (Model.DocComment != null){
+Write(PageSection.RenderSummary(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("    <!--Summary-->\r\n");
-
-
-
-WriteLiteral("    <p>");
+WriteLiteral("\r\n\r\n");
 
 
             
             #line 19 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-  Write(CommentTag.RenderSummary(Model.DocComment.Summary));
+Write(PageSection.RenderRemarks(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 20 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Remarks-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n        ");
-
-
-            
-            #line 24 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-   Write(CommentTag.RenderRemarks(Model.DocComment.Remarks));
+            #line 21 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+Write(PageSection.RenderExample(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 26 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--See Also-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n        ");
-
-
-            
-            #line 30 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-   Write(CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso));
+            #line 23 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n");
 
-
-            
-            #line 32 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-}
-            
-            #line default
-            #line hidden
 
         }
     }

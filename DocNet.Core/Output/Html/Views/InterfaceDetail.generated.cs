@@ -97,40 +97,16 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 18 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
- if (Model.DocComment != null){
+Write(PageSection.RenderSummary(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("    <!--Summary-->\r\n");
-
-
-
-WriteLiteral("    <p>");
+WriteLiteral("\r\n\r\n");
 
 
             
             #line 20 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-  Write(CommentTag.RenderSummary(Model.DocComment.Summary));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</p>\r\n");
-
-
-            
-            #line 21 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-}
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-
-            
-            #line 23 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
  if (Model.Methods.Any()){
 
             
@@ -144,7 +120,7 @@ WriteLiteral("    <p>\r\n        <table class=\"table table-bordered table-hover
 
 
             
-            #line 27 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 24 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
              foreach (MethodModel m in Model.Methods){
 
             
@@ -154,7 +130,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 29 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                    Write(m.Identifier);
 
             
@@ -162,28 +138,28 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
 
             
-            #line 29 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                                      WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
-            #line 30 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 27 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                          if (m.DocComment != null){
                             
             
             #line default
             #line hidden
             
-            #line 31 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 28 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                        Write(CommentTag.RenderSummary(m.DocComment.Summary));
 
             
             #line default
             #line hidden
             
-            #line 31 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 28 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
                                                                            
                         }
             
@@ -193,7 +169,7 @@ WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 34 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 31 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
             }
 
             
@@ -203,7 +179,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 37 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+            #line 34 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
 }
 
             
@@ -213,59 +189,34 @@ WriteLiteral("\r\n");
 
 
             
-            #line 39 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
- if (Model.DocComment != null){
+            #line 36 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+Write(PageSection.RenderRemarks(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("    <!--Remarks-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n        ");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 43 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-   Write(CommentTag.RenderRemarks(Model.DocComment.Remarks));
+            #line 38 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+Write(PageSection.RenderExample(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 45 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--See Also-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n        ");
-
-
-            
-            #line 49 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-   Write(CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso));
+            #line 40 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n");
 
-
-            
-            #line 51 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-}
-            
-            #line default
-            #line hidden
 
         }
     }

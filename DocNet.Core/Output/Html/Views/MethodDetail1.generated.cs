@@ -98,56 +98,42 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 18 "..\..\Output\Html\Views\MethodDetail.cshtml"
- if (Model.DocComment!=null){
+Write(PageSection.RenderSummary(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("    <!--Summary-->\r\n");
-
-
-
-WriteLiteral("    <p>");
-
-
-            
-            #line 20 "..\..\Output\Html\Views\MethodDetail.cshtml"
-  Write(CommentTag.RenderSummary(Model.DocComment.Summary));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</p>\r\n");
+WriteLiteral("\r\n\r\n<!--Type Parameters-->\r\n");
 
 
             
             #line 21 "..\..\Output\Html\Views\MethodDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Type Parameters-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Type Parameters</h3>\r\n        <table class=\"table table-bord" +
-"ered table-hover\">\r\n");
-
-
-            
-            #line 26 "..\..\Output\Html\Views\MethodDetail.cshtml"
-             foreach (TypeParameterTag t in Model.DocComment.TypeParameters){
+ if (Model.DocComment != null)
+{
+    if (Model.DocComment.TypeParameters != null)
+    {
 
             
             #line default
             #line hidden
-WriteLiteral("                <tr><td>");
+WriteLiteral("        <p>\r\n            <h3>Type Parameters</h3>\r\n            <table class=\"tabl" +
+"e table-bordered table-hover\">\r\n");
 
 
             
-            #line 27 "..\..\Output\Html\Views\MethodDetail.cshtml"
-                   Write(CommentTag.RenderTypeParam(t));
+            #line 28 "..\..\Output\Html\Views\MethodDetail.cshtml"
+                 foreach (TypeParameterTag t in Model.DocComment.TypeParameters)
+                {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    <tr><td>");
+
+
+            
+            #line 30 "..\..\Output\Html\Views\MethodDetail.cshtml"
+                       Write(CommentTag.RenderTypeParam(t));
 
             
             #line default
@@ -156,42 +142,45 @@ WriteLiteral("</td></tr>\r\n");
 
 
             
-            #line 28 "..\..\Output\Html\Views\MethodDetail.cshtml"
-            }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        </table>\r\n    </p>\r\n");
-
-
-            
             #line 31 "..\..\Output\Html\Views\MethodDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Returns-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Returns</h3>\r\n        ");
-
-
-            
-            #line 35 "..\..\Output\Html\Views\MethodDetail.cshtml"
-   Write(CommentTag.RenderReturns(Model.DocComment.Returns));
+                }
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("            </table>\r\n        </p>\r\n");
 
 
             
-            #line 37 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 34 "..\..\Output\Html\Views\MethodDetail.cshtml"
+    }
 
+    if (Model.DocComment.Returns != null)
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <!--Returns-->\r\n");
+
+
+
+WriteLiteral("        <p>\r\n            <h3>Returns</h3>\r\n            ");
+
+
+            
+            #line 41 "..\..\Output\Html\Views\MethodDetail.cshtml"
+       Write(CommentTag.RenderReturns(Model.DocComment.Returns));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n        </p>\r\n");
+
+
+            
+            #line 43 "..\..\Output\Html\Views\MethodDetail.cshtml"
+    }
 
             
             #line default
@@ -205,8 +194,9 @@ WriteLiteral("    <p>\r\n        <h3>Parameters</h3>\r\n        <table class=\"t
 
 
             
-            #line 42 "..\..\Output\Html\Views\MethodDetail.cshtml"
-             foreach (ParameterTag p in Model.DocComment.Parameters){
+            #line 48 "..\..\Output\Html\Views\MethodDetail.cshtml"
+             foreach (ParameterTag p in Model.DocComment.Parameters)
+            {
 
             
             #line default
@@ -215,7 +205,7 @@ WriteLiteral("                <tr><td>");
 
 
             
-            #line 43 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 50 "..\..\Output\Html\Views\MethodDetail.cshtml"
                    Write(CommentTag.RenderParam(p));
 
             
@@ -225,7 +215,7 @@ WriteLiteral("</td></tr>\r\n");
 
 
             
-            #line 44 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 51 "..\..\Output\Html\Views\MethodDetail.cshtml"
             }
 
             
@@ -235,7 +225,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 47 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 54 "..\..\Output\Html\Views\MethodDetail.cshtml"
 
 
             
@@ -250,8 +240,9 @@ WriteLiteral("    <p>\r\n        <h3>Exceptions</h3>\r\n        <table class=\"t
 
 
             
-            #line 52 "..\..\Output\Html\Views\MethodDetail.cshtml"
-             foreach (ExceptionTag e in Model.DocComment.Exceptions){
+            #line 59 "..\..\Output\Html\Views\MethodDetail.cshtml"
+             foreach (ExceptionTag e in Model.DocComment.Exceptions)
+            {
 
             
             #line default
@@ -260,7 +251,7 @@ WriteLiteral("                <tr><td>");
 
 
             
-            #line 53 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 61 "..\..\Output\Html\Views\MethodDetail.cshtml"
                    Write(CommentTag.RenderException(e));
 
             
@@ -270,7 +261,7 @@ WriteLiteral("</td></tr>\r\n");
 
 
             
-            #line 54 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 62 "..\..\Output\Html\Views\MethodDetail.cshtml"
             }
 
             
@@ -280,83 +271,44 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 57 "..\..\Output\Html\Views\MethodDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Remarks-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n        ");
-
-
-            
-            #line 61 "..\..\Output\Html\Views\MethodDetail.cshtml"
-   Write(CommentTag.RenderRemarks(Model.DocComment.Remarks));
+            #line 65 "..\..\Output\Html\Views\MethodDetail.cshtml"
+}
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
-
-
-            
-            #line 63 "..\..\Output\Html\Views\MethodDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Example-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Example</h3>\r\n        ");
+WriteLiteral("\r\n");
 
 
             
             #line 67 "..\..\Output\Html\Views\MethodDetail.cshtml"
-   Write(CommentTag.RenderExample(Model.DocComment.Example));
+Write(PageSection.RenderRemarks(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
             #line 69 "..\..\Output\Html\Views\MethodDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--See Also-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n        ");
-
-
-            
-            #line 73 "..\..\Output\Html\Views\MethodDetail.cshtml"
-   Write(CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso));
+Write(PageSection.RenderExample(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 75 "..\..\Output\Html\Views\MethodDetail.cshtml"
-}
+            #line 71 "..\..\Output\Html\Views\MethodDetail.cshtml"
+Write(PageSection.RenderSeeAlso(Model.DocComment));
+
             
             #line default
             #line hidden
+WriteLiteral("\r\n");
+
 
         }
     }

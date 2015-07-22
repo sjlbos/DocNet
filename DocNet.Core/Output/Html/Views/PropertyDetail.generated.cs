@@ -101,106 +101,43 @@ WriteLiteral("</h2></p>\r\n\r\n");
 
             
             #line 20 "..\..\Output\Html\Views\PropertyDetail.cshtml"
- if (Model.DocComment != null){
+Write(PageSection.RenderSummary(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("    <!--Summary-->\r\n");
-
-
-
-WriteLiteral("    <p>");
+WriteLiteral("\r\n\r\n");
 
 
             
             #line 22 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-  Write(CommentTag.RenderSummary(Model.DocComment.Summary));
+Write(PageSection.RenderRemarks(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 23 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Remarks-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n        ");
-
-
-            
-            #line 27 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-   Write(CommentTag.RenderRemarks(Model.DocComment.Remarks));
+            #line 24 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+Write(PageSection.RenderExample(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 29 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Example-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Example</h3>\r\n        ");
-
-
-            
-            #line 33 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-   Write(CommentTag.RenderExample(Model.DocComment.Example));
+            #line 26 "..\..\Output\Html\Views\PropertyDetail.cshtml"
+Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n");
 
-
-            
-            #line 35 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--See Also-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n        ");
-
-
-            
-            #line 39 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-   Write(CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n    </p>\r\n");
-
-
-            
-            #line 41 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-}
-            
-            #line default
-            #line hidden
 
         }
     }

@@ -60,12 +60,19 @@ namespace DocNet.Core.Output.Html
                 return RootFileName;
             if (element.FullInternalName == null) 
                 throw new ArgumentException("CsElement has null name property.");
-            return element.FullInternalName + ".html";
+            return GetSanitizedFilePath(element.FullInternalName) + ".html";
         }
 
         #endregion
 
         #region Helper Methods
+
+        private static string GetSanitizedFilePath(string filePath)
+        {
+            return filePath
+                .Replace('<', '[')
+                .Replace('>', ']');
+        }
 
         private void CopyExportFilesToDirectory(string outputDirectory)
         {
