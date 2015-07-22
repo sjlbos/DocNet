@@ -218,7 +218,20 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line 50 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                          if (s.DocComment != null){
-                            CommentTag.RenderSummary(s.DocComment.Summary);
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 51 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                       Write(CommentTag.RenderSummary(s.DocComment.Summary));
+
+            
+            #line default
+            #line hidden
+            
+            #line 51 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                                                                           
                         }
             
             #line default
@@ -290,7 +303,20 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line 71 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                          if (d.DocComment != null){
-                            CommentTag.RenderSummary(d.DocComment.Summary);
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 72 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                       Write(CommentTag.RenderSummary(d.DocComment.Summary));
+
+            
+            #line default
+            #line hidden
+            
+            #line 72 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                                                                           ;
                         }
             
             #line default
@@ -362,7 +388,20 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line 92 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                          if (e.DocComment != null){
-                            CommentTag.RenderSummary(e.DocComment.Summary);
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 93 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                       Write(CommentTag.RenderSummary(e.DocComment.Summary));
+
+            
+            #line default
+            #line hidden
+            
+            #line 93 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                                                                           ;
                         }
             
             #line default

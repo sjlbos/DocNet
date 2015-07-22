@@ -107,17 +107,13 @@ WriteLiteral("    <!--Summary-->\r\n");
 
 
 
-
-            
-            #line 21 "..\..\Output\Html\Views\StructDetail.cshtml"
 WriteLiteral("    <p>");
 
-            
-            #line default
-            #line hidden
+
             
             #line 21 "..\..\Output\Html\Views\StructDetail.cshtml"
-          CommentTag.RenderSummary(Model.DocComment.Summary); 
+  Write(CommentTag.RenderSummary(Model.DocComment.Summary));
+
             
             #line default
             #line hidden
@@ -184,14 +180,14 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
             
             #line 37 "..\..\Output\Html\Views\StructDetail.cshtml"
-                       Write(c.DocComment.Summary);
+                       Write(CommentTag.RenderSummary(c.DocComment.Summary));
 
             
             #line default
             #line hidden
             
             #line 37 "..\..\Output\Html\Views\StructDetail.cshtml"
-                                                 
+                                                                           
                     }
             
             #line default
@@ -269,14 +265,14 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
             
             #line 58 "..\..\Output\Html\Views\StructDetail.cshtml"
-                       Write(m.DocComment.Summary);
+                       Write(CommentTag.RenderSummary(m.DocComment.Summary));
 
             
             #line default
             #line hidden
             
             #line 58 "..\..\Output\Html\Views\StructDetail.cshtml"
-                                                 
+                                                                           
                         }
             
             #line default
@@ -339,17 +335,17 @@ WriteLiteral("    <!--See Also-->\r\n");
 
 
 
-WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n");
+WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n        ");
 
 
             
             #line 76 "..\..\Output\Html\Views\StructDetail.cshtml"
-           CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); 
+   Write(CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso));
 
             
             #line default
             #line hidden
-WriteLiteral("    </p>\r\n");
+WriteLiteral("\r\n    </p>\r\n");
 
 
             

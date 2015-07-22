@@ -18,7 +18,7 @@
 @if (Model.DocComment != null)
 {
     <!--Summary-->
-    <p>@{ CommentTag.RenderSummary(Model.DocComment.Summary); }</p>
+    <p>@CommentTag.RenderSummary(Model.DocComment.Summary)</p>
 }
 
 @if (Model.Constructors.Any()){
@@ -34,7 +34,7 @@
                 <tr>
                     <td>@c.Identifier</td>
                     <td>@if(c.DocComment!=null){
-                            @c.DocComment.Summary
+                            @CommentTag.RenderSummary(c.DocComment.Summary)
                     }</td>
                 </tr>
             }
@@ -55,7 +55,7 @@
                 <tr>
                     <td>@m.Identifier</td>
                     <td>@if (m.DocComment != null){
-                            @m.DocComment.Summary
+                            @CommentTag.RenderSummary(m.DocComment.Summary)
                         }</td>
                 </tr>
             }
@@ -73,6 +73,6 @@
     <!--See Also-->
     <p>
         <h3>See Also</h3>
-        @{ CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); }
+        @CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso)
     </p>
 }

@@ -106,17 +106,13 @@ WriteLiteral("    <!--Summary-->\r\n");
 
 
 
-
-            
-            #line 20 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
 WriteLiteral("    <p>");
 
-            
-            #line default
-            #line hidden
+
             
             #line 20 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-          CommentTag.RenderSummary(Model.DocComment.Summary); 
+  Write(CommentTag.RenderSummary(Model.DocComment.Summary));
+
             
             #line default
             #line hidden
@@ -181,14 +177,14 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
             
             #line 31 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-                       Write(m.DocComment.Summary);
+                       Write(CommentTag.RenderSummary(m.DocComment.Summary));
 
             
             #line default
             #line hidden
             
             #line 31 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-                                                 
+                                                                           
                         }
             
             #line default
@@ -251,17 +247,17 @@ WriteLiteral("    <!--See Also-->\r\n");
 
 
 
-WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n");
+WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n        ");
 
 
             
             #line 49 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-           CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); 
+   Write(CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso));
 
             
             #line default
             #line hidden
-WriteLiteral("    </p>\r\n");
+WriteLiteral("\r\n    </p>\r\n");
 
 
             

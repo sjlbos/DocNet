@@ -17,14 +17,14 @@
 
 @if (Model.DocComment!=null){
     <!--Summary-->
-    <p>@{ CommentTag.RenderSummary(Model.DocComment.Summary); }</p>
+    <p>@CommentTag.RenderSummary(Model.DocComment.Summary)</p>
 
     <!--Type Parameters-->
     <p>
         <h3>Type Parameters</h3>
         <table class="table table-bordered table-hover">
             @foreach (TypeParameterTag t in Model.DocComment.TypeParameters){
-                <tr><td>@{ CommentTag.RenderTypeParam(t); }</td></tr>
+                <tr><td>@CommentTag.RenderTypeParam(t)</td></tr>
             }
         </table>
     </p>
@@ -32,7 +32,7 @@
     <!--Returns-->
     <p>
         <h3>Returns</h3>
-        @{ CommentTag.RenderReturns(Model.DocComment.Returns); }
+        @CommentTag.RenderReturns(Model.DocComment.Returns)
     </p>
 
     <!--Parameters-->
@@ -40,7 +40,7 @@
         <h3>Parameters</h3>
         <table class="table table-bordered table-hover">
             @foreach (ParameterTag p in Model.DocComment.Parameters){
-                <tr><td>@{ CommentTag.RenderParam(p); }</td></tr>
+                <tr><td>@CommentTag.RenderParam(p)</td></tr>
             }
         </table>
     </p>
@@ -50,7 +50,7 @@
         <h3>Exceptions</h3>
         <table class="table table-bordered table-hover">
             @foreach (ExceptionTag e in Model.DocComment.Exceptions){
-                <tr><td>@{ CommentTag.RenderException(e); }</td></tr>
+                <tr><td>@CommentTag.RenderException(e)</td></tr>
             }
         </table>
     </p>
@@ -70,6 +70,6 @@
     <!--See Also-->
     <p>
         <h3>See Also</h3>
-        @{ CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); }
+        @CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso)
     </p>
 }

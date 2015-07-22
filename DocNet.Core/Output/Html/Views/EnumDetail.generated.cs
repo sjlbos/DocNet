@@ -106,17 +106,13 @@ WriteLiteral("    <!--Summary-->\r\n");
 
 
 
-
-            
-            #line 20 "..\..\Output\Html\Views\EnumDetail.cshtml"
 WriteLiteral("    <p>");
 
-            
-            #line default
-            #line hidden
+
             
             #line 20 "..\..\Output\Html\Views\EnumDetail.cshtml"
-          CommentTag.RenderSummary(Model.DocComment.Summary); 
+  Write(CommentTag.RenderSummary(Model.DocComment.Summary));
+
             
             #line default
             #line hidden
@@ -247,17 +243,17 @@ WriteLiteral("    <!--See Also-->\r\n");
 
 
 
-WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n");
+WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n        ");
 
 
             
             #line 51 "..\..\Output\Html\Views\EnumDetail.cshtml"
-           CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); 
+   Write(CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso));
 
             
             #line default
             #line hidden
-WriteLiteral("    </p>\r\n");
+WriteLiteral("\r\n    </p>\r\n");
 
 
             
