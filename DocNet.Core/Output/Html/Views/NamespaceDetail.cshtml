@@ -1,61 +1,93 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
+@using System.Linq
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
-@using DocNet.Core.Models.Comments.Xml
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<NamespaceBase>
 
 <!--Name-->
-<p><h1>@Model.FullInternalName</h1></p>
+<p><h1>@Model.FullDisplayName</h1></p>
 
-<!--Classes-->
-<p>
-    <h3>Classes</h3>
-    <table class="table table-bordered table-hover">
-        @foreach (ClassModel c in Model.Classes){
+@if (Model.Classes.Any()){
+    <!--Classes-->
+    <p>
+        <h3>Classes</h3>
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@c.Identifier</td>
-                <td>@{CommentTag.RenderSummary(c.DocComment.Summary);}</td>
+                <td><b>Class Name</b></td>
+                <td><b>Description</b></td>
             </tr>
-        }
-    </table>
-</p>
+            @foreach (ClassModel c in Model.Classes){
+                <tr>
+                    <td>@c.Identifier</td>
+                    <td>@if (c.DocComment != null){
+                            @{CommentTag.RenderSummary(c.DocComment.Summary);}
+                        }</td>
+                </tr>
+            }
+        </table>
+    </p>
+}
 
-<!--Structures-->
-<p>
-    <h3>Structures</h3>
-    <table class="table table-bordered table-hover">
-        @foreach (StructModel s in Model.Structs){
+@if (Model.Structs.Any()){
+    <!--Structures-->
+    <p>
+        <h3>Structures</h3>
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@s.Identifier</td>
-                <td>@{CommentTag.RenderSummary(s.DocComment.Summary);}</td>
+                <td><b>Structure Name</b></td>
+                <td><b>Description</b></td>
             </tr>
-        }
-    </table>
-</p>
+            @foreach (StructModel s in Model.Structs){
+                <tr>
+                    <td>@s.Identifier</td>
+                    <td>@if (s.DocComment != null){
+                            @{CommentTag.RenderSummary(s.DocComment.Summary);}
+                        }</td>
+                </tr>
+            }
+        </table>
+    </p>
+}
 
-<!--Delegates-->
-<p>
-    <h3>Delegates</h3>
-    <table class="table table-bordered table-hover">
-        @foreach (DelegateModel d in Model.Delegates){
+@if (Model.Delegates.Any()){
+    <!--Delegates-->
+    <p>
+        <h3>Delegates</h3>
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@d.Identifier</td>
-                <td>@{CommentTag.RenderSummary(d.DocComment.Summary);}</td>
+                <td><b>Delegate Name</b></td>
+                <td><b>Description</b></td>
             </tr>
-        }
-    </table>
-</p>
+            @foreach (DelegateModel d in Model.Delegates){
+                <tr>
+                    <td>@d.Identifier</td>
+                    <td>@if (d.DocComment != null){
+                            @{CommentTag.RenderSummary(d.DocComment.Summary);}
+                        }</td>
+                </tr>
+            }
+        </table>
+    </p>
+}
 
-<!--Enumerations-->
-<p>
-    <h3>Enumerations</h3>
-    <table class="table table-bordered table-hover">
-        @foreach (EnumModel e in Model.Enums){
+@if (Model.Enums.Any()){
+    <!--Enumerations-->
+    <p>
+        <h3>Enumerations</h3>
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@e.Identifier</td>
-                <td>@{CommentTag.RenderSummary(e.DocComment.Summary);}</td>
+                <td><b>Enum Name</b></td>
+                <td><b>Description</b></td>
             </tr>
-        }
-    </table>
-</p>
+            @foreach (EnumModel e in Model.Enums){
+                <tr>
+                    <td>@e.Identifier</td>
+                    <td>@if (e.DocComment != null){
+                            @{CommentTag.RenderSummary(e.DocComment.Summary);}
+                        }</td>
+                </tr>
+            }
+        </table>
+    </p>
+}

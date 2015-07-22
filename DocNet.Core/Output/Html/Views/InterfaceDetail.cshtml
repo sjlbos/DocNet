@@ -1,37 +1,46 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
+@using System.Linq
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<InterfaceModel>
 
-<p>Interface: @Model.FullInternalName</p>
+<p>Interface: @Model.FullDisplayName</p>
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfInterface(Model))
 
-<!--Summary-->
-<p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
+@if (Model.DocComment != null){
+    <!--Summary-->
+    <p>@{ CommentTag.RenderSummary(Model.DocComment.Summary); }</p>
+}
 
-<!--Methods-->
-<p>
-    <table class="table table-bordered table-hover">
-        @foreach (MethodModel m in Model.Methods){
-            <tr>
-                <td>@m.Identifier</td>
-                <td>@m.DocComment.Summary</td>
-            </tr>
-        }
-    </table>
-</p>
+@if (Model.Methods.Any()){
+    <!--Methods-->
+    <p>
+        <table class="table table-bordered table-hover">
+            @foreach (MethodModel m in Model.Methods){
+                <tr>
+                    <td>@m.Identifier</td>
+                    <td>@if (m.DocComment != null){
+                            @m.DocComment.Summary
+                        }</td>
+                </tr>
+            }
+        </table>
+    </p>
+}
 
-<!--Remarks-->
-<p>
-    <h3>Remarks</h3>
-    @{CommentTag.RenderRemarks(Model.DocComment.Remarks);}
-</p>
+@if (Model.DocComment != null){
+    <!--Remarks-->
+    <p>
+        <h3>Remarks</h3>
+        @{ CommentTag.RenderRemarks(Model.DocComment.Remarks); }
+    </p>
 
-<!--See Also-->
-<p>
-    <h3>See Also</h3>
-    @{CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);}
-</p>
+    <!--See Also-->
+    <p>
+        <h3>See Also</h3>
+        @{ CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); }
+    </p>
+}

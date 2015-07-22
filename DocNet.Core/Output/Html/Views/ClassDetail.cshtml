@@ -1,4 +1,5 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views *@
+@using System.Linq
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
@@ -6,68 +7,106 @@
 @inherits BodyTemplate<ClassModel>
 
 <!--Name-->
-<p><h1>Class: @Model.FullInternalName</h1></p>
+<p><h1>Class: @Model.FullDisplayName</h1></p>
 
-@PageSection.RenderDeclarationBlock(GetDeclaration.OfClass(Model))
+@{PageSection.RenderDeclarationBlock(GetDeclaration.OfClass(Model));}
+<!--Name
+Summary
+Constructors
+Properties
+Methods
+Exceptions
+Remarks
+Example
+    See Also-->
 
-<!--Summary-->
-<p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
+@if (Model.DocComment != null) { 
+    <!--Summary-->
+    <p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
+}
 
-<!--Constructors-->
-<p>
-    <h3>Constructors</h3>
-    <table class="table table-bordered table-hover">
-        @foreach(ConstructorModel c in Model.Constructors){
+@if (Model.Constructors.Any()){
+    <!--Constructors-->
+    <p>
+        <h3>Constructors</h3>
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@c.Identifier</td>
-                <td>@{CommentTag.RenderSummary(c.DocComment.Summary);}</td>
+                <td><b>Constructor Name</b></td>
+                <td><b>Description</b></td>
             </tr>
-        }
-    </table>
-</p>
+            @foreach (ConstructorModel c in Model.Constructors){
+                <tr>
+                    <td>@c.Identifier</td>
+                    <td>@if (c.DocComment != null){
+                            @{CommentTag.RenderSummary(c.DocComment.Summary);}
+                        }</td>
+                </tr>
+            }
+        </table>
+    </p>
+}
 
-<!--Properties-->
-<p>
-    <h3>Properties</h3>
-    <table class="table table-bordered table-hover">
-        @foreach (PropertyModel p in Model.Properties){
+@if (Model.Properties.Any()){
+    <!--Properties-->
+    <p>
+        <h3>Properties</h3>
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@p.Identifier</td>
-                <td>@{CommentTag.RenderSummary(p.DocComment.Summary);}</td>
+                <td><b>Property Name</b></td>
+                <td><b>Description</b></td>
             </tr>
-        }
-    </table>
-</p>
+            @foreach (PropertyModel p in Model.Properties){
+                <tr>
+                    <td>@p.Identifier</td>
+                    <td>@if (p.DocComment != null){
+                            @{CommentTag.RenderSummary(p.DocComment.Summary);}
+                        }</td>
+                </tr>
+            }
+        </table>
+    </p>
+}
 
-<!--Methods-->
-<p>
-    <h3>Methods</h3>
-    <table class="table table-bordered table-hover">
-        @foreach (MethodModel m in Model.Methods){
+@if (Model.Methods.Any()){
+    <!--Methods-->
+    <p>
+        <h3>Methods</h3>
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@m.Identifier</td>
-                <td>@{CommentTag.RenderSummary(m.DocComment.Summary);}</td>
+                <td><b>Method Name</b></td>
+                <td><b>Description</b></td>
             </tr>
-        }
-    </table>
-</p>
+            @foreach (MethodModel m in Model.Methods){
+                <tr>
+                    <td>@m.Identifier</td>
+                    <td>@if (m.DocComment != null){
+                            @{CommentTag.RenderSummary(m.DocComment.Summary);}
+                        }</td>
+                </tr>
+            }
+        </table>
+    </p>
+}
+
+<!--Exceptions-->
 
 <!--Explicit Interface Implementations-->
+@if (Model.DocComment != null){
+    <!--Remarks-->
+    <p>
+        <h3>Remarks</h3>
+        @{ CommentTag.RenderRemarks(Model.DocComment.Remarks); }
+    </p>
 
-<!--Remarks-->
-<p>
-    <h3>Remarks</h3>
-    @{CommentTag.RenderRemarks(Model.DocComment.Remarks);}
-</p>
+    <!--Example-->
+    <p>
+        <h3>Example</h3>
+        @{ CommentTag.RenderExample(Model.DocComment.Example); }
+    </p>
 
-<!--Example-->
-<p>
-    <h3>Example</h3>
-    @{CommentTag.RenderExample(Model.DocComment.Example);}
-</p>
-
-<!--See Also-->
-<p>
-    <h3>See Also</h3>
-    @{CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);}
-</p>
+    <!--See Also-->
+    <p>
+        <h3>See Also</h3>
+        @{ CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); }
+    </p>
+}

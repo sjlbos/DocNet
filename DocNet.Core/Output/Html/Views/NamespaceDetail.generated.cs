@@ -13,22 +13,21 @@ namespace DocNet.Razor.Views
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     
-    #line 4 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-    using DocNet.Core.Models.Comments.Xml;
+    #line 2 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+    using System.Linq;
     
     #line default
     #line hidden
+    using System.Text;
     
-    #line 2 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+    #line 3 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
     using DocNet.Core.Models.CSharp;
     
     #line default
     #line hidden
     
-    #line 3 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+    #line 4 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
     using DocNet.Core.Output.Html.Views;
     
     #line default
@@ -61,118 +60,128 @@ WriteLiteral("\r\n<!--Name-->\r\n<p><h1>");
 
             
             #line 9 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-  Write(Model.FullInternalName);
+  Write(Model.FullDisplayName);
 
             
             #line default
             #line hidden
-WriteLiteral("</h1></p>\r\n\r\n<!--Classes-->\r\n<p>\r\n    <h3>Classes</h3>\r\n    <table class=\"table t" +
-"able-bordered table-hover\">\r\n");
+WriteLiteral("</h1></p>\r\n\r\n");
 
 
             
-            #line 15 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-         foreach (ClassModel c in Model.Classes){
-
-            
-            #line default
-            #line hidden
-WriteLiteral("            <tr>\r\n                <td>");
-
-
-            
-            #line 17 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-               Write(c.Identifier);
+            #line 11 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+ if (Model.Classes.Any()){
 
             
             #line default
             #line hidden
+WriteLiteral("    <!--Classes-->\r\n");
 
-            
-            #line 17 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                           WriteLiteral("</td>\r\n                <td>");
 
-            
-            #line default
-            #line hidden
-            
-            #line 18 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                      CommentTag.RenderSummary(c.DocComment.Summary);
-            
-            #line default
-            #line hidden
-WriteLiteral("</td>\r\n            </tr>\r\n");
+
+WriteLiteral("    <p>\r\n        <h3>Classes</h3>\r\n        <table class=\"table table-bordered tab" +
+"le-hover\">\r\n            <tr>\r\n                <td><b>Class Name</b></td>\r\n      " +
+"          <td><b>Description</b></td>\r\n            </tr>\r\n");
 
 
             
             #line 20 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-        }
+             foreach (ClassModel c in Model.Classes){
 
             
             #line default
             #line hidden
-WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Structures-->\r\n<p>\r\n    <h3>Structures</h3>\r\n    <table" +
-" class=\"table table-bordered table-hover\">\r\n");
+WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 28 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-         foreach (StructModel s in Model.Structs){
+            #line 22 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                   Write(c.Identifier);
 
             
             #line default
             #line hidden
-WriteLiteral("            <tr>\r\n                <td>");
+
+            
+            #line 22 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                                     WriteLiteral("</td>\r\n                    <td>");
+
+            
+            #line default
+            #line hidden
+            
+            #line 23 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                         if (c.DocComment != null){
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 24 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                       Write();
+
+            
+            #line default
+            #line hidden
+            
+            #line 24 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                             {CommentTag.RenderSummary(c.DocComment.Summary);}
+                        }
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                </tr>\r\n");
+
+
+            
+            #line 27 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
             #line 30 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-               Write(s.Identifier);
+}
 
             
             #line default
             #line hidden
-
-            
-            #line 30 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                           WriteLiteral("</td>\r\n                <td>");
-
-            
-            #line default
-            #line hidden
-            
-            #line 31 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                      CommentTag.RenderSummary(s.DocComment.Summary);
-            
-            #line default
-            #line hidden
-WriteLiteral("</td>\r\n            </tr>\r\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 33 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-        }
+            #line 32 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+ if (Model.Structs.Any()){
 
             
             #line default
             #line hidden
-WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Delegates-->\r\n<p>\r\n    <h3>Delegates</h3>\r\n    <table c" +
-"lass=\"table table-bordered table-hover\">\r\n");
+WriteLiteral("    <!--Structures-->\r\n");
+
+
+
+WriteLiteral("    <p>\r\n        <h3>Structures</h3>\r\n        <table class=\"table table-bordered " +
+"table-hover\">\r\n            <tr>\r\n                <td><b>Structure Name</b></td>\r" +
+"\n                <td><b>Description</b></td>\r\n            </tr>\r\n");
 
 
             
             #line 41 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-         foreach (DelegateModel d in Model.Delegates){
+             foreach (StructModel s in Model.Structs){
 
             
             #line default
             #line hidden
-WriteLiteral("            <tr>\r\n                <td>");
+WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
             #line 43 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-               Write(d.Identifier);
+                   Write(s.Identifier);
 
             
             #line default
@@ -180,74 +189,221 @@ WriteLiteral("            <tr>\r\n                <td>");
 
             
             #line 43 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                           WriteLiteral("</td>\r\n                <td>");
+                                     WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
             #line 44 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                      CommentTag.RenderSummary(d.DocComment.Summary);
+                         if (s.DocComment != null){
+                            
             
             #line default
             #line hidden
-WriteLiteral("</td>\r\n            </tr>\r\n");
-
-
             
-            #line 46 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-        }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    </table>\r\n</p>\r\n\r\n<!--Enumerations-->\r\n<p>\r\n    <h3>Enumerations</h3>\r\n    <t" +
-"able class=\"table table-bordered table-hover\">\r\n");
-
-
-            
-            #line 54 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-         foreach (EnumModel e in Model.Enums){
-
-            
-            #line default
-            #line hidden
-WriteLiteral("            <tr>\r\n                <td>");
-
-
-            
-            #line 56 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-               Write(e.Identifier);
-
-            
-            #line default
-            #line hidden
-
-            
-            #line 56 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                           WriteLiteral("</td>\r\n                <td>");
+            #line 45 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                       Write();
 
             
             #line default
             #line hidden
             
-            #line 57 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                      CommentTag.RenderSummary(e.DocComment.Summary);
+            #line 45 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                             {CommentTag.RenderSummary(s.DocComment.Summary);}
+                        }
             
             #line default
             #line hidden
-WriteLiteral("</td>\r\n            </tr>\r\n");
+WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 59 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-        }
+            #line 48 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            }
 
             
             #line default
             #line hidden
-WriteLiteral("    </table>\r\n</p>\r\n");
+WriteLiteral("        </table>\r\n    </p>\r\n");
 
+
+            
+            #line 51 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+}
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
+
+
+            
+            #line 53 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+ if (Model.Delegates.Any()){
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    <!--Delegates-->\r\n");
+
+
+
+WriteLiteral("    <p>\r\n        <h3>Delegates</h3>\r\n        <table class=\"table table-bordered t" +
+"able-hover\">\r\n            <tr>\r\n                <td><b>Delegate Name</b></td>\r\n " +
+"               <td><b>Description</b></td>\r\n            </tr>\r\n");
+
+
+            
+            #line 62 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+             foreach (DelegateModel d in Model.Delegates){
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <tr>\r\n                    <td>");
+
+
+            
+            #line 64 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                   Write(d.Identifier);
+
+            
+            #line default
+            #line hidden
+
+            
+            #line 64 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                                     WriteLiteral("</td>\r\n                    <td>");
+
+            
+            #line default
+            #line hidden
+            
+            #line 65 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                         if (d.DocComment != null){
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 66 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                       Write();
+
+            
+            #line default
+            #line hidden
+            
+            #line 66 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                             {CommentTag.RenderSummary(d.DocComment.Summary);}
+                        }
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                </tr>\r\n");
+
+
+            
+            #line 69 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        </table>\r\n    </p>\r\n");
+
+
+            
+            #line 72 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+}
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
+
+
+            
+            #line 74 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+ if (Model.Enums.Any()){
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    <!--Enumerations-->\r\n");
+
+
+
+WriteLiteral("    <p>\r\n        <h3>Enumerations</h3>\r\n        <table class=\"table table-bordere" +
+"d table-hover\">\r\n            <tr>\r\n                <td><b>Enum Name</b></td>\r\n  " +
+"              <td><b>Description</b></td>\r\n            </tr>\r\n");
+
+
+            
+            #line 83 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+             foreach (EnumModel e in Model.Enums){
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <tr>\r\n                    <td>");
+
+
+            
+            #line 85 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                   Write(e.Identifier);
+
+            
+            #line default
+            #line hidden
+
+            
+            #line 85 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                                     WriteLiteral("</td>\r\n                    <td>");
+
+            
+            #line default
+            #line hidden
+            
+            #line 86 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                         if (e.DocComment != null){
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 87 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                       Write();
+
+            
+            #line default
+            #line hidden
+            
+            #line 87 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                             {CommentTag.RenderSummary(e.DocComment.Summary);}
+                        }
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                </tr>\r\n");
+
+
+            
+            #line 90 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        </table>\r\n    </p>\r\n");
+
+
+            
+            #line 93 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+}
+            
+            #line default
+            #line hidden
 
         }
     }

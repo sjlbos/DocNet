@@ -1,41 +1,48 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
+@using System.Linq
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<EnumModel>
 
-<p>Enum: @Model.FullInternalName</p>
+<p>Enum: @Model.FullDisplayName</p>
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfEnum(Model))
 
-<!--Summary-->
-<p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
+@if (Model.DocComment != null){
+    <!--Summary-->
+    <p>@{ CommentTag.RenderSummary(Model.DocComment.Summary); }</p>
+}
 
-<!--Members-->
-<p>
-    <h3>Members</h3>
-    <table class="table table-bordered table-hover">
-        @foreach(string s in Model.Fields){
-            <tr><td>@s</td></tr>
-        }
-    </table>
-</p>
+@if (Model.Fields.Any()){
+    <!--Members-->
+    <p>
+        <h3>Members</h3>
+        <table class="table table-bordered table-hover">
+            @foreach (string s in Model.Fields){
+                <tr><td>@s</td></tr>
+            }
+        </table>
+    </p>
+}
 
-<!--Remarks-->
-<p>
-    <h3>Remarks</h3>
-    @{CommentTag.RenderRemarks(Model.DocComment.Remarks);}
-</p>
+@if (Model.DocComment != null){
+    <!--Remarks-->
+    <p>
+        <h3>Remarks</h3>
+        @{ CommentTag.RenderRemarks(Model.DocComment.Remarks); }
+    </p>
 
-<!--Examples-->
-<p>
-    <h3>Examples</h3>
-    @{CommentTag.RenderExample(Model.DocComment.Example);}
-</p>
+    <!--Examples-->
+    <p>
+        <h3>Examples</h3>
+        @{ CommentTag.RenderExample(Model.DocComment.Example); }
+    </p>
 
-<!--See Also-->
-<p>
-    <h3>See Also</h3>
-    @{CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso);}
-</p>
+    <!--See Also-->
+    <p>
+        <h3>See Also</h3>
+        @{ CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); }
+    </p>
+}
