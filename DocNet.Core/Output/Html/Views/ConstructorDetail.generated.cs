@@ -101,7 +101,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 19 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-Write(PageSection.RenderParameterTable(Model));
+Write(PageSection.RenderExceptionTable(Model.DocComment));
 
             
             #line default
@@ -111,7 +111,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 21 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-Write(PageSection.RenderRemarks(Model.DocComment));
+Write(PageSection.RenderParameterTable(Model));
 
             
             #line default
@@ -121,7 +121,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 23 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-Write(PageSection.RenderExample(Model.DocComment));
+Write(PageSection.RenderRemarks(Model.DocComment));
 
             
             #line default
@@ -131,6 +131,16 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 25 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+Write(PageSection.RenderExample(Model.DocComment));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 27 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

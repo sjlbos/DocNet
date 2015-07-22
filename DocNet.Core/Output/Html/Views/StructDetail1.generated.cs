@@ -117,7 +117,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 22 "..\..\Output\Html\Views\StructDetail.cshtml"
-Write(PageSection.RenderConstructorTable(Model));
+Write(PageSection.RenderExceptionTable(Model.DocComment));
 
             
             #line default
@@ -127,7 +127,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 24 "..\..\Output\Html\Views\StructDetail.cshtml"
-Write(PageSection.RenderPropertyTable(Model));
+Write(PageSection.RenderConstructorTable(Model));
 
             
             #line default
@@ -137,7 +137,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 26 "..\..\Output\Html\Views\StructDetail.cshtml"
-Write(PageSection.RenderMethodTable(Model));
+Write(PageSection.RenderPropertyTable(Model));
 
             
             #line default
@@ -147,7 +147,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 28 "..\..\Output\Html\Views\StructDetail.cshtml"
-Write(PageSection.RenderRemarks(Model.DocComment));
+Write(PageSection.RenderMethodTable(Model));
 
             
             #line default
@@ -157,7 +157,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 30 "..\..\Output\Html\Views\StructDetail.cshtml"
-Write(PageSection.RenderExample(Model.DocComment));
+Write(PageSection.RenderRemarks(Model.DocComment));
 
             
             #line default
@@ -167,6 +167,16 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 32 "..\..\Output\Html\Views\StructDetail.cshtml"
+Write(PageSection.RenderExample(Model.DocComment));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 34 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

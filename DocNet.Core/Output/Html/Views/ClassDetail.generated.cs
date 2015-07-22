@@ -13,33 +13,28 @@ namespace DocNet.Razor.Views
 {
     using System;
     using System.Collections.Generic;
-    
-    #line 2 "..\..\Output\Html\Views\ClassDetail.cshtml"
     using System.Linq;
-    
-    #line default
-    #line hidden
     using System.Text;
     
-    #line 3 "..\..\Output\Html\Views\ClassDetail.cshtml"
+    #line 2 "..\..\Output\Html\Views\ClassDetail.cshtml"
     using DocNet.Core.Models.CSharp;
     
     #line default
     #line hidden
     
-    #line 4 "..\..\Output\Html\Views\ClassDetail.cshtml"
+    #line 3 "..\..\Output\Html\Views\ClassDetail.cshtml"
     using DocNet.Core.Output.Html.Helpers;
     
     #line default
     #line hidden
     
-    #line 5 "..\..\Output\Html\Views\ClassDetail.cshtml"
+    #line 4 "..\..\Output\Html\Views\ClassDetail.cshtml"
     using DocNet.Core.Output.Html.Views;
     
     #line default
     #line hidden
     
-    #line 6 "..\..\Output\Html\Views\ClassDetail.cshtml"
+    #line 5 "..\..\Output\Html\Views\ClassDetail.cshtml"
     using DocNet.Razor.Helpers;
     
     #line default
@@ -61,12 +56,11 @@ WriteLiteral("\r\n");
 
 
 
-
 WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Class</h3>\r\n    <h1>");
 
 
             
-            #line 12 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 11 "..\..\Output\Html\Views\ClassDetail.cshtml"
    Write(Model.DisplayName);
 
             
@@ -76,7 +70,7 @@ WriteLiteral("</h1>\r\n    <h3>Namespace: ");
 
 
             
-            #line 13 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 12 "..\..\Output\Html\Views\ClassDetail.cshtml"
               Write(Model.FullNameQualifier);
 
             
@@ -86,7 +80,7 @@ WriteLiteral("</h3>\r\n</p>\r\n\r\n");
 
 
             
-            #line 16 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 15 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfClass(Model)));
 
             
@@ -96,7 +90,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 18 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 17 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderSummary(Model.DocComment));
 
             
@@ -106,7 +100,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 20 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 19 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderTypeParamTable(Model));
 
             
@@ -116,7 +110,17 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 22 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 21 "..\..\Output\Html\Views\ClassDetail.cshtml"
+Write(PageSection.RenderExceptionTable(Model.DocComment));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 23 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderConstructorTable(Model));
 
             
@@ -126,7 +130,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 24 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 25 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderPropertyTable(Model));
 
             
@@ -136,17 +140,17 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 26 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 27 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderMethodTable(Model));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n<!--Exceptions-->\r\n\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 30 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 29 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderRemarks(Model.DocComment));
 
             
@@ -156,7 +160,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 32 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 31 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderExample(Model.DocComment));
 
             
@@ -166,7 +170,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 34 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 33 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             
