@@ -83,7 +83,7 @@
 {
     foreach (var element in container.Items)
      {
-        <span>@RenderContainerElement(element)</span>
+        @RenderContainerElement(element)
      }
 }
 
@@ -91,49 +91,49 @@
 {
     foreach (var element in container.Items)
     {
-        RenderContainerElement(element);
+        @RenderContainerElement(element);
     }
 }
 
 @helper RenderContainerElement(object element)
 {
+    if(element is string)
+    {
+        @element
+    }
     if (element is ParagraphTag)
     {
-        <span>This is ParagraphTag.@RenderPara(element as ParagraphTag)</span>
+        @RenderPara(element as ParagraphTag)
         return;
     }
     if (element is CTag)
     {
-        <span>This is CTag.@RenderC(element as CTag)</span>
+        @RenderC(element as CTag)
         return;
     }
     if (element is CodeTag)
     {
-        <span>This is CodeTag.@RenderCode(element as CodeTag)</span>
+        @RenderCode(element as CodeTag)
         return;
     }
     if (element is ListTag)
     {
-        <span>This is ListTag.</span>
-        RenderList();
+        @RenderList();
         return;
     }
     if (element is ParameterReferenceTag)
     {
-        <span>This is ParameterReferenceTag</span>
-        RenderParamRef(element as ParameterReferenceTag);
+        @RenderParamRef(element as ParameterReferenceTag);
         return;
     }
     if (element is SeeTag)
     {
-        <span>This is SeeTag.</span>
-        RenderSee(element as SeeTag);
+        @RenderSee(element as SeeTag);
         return;
     }
     if (element is TypeParameterReferenceTag)
     {
-        <span>This is TypeParameterReferenceTag.</span>
-        RenderTypeParamRef(element as TypeParameterReferenceTag);
+        @RenderTypeParamRef(element as TypeParameterReferenceTag);
         return;
     }
 }

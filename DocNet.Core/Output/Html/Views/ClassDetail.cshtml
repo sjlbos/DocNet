@@ -9,7 +9,7 @@
 <!--Name-->
 <p><h1>Class: @Model.FullDisplayName</h1></p>
 
-@{PageSection.RenderDeclarationBlock(GetDeclaration.OfClass(Model));}
+@PageSection.RenderDeclarationBlock(GetDeclaration.OfClass(Model))
 <!--Name
 Summary
 Constructors
@@ -22,7 +22,7 @@ Example
 
 @if (Model.DocComment != null) { 
     <!--Summary-->
-    <p>@{CommentTag.RenderSummary(Model.DocComment.Summary);}</p>
+    <p>@CommentTag.RenderSummary(Model.DocComment.Summary)</p>
 }
 
 @if (Model.Constructors.Any()){
@@ -38,7 +38,7 @@ Example
                 <tr>
                     <td>@c.Identifier</td>
                     <td>@if (c.DocComment != null){
-                            CommentTag.RenderSummary(c.DocComment.Summary);
+                            @CommentTag.RenderSummary(c.DocComment.Summary);
                         }</td>
                 </tr>
             }
