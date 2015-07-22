@@ -38,7 +38,7 @@ Example
                 <tr>
                     <td>@c.Identifier</td>
                     <td>@if (c.DocComment != null){
-                            @{CommentTag.RenderSummary(c.DocComment.Summary);}
+                            CommentTag.RenderSummary(c.DocComment.Summary);
                         }</td>
                 </tr>
             }
@@ -59,7 +59,7 @@ Example
                 <tr>
                     <td>@p.Identifier</td>
                     <td>@if (p.DocComment != null){
-                            @{CommentTag.RenderSummary(p.DocComment.Summary);}
+                            CommentTag.RenderSummary(p.DocComment.Summary);
                         }</td>
                 </tr>
             }
@@ -80,7 +80,7 @@ Example
                 <tr>
                     <td>@m.Identifier</td>
                     <td>@if (m.DocComment != null){
-                            @{CommentTag.RenderSummary(m.DocComment.Summary);}
+                            CommentTag.RenderSummary(m.DocComment.Summary);
                         }</td>
                 </tr>
             }

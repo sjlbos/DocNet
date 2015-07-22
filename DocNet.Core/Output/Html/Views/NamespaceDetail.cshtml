@@ -20,9 +20,11 @@
             @foreach (ClassModel c in Model.Classes){
                 <tr>
                     <td>@c.Identifier</td>
-                    <td>@if (c.DocComment != null){
-                            @{CommentTag.RenderSummary(c.DocComment.Summary);}
-                        }</td>
+                    @if (c.DocComment != null){
+                        <td>@CommentTag.RenderSummary(c.DocComment.Summary)</td>
+                    }else{
+                        <td></td>
+                    }
                 </tr>
             }
         </table>
@@ -42,7 +44,7 @@
                 <tr>
                     <td>@s.Identifier</td>
                     <td>@if (s.DocComment != null){
-                            @{CommentTag.RenderSummary(s.DocComment.Summary);}
+                            CommentTag.RenderSummary(s.DocComment.Summary);
                         }</td>
                 </tr>
             }
@@ -63,7 +65,7 @@
                 <tr>
                     <td>@d.Identifier</td>
                     <td>@if (d.DocComment != null){
-                            @{CommentTag.RenderSummary(d.DocComment.Summary);}
+                            CommentTag.RenderSummary(d.DocComment.Summary);
                         }</td>
                 </tr>
             }
@@ -84,7 +86,7 @@
                 <tr>
                     <td>@e.Identifier</td>
                     <td>@if (e.DocComment != null){
-                            @{CommentTag.RenderSummary(e.DocComment.Summary);}
+                            CommentTag.RenderSummary(e.DocComment.Summary);
                         }</td>
                 </tr>
             }

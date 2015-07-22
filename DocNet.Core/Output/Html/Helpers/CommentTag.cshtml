@@ -14,56 +14,56 @@
 @helper RenderSummary(SummaryTag summaryTag)
 {
     <div class="summary-comment">
-        RenderTopLevelContainer(summaryTag);
+        @RenderTopLevelContainer(summaryTag)
     </div>
 }
 
 @helper RenderRemarks(RemarksTag remarksTag)
 {
     <div class="remarks-comment">
-        RenderTopLevelContainer(remarksTag);
+        @RenderTopLevelContainer(remarksTag)
     </div>
 }
 
 @helper RenderExample(ExampleTag exampleTag)
 {
     <div class="example-comment">
-        RenderTopLevelContainer(exampleTag);
+        @RenderTopLevelContainer(exampleTag)
     </div>
 }
 
 @helper RenderReturns(ReturnsTag returnsTag)
 {
     <div class="returns-comment">
-        RenderTopLevelContainer(returnsTag);
+        @RenderTopLevelContainer(returnsTag)
     </div>
 }
 
 @helper RenderValue(ValueTag valueTag)
 {
     <div class="value-comment">
-        RenderTopLevelContainer(valueTag);
+        @RenderTopLevelContainer(valueTag)
     </div>
 }
 
 @helper RenderParam(ParameterTag paramTag)
 {
     <div class="parameter-comment">
-        RenderTopLevelContainer(paramTag);
+        @RenderTopLevelContainer(paramTag)
     </div>
 }
 
 @helper RenderTypeParam(TypeParameterTag typeParamTag)
 {
     <div class="type-parameter-comment">
-        RenderTopLevelContainer(typeParamTag);
+        @RenderTopLevelContainer(typeParamTag)
     </div>
 }
 
 @helper RenderException(ExceptionTag exceptionTag)
 {
     <div class="exception-comment">
-        RenderTopLevelContainer(exceptionTag);
+        @RenderTopLevelContainer(exceptionTag)
     </div>
 }
 
@@ -83,7 +83,7 @@
 {
     foreach (var element in container.Items)
      {
-         RenderContainerElement(element);
+        <span>@RenderContainerElement(element)</span>
      }
 }
 
@@ -99,36 +99,40 @@
 {
     if (element is ParagraphTag)
     {
-        RenderPara(element as ParagraphTag);
+        <span>This is ParagraphTag.@RenderPara(element as ParagraphTag)</span>
         return;
     }
     if (element is CTag)
     {
-        RenderC(element as CTag);
+        <span>This is CTag.@RenderC(element as CTag)</span>
         return;
     }
     if (element is CodeTag)
     {
-        RenderCode(element as CodeTag);
+        <span>This is CodeTag.@RenderCode(element as CodeTag)</span>
         return;
     }
     if (element is ListTag)
     {
+        <span>This is ListTag.</span>
         RenderList();
         return;
     }
     if (element is ParameterReferenceTag)
     {
+        <span>This is ParameterReferenceTag</span>
         RenderParamRef(element as ParameterReferenceTag);
         return;
     }
     if (element is SeeTag)
     {
+        <span>This is SeeTag.</span>
         RenderSee(element as SeeTag);
         return;
     }
     if (element is TypeParameterReferenceTag)
     {
+        <span>This is TypeParameterReferenceTag.</span>
         RenderTypeParamRef(element as TypeParameterReferenceTag);
         return;
     }

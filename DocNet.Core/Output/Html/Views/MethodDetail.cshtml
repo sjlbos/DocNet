@@ -19,7 +19,7 @@
         <h3>Type Parameters</h3>
         <table class="table table-bordered table-hover">
             @foreach (TypeParameterTag t in Model.DocComment.TypeParameters){
-                <tr>@{ CommentTag.RenderTypeParam(t); }</tr>
+                <tr><td>@{ CommentTag.RenderTypeParam(t); }</td></tr>
             }
         </table>
     </p>
@@ -35,7 +35,7 @@
         <h3>Parameters</h3>
         <table class="table table-bordered table-hover">
             @foreach (ParameterTag p in Model.DocComment.Parameters){
-                <tr>@{ CommentTag.RenderParam(p); }</tr>
+                <tr><td>@{ CommentTag.RenderParam(p); }</td></tr>
             }
         </table>
     </p>
@@ -45,7 +45,7 @@
         <h3>Exceptions</h3>
         <table class="table table-bordered table-hover">
             @foreach (ExceptionTag e in Model.DocComment.Exceptions){
-                <tr>@{ CommentTag.RenderException(e); }</tr>
+                <tr><td>@{ CommentTag.RenderException(e); }</td></tr>
             }
         </table>
     </p>

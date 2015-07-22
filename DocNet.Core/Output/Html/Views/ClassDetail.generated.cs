@@ -168,20 +168,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line 40 "..\..\Output\Html\Views\ClassDetail.cshtml"
                          if (c.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 41 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                       Write();
-
-            
-            #line default
-            #line hidden
-            
-            #line 41 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                             {CommentTag.RenderSummary(c.DocComment.Summary);}
+                            CommentTag.RenderSummary(c.DocComment.Summary);
                         }
             
             #line default
@@ -253,20 +240,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line 61 "..\..\Output\Html\Views\ClassDetail.cshtml"
                          if (p.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 62 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                       Write();
-
-            
-            #line default
-            #line hidden
-            
-            #line 62 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                             {CommentTag.RenderSummary(p.DocComment.Summary);}
+                            CommentTag.RenderSummary(p.DocComment.Summary);
                         }
             
             #line default
@@ -338,20 +312,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line 82 "..\..\Output\Html\Views\ClassDetail.cshtml"
                          if (m.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 83 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                       Write();
-
-            
-            #line default
-            #line hidden
-            
-            #line 83 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                             {CommentTag.RenderSummary(m.DocComment.Summary);}
+                            CommentTag.RenderSummary(m.DocComment.Summary);
                         }
             
             #line default

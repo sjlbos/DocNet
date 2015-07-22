@@ -212,18 +212,18 @@ WriteLiteral("    <p>\r\n        <h3>Parameters</h3>\r\n        <table class=\"t
 
             
             #line 38 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-WriteLiteral("                <tr>");
+WriteLiteral("                <tr><td>");
 
             
             #line default
             #line hidden
             
             #line 38 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-                       CommentTag.RenderParam(p); 
+                           CommentTag.RenderParam(p); 
             
             #line default
             #line hidden
-WriteLiteral("</tr>\r\n");
+WriteLiteral("</td></tr>\r\n");
 
 
             
@@ -261,18 +261,18 @@ WriteLiteral("    <p>\r\n        <h3>Exceptions</h3>\r\n        <table class=\"t
 
             
             #line 48 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-WriteLiteral("                <tr>");
+WriteLiteral("                <tr><td>");
 
             
             #line default
             #line hidden
             
             #line 48 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-                       CommentTag.RenderException(e); 
+                           CommentTag.RenderException(e); 
             
             #line default
             #line hidden
-WriteLiteral("</tr>\r\n");
+WriteLiteral("</td></tr>\r\n");
 
 
             

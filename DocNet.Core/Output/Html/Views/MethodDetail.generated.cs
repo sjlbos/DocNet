@@ -139,18 +139,18 @@ WriteLiteral("    <p>\r\n        <h3>Type Parameters</h3>\r\n        <table clas
 
             
             #line 22 "..\..\Output\Html\Views\MethodDetail.cshtml"
-WriteLiteral("                <tr>");
+WriteLiteral("                <tr><td>");
 
             
             #line default
             #line hidden
             
             #line 22 "..\..\Output\Html\Views\MethodDetail.cshtml"
-                       CommentTag.RenderTypeParam(t); 
+                           CommentTag.RenderTypeParam(t); 
             
             #line default
             #line hidden
-WriteLiteral("</tr>\r\n");
+WriteLiteral("</td></tr>\r\n");
 
 
             

@@ -101,40 +101,51 @@ WriteLiteral("                <tr>\r\n                    <td>");
             
             #line default
             #line hidden
+WriteLiteral("</td>\r\n");
 
-            
-            #line 22 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                                     WriteLiteral("</td>\r\n                    <td>");
 
-            
-            #line default
-            #line hidden
             
             #line 23 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                         if (c.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 24 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                       Write();
+                     if (c.DocComment != null){
 
             
             #line default
             #line hidden
+WriteLiteral("                        <td>");
+
+
             
             #line 24 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                             {CommentTag.RenderSummary(c.DocComment.Summary);}
-                        }
+                       Write(CommentTag.RenderSummary(c.DocComment.Summary));
+
             
             #line default
             #line hidden
-WriteLiteral("</td>\r\n                </tr>\r\n");
+WriteLiteral("</td>\r\n");
+
+
+            
+            #line 25 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                    }else{
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        <td></td>\r\n");
 
 
             
             #line 27 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+                    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                </tr>\r\n");
+
+
+            
+            #line 29 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
             }
 
             
@@ -144,7 +155,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 30 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 32 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
 }
 
             
@@ -154,7 +165,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 32 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 34 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
  if (Model.Structs.Any()){
 
             
@@ -170,7 +181,7 @@ WriteLiteral("    <p>\r\n        <h3>Structures</h3>\r\n        <table class=\"t
 
 
             
-            #line 41 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 43 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
              foreach (StructModel s in Model.Structs){
 
             
@@ -180,7 +191,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 43 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 45 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                    Write(s.Identifier);
 
             
@@ -188,29 +199,16 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
 
             
-            #line 43 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 45 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                                      WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
-            #line 44 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 46 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                          if (s.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 45 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                       Write();
-
-            
-            #line default
-            #line hidden
-            
-            #line 45 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                             {CommentTag.RenderSummary(s.DocComment.Summary);}
+                            CommentTag.RenderSummary(s.DocComment.Summary);
                         }
             
             #line default
@@ -219,7 +217,7 @@ WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 48 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 50 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
             }
 
             
@@ -229,7 +227,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 51 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 53 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
 }
 
             
@@ -239,7 +237,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 53 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 55 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
  if (Model.Delegates.Any()){
 
             
@@ -255,7 +253,7 @@ WriteLiteral("    <p>\r\n        <h3>Delegates</h3>\r\n        <table class=\"ta
 
 
             
-            #line 62 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 64 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
              foreach (DelegateModel d in Model.Delegates){
 
             
@@ -265,7 +263,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 64 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 66 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                    Write(d.Identifier);
 
             
@@ -273,29 +271,16 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
 
             
-            #line 64 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 66 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                                      WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
-            #line 65 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 67 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                          if (d.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 66 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                       Write();
-
-            
-            #line default
-            #line hidden
-            
-            #line 66 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                             {CommentTag.RenderSummary(d.DocComment.Summary);}
+                            CommentTag.RenderSummary(d.DocComment.Summary);
                         }
             
             #line default
@@ -304,7 +289,7 @@ WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 69 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 71 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
             }
 
             
@@ -314,7 +299,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 72 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 74 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
 }
 
             
@@ -324,7 +309,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 74 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 76 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
  if (Model.Enums.Any()){
 
             
@@ -340,7 +325,7 @@ WriteLiteral("    <p>\r\n        <h3>Enumerations</h3>\r\n        <table class=\
 
 
             
-            #line 83 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 85 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
              foreach (EnumModel e in Model.Enums){
 
             
@@ -350,7 +335,7 @@ WriteLiteral("                <tr>\r\n                    <td>");
 
 
             
-            #line 85 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 87 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                    Write(e.Identifier);
 
             
@@ -358,29 +343,16 @@ WriteLiteral("                <tr>\r\n                    <td>");
             #line hidden
 
             
-            #line 85 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 87 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                                      WriteLiteral("</td>\r\n                    <td>");
 
             
             #line default
             #line hidden
             
-            #line 86 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 88 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
                          if (e.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 87 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                       Write();
-
-            
-            #line default
-            #line hidden
-            
-            #line 87 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-                             {CommentTag.RenderSummary(e.DocComment.Summary);}
+                            CommentTag.RenderSummary(e.DocComment.Summary);
                         }
             
             #line default
@@ -389,7 +361,7 @@ WriteLiteral("</td>\r\n                </tr>\r\n");
 
 
             
-            #line 90 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 92 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
             }
 
             
@@ -399,7 +371,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 93 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
+            #line 95 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
 }
             
             #line default

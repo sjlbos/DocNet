@@ -92,11 +92,6 @@
     <Compile Include="Models\CSharp\InterfaceBase.cs" />
     <Compile Include="Models\CSharp\NamespaceBase.cs" />
     <Compile Include="Models\CSharp\INestableElement.cs" />
-    <Compile Include="Output\Html\Helpers\CommentTag.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommentTag.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Output\Html\Helpers\GetDeclaration.cs" />
     <Compile Include="Output\Html\Helpers\PageHelper.generated.cs">
       <AutoGen>True</AutoGen>
@@ -241,8 +236,8 @@
     <None Include="Output\Html\Css\Bootstrap\bootstrap-theme.css.map" />
     <None Include="Output\Html\Css\Bootstrap\bootstrap.css.map" />
     <None Include="Output\Html\Helpers\CommentTag.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>CommentTag.generated.cs</LastGenOutput>
+      <Generator>Razor Generator</Generator>
+      <LastGenOutput>CommentTag1.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Helpers\PageHelper.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -263,7 +258,6 @@
     </None>
     <None Include="Output\Html\Views\MethodDetail.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>MethodDetail.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Views\ConstructorDetail.cshtml">
       <Generator>RazorGenerator</Generator>
