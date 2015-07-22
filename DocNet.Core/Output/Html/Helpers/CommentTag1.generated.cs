@@ -705,7 +705,15 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 #line 160 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
-    
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "    <p>Lists are currently not working fix me.</p>\r\n");
+
+
+
+#line 162 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -835,7 +843,17 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <p>RenderContainer(paragraphTag);</p>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "    <p>");
+
+
+
+#line 181 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, RenderContainer(paragraphTag));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "</p>\r\n");
 
 
 
