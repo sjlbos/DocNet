@@ -117,176 +117,26 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 22 "..\..\Output\Html\Views\ClassDetail.cshtml"
- if (Model.Constructors.Any()){
+Write(PageSection.RenderConstructorTable(Model));
 
             
             #line default
             #line hidden
-WriteLiteral("    <!--Constructors-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Constructors</h3>\r\n        <table class=\"table table-bordere" +
-"d table-hover\">\r\n            <tr>\r\n                <td><b>Constructor Name</b></" +
-"td>\r\n                <td><b>Description</b></td>\r\n            </tr>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 31 "..\..\Output\Html\Views\ClassDetail.cshtml"
-             foreach (ConstructorModel c in Model.Constructors){
+            #line 24 "..\..\Output\Html\Views\ClassDetail.cshtml"
+Write(PageSection.RenderPropertyTable(Model));
 
             
             #line default
             #line hidden
-WriteLiteral("                <tr>\r\n                    <td>");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 33 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                   Write(c.Identifier);
-
-            
-            #line default
-            #line hidden
-
-            
-            #line 33 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                                     WriteLiteral("</td>\r\n                    <td>");
-
-            
-            #line default
-            #line hidden
-            
-            #line 34 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                         if (c.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 35 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                       Write(CommentTag.RenderSummary(c.DocComment.Summary));
-
-            
-            #line default
-            #line hidden
-            
-            #line 35 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                                                                           
-                        }
-            
-            #line default
-            #line hidden
-WriteLiteral("</td>\r\n                </tr>\r\n");
-
-
-            
-            #line 38 "..\..\Output\Html\Views\ClassDetail.cshtml"
-            }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        </table>\r\n    </p>\r\n");
-
-
-            
-            #line 41 "..\..\Output\Html\Views\ClassDetail.cshtml"
-}
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-
-            
-            #line 43 "..\..\Output\Html\Views\ClassDetail.cshtml"
- if (Model.Properties.Any()){
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Properties-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Properties</h3>\r\n        <table class=\"table table-bordered " +
-"table-hover\">\r\n            <tr>\r\n                <td><b>Property Name</b></td>\r\n" +
-"                <td><b>Description</b></td>\r\n            </tr>\r\n");
-
-
-            
-            #line 52 "..\..\Output\Html\Views\ClassDetail.cshtml"
-             foreach (PropertyModel p in Model.Properties){
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                <tr>\r\n                    <td>");
-
-
-            
-            #line 54 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                   Write(p.Identifier);
-
-            
-            #line default
-            #line hidden
-
-            
-            #line 54 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                                     WriteLiteral("</td>\r\n                    <td>");
-
-            
-            #line default
-            #line hidden
-            
-            #line 55 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                         if (p.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 56 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                       Write(CommentTag.RenderSummary(p.DocComment.Summary));
-
-            
-            #line default
-            #line hidden
-            
-            #line 56 "..\..\Output\Html\Views\ClassDetail.cshtml"
-                                                                           
-                        }
-            
-            #line default
-            #line hidden
-WriteLiteral("</td>\r\n                </tr>\r\n");
-
-
-            
-            #line 59 "..\..\Output\Html\Views\ClassDetail.cshtml"
-            }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        </table>\r\n    </p>\r\n");
-
-
-            
-            #line 62 "..\..\Output\Html\Views\ClassDetail.cshtml"
-}
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-
-            
-            #line 64 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderMethodTable(Model));
 
             
@@ -296,7 +146,7 @@ WriteLiteral("\r\n\r\n<!--Exceptions-->\r\n\r\n");
 
 
             
-            #line 68 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 30 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderRemarks(Model.DocComment));
 
             
@@ -306,7 +156,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 70 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 32 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderExample(Model.DocComment));
 
             
@@ -316,7 +166,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 72 "..\..\Output\Html\Views\ClassDetail.cshtml"
+            #line 34 "..\..\Output\Html\Views\ClassDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

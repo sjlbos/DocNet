@@ -6,6 +6,7 @@
 @using DocNet.Core.Models.Comments.Xml
 @using DocNet.Core.Models.CSharp
 @using DocNet.Razor.Helpers
+@using Microsoft.CodeAnalysis
 
 @helper RenderDeclarationBlock(string declaration)
 {
@@ -134,6 +135,62 @@
                         }
                     </td>
                 </tr>
+            }
+        </table>
+    </p>
+}
+
+@helper RenderConstructorTable(ClassAndStructBase classAndStructBase)
+{
+    if (classAndStructBase.Constructors == null || !classAndStructBase.Constructors.Any()) { return; }
+    
+    @_RenderSectionTitle("Constructors")
+
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <td><b>Constructor Name</b></td>
+                <td><b>Description</b></td>
+            </tr>
+            @foreach (var constructor in classAndStructBase.Constructors)
+            {
+                <tr>
+                    <td>@constructor.DisplayName</td>
+                    <td>
+                        @if (constructor.DocComment != null && constructor.DocComment.Summary != null)
+                        {
+                            @CommentTag.RenderSummary(constructor.DocComment.Summary)
+                        }
+                </td>
+            </tr>
+            }
+        </table>
+    </p>
+}
+
+@helper RenderPropertyTable(InterfaceBase interfaceModel)
+{
+    if (interfaceModel.Properties == null || !interfaceModel.Properties.Any()) { return; }
+    
+    @_RenderSectionTitle("Properties")
+
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <td><b>Property Name</b></td>
+                <td><b>Description</b></td>
+            </tr>
+            @foreach (var property in interfaceModel.Properties)
+            {
+                <tr>
+                    <td>@property.DisplayName</td>
+                    <td>
+                        @if (property.DocComment != null && property.DocComment.Summary != null)
+                        {
+                            @CommentTag.RenderSummary(property.DocComment.Summary)
+                        }
+                </td>
+            </tr>
             }
         </table>
     </p>

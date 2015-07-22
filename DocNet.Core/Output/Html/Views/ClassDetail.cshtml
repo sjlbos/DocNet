@@ -19,47 +19,9 @@
 
 @PageSection.RenderTypeParamTable(Model)
 
-@if (Model.Constructors.Any()){
-    <!--Constructors-->
-    <p>
-        <h3>Constructors</h3>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <td><b>Constructor Name</b></td>
-                <td><b>Description</b></td>
-            </tr>
-            @foreach (ConstructorModel c in Model.Constructors){
-                <tr>
-                    <td>@c.Identifier</td>
-                    <td>@if (c.DocComment != null){
-                            @CommentTag.RenderSummary(c.DocComment.Summary)
-                        }</td>
-                </tr>
-            }
-        </table>
-    </p>
-}
+@PageSection.RenderConstructorTable(Model)
 
-@if (Model.Properties.Any()){
-    <!--Properties-->
-    <p>
-        <h3>Properties</h3>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <td><b>Property Name</b></td>
-                <td><b>Description</b></td>
-            </tr>
-            @foreach (PropertyModel p in Model.Properties){
-                <tr>
-                    <td>@p.Identifier</td>
-                    <td>@if (p.DocComment != null){
-                            @CommentTag.RenderSummary(p.DocComment.Summary)
-                        }</td>
-                </tr>
-            }
-        </table>
-    </p>
-}
+@PageSection.RenderPropertyTable(Model)
 
 @PageSection.RenderMethodTable(Model)
 
