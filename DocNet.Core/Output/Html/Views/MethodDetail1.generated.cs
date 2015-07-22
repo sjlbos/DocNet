@@ -63,7 +63,7 @@ WriteLiteral("\r\n");
 
 
 
-WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Interface</h3>\r\n    <h1>");
+WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Method</h3>\r\n    <h1>");
 
 
             

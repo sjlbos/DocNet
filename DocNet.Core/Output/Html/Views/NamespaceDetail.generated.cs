@@ -55,7 +55,7 @@ WriteLiteral("\r\n");
 
 
 
-WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Interface</h3>\r\n    <h1>");
+WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Namespace</h3>\r\n    <h1>");
 
 
             
@@ -65,12 +65,12 @@ WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Interface</h3>\r\n    <h1>");
             
             #line default
             #line hidden
-WriteLiteral("</h1>\r\n    <h3>Namespace: ");
+WriteLiteral("</h1>\r\n    <h3>Parent Namespace: ");
 
 
             
             #line 12 "..\..\Output\Html\Views\NamespaceDetail.cshtml"
-              Write(Model.FullNameQualifier);
+                     Write(Model.FullNameQualifier);
 
             
             #line default
