@@ -7,7 +7,11 @@
 @inherits BodyTemplate<ClassModel>
 
 <!--Name-->
-<p><h1>Class: @Model.FullDisplayName</h1></p>
+<p>
+    <h3>Class</h3>
+    <h1>@Model.DisplayName</h1>
+    <h3>Namespace: @Model.FullNameQualifier</h3>
+</p>
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfClass(Model))
 <!--Name

@@ -56,21 +56,31 @@ WriteLiteral("\r\n");
 
 
 
-WriteLiteral("\r\n<p><h1>Constructor: ");
+WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Constructor</h3>\r\n    <h1>");
 
 
             
-            #line 8 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-               Write(Model.FullDisplayName);
+            #line 11 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+   Write(Model.DisplayName);
 
             
             #line default
             #line hidden
-WriteLiteral("</h1></p>\r\n\r\n");
+WriteLiteral("</h1>\r\n    <h3>Namespace: ");
 
 
             
-            #line 10 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 12 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+              Write(Model.FullNameQualifier);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</h3>\r\n</p>\r\n\r\n");
+
+
+            
+            #line 15 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfConstructor(Model)));
 
             
@@ -80,7 +90,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 12 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 17 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
  if (Model.DocComment != null){
 
             
@@ -92,14 +102,14 @@ WriteLiteral("    <!--Summary-->\r\n");
 
 
             
-            #line 14 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 19 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 WriteLiteral("    <p>");
 
             
             #line default
             #line hidden
             
-            #line 14 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 19 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
           CommentTag.RenderSummary(Model.DocComment.Summary); 
             
             #line default
@@ -108,7 +118,7 @@ WriteLiteral("</p>\r\n");
 
 
             
-            #line 15 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 
 
             
@@ -122,7 +132,7 @@ WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n");
 
 
             
-            #line 19 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 24 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
            CommentTag.RenderRemarks(Model.DocComment.Remarks); 
 
             
@@ -132,7 +142,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 21 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 
 
             
@@ -146,7 +156,7 @@ WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n");
 
 
             
-            #line 25 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 30 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
            CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); 
 
             
@@ -156,7 +166,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 27 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 32 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 }
             
             #line default

@@ -6,7 +6,12 @@
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<InterfaceModel>
 
-<p>Interface: @Model.FullDisplayName</p>
+<!--Name-->
+<p>
+    <h3>Interface</h3>
+    <h1>@Model.DisplayName</h1>
+    <h3>Namespace: @Model.FullNameQualifier</h3>
+</p>
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfInterface(Model))
 

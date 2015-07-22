@@ -63,21 +63,31 @@ WriteLiteral("\r\n");
 
 
 
-WriteLiteral("\r\n<p><h1>Delegate: ");
+WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Delegate</h3>\r\n    <h1>");
 
 
             
-            #line 9 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-            Write(Model.FullDisplayName);
+            #line 12 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+   Write(Model.DisplayName);
 
             
             #line default
             #line hidden
-WriteLiteral("</h1></p>\r\n\r\n");
+WriteLiteral("</h1>\r\n    <h3>Namespace: ");
 
 
             
-            #line 11 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 13 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+              Write(Model.FullNameQualifier);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</h3>\r\n</p>\r\n\r\n");
+
+
+            
+            #line 16 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfDelegate(Model)));
 
             
@@ -87,7 +97,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 13 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 18 "..\..\Output\Html\Views\DelegateDetail.cshtml"
  if (Model.DocComment != null){
 
             
@@ -99,14 +109,14 @@ WriteLiteral("    <!--Summary-->\r\n");
 
 
             
-            #line 15 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 WriteLiteral("    <p>");
 
             
             #line default
             #line hidden
             
-            #line 15 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\DelegateDetail.cshtml"
           CommentTag.RenderSummary(Model.DocComment.Summary); 
             
             #line default
@@ -115,7 +125,7 @@ WriteLiteral("</p>\r\n");
 
 
             
-            #line 16 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 21 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 
 
             
@@ -130,7 +140,7 @@ WriteLiteral("    <p>\r\n        <h3>Type Parameters</h3>\r\n        <table clas
 
 
             
-            #line 21 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\DelegateDetail.cshtml"
              foreach (TypeParameterTag t in Model.DocComment.TypeParameters){
 
             
@@ -138,14 +148,14 @@ WriteLiteral("    <p>\r\n        <h3>Type Parameters</h3>\r\n        <table clas
             #line hidden
 
             
-            #line 22 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 27 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 WriteLiteral("                <tr>");
 
             
             #line default
             #line hidden
             
-            #line 22 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 27 "..\..\Output\Html\Views\DelegateDetail.cshtml"
                        CommentTag.RenderTypeParam(t); 
             
             #line default
@@ -154,7 +164,7 @@ WriteLiteral("</tr>\r\n");
 
 
             
-            #line 23 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 28 "..\..\Output\Html\Views\DelegateDetail.cshtml"
             }
 
             
@@ -164,7 +174,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 26 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 31 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 
 
             
@@ -178,7 +188,7 @@ WriteLiteral("    <p>\r\n        <h3>Returns</h3>\r\n");
 
 
             
-            #line 30 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 35 "..\..\Output\Html\Views\DelegateDetail.cshtml"
            CommentTag.RenderReturns(Model.DocComment.Returns); 
 
             
@@ -188,7 +198,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 32 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 37 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 
 
             
@@ -203,7 +213,7 @@ WriteLiteral("    <p>\r\n        <h3>Parameters</h3>\r\n        <table class=\"t
 
 
             
-            #line 37 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 42 "..\..\Output\Html\Views\DelegateDetail.cshtml"
              foreach (ParameterTag p in Model.DocComment.Parameters){
 
             
@@ -211,14 +221,14 @@ WriteLiteral("    <p>\r\n        <h3>Parameters</h3>\r\n        <table class=\"t
             #line hidden
 
             
-            #line 38 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 43 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 WriteLiteral("                <tr><td>");
 
             
             #line default
             #line hidden
             
-            #line 38 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 43 "..\..\Output\Html\Views\DelegateDetail.cshtml"
                            CommentTag.RenderParam(p); 
             
             #line default
@@ -227,7 +237,7 @@ WriteLiteral("</td></tr>\r\n");
 
 
             
-            #line 39 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 44 "..\..\Output\Html\Views\DelegateDetail.cshtml"
             }
 
             
@@ -237,7 +247,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 42 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 47 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 
 
             
@@ -252,7 +262,7 @@ WriteLiteral("    <p>\r\n        <h3>Exceptions</h3>\r\n        <table class=\"t
 
 
             
-            #line 47 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 52 "..\..\Output\Html\Views\DelegateDetail.cshtml"
              foreach (ExceptionTag e in Model.DocComment.Exceptions){
 
             
@@ -260,14 +270,14 @@ WriteLiteral("    <p>\r\n        <h3>Exceptions</h3>\r\n        <table class=\"t
             #line hidden
 
             
-            #line 48 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 53 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 WriteLiteral("                <tr><td>");
 
             
             #line default
             #line hidden
             
-            #line 48 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 53 "..\..\Output\Html\Views\DelegateDetail.cshtml"
                            CommentTag.RenderException(e); 
             
             #line default
@@ -276,7 +286,7 @@ WriteLiteral("</td></tr>\r\n");
 
 
             
-            #line 49 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 54 "..\..\Output\Html\Views\DelegateDetail.cshtml"
             }
 
             
@@ -286,7 +296,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 52 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 57 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 
 
             
@@ -300,7 +310,7 @@ WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n");
 
 
             
-            #line 56 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 61 "..\..\Output\Html\Views\DelegateDetail.cshtml"
            CommentTag.RenderRemarks(Model.DocComment.Remarks); 
 
             
@@ -310,7 +320,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 58 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 63 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 
 
             
@@ -324,7 +334,7 @@ WriteLiteral("    <p>\r\n        <h3>Example</h3>\r\n");
 
 
             
-            #line 62 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 67 "..\..\Output\Html\Views\DelegateDetail.cshtml"
            CommentTag.RenderExample(Model.DocComment.Example); 
 
             
@@ -334,7 +344,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 64 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 69 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 
 
             
@@ -348,7 +358,7 @@ WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n");
 
 
             
-            #line 68 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 73 "..\..\Output\Html\Views\DelegateDetail.cshtml"
            CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); 
 
             
@@ -358,7 +368,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 70 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 75 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 }
             
             #line default

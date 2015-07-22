@@ -5,7 +5,12 @@
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<ConstructorModel>
 
-<p><h1>Constructor: @Model.FullDisplayName</h1></p>
+<!--Name-->
+<p>
+    <h3>Constructor</h3>
+    <h1>@Model.DisplayName</h1>
+    <h3>Namespace: @Model.FullNameQualifier</h3>
+</p>
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfConstructor(Model))
 

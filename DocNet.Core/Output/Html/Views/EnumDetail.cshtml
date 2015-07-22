@@ -6,7 +6,12 @@
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<EnumModel>
 
-<p>Enum: @Model.FullDisplayName</p>
+<!--Name-->
+<p>
+    <h3>Enum</h3>
+    <h1>@Model.DisplayName</h1>
+    <h3>Namespace: @Model.FullNameQualifier</h3>
+</p>
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfEnum(Model))
 

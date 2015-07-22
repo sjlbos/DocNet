@@ -141,15 +141,15 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Output\Html\Views\MethodDetail.generated.cs">
-      <DependentUpon>MethodDetail.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Output\Html\Views\ConstructorDetail.generated.cs">
       <DependentUpon>ConstructorDetail.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Output\Html\Views\MethodDetail1.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MethodDetail.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Output\Html\Views\Page.generated.cs">
       <AutoGen>True</AutoGen>
@@ -263,6 +263,7 @@
     </None>
     <None Include="Output\Html\Views\MethodDetail.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>MethodDetail1.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Views\ConstructorDetail.cshtml">
       <Generator>RazorGenerator</Generator>

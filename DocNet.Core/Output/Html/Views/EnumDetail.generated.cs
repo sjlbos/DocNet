@@ -62,21 +62,31 @@ WriteLiteral("\r\n");
 
 
 
-WriteLiteral("\r\n<p>Enum: ");
+WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Enum</h3>\r\n    <h1>");
 
 
             
-            #line 9 "..\..\Output\Html\Views\EnumDetail.cshtml"
-    Write(Model.FullDisplayName);
+            #line 12 "..\..\Output\Html\Views\EnumDetail.cshtml"
+   Write(Model.DisplayName);
 
             
             #line default
             #line hidden
-WriteLiteral("</p>\r\n\r\n");
+WriteLiteral("</h1>\r\n    <h3>Namespace: ");
 
 
             
-            #line 11 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 13 "..\..\Output\Html\Views\EnumDetail.cshtml"
+              Write(Model.FullNameQualifier);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</h3>\r\n</p>\r\n\r\n");
+
+
+            
+            #line 16 "..\..\Output\Html\Views\EnumDetail.cshtml"
 Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfEnum(Model)));
 
             
@@ -86,7 +96,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 13 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 18 "..\..\Output\Html\Views\EnumDetail.cshtml"
  if (Model.DocComment != null){
 
             
@@ -98,14 +108,14 @@ WriteLiteral("    <!--Summary-->\r\n");
 
 
             
-            #line 15 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\EnumDetail.cshtml"
 WriteLiteral("    <p>");
 
             
             #line default
             #line hidden
             
-            #line 15 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\EnumDetail.cshtml"
           CommentTag.RenderSummary(Model.DocComment.Summary); 
             
             #line default
@@ -114,7 +124,7 @@ WriteLiteral("</p>\r\n");
 
 
             
-            #line 16 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 21 "..\..\Output\Html\Views\EnumDetail.cshtml"
 }
 
             
@@ -124,7 +134,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 18 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 23 "..\..\Output\Html\Views\EnumDetail.cshtml"
  if (Model.Fields.Any()){
 
             
@@ -139,7 +149,7 @@ WriteLiteral("    <p>\r\n        <h3>Members</h3>\r\n        <table class=\"tabl
 
 
             
-            #line 23 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 28 "..\..\Output\Html\Views\EnumDetail.cshtml"
              foreach (string s in Model.Fields){
 
             
@@ -149,7 +159,7 @@ WriteLiteral("                <tr><td>");
 
 
             
-            #line 24 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 29 "..\..\Output\Html\Views\EnumDetail.cshtml"
                    Write(s);
 
             
@@ -159,7 +169,7 @@ WriteLiteral("</td></tr>\r\n");
 
 
             
-            #line 25 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 30 "..\..\Output\Html\Views\EnumDetail.cshtml"
             }
 
             
@@ -169,7 +179,7 @@ WriteLiteral("        </table>\r\n    </p>\r\n");
 
 
             
-            #line 28 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 33 "..\..\Output\Html\Views\EnumDetail.cshtml"
 }
 
             
@@ -179,7 +189,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 30 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 35 "..\..\Output\Html\Views\EnumDetail.cshtml"
  if (Model.DocComment != null){
 
             
@@ -193,7 +203,7 @@ WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n");
 
 
             
-            #line 34 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 39 "..\..\Output\Html\Views\EnumDetail.cshtml"
            CommentTag.RenderRemarks(Model.DocComment.Remarks); 
 
             
@@ -203,7 +213,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 36 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 41 "..\..\Output\Html\Views\EnumDetail.cshtml"
 
 
             
@@ -217,7 +227,7 @@ WriteLiteral("    <p>\r\n        <h3>Examples</h3>\r\n");
 
 
             
-            #line 40 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 45 "..\..\Output\Html\Views\EnumDetail.cshtml"
            CommentTag.RenderExample(Model.DocComment.Example); 
 
             
@@ -227,7 +237,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 42 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 47 "..\..\Output\Html\Views\EnumDetail.cshtml"
 
 
             
@@ -241,7 +251,7 @@ WriteLiteral("    <p>\r\n        <h3>See Also</h3>\r\n");
 
 
             
-            #line 46 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 51 "..\..\Output\Html\Views\EnumDetail.cshtml"
            CommentTag.RenderSeeAlso(Model.DocComment.SeeAlso); 
 
             
@@ -251,7 +261,7 @@ WriteLiteral("    </p>\r\n");
 
 
             
-            #line 48 "..\..\Output\Html\Views\EnumDetail.cshtml"
+            #line 53 "..\..\Output\Html\Views\EnumDetail.cshtml"
 }
             
             #line default

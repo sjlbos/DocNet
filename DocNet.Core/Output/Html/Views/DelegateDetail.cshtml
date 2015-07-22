@@ -6,7 +6,12 @@
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<DelegateModel>
 
-<p><h1>Delegate: @Model.FullDisplayName</h1></p>
+<!--Name-->
+<p>
+    <h3>Delegate</h3>
+    <h1>@Model.DisplayName</h1>
+    <h3>Namespace: @Model.FullNameQualifier</h3>
+</p>
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfDelegate(Model))
 
