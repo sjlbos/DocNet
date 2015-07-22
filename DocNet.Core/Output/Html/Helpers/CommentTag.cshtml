@@ -88,6 +88,7 @@
 
 @helper RenderTopLevelContainer(TopLevelContainer container)
 {
+    if (container.Items == null) { return; }
     foreach (var element in container.Items)
      {
         @RenderContainerElement(element)
@@ -95,10 +96,11 @@
 }
 
 @helper RenderContainer(Container container)
-{
+{  
+    if (container.Items == null) { return; }
     foreach (var element in container.Items)
     {
-        @RenderContainerElement(element);
+        @RenderContainerElement(element)
     }
 }
 
@@ -163,7 +165,7 @@
 
 @helper RenderList()
 {
-    
+    <p>Lists are currently not working fix me.</p>
 }
 
 @helper RenderParamRef(ParameterReferenceTag paramRefTag)
@@ -183,5 +185,5 @@
 
 @helper  RenderPara(ParagraphTag paragraphTag)
 {
-    <p>RenderContainer(paragraphTag);</p>
+    <p>@RenderContainer(paragraphTag)</p>
 }
