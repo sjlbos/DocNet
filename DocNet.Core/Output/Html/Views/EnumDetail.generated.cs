@@ -195,17 +195,17 @@ WriteLiteral("    <!--Remarks-->\r\n");
 
 
 
-WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n");
+WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n        ");
 
 
             
             #line 39 "..\..\Output\Html\Views\EnumDetail.cshtml"
-           CommentTag.RenderRemarks(Model.DocComment.Remarks); 
+   Write(CommentTag.RenderRemarks(Model.DocComment.Remarks));
 
             
             #line default
             #line hidden
-WriteLiteral("    </p>\r\n");
+WriteLiteral("\r\n    </p>\r\n");
 
 
             
@@ -219,17 +219,17 @@ WriteLiteral("    <!--Examples-->\r\n");
 
 
 
-WriteLiteral("    <p>\r\n        <h3>Examples</h3>\r\n");
+WriteLiteral("    <p>\r\n        <h3>Examples</h3>\r\n        ");
 
 
             
             #line 45 "..\..\Output\Html\Views\EnumDetail.cshtml"
-           CommentTag.RenderExample(Model.DocComment.Example); 
+   Write(CommentTag.RenderExample(Model.DocComment.Example));
 
             
             #line default
             #line hidden
-WriteLiteral("    </p>\r\n");
+WriteLiteral("\r\n    </p>\r\n");
 
 
             

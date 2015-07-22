@@ -81,10 +81,13 @@
 
 @helper RenderTopLevelContainer(TopLevelContainer container)
 {
-    foreach (var element in container.Items)
-     {
-        @RenderContainerElement(element)
-     }
+    try{
+        foreach (var element in container.Items){
+            @RenderContainerElement(element)
+        }
+    }catch (NullReferenceException){
+        @RenderContainerElement(container)
+    }
 }
 
 @helper RenderContainer(Container container)

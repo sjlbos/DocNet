@@ -134,17 +134,17 @@ WriteLiteral("    <!--Remarks-->\r\n");
 
 
 
-WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n");
+WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n        ");
 
 
             
             #line 27 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-           CommentTag.RenderRemarks(Model.DocComment.Remarks); 
+   Write(CommentTag.RenderRemarks(Model.DocComment.Remarks));
 
             
             #line default
             #line hidden
-WriteLiteral("    </p>\r\n");
+WriteLiteral("\r\n    </p>\r\n");
 
 
             
@@ -158,17 +158,17 @@ WriteLiteral("    <!--Example-->\r\n");
 
 
 
-WriteLiteral("    <p>\r\n        <h3>Example</h3>\r\n");
+WriteLiteral("    <p>\r\n        <h3>Example</h3>\r\n        ");
 
 
             
             #line 33 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-           CommentTag.RenderExample(Model.DocComment.Example); 
+   Write(CommentTag.RenderExample(Model.DocComment.Example));
 
             
             #line default
             #line hidden
-WriteLiteral("    </p>\r\n");
+WriteLiteral("\r\n    </p>\r\n");
 
 
             

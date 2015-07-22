@@ -223,17 +223,17 @@ WriteLiteral("    <!--Remarks-->\r\n");
 
 
 
-WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n");
+WriteLiteral("    <p>\r\n        <h3>Remarks</h3>\r\n        ");
 
 
             
             #line 43 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-           CommentTag.RenderRemarks(Model.DocComment.Remarks); 
+   Write(CommentTag.RenderRemarks(Model.DocComment.Remarks));
 
             
             #line default
             #line hidden
-WriteLiteral("    </p>\r\n");
+WriteLiteral("\r\n    </p>\r\n");
 
 
             
