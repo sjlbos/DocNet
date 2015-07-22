@@ -212,6 +212,7 @@
     <Content Include="Output\Html\Css\Highlight\idea.css" />
     <Content Include="Output\Html\Css\Highlight\ir_black.css" />
     <Content Include="Output\Html\Css\Highlight\magula.css" />
+    <Content Include="Output\Html\Css\Highlight\mono-blue.css" />
     <Content Include="Output\Html\Css\Highlight\monokai.css" />
     <Content Include="Output\Html\Css\Highlight\pojoaque.css" />
     <Content Include="Output\Html\Css\Highlight\pojoaque.jpg" />
