@@ -92,7 +92,7 @@
     <Compile Include="Models\CSharp\InterfaceBase.cs" />
     <Compile Include="Models\CSharp\NamespaceBase.cs" />
     <Compile Include="Models\CSharp\INestableElement.cs" />
-    <Compile Include="Output\Html\Helpers\CommentTag1.generated.cs">
+    <Compile Include="Output\Html\Helpers\CommentTag.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CommentTag.cshtml</DependentUpon>
@@ -243,7 +243,7 @@
     <None Include="Output\Html\Css\Bootstrap\bootstrap.css.map" />
     <None Include="Output\Html\Helpers\CommentTag.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>CommentTag1.generated.cs</LastGenOutput>
+      <LastGenOutput>CommentTag.generated.cs</LastGenOutput>
     </None>
     <None Include="Output\Html\Helpers\PageHelper.cshtml">
       <Generator>RazorGenerator</Generator>
