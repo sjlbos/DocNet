@@ -1,6 +1,5 @@
 ﻿@*Generator: WebPagesHelper GeneratePrettyNames: true Namespace: DocNet.Razor.Helpers *@
 @using System
-@using System.CodeDom
 @using System.Collections.Generic
 @using System.Linq
 @using DocNet.Core.Models.Comments
@@ -135,6 +134,33 @@
                         }
                     </td>
                 </tr>
+            }
+        </table>
+    </p>
+}
+
+@helper RenderMethodTable(InterfaceBase interfaceModel)
+{
+    if (interfaceModel.Methods == null || !interfaceModel.Methods.Any()) { return; }
+    
+    @_RenderSectionTitle("Methods")
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <td><b>Method Name</b></td>
+                <td><b>Description</b></td>
+            </tr>
+            @foreach (var method in interfaceModel.Methods)
+            {
+                <tr>
+                    <td>@method.DisplayName</td>
+                    <td>
+                        @if (method.DocComment != null && method.DocComment.Summary != null)
+                        {
+                            @CommentTag.RenderSummary(method.DocComment.Summary)
+                        }
+                </td>
+            </tr>
             }
         </table>
     </p>

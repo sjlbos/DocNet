@@ -61,26 +61,7 @@
     </p>
 }
 
-@if (Model.Methods.Any()){
-    <!--Methods-->
-    <p>
-        <h3>Methods</h3>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <td><b>Method Name</b></td>
-                <td><b>Description</b></td>
-            </tr>
-            @foreach (MethodModel m in Model.Methods){
-                <tr>
-                    <td>@m.Identifier</td>
-                    <td>@if (m.DocComment != null){
-                            @CommentTag.RenderSummary(m.DocComment.Summary)
-                        }</td>
-                </tr>
-            }
-        </table>
-    </p>
-}
+@PageSection.RenderMethodTable(Model)
 
 <!--Exceptions-->
 

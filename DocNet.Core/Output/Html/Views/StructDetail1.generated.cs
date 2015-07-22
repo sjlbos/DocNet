@@ -202,91 +202,16 @@ WriteLiteral("\r\n");
 
             
             #line 43 "..\..\Output\Html\Views\StructDetail.cshtml"
- if (Model.Methods.Any()){
+Write(PageSection.RenderMethodTable(Model));
 
             
             #line default
             #line hidden
-WriteLiteral("    <!--Methods-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Methods</h3>\r\n        <table class=\"table table-bordered tab" +
-"le-hover\">\r\n            <tr>\r\n                <td><b>Method Name</b></td>\r\n     " +
-"           <td><b>Description</b></td>\r\n            </tr>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 52 "..\..\Output\Html\Views\StructDetail.cshtml"
-             foreach (MethodModel m in Model.Methods){
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                <tr>\r\n                    <td>");
-
-
-            
-            #line 54 "..\..\Output\Html\Views\StructDetail.cshtml"
-                   Write(m.Identifier);
-
-            
-            #line default
-            #line hidden
-
-            
-            #line 54 "..\..\Output\Html\Views\StructDetail.cshtml"
-                                     WriteLiteral("</td>\r\n                    <td>");
-
-            
-            #line default
-            #line hidden
-            
-            #line 55 "..\..\Output\Html\Views\StructDetail.cshtml"
-                         if (m.DocComment != null){
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 56 "..\..\Output\Html\Views\StructDetail.cshtml"
-                       Write(CommentTag.RenderSummary(m.DocComment.Summary));
-
-            
-            #line default
-            #line hidden
-            
-            #line 56 "..\..\Output\Html\Views\StructDetail.cshtml"
-                                                                           
-                        }
-            
-            #line default
-            #line hidden
-WriteLiteral("</td>\r\n                </tr>\r\n");
-
-
-            
-            #line 59 "..\..\Output\Html\Views\StructDetail.cshtml"
-            }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        </table>\r\n    </p>\r\n");
-
-
-            
-            #line 62 "..\..\Output\Html\Views\StructDetail.cshtml"
-}
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-
-            
-            #line 64 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 45 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderRemarks(Model.DocComment));
 
             
@@ -296,7 +221,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 66 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 47 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderExample(Model.DocComment));
 
             
@@ -306,7 +231,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 68 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 49 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

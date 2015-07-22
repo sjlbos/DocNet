@@ -1,5 +1,4 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
-@using System.Linq
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
@@ -19,21 +18,7 @@
 
 @PageSection.RenderTypeParamTable(Model)
 
-@if (Model.Methods.Any()){
-    <!--Methods-->
-    <p>
-        <table class="table table-bordered table-hover">
-            @foreach (MethodModel m in Model.Methods){
-                <tr>
-                    <td>@m.Identifier</td>
-                    <td>@if (m.DocComment != null){
-                            @CommentTag.RenderSummary(m.DocComment.Summary)
-                        }</td>
-                </tr>
-            }
-        </table>
-    </p>
-}
+@PageSection.RenderMethodTable(Model)
 
 @PageSection.RenderRemarks(Model.DocComment)
 
