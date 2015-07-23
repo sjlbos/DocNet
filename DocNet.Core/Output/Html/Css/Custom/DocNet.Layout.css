@@ -58,12 +58,11 @@
 }
 
 ul.bulleted {
-    list-style-position: inside;
-    margin-left: 10px;
+    list-style-position: outside;
 }
 
 li.bulleted {
-    list-style-type: circle;
+    list-style-type: square;
 }
 
 html {
