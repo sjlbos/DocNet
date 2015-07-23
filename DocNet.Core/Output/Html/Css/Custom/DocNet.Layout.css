@@ -116,6 +116,10 @@ td:first-child{
 	width: 20%;
 }
 
+th:first-child{
+	width: 20%;
+}
+
 table.table3col {
     width: 100%;
 	table-layout: fixed;
