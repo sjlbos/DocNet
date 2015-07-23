@@ -15,7 +15,9 @@
         return;
     }
     <h1>@(element.DisplayName + " " + elementType)</h1>
-    <span><b>Namespace:</b> @element.FullNameQualifier</span>
+    if (!String.IsNullOrWhiteSpace(element.FullNameQualifier)){
+        <span><b>Namespace:</b> @element.FullNameQualifier</span>
+    }
 }
 
 @helper RenderDeclarationBlock(string declaration)
@@ -226,22 +228,24 @@
     @RenderSectionTitle("Properties")
 
     <p>
-        <table class="table table-bordered table-hover">
+        <table class="table table3col table-bordered table-hover">
             <tr>
+                <th>Type</th>
                 <th>Property Name</th>
                 <th>Description</th>
             </tr>
             @foreach (var property in interfaceModel.Properties)
             {
                 <tr>
+                    <td>@property.TypeName</td>
                     <td>@PageHelper.RenderElementLink(property)</td>
                     <td>
                         @if (property.DocComment != null && property.DocComment.Summary != null)
                         {
                             @CommentTag.RenderSummary(property.DocComment.Summary)
                         }
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </table>
     </p>

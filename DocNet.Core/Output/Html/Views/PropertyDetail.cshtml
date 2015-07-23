@@ -7,10 +7,10 @@
 
 @PageSection.RenderElementTitle(Model, "Property")
 
-@PageSection.RenderDeclarationBlock(GetDeclaration.OfProperty(Model))
-
 <!--Type-->
-<p><h2>Type: @Model.TypeName</h2></p>
+<span><b>Type:</b> @Model.TypeName</span>
+
+@PageSection.RenderDeclarationBlock(GetDeclaration.OfProperty(Model))
 
 @PageSection.RenderSummary(Model.DocComment)
 
