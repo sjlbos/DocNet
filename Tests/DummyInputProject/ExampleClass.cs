@@ -80,6 +80,20 @@ namespace DummyInputProject
         public string TestString { get; set; }
 
         /// <summary>
+        /// The days of the week starting with Sunday.
+        /// </summary>
+        public enum DaysOfTheWeek
+        {
+            Sunday,
+            Monday,
+            Tuesday,
+            Wednesday,
+            Thursday,
+            Friday,
+            Saturday
+        };
+
+        /// <summary>
         /// Constructor summary here.
         /// </summary>
         public ExampleClass()

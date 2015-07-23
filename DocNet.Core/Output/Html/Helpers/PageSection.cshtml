@@ -438,14 +438,14 @@
 
 @helper RenderEnumTable(NamespaceBase parent)
 {
-    if (parent.Structs == null || !parent.Structs.Any()) { return; }
+    if (parent.Enums == null || !parent.Enums.Any()) { return; }
     @RenderSectionTitle("Enums")
     @_RenderEnumTable(parent.Enums)
 }
 
 @helper RenderEnumTable(ClassAndStructBase parent)
 {
-    if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
+    if (parent.InnerEnums == null || !parent.InnerEnums.Any()) { return; }
     @RenderSectionTitle("Nested Enums")
     @_RenderEnumTable(parent.InnerEnums)
 }
