@@ -37,28 +37,28 @@
 {
     if (docComment == null || docComment.Summary == null) { return; }
     @RenderSectionTitle("Summary")
-    <p>@CommentTag.RenderSummary(docComment.Summary)</p> 
+    @CommentTag.RenderSummary(docComment.Summary)
 }
 
 @helper RenderRemarks(DocComment docComment)
 {
     if (docComment == null || docComment.Remarks == null) { return; }
     @RenderSectionTitle("Remarks")
-    <p>@CommentTag.RenderRemarks(docComment.Remarks)</p>
+    @CommentTag.RenderRemarks(docComment.Remarks)
 }
 
 @helper RenderExample(DocComment docComment)
 {
     if (docComment == null || docComment.Example == null) { return; }
     @RenderSectionTitle("Example")
-    <p>@CommentTag.RenderExample(docComment.Example)</p>
+    @CommentTag.RenderExample(docComment.Example)
 }
 
 @helper RenderSeeAlso(DocComment docComment)
 {
     if (docComment == null || docComment.SeeAlso == null) { return; }
     @RenderSectionTitle("See Also")
-    <p>@CommentTag.RenderSeeAlso(docComment.SeeAlso)</p>
+    @CommentTag.RenderSeeAlso(docComment.SeeAlso)
 }
 
 @helper RenderExceptionTable(InterfaceDocComment docComment)
@@ -132,7 +132,7 @@
     <p>
         <table class="table table-bordered table-hover">
             <tr>
-                <th>Type Alias</th>
+                <th>Parameter Type</th>
                 <th>Description</th>
             </tr>
             @foreach (var typeParam in typeParams)

@@ -246,12 +246,9 @@ WriteTo(@__razor_helper_writer, RenderSectionTitle("Summary"));
 
 #line 39 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                   
-
+    
 #line default
 #line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "    <p>");
-
 
 
 #line 40 "..\..\Output\Html\Helpers\PageSection.cshtml"
@@ -260,11 +257,9 @@ WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(docComment.Summary));
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "</p> \r\n");
 
-
-
-#line 41 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 40 "..\..\Output\Html\Helpers\PageSection.cshtml"
+                                                 
 
 #line default
 #line hidden
@@ -297,12 +292,9 @@ WriteTo(@__razor_helper_writer, RenderSectionTitle("Remarks"));
 
 #line 46 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                   
-
+    
 #line default
 #line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "    <p>");
-
 
 
 #line 47 "..\..\Output\Html\Helpers\PageSection.cshtml"
@@ -311,11 +303,9 @@ WriteTo(@__razor_helper_writer, CommentTag.RenderRemarks(docComment.Remarks));
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "</p>\r\n");
 
-
-
-#line 48 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 47 "..\..\Output\Html\Helpers\PageSection.cshtml"
+                                                 
 
 #line default
 #line hidden
@@ -348,12 +338,9 @@ WriteTo(@__razor_helper_writer, RenderSectionTitle("Example"));
 
 #line 53 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                   
-
+    
 #line default
 #line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "    <p>");
-
 
 
 #line 54 "..\..\Output\Html\Helpers\PageSection.cshtml"
@@ -362,11 +349,9 @@ WriteTo(@__razor_helper_writer, CommentTag.RenderExample(docComment.Example));
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "</p>\r\n");
 
-
-
-#line 55 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 54 "..\..\Output\Html\Helpers\PageSection.cshtml"
+                                                 
 
 #line default
 #line hidden
@@ -399,12 +384,9 @@ WriteTo(@__razor_helper_writer, RenderSectionTitle("See Also"));
 
 #line 60 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                    
-
+    
 #line default
 #line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "    <p>");
-
 
 
 #line 61 "..\..\Output\Html\Helpers\PageSection.cshtml"
@@ -413,11 +395,9 @@ WriteTo(@__razor_helper_writer, CommentTag.RenderSeeAlso(docComment.SeeAlso));
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "</p>\r\n");
 
-
-
-#line 62 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 61 "..\..\Output\Html\Helpers\PageSection.cshtml"
+                                                 
 
 #line default
 #line hidden
@@ -738,8 +718,8 @@ WriteTo(@__razor_helper_writer, RenderSectionTitle("Type Parameters"));
 #line hidden
 
 WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table table-bordered table-hover\">\r\n            <t" +
-"r>\r\n                <th>Type Alias</th>\r\n                <th>Description</th>\r\n " +
-"           </tr>\r\n");
+"r>\r\n                <th>Parameter Type</th>\r\n                <th>Description</th" +
+">\r\n            </tr>\r\n");
 
 
 

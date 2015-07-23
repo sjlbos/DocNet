@@ -4,6 +4,7 @@
 
 [Ll]ogs/
 [Pp]ackages/
+*.generated.cs
 
 #################
 ## Visual Studio

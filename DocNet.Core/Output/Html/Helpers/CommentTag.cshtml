@@ -8,14 +8,16 @@
 {
     private static string CombineText(IEnumerable<string> text)
     {
-        return String.Join("\n", text);
+        return String.Join(String.Empty, text);
     }
 }
 
 @helper RenderSummary(SummaryTag summaryTag)
 {
     <div class="summary-comment">
-        @RenderTopLevelContainer(summaryTag)
+        <p>
+            @RenderTopLevelContainer(summaryTag)
+        </p>
     </div>
 }
 
@@ -29,62 +31,87 @@
 @helper RenderRemarks(RemarksTag remarksTag)
 {
     <div class="remarks-comment">
-        @RenderTopLevelContainer(remarksTag)
+        <p>
+            @RenderTopLevelContainer(remarksTag)
+        </p> 
     </div>
 }
 
 @helper RenderExample(ExampleTag exampleTag)
 {
     <div class="example-comment">
-        @RenderTopLevelContainer(exampleTag)
+        <p>
+            @RenderTopLevelContainer(exampleTag)
+        </p>
     </div>
 }
 
 @helper RenderReturns(ReturnsTag returnsTag)
 {
     <div class="returns-comment">
-        @RenderTopLevelContainer(returnsTag)
+        <p>
+            @RenderTopLevelContainer(returnsTag)
+        </p>
     </div>
 }
 
 @helper RenderValue(ValueTag valueTag)
 {
     <div class="value-comment">
-        @RenderTopLevelContainer(valueTag)
+        <p>
+            @RenderTopLevelContainer(valueTag)
+        </p>
     </div>
 }
 
 @helper RenderParam(ParameterTag paramTag)
 {
     <div class="parameter-comment">
-        @RenderTopLevelContainer(paramTag)
+        <p>
+            @RenderTopLevelContainer(paramTag)
+        </p>
     </div>
 }
 
 @helper RenderTypeParam(TypeParameterTag typeParamTag)
 {
     <div class="type-parameter-comment">
-        @RenderTopLevelContainer(typeParamTag)
+        <p>
+            @RenderTopLevelContainer(typeParamTag)
+        </p>
     </div>
 }
 
 @helper RenderException(ExceptionTag exceptionTag)
 {
     <div class="exception-comment">
-        @RenderTopLevelContainer(exceptionTag)
+        <p>
+            @RenderTopLevelContainer(exceptionTag)
+        </p>
     </div>
 }
 
 @helper RenderSeeAlso(SeeAlsoTag seeAlsoTag)
 {
     <div class="see-also-comment">
-        <p>FixMe</p>
+        <p>
+            @seeAlsoTag.ReferencedElementName<br/>
+            @if (seeAlsoTag.Text!=null&seeAlsoTag.Text.Any())
+            {
+                <ul class="bulleted">
+                    @foreach (string s in seeAlsoTag.Text)
+                    {
+                        <li class="bulleted">@s</li>
+                    }
+                </ul>
+            }
+        </p>
     </div>
 }
 
 @helper RenderPermission(PermissionTag permissionTag)
 {
-    <p>Fix me, I don't know what I am!</p>
+    <p></p>
 }
 
 @helper RenderTopLevelContainer(TopLevelContainer container)
@@ -155,42 +182,103 @@
 
 @helper RenderCode(CodeTag codeTag)
 {
-    <div class="code-block"><br/>
+    <div class="code-block">
         <pre><code>@CombineText(codeTag.Text)</code></pre> 
     </div>  
 }
 
 @helper RenderList(ListTag listTag)
 {
-    if (listTag.Elements != null&&listTag.Elements.Any()){
-        if (listTag.ListType.Equals(ListType.Bullet))
-        {
+    if (listTag.Elements == null || !listTag.Elements.Any()) { return; }
+
+    switch (listTag.ListType)
+    {
+        case ListType.Bullet:
+            @_RenderListHeader(listTag.Header)
             <ul>
-                @foreach (var element in listTag.Elements)
-                {
-                    <li>@RenderContainerElement(element)</li>
-                }
+                @_RenderListBody(listTag.Elements)
             </ul>
-        }else if (listTag.ListType.Equals(ListType.Number))
-        {
+            break;
+        case ListType.Number:
+            @_RenderListHeader(listTag.Header)
             <ol>
-                @foreach (var element in listTag.Elements)
-                {
-                    <li>@RenderContainerElement(element)</li>
-                }
+                @_RenderListBody(listTag.Elements)
             </ol>
-        }else{
-            <table>
-                @foreach (var element in listTag.Elements)
-                {
-                    <tr>
-                        <td>@RenderContainerElement(element)</td>
-                    </tr>
-                }
+            break;
+        case ListType.Table:
+            <table class="table table-bordered table-hover custom">
+                @_RenderTableListHeader(listTag.Header)
+                @_RenderTableListBody(listTag.Elements)
             </table>
+            break;
+    }
+}
+
+@helper _RenderListHeader(ListHeader header)
+{
+    if (header == null) { return; }
+    <span>
+    @if (header.Terms != null && header.Terms.Any())
+    {
+        
+        <b>@CombineText(header.Terms.First().Text)</b>
+        if (header.Descriptions != null && header.Descriptions.Any())
+        {
+            @(": " + CombineText(header.Descriptions.First().Text))
         }
-    }else{
-        <!--Add a debug message maybe?-->
+    }
+    </span>
+}
+
+@helper _RenderListBody(IList<ListItem> items)
+{
+    if (items == null || !items.Any()) { return; }
+    foreach (var item in items)
+    {
+        if (!item.Terms.Any()) { continue; }
+        <li>
+            @CombineText(item.Terms.First().Text)
+            @if (item.Descriptions.Any())
+            {
+                @(":" + CombineText(item.Descriptions.First().Text))
+            }
+        </li>
+    }
+}
+
+@helper _RenderTableListHeader(ListHeader header)
+{
+    if (header == null) { return; }
+    if (header.Terms != null && header.Terms.Any())
+    {
+        <tr>
+        @for (int i = 0; i < header.Terms.Count; i++)
+        {
+            <th>
+                @CombineText(header.Terms[i].Text)
+                @if (i < header.Descriptions.Count && header.Descriptions[i] != null)
+                {
+                    <br />
+                    @CombineText(header.Descriptions[i].Text)
+                }
+            </th>
+        }
+        </tr>
+    }
+}
+
+@helper _RenderTableListBody(IList<ListItem> items)
+{
+    if (items == null || !items.Any()) { return; }
+    foreach (var item in items)
+    {
+        if(item.Terms == null || !item.Terms.Any()) { continue; }
+        <tr>
+            @foreach (var term in item.Terms)
+            {
+                <td>@CombineText(term.Text)</td>
+            }
+        </tr>
     }
 }
 

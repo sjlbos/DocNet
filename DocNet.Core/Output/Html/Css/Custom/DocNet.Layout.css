@@ -14,6 +14,7 @@
 
 .content{
 	padding: 15px;
+    padding-top: 0px;
 	margin-right: 15px;
 	margin-bottom: 3em;
 	border-radius: 5px;
@@ -47,14 +48,22 @@
 	flex-direction: column;
 }
 
-ul {
+.side-unsorted {
 	list-style: none;
 	padding-left: 10px;
 	margin-bottom: 0px;
 }
 
-li {
+.side-li-tag {
 	list-style: none;
+}
+
+ul.bulleted {
+    list-style-position: outside;
+}
+
+li.bulleted {
+    list-style-type: square;
 }
 
 html {
@@ -119,6 +128,19 @@ td:first-child{
 
 th:first-child{
 	width: 20%;
+}
+
+table.custom {
+    width: auto;
+    table-layout: auto;
+}
+
+table.custom th {
+    width: auto;
+}
+
+table.custom td {
+    width: auto;
 }
 
 table.table3col {

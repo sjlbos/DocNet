@@ -63,6 +63,7 @@ namespace DummyInputProject
     ///         <seealso cref="DescendantClass"/>
     ///     </remarks>
 	///	
+    /// <seealso cref="Some Other Example"/>
     /// <example>
     /// Example tags are used to give examples of how a type is to be used. They commonly contain &lt;c&gt; and &lt;code&gt; tags.
     /// &lt;c&gt; tags are used to mark some in-line text as code. For example, <c>MyClass</c> can be marked as code in-line.
@@ -73,6 +74,8 @@ namespace DummyInputProject
     ///     </code>
     ///</example>
 	///BLADAALADLADLALDSKFkjsdz;ganktgjdsjlag;alisj;lhigjaskdljg;alsjgewijgjsdkglkjsddkgljklj
+    /// </example>
+    /// <seealso cref="ExampleClass.ExampleGetter"/>
     public class ExampleClass
     {
         /// <summary>
@@ -128,6 +131,14 @@ namespace DummyInputProject
         public int ExampleGetter()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Extremely long name tries to cause an overflow.
+        /// </summary>
+        public void IAmTryingToComeUpWithAnExtremelyLongNameToCauseAnOverflowIHopeThisWorks()
+        {
+            
         }
 
         /// <summary>
