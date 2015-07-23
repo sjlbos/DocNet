@@ -2195,7 +2195,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 #line 478 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
-    if (parent.Structs == null || !parent.Structs.Any()) { return; }
+    if (parent.Delegates == null || !parent.Delegates.Any()) { return; }
     
 #line default
 #line hidden
@@ -2241,7 +2241,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 #line 485 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
-    if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
+    if (parent.InnerDelegates == null || !parent.InnerDelegates.Any()) { return; }
     
 #line default
 #line hidden

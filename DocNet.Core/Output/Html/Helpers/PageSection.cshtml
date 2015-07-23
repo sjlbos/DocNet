@@ -476,14 +476,14 @@
 
 @helper RenderDelegateTable(NamespaceBase parent)
 {
-    if (parent.Structs == null || !parent.Structs.Any()) { return; }
+    if (parent.Delegates == null || !parent.Delegates.Any()) { return; }
     @RenderSectionTitle("Delegates")
     @_RenderDelegateTable(parent.Delegates)
 }
 
 @helper RenderDelegateTable(ClassAndStructBase parent)
 {
-    if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
+    if (parent.InnerDelegates == null || !parent.InnerDelegates.Any()) { return; }
     @RenderSectionTitle("Inner Delegates")
     @_RenderDelegateTable(parent.InnerDelegates)
 }
