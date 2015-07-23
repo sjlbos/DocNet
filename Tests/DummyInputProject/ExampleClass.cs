@@ -62,6 +62,7 @@ namespace DummyInputProject
     ///         <see cref="ExampleClass.ExampleGetter"/>
     ///         <seealso cref="DescendantClass"/>
     ///     </remarks>
+	///	
     /// <example>
     /// Example tags are used to give examples of how a type is to be used. They commonly contain &lt;c&gt; and &lt;code&gt; tags.
     /// &lt;c&gt; tags are used to mark some in-line text as code. For example, <c>MyClass</c> can be marked as code in-line.
@@ -70,7 +71,8 @@ namespace DummyInputProject
     ///     Example code line 1
     ///     Example code line 2
     ///     </code>
-    /// </example>
+    ///</example>
+	///BLADAALADLADLALDSKFkjsdz;ganktgjdsjlag;alisj;lhigjaskdljg;alsjgewijgjsdkglkjsddkgljklj
     public class ExampleClass
     {
         /// <summary>
@@ -160,5 +162,23 @@ namespace DummyInputProject
     {
         
     }
+	/// <summary>
+    /// A book.
+    /// </summary>
+    public struct Book
+	{
+		public decimal price
+		{get; set;}
+		public string title
+		{get; set;}
+		public string author
+		{get; set;}
+	}
+		/// <summary>
+    /// A calculation function.
+    /// </summary>
+    /// <typeparam name="x">A number.</typeparam>
+	/// <typeparam name="y">Another number.</typeparam>
+     public delegate int PerformCalculation(int x, int y);
 }
 
