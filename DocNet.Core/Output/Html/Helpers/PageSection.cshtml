@@ -15,7 +15,9 @@
         return;
     }
     <h1>@(element.DisplayName + " " + elementType)</h1>
-    <span><b>Namespace:</b> @element.FullNameQualifier</span>
+    if (!String.IsNullOrWhiteSpace(element.FullNameQualifier)){
+        <span><b>Namespace:</b> @element.FullNameQualifier</span>
+    }
 }
 
 @helper RenderDeclarationBlock(string declaration)
@@ -28,7 +30,7 @@
 
 @helper RenderSectionTitle(string title)
 {
-    <p><h3>@title</h3></p>
+    <h3>@title</h3>
 }
 
 @helper RenderSummary(DocComment docComment)
@@ -129,6 +131,10 @@
 
     <p>
         <table class="table table-bordered table-hover">
+            <tr>
+                <th>Type Alias</th>
+                <th>Description</th>
+            </tr>
             @foreach (var typeParam in typeParams)
             {
                 <tr>
@@ -138,8 +144,8 @@
                         {
                             @CommentTag.RenderTypeParam(paramToCommentMap[typeParam.Name])
                         }
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </table>
     </p>
@@ -174,6 +180,11 @@
     @RenderSectionTitle("Parameters")
     <p>
         <table class="table table3col table-bordered table-hover">
+            <tr>
+                <th>Type</th>
+                <th>Parameter Name</th>
+                <th>Description</th>
+            </tr>
             @foreach (var param in parameters)
             {
                 <tr>
@@ -212,8 +223,8 @@
                         {
                             @CommentTag.RenderTableSummary(constructor.DocComment.Summary)
                         }
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </table>
     </p>
@@ -226,22 +237,24 @@
     @RenderSectionTitle("Properties")
 
     <p>
-        <table class="table table-bordered table-hover">
+        <table class="table table3col table-bordered table-hover">
             <tr>
+                <th>Type</th>
                 <th>Property Name</th>
                 <th>Description</th>
             </tr>
             @foreach (var property in interfaceModel.Properties)
             {
                 <tr>
+                    <td>@property.TypeName</td>
                     <td>@PageHelper.RenderElementLink(property)</td>
                     <td>
                         @if (property.DocComment != null && property.DocComment.Summary != null)
                         {
                             @CommentTag.RenderTableSummary(property.DocComment.Summary)
                         }
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </table>
     </p>
@@ -425,14 +438,14 @@
 
 @helper RenderEnumTable(NamespaceBase parent)
 {
-    if (parent.Structs == null || !parent.Structs.Any()) { return; }
+    if (parent.Enums == null || !parent.Enums.Any()) { return; }
     @RenderSectionTitle("Enums")
     @_RenderEnumTable(parent.Enums)
 }
 
 @helper RenderEnumTable(ClassAndStructBase parent)
 {
-    if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
+    if (parent.InnerEnums == null || !parent.InnerEnums.Any()) { return; }
     @RenderSectionTitle("Nested Enums")
     @_RenderEnumTable(parent.InnerEnums)
 }
@@ -463,14 +476,14 @@
 
 @helper RenderDelegateTable(NamespaceBase parent)
 {
-    if (parent.Structs == null || !parent.Structs.Any()) { return; }
+    if (parent.Delegates == null || !parent.Delegates.Any()) { return; }
     @RenderSectionTitle("Delegates")
     @_RenderDelegateTable(parent.Delegates)
 }
 
 @helper RenderDelegateTable(ClassAndStructBase parent)
 {
-    if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
+    if (parent.InnerDelegates == null || !parent.InnerDelegates.Any()) { return; }
     @RenderSectionTitle("Inner Delegates")
     @_RenderDelegateTable(parent.InnerDelegates)
 }

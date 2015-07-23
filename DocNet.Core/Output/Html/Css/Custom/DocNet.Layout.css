@@ -131,6 +131,11 @@ table.table3col td:nth-child(2){
     word-wrap: break-word;
 }
 
+table.table3col th:nth-child(2) {
+    width: 20%;
+    word-wrap: break-word;
+}
+
 .expand-table-cell:hover {
 	white-space: normal;
 }

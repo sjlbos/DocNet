@@ -65,32 +65,7 @@ namespace DocNet.Core.Output.Html
 
         #endregion
 
-        #region Helper Methods
-
-        private static string GetSanitizedFilePath(string filePath)
-        {
-            return filePath
-                .Replace('<', '[')
-                .Replace('>', ']');
-        }
-
-        private void CopyExportFilesToDirectory(string outputDirectory)
-        {
-            Log.Debug("Copying exported files to output directory.");
-            foreach (var file in _allExportedFiles)
-            {
-                CopyExportFileToDirectory(file, outputDirectory);
-            }
-        }
-
-        private void CopyExportFileToDirectory(string fileName, string outputDirectory)
-        {
-            string sourcePath = Path.Combine(MarkupFileDirectoryPath, fileName);
-            string destPath = Path.Combine(outputDirectory, fileName);
-            Log.DebugFormat(CultureInfo.CurrentCulture,
-                "Copying \"{0}\" to \"{1}\".", sourcePath, destPath);
-            File.Copy(sourcePath, destPath, true);
-        }
+        #region Element Processors
 
         private void ProcessNamespace(NamespaceBase currentNamespace)
         {
@@ -243,6 +218,35 @@ namespace DocNet.Core.Output.Html
             {
                 ProcessDelegate(delegateModel);
             }
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        private static string GetSanitizedFilePath(string filePath)
+        {
+            return filePath
+                .Replace('<', '[')
+                .Replace('>', ']');
+        }
+
+        private void CopyExportFilesToDirectory(string outputDirectory)
+        {
+            Log.Debug("Copying exported files to output directory.");
+            foreach (var file in _allExportedFiles)
+            {
+                CopyExportFileToDirectory(file, outputDirectory);
+            }
+        }
+
+        private void CopyExportFileToDirectory(string fileName, string outputDirectory)
+        {
+            string sourcePath = Path.Combine(MarkupFileDirectoryPath, fileName);
+            string destPath = Path.Combine(outputDirectory, fileName);
+            Log.DebugFormat(CultureInfo.CurrentCulture,
+                "Copying \"{0}\" to \"{1}\".", sourcePath, destPath);
+            File.Copy(sourcePath, destPath, true);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]

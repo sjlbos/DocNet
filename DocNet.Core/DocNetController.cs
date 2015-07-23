@@ -24,6 +24,7 @@ namespace DocNet.Core
         private IDocumentationGenerator _documentationGenerator;
         private IEnumerable<string> _inputFilePaths; 
         private string _outputDirectoryPath;
+        private OutputMode _outputMode;
 
         public DocNetController(ControllerConfiguration config)
         {
@@ -74,9 +75,11 @@ namespace DocNet.Core
                 // Generate documentation
                 Log.Info("\nGenerating documentation...");
                 _documentationGenerator.GenerateDocumentation(globalNamespace, _outputDirectoryPath);
+                
                 Log.Info("Documentation generation complete.");
                 Log.Info(String.Empty);
-                Log.Info("Thank you for using DocNet!");
+                Log.Info("Thank you for using DocNet!");             
+                return DocNetStatus.Success;
             }
             catch(ConfigurationException ex)
             {
@@ -94,8 +97,6 @@ namespace DocNet.Core
                 Log.Debug(ex);
                 return DocNetStatus.ParsingError;
             }
-
-            return DocNetStatus.Success;
         }
 
         #region Helper Methods
@@ -110,13 +111,14 @@ namespace DocNet.Core
             _documentationGenerator = _config.DocumentationGenerator;
             _outputDirectoryPath = _config.OutputDirectoryPath;
             _inputFilePaths = _config.InputFilePaths;
+            _outputMode = _config.OutputMode;
         }
 
         private void ParseCsFile(string csFilePath, GlobalNamespaceModel globalNamespace)
         {
             using (var csFile = File.OpenRead(csFilePath))
             {
-                _csParser.ParseIntoNamespace(csFile, globalNamespace);
+                _csParser.ParseIntoNamespace(csFile, globalNamespace, _outputMode);
             }
         }
 

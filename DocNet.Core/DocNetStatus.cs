@@ -11,6 +11,7 @@ namespace DocNet.Core
         UnreachableOutputPath,
         InvalidProgramArguments,
         InternalError,
-        ParsingError
+        ParsingError,
+        NoDocumentableElements
     }
 }
