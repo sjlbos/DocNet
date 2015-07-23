@@ -718,8 +718,8 @@ WriteTo(@__razor_helper_writer, RenderSectionTitle("Type Parameters"));
 #line hidden
 
 WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table table-bordered table-hover\">\r\n            <t" +
-"r>\r\n                <th>Type Alias</th>\r\n                <th>Description</th>\r\n " +
-"           </tr>\r\n");
+"r>\r\n                <th>Parameter Type</th>\r\n                <th>Description</th" +
+">\r\n            </tr>\r\n");
 
 
 
