@@ -53,7 +53,7 @@ namespace DocNet.Razor.Helpers
 
     private static string CombineText(IEnumerable<string> text)
     {
-        return String.Join("\n", text);
+        return String.Join(String.Empty, text);
     }
 
         #line default
@@ -483,7 +483,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <p>Fix me, I don\'t know what I am!</p>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "    <p></p>\r\n");
 
 
 
@@ -807,143 +807,403 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 #line 191 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
-    if (listTag.Elements != null&&listTag.Elements.Any()){
-        if (listTag.ListType.Equals(ListType.Bullet))
-        {
+    if (listTag.Elements == null || !listTag.Elements.Any()) { return; }
+
+    switch (listTag.ListType)
+    {
+        case ListType.Bullet:
+            
+#line default
+#line hidden
+
+
+#line 197 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, _RenderListHeader(listTag.Header));
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "            <ul>\r\n");
 
-
-
-#line 196 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-                 foreach (var element in listTag.Elements)
-                {
+#line 197 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                                              
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "                    <li>");
-
-
-
-#line 198 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-WriteTo(@__razor_helper_writer, RenderContainerElement(element));
-
-#line default
-#line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "</li>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "            <ul>\r\n                ");
 
 
 
 #line 199 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-                }
+WriteTo(@__razor_helper_writer, _RenderListBody(listTag.Elements));
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "            </ul>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "\r\n            </ul>\r\n");
 
 
 
 #line 201 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-        }else if (listTag.ListType.Equals(ListType.Number))
+            break;
+        case ListType.Number:
+            
+#line default
+#line hidden
+
+
+#line 203 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, _RenderListHeader(listTag.Header));
+
+#line default
+#line hidden
+
+
+#line 203 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                                              
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "            <ol>\r\n                ");
+
+
+
+#line 205 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, _RenderListBody(listTag.Elements));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "\r\n            </ol>\r\n");
+
+
+
+#line 207 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+            break;
+        case ListType.Table:
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "            <table class=\"table table-bordered table-hover custom\">\r\n            " +
+"    ");
+
+
+
+#line 210 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, _RenderTableListHeader(listTag.Header));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "\r\n            </table>\r\n");
+
+
+
+#line 212 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+            break;
+    }
+
+#line default
+#line hidden
+
+});
+
+}
+
+
+internal static System.Web.WebPages.HelperResult _RenderListHeader(ListHeader header)
+{
+return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+
+
+
+#line 217 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+ 
+    if (header == null) { return; }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "    <span>\r\n");
+
+
+
+#line 220 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+     if (header.Terms != null && header.Terms.Any())
+    {
+        
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "        <b>");
+
+
+
+#line 223 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, CombineText(header.Terms.First().Text));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "</b>\r\n");
+
+
+
+#line 224 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+        if (header.Descriptions != null && header.Descriptions.Any())
+        {
+            
+#line default
+#line hidden
+
+
+#line 226 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, ": " + CombineText(header.Descriptions.First().Text));
+
+#line default
+#line hidden
+
+
+#line 226 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                                                                   
+        }
+    }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "    </span>\r\n");
+
+
+
+#line 230 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+
+#line default
+#line hidden
+
+});
+
+}
+
+
+internal static System.Web.WebPages.HelperResult _RenderListBody(IList<ListItem> items)
+{
+return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+
+
+
+#line 233 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+ 
+    if (items == null || !items.Any()) { return; }
+    foreach (var item in items)
+    {
+        if (!item.Terms.Any()) { continue; }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "        <li>\r\n            ");
+
+
+
+#line 239 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, CombineText(item.Terms.First().Text));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "\r\n");
+
+
+
+#line 240 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+             if (item.Descriptions.Any())
+            {
+                
+#line default
+#line hidden
+
+
+#line 242 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, ":" + CombineText(item.Descriptions.First().Text));
+
+#line default
+#line hidden
+
+
+#line 242 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                                                                    
+            }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "        </li>\r\n");
+
+
+
+#line 245 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+    }
+
+#line default
+#line hidden
+
+});
+
+}
+
+
+internal static System.Web.WebPages.HelperResult _RenderTableListHeader(ListHeader header)
+{
+return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+
+
+
+#line 249 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+ 
+    if (header == null) { return; }
+    if (header.Terms != null && header.Terms.Any())
+    {
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "        <tr>\r\n");
+
+
+
+#line 254 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+         for (int i = 0; i < header.Terms.Count; i++)
         {
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "            <ol>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "            <th>\r\n                ");
 
 
 
-#line 204 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-                 foreach (var element in listTag.Elements)
+#line 257 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, CombineText(header.Terms[i].Text));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "\r\n");
+
+
+
+#line 258 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                 if (i < header.Descriptions.Count && header.Descriptions[i] != null)
                 {
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "                    <li>");
+WriteLiteralTo(@__razor_helper_writer, "                    <br />\r\n");
 
 
 
-#line 206 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-WriteTo(@__razor_helper_writer, RenderContainerElement(element));
+#line 261 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                    
+#line default
+#line hidden
+
+
+#line 261 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, CombineText(header.Descriptions[i].Text));
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "</li>\r\n");
 
-
-
-#line 207 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 261 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                                                             
                 }
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "            </ol>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "            </th>\r\n");
 
 
 
-#line 209 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-        }else{
-
-#line default
-#line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "            <table class=\"table-bordered table-hover table\">\r\n");
-
-
-
-#line 211 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-                 foreach (var element in listTag.Elements)
-                {
-
-#line default
-#line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "                    <tr>\r\n                        <td>");
-
-
-
-#line 214 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-WriteTo(@__razor_helper_writer, RenderContainerElement(element));
-
-#line default
-#line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    </tr>\r\n");
-
-
-
-#line 216 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-                }
-
-#line default
-#line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "            </table>\r\n");
-
-
-
-#line 218 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 264 "..\..\Output\Html\Helpers\CommentTag.cshtml"
         }
-    }else{
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "        <!--Add a debug message maybe?-->\r\n");
+WriteLiteralTo(@__razor_helper_writer, "        </tr>\r\n");
 
 
 
-#line 221 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 266 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+    }
+
+#line default
+#line hidden
+
+});
+
+}
+
+
+internal static System.Web.WebPages.HelperResult _RenderTableListBody(IList<ListItem> items)
+{
+return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+
+
+
+#line 270 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+ 
+    if (items == null || !items.Any()) { return; }
+    foreach (var item in items)
+    {
+        if(item.Terms == null || !item.Terms.Any()) { continue; }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "        <tr>\r\n");
+
+
+
+#line 276 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+             foreach (var term in item.Terms)
+            {
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "                <td>");
+
+
+
+#line 278 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, CombineText(term.Text));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "</td>\r\n");
+
+
+
+#line 279 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+            }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "        </tr>\r\n");
+
+
+
+#line 281 "..\..\Output\Html\Helpers\CommentTag.cshtml"
     }
 
 #line default
@@ -960,7 +1220,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 225 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 285 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -970,7 +1230,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <b>");
 
 
 
-#line 226 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 286 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, paramRefTag.Name);
 
 #line default
@@ -980,7 +1240,7 @@ WriteLiteralTo(@__razor_helper_writer, "</b>\r\n");
 
 
 
-#line 227 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 287 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -996,7 +1256,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 230 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 290 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -1006,7 +1266,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <b>");
 
 
 
-#line 231 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 291 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, seeTag.ReferencedElementName);
 
 #line default
@@ -1016,7 +1276,7 @@ WriteLiteralTo(@__razor_helper_writer, "</b>   \r\n");
 
 
 
-#line 232 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 292 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -1032,7 +1292,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 235 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 295 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -1042,7 +1302,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <b>");
 
 
 
-#line 236 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 296 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, typeParamRefTag.Name);
 
 #line default
@@ -1052,7 +1312,7 @@ WriteLiteralTo(@__razor_helper_writer, "</b>\r\n");
 
 
 
-#line 237 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 297 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -1068,7 +1328,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 240 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 300 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -1078,7 +1338,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>");
 
 
 
-#line 241 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 301 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderContainer(paragraphTag));
 
 #line default
@@ -1088,7 +1348,7 @@ WriteLiteralTo(@__razor_helper_writer, "</p>\r\n");
 
 
 
-#line 242 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 302 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden

@@ -499,8 +499,10 @@ namespace DocNet.Core.Models.Comments.Xml
         [XmlAttribute("type")]
         public ListType ListType { get; set; }
 
+        [XmlElement("listheader", typeof(ListHeader))]
         public ListHeader Header { get; set; }
 
+        [XmlElement("item", typeof(ListItem))]
         public List<ListItem> Elements { get; set; }
 
         public ListTag()
@@ -544,7 +546,10 @@ namespace DocNet.Core.Models.Comments.Xml
 
     public abstract class ListElement : IEquatable<ListElement>
     {
+        [XmlElement("term", typeof(Term))]
         public List<Term> Terms { get; set; }
+
+        [XmlElement("description", typeof(Description))]
         public List<Description> Descriptions { get; set; }
 
         protected ListElement()

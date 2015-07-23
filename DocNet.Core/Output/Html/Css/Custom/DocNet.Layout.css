@@ -130,6 +130,19 @@ th:first-child{
 	width: 20%;
 }
 
+table.custom {
+    width: auto;
+    table-layout: auto;
+}
+
+table.custom th {
+    width: auto;
+}
+
+table.custom td {
+    width: auto;
+}
+
 table.table3col {
     width: 100%;
 	table-layout: fixed;
