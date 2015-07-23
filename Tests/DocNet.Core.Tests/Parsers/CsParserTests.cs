@@ -23,7 +23,7 @@ namespace DocNet.Core.Tests.Parsers
             var parser = new CsTextParser();
 
             // Act
-            var globalNamespace = parser.GetGlobalNamespace(inputCode);
+            var globalNamespace = parser.GetGlobalNamespace(inputCode, OutputMode.AllElements);
 
             // Assert
             Assert.That(globalNamespace.ChildNamespaces.Count(), Is.EqualTo(2));
@@ -109,7 +109,7 @@ namespace DocNet.Core.Tests.Parsers
             nestedNamespace.AddChild(structN2L1);
 
             // Act
-            var returnedGlobalNamespace = parser.GetGlobalNamespace(inputCode);
+            var returnedGlobalNamespace = parser.GetGlobalNamespace(inputCode, OutputMode.AllElements);
 
             // Assert
             Assert.True(expectedGlobalNamespace.Equals(returnedGlobalNamespace));
@@ -123,7 +123,7 @@ namespace DocNet.Core.Tests.Parsers
             var parser = new CsTextParser();
 
             // Act
-            var returnedNamespace = parser.GetGlobalNamespace(inputCode);
+            var returnedNamespace = parser.GetGlobalNamespace(inputCode, OutputMode.AllElements);
 
             // Assert
             Assert.NotNull(returnedNamespace);
@@ -158,7 +158,7 @@ namespace DocNet.Core.Tests.Parsers
             var parser = new CsTextParser();
 
             // Act
-            var returnedNamespace = parser.GetGlobalNamespace(inputCode);
+            var returnedNamespace = parser.GetGlobalNamespace(inputCode, OutputMode.AllElements);
 
             // Assert
             Assert.That(returnedNamespace.Classes, Has.Count.EqualTo(1));

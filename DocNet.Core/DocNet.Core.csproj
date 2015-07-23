@@ -183,6 +183,7 @@
       <DependentUpon>StructDetail.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Output\IDocumentationGenerator.cs" />
+    <Compile Include="OutputMode.cs" />
     <Compile Include="Parsers\CSharp\CsTextParser.cs" />
     <Compile Include="Parsers\CSharp\ICsParser.cs" />
     <Compile Include="Exceptions\CsParsingException.cs" />
@@ -297,7 +298,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Scripts\jquery-2.1.4.min.map" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\.global\CustomDictionary.xml">
@@ -308,9 +308,6 @@
     <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.intellisense.js" />
     <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.js" />
     <Content Include="Output\Html\Javascript\JQuery\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\jquery-2.1.4.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.4.js" />
-    <Content Include="Scripts\jquery-2.1.4.min.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
