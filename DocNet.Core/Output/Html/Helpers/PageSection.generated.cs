@@ -199,7 +199,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <p><h3>");
+WriteLiteralTo(@__razor_helper_writer, "    <h3>");
 
 
 
@@ -209,7 +209,7 @@ WriteTo(@__razor_helper_writer, title);
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "</h3></p>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "</h3>\r\n");
 
 
 
