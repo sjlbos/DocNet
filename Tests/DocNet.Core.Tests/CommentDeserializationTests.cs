@@ -23,7 +23,7 @@ namespace DocNet.Core.Tests
                 yield return new TestCaseData("<remarks>Dummy Remarks</remarks>", new DocComment { Remarks = new RemarksTag { Items = new List<object> { "Dummy Remarks" } } });
                 yield return new TestCaseData("<example>Dummy Example</example>", new DocComment { Example = new ExampleTag { Items = new List<object> { "Dummy Example" } } });
                 yield return new TestCaseData(@"<permission cref=""DummyPermission""></permission>", new DocComment { Permission = new PermissionTag { ReferencedElementName = "Dummy Permission" } });
-                yield return new TestCaseData(@"<seealso cref=""DummyClass""/>", new DocComment { SeeAlso = new SeeAlsoTag { ReferencedElementName = "Dummy Class" } });
+                yield return new TestCaseData(@"<seealso cref=""DummyClass""/>", new DocComment { SeeAlsoReferences = new List<SeeAlsoTag>{ new SeeAlsoTag { ReferencedElementName = "Dummy Class" } }});
             }
         }
 
@@ -98,7 +98,7 @@ namespace DocNet.Core.Tests
                 Remarks = new RemarksTag { Items = new List<object> { "Dummy Remarks" } },
                 Example = new ExampleTag { Items = new List<object> { "Dummy Example" } },
                 Permission = new PermissionTag { ReferencedElementName = "Dummy Permission" },
-                SeeAlso = new SeeAlsoTag { ReferencedElementName = "Dummy Class" } 
+                SeeAlsoReferences = new List<SeeAlsoTag> { new SeeAlsoTag { ReferencedElementName = "Dummy Class" } } 
             };
 
             // Act
@@ -130,7 +130,7 @@ namespace DocNet.Core.Tests
                 Remarks = new RemarksTag { Items = new List<object> { "Dummy Remarks" } },
                 Example = new ExampleTag { Items = new List<object> { "Dummy Example" } },
                 Permission = new PermissionTag { ReferencedElementName = "Dummy Permission" },
-                SeeAlso = new SeeAlsoTag { ReferencedElementName = "Dummy Class" },
+                SeeAlsoReferences = new List<SeeAlsoTag> { new SeeAlsoTag { ReferencedElementName = "Dummy Class" } },
                 TypeParameters = new List<TypeParameterTag>
                 {
                     new TypeParameterTag { Name = "T", Items = new List<object> { "TypeParamT" }},
@@ -175,7 +175,7 @@ namespace DocNet.Core.Tests
                 Remarks = new RemarksTag { Items = new List<object> { "Dummy Remarks" } },
                 Example = new ExampleTag { Items = new List<object> { "Dummy Example" } },
                 Permission = new PermissionTag { ReferencedElementName = "Dummy Permission" },
-                SeeAlso = new SeeAlsoTag { ReferencedElementName = "Dummy Class" },
+                SeeAlsoReferences = new List<SeeAlsoTag> { new SeeAlsoTag { ReferencedElementName = "Dummy Class" } },
                 TypeParameters = new List<TypeParameterTag>
                 {
                     new TypeParameterTag { Name = "T", Items = new List<object> { "TypeParamT" }},
@@ -220,7 +220,7 @@ namespace DocNet.Core.Tests
                 Remarks = new RemarksTag { Items = new List<object> { "Dummy Remarks" } },
                 Example = new ExampleTag { Items = new List<object> { "Dummy Example" } },
                 Permission = new PermissionTag { ReferencedElementName = "Dummy Permission" },
-                SeeAlso = new SeeAlsoTag { ReferencedElementName = "Dummy Class" },
+                SeeAlsoReferences = new List<SeeAlsoTag>{ new SeeAlsoTag { ReferencedElementName = "Dummy Class" }},
                 Value = new ValueTag { Items = new List<object> { "Dummy Value" } }
             };
 

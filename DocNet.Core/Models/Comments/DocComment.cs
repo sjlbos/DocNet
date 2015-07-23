@@ -1,7 +1,9 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using DocNet.Core.Models.Comments.Xml;
@@ -56,7 +58,12 @@ namespace DocNet.Core.Models.Comments
         public PermissionTag Permission { get; set; }
 
         [XmlElement("seealso")]
-        public SeeAlsoTag SeeAlso { get; set; }
+        public List<SeeAlsoTag> SeeAlsoReferences { get; set; }
+
+        public DocComment()
+        {
+            SeeAlsoReferences = new List<SeeAlsoTag>();
+        }
 
         #region Equality Members
 
@@ -68,7 +75,7 @@ namespace DocNet.Core.Models.Comments
                 hashCode = (hashCode*397) ^ (Remarks != null ? Remarks.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Example != null ? Example.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Permission != null ? Permission.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (SeeAlso != null ? SeeAlso.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (SeeAlsoReferences != null ? SeeAlsoReferences.GetHashCode() : 0);
                 return hashCode;
             }
         }
@@ -86,7 +93,7 @@ namespace DocNet.Core.Models.Comments
                 && (Remarks == null ? (other.Remarks == null) : Remarks.Equals(other.Remarks))
                 && (Example == null ? (other.Example == null) : Example.Equals(other.Example))
                 && (Permission == null ? (other.Permission == null) : Permission.Equals(other.Permission))
-                && (SeeAlso == null ? (other.SeeAlso == null) : SeeAlso.Equals(other.SeeAlso));
+                && (SeeAlsoReferences == null ? (other.SeeAlsoReferences == null) : SeeAlsoReferences.SequenceEqual(other.SeeAlsoReferences));
         }
 
         #endregion

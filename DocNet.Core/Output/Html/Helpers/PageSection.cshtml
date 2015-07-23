@@ -6,6 +6,7 @@
 @using DocNet.Core.Models.Comments.Xml
 @using DocNet.Core.Models.CSharp
 @using DocNet.Razor.Helpers
+@using Microsoft.CodeAnalysis
 
 @helper RenderElementTitle(CsElement element, string elementType)
 {
@@ -56,9 +57,16 @@
 
 @helper RenderSeeAlso(DocComment docComment)
 {
-    if (docComment == null || docComment.SeeAlso == null) { return; }
+    if (docComment == null || docComment.SeeAlsoReferences == null || !docComment.SeeAlsoReferences.Any()) { return; }
     @RenderSectionTitle("See Also")
-    @CommentTag.RenderSeeAlso(docComment.SeeAlso)
+    <p>
+        <ul>
+            @foreach (var seeAlso in docComment.SeeAlsoReferences.OrderBy(sa => sa.ReferencedElementName))
+            {
+                <li>@seeAlso.ReferencedElementName</li>
+            }
+        </ul>
+    </p>
 }
 
 @helper RenderExceptionTable(InterfaceDocComment docComment)

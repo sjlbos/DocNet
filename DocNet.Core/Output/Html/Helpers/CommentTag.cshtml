@@ -91,24 +91,6 @@
     </div>
 }
 
-@helper RenderSeeAlso(SeeAlsoTag seeAlsoTag)
-{
-    <div class="see-also-comment">
-        <p>
-            @seeAlsoTag.ReferencedElementName<br/>
-            @if (seeAlsoTag.Text!=null&seeAlsoTag.Text.Any())
-            {
-                <ul class="bulleted">
-                    @foreach (string s in seeAlsoTag.Text)
-                    {
-                        <li class="bulleted">@s</li>
-                    }
-                </ul>
-            }
-        </p>
-    </div>
-}
-
 @helper RenderPermission(PermissionTag permissionTag)
 {
     <p></p>
