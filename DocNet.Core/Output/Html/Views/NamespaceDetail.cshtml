@@ -1,99 +1,37 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using System.Linq
 @using DocNet.Core.Models.CSharp
+@using DocNet.Core.Output.Html
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<NamespaceBase>
 
-<!--Name-->
-<p>
-    <h3>Namespace</h3>
-    <h1>@Model.DisplayName</h1>
-    <h3>Parent Namespace: @Model.FullNameQualifier</h3>
-</p>
+@PageSection.RenderElementTitle(Model, "Namespace")
 
-@if (Model.Classes.Any()){
-    <!--Classes-->
+@if(Model.ChildNamespaces != null && Model.ChildNamespaces.Any())
+{
+    @PageSection.RenderSectionTitle("Namespaces")
     <p>
-        <h3>Classes</h3>
         <table class="table table-bordered table-hover">
             <tr>
-                <td><b>Class Name</b></td>
-                <td><b>Description</b></td>
+                <th>Name</th>
             </tr>
-            @foreach (ClassModel c in Model.Classes){
+            @foreach(var childNamespace in Model.ChildNamespaces)
+            {
                 <tr>
-                    <td>@c.Identifier</td>
-                    @if (c.DocComment != null){
-                        <td>@CommentTag.RenderSummary(c.DocComment.Summary)</td>
-                    }else{
-                        <td></td>
-                    }
+                    <td>@PageHelper.RenderElementLink(childNamespace)</td>
                 </tr>
             }
-        </table>
+        </table> 
     </p>
 }
 
-@if (Model.Structs.Any()){
-    <!--Structures-->
-    <p>
-        <h3>Structures</h3>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <td><b>Structure Name</b></td>
-                <td><b>Description</b></td>
-            </tr>
-            @foreach (StructModel s in Model.Structs){
-                <tr>
-                    <td>@s.Identifier</td>
-                    <td>@if (s.DocComment != null){
-                            @CommentTag.RenderSummary(s.DocComment.Summary)
-                        }</td>
-                </tr>
-            }
-        </table>
-    </p>
-}
+@PageSection.RenderInterfaceTable(Model)
 
-@if (Model.Delegates.Any()){
-    <!--Delegates-->
-    <p>
-        <h3>Delegates</h3>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <td><b>Delegate Name</b></td>
-                <td><b>Description</b></td>
-            </tr>
-            @foreach (DelegateModel d in Model.Delegates){
-                <tr>
-                    <td>@d.Identifier</td>
-                    <td>@if (d.DocComment != null){
-                            @CommentTag.RenderSummary(d.DocComment.Summary);
-                        }</td>
-                </tr>
-            }
-        </table>
-    </p>
-}
+@PageSection.RenderClassTable(Model)
 
-@if (Model.Enums.Any()){
-    <!--Enumerations-->
-    <p>
-        <h3>Enumerations</h3>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <td><b>Enum Name</b></td>
-                <td><b>Description</b></td>
-            </tr>
-            @foreach (EnumModel e in Model.Enums){
-                <tr>
-                    <td>@e.Identifier</td>
-                    <td>@if (e.DocComment != null){
-                            @CommentTag.RenderSummary(e.DocComment.Summary);
-                        }</td>
-                </tr>
-            }
-        </table>
-    </p>
-}
+@PageSection.RenderStructTable(Model)
+
+@PageSection.RenderEnumTable(Model)
+
+@PageSection.RenderDelegateTable(Model)

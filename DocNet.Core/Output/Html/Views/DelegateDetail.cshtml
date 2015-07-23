@@ -1,17 +1,11 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
-@using DocNet.Core.Models.Comments.Xml
 @using DocNet.Core.Output.Html.Helpers
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<DelegateModel>
 
-<!--Name-->
-<p>
-    <h3>Delegate</h3>
-    <h1>@Model.DisplayName</h1>
-    <h3>Namespace: @Model.FullNameQualifier</h3>
-</p>
+@PageSection.RenderElementTitle(Model, "Delegate")
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfDelegate(Model))
 

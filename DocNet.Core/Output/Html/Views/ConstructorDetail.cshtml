@@ -5,12 +5,7 @@
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<ConstructorModel>
 
-<!--Name-->
-<p>
-    <h3>Constructor</h3>
-    <h1>@Model.DisplayName</h1>
-    <h3>Namespace: @Model.FullNameQualifier</h3>
-</p>
+@PageSection.RenderElementTitle(Model, "Constructor")
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfConstructor(Model))
 

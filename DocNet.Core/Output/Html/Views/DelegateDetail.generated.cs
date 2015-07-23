@@ -16,19 +16,13 @@ namespace DocNet.Razor.Views
     using System.Linq;
     using System.Text;
     
-    #line 4 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-    using DocNet.Core.Models.Comments.Xml;
-    
-    #line default
-    #line hidden
-    
     #line 2 "..\..\Output\Html\Views\DelegateDetail.cshtml"
     using DocNet.Core.Models.CSharp;
     
     #line default
     #line hidden
     
-    #line 5 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+    #line 4 "..\..\Output\Html\Views\DelegateDetail.cshtml"
     using DocNet.Core.Output.Html.Helpers;
     
     #line default
@@ -40,7 +34,7 @@ namespace DocNet.Razor.Views
     #line default
     #line hidden
     
-    #line 6 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+    #line 5 "..\..\Output\Html\Views\DelegateDetail.cshtml"
     using DocNet.Razor.Helpers;
     
     #line default
@@ -62,32 +56,21 @@ WriteLiteral("\r\n");
 
 
 
-
-WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Delegate</h3>\r\n    <h1>");
-
-
-            
-            #line 12 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-   Write(Model.DisplayName);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</h1>\r\n    <h3>Namespace: ");
+WriteLiteral("\r\n");
 
 
             
-            #line 13 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-              Write(Model.FullNameQualifier);
+            #line 8 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+Write(PageSection.RenderElementTitle(Model, "Delegate"));
 
             
             #line default
             #line hidden
-WriteLiteral("</h3>\r\n</p>\r\n\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 16 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 10 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfDelegate(Model)));
 
             
@@ -97,7 +80,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 18 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 12 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderSummary(Model.DocComment));
 
             
@@ -107,7 +90,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 20 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 14 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderTypeParamTable(Model));
 
             
@@ -117,7 +100,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 22 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 16 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderExceptionTable(Model.DocComment));
 
             
@@ -127,7 +110,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 24 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 18 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderReturnValueTable(Model));
 
             
@@ -137,7 +120,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 26 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderParameterTable(Model));
 
             
@@ -147,7 +130,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 28 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 22 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderRemarks(Model.DocComment));
 
             
@@ -157,7 +140,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 30 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 24 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderExample(Model.DocComment));
 
             
@@ -167,7 +150,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 32 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

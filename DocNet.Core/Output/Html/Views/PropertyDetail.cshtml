@@ -5,12 +5,7 @@
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<PropertyModel>
 
-<!--Name-->
-<p>
-    <h3>Property</h3>
-    <h1>@Model.DisplayName</h1>
-    <h3>Namespace: @Model.FullNameQualifier</h3>
-</p>
+@PageSection.RenderElementTitle(Model, "Property")
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfProperty(Model))
 

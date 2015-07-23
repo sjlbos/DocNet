@@ -7,14 +7,26 @@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Razor.Helpers
 
+@helper RenderElementTitle(CsElement element, string elementType)
+{
+    if(element is GlobalNamespaceModel)
+    {
+        <h1>Global Namespace</h1>
+        return;
+    }
+    <h1>@(element.DisplayName + " " + elementType)</h1>
+    <span><b>Namespace:</b> @element.FullNameQualifier</span>
+}
+
 @helper RenderDeclarationBlock(string declaration)
 {
+    @RenderSectionTitle("Declaration")
     <div class="code-block">
         <pre><code class="cs">@declaration</code></pre>
     </div>
 }
 
-@helper _RenderSectionTitle(string title)
+@helper RenderSectionTitle(string title)
 {
     <p><h3>@title</h3></p>
 }
@@ -22,28 +34,28 @@
 @helper RenderSummary(DocComment docComment)
 {
     if (docComment == null || docComment.Summary == null) { return; }
-    @_RenderSectionTitle("Summary")
+    @RenderSectionTitle("Summary")
     <p>@CommentTag.RenderSummary(docComment.Summary)</p> 
 }
 
 @helper RenderRemarks(DocComment docComment)
 {
     if (docComment == null || docComment.Remarks == null) { return; }
-    @_RenderSectionTitle("Remarks")
+    @RenderSectionTitle("Remarks")
     <p>@CommentTag.RenderRemarks(docComment.Remarks)</p>
 }
 
 @helper RenderExample(DocComment docComment)
 {
     if (docComment == null || docComment.Example == null) { return; }
-    @_RenderSectionTitle("Example")
+    @RenderSectionTitle("Example")
     <p>@CommentTag.RenderExample(docComment.Example)</p>
 }
 
 @helper RenderSeeAlso(DocComment docComment)
 {
     if (docComment == null || docComment.SeeAlso == null) { return; }
-    @_RenderSectionTitle("See Also")
+    @RenderSectionTitle("See Also")
     <p>@CommentTag.RenderSeeAlso(docComment.SeeAlso)</p>
 }
 
@@ -69,7 +81,7 @@
 {
     if (exceptions == null || !exceptions.Any()) { return; }
     
-    @_RenderSectionTitle("Exceptions")
+    @RenderSectionTitle("Exceptions")
     <p>
         <table class="table table-bordered table-hover">
             <tr>
@@ -113,7 +125,7 @@
         paramToCommentMap = typeParamComments.ToDictionary(tag => tag.Name, tag => tag);
     }
     
-    @_RenderSectionTitle("Type Parameters")
+    @RenderSectionTitle("Type Parameters")
 
     <p>
         <table class="table table-bordered table-hover">
@@ -159,7 +171,7 @@
         paramToCommentMap = parameterComments.ToDictionary(tag => tag.Name, tag => tag);
     }
 
-    @_RenderSectionTitle("Parameters")
+    @RenderSectionTitle("Parameters")
     <p>
         <table class="table table3col table-bordered table-hover">
             @foreach (var param in parameters)
@@ -183,7 +195,7 @@
 {
     if (classAndStructBase.Constructors == null || !classAndStructBase.Constructors.Any()) { return; }
     
-    @_RenderSectionTitle("Constructors")
+    @RenderSectionTitle("Constructors")
 
     <p>
         <table class="table table-bordered table-hover">
@@ -194,7 +206,7 @@
             @foreach (var constructor in classAndStructBase.Constructors)
             {
                 <tr>
-                    <td>@constructor.DisplayName</td>
+                    <td>@PageHelper.RenderElementLink(constructor)</td>
                     <td>
                         @if (constructor.DocComment != null && constructor.DocComment.Summary != null)
                         {
@@ -211,7 +223,7 @@
 {
     if (interfaceModel.Properties == null || !interfaceModel.Properties.Any()) { return; }
     
-    @_RenderSectionTitle("Properties")
+    @RenderSectionTitle("Properties")
 
     <p>
         <table class="table table-bordered table-hover">
@@ -222,7 +234,7 @@
             @foreach (var property in interfaceModel.Properties)
             {
                 <tr>
-                    <td>@property.DisplayName</td>
+                    <td>@PageHelper.RenderElementLink(property)</td>
                     <td>
                         @if (property.DocComment != null && property.DocComment.Summary != null)
                         {
@@ -239,7 +251,7 @@
 {
     if (interfaceModel.Methods == null || !interfaceModel.Methods.Any()) { return; }
     
-    @_RenderSectionTitle("Methods")
+    @RenderSectionTitle("Methods")
     <p>
         <table class="table table-bordered table-hover">
             <tr>
@@ -249,7 +261,7 @@
             @foreach (var method in interfaceModel.Methods)
             {
                 <tr>
-                    <td>@method.DisplayName</td>
+                    <td>@PageHelper.RenderElementLink(method)</td>
                     <td>
                         @if (method.DocComment != null && method.DocComment.Summary != null)
                         {
@@ -276,7 +288,7 @@
 {
     if ("void".Equals(returnType, StringComparison.Ordinal)) { return; }
     
-    @_RenderSectionTitle("Returns")
+    @RenderSectionTitle("Returns")
     
     <p>
         <table class="table table-bordered table-hover">
@@ -293,6 +305,196 @@
                     }
                 </td>
             </tr>
+        </table>
+    </p>
+}
+
+@helper RenderInterfaceTable(NamespaceBase parent)
+{
+    if (parent.Interfaces == null || !parent.Interfaces.Any()) { return; }
+    @RenderSectionTitle("Interfaces")
+    @_RenderInterfaceTable(parent.Interfaces)
+}
+
+@helper RenderInterfaceTable(ClassAndStructBase parent)
+{
+    if (parent.InnerInterfaces == null || !parent.InnerInterfaces.Any()) { return; }
+    @RenderSectionTitle("Nested Classes")
+    @_RenderInterfaceTable(parent.InnerInterfaces)
+}
+
+@helper _RenderInterfaceTable(IList<InterfaceModel> interfaces)
+{
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var childInterface in interfaces)
+            {
+                <tr>
+                    <td>@PageHelper.RenderElementLink(childInterface)</td>
+                    <td>
+                        @if (childInterface.DocComment != null && childInterface.DocComment.Summary != null)
+                        {
+                            @CommentTag.RenderSummary(childInterface.DocComment.Summary)
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </p>
+}
+
+@helper RenderClassTable(NamespaceBase parent)
+{
+    if (parent.Classes == null || !parent.Classes.Any()) { return; }
+    @RenderSectionTitle("Classes")
+    @_RenderClassTable(parent.Classes)
+}
+
+@helper RenderClassTable(ClassAndStructBase parent)
+{
+    if (parent.InnerClasses == null || !parent.InnerClasses.Any()) { return; }
+    @RenderSectionTitle("Nested Classes")
+    @_RenderClassTable(parent.InnerClasses)
+}
+
+@helper _RenderClassTable(IList<ClassModel> classes)
+{
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var childClass in classes)
+            {
+                <tr>
+                    <td>@PageHelper.RenderElementLink(childClass)</td>
+                    <td>
+                        @if(childClass.DocComment != null && childClass.DocComment.Summary != null)
+                        {
+                            @CommentTag.RenderSummary(childClass.DocComment.Summary)
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </p>
+}
+
+@helper RenderStructTable(NamespaceBase parent)
+{
+    if (parent.Structs == null || !parent.Structs.Any()) { return; }
+    @RenderSectionTitle("Structs")
+    @_RenderStructTable(parent.Structs)
+}
+
+@helper RenderStructTable(ClassAndStructBase parent)
+{
+    if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
+    @RenderSectionTitle("Nested Structs")
+    @_RenderStructTable(parent.InnerStructs)
+}
+
+@helper _RenderStructTable(IList<StructModel> structs)
+{
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var childStruct in structs)
+            {
+                <tr>
+                    <td>@PageHelper.RenderElementLink(childStruct)</td>
+                    <td>
+                        @if (childStruct.DocComment != null && childStruct.DocComment.Summary != null)
+                        {
+                            @CommentTag.RenderSummary(childStruct.DocComment.Summary)
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </p>
+}
+
+@helper RenderEnumTable(NamespaceBase parent)
+{
+    if (parent.Structs == null || !parent.Structs.Any()) { return; }
+    @RenderSectionTitle("Enums")
+    @_RenderEnumTable(parent.Enums)
+}
+
+@helper RenderEnumTable(ClassAndStructBase parent)
+{
+    if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
+    @RenderSectionTitle("Nested Enums")
+    @_RenderEnumTable(parent.InnerEnums)
+}
+
+@helper _RenderEnumTable(IList<EnumModel> enums)
+{
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var childEnum in enums)
+            {
+                <tr>
+                    <td>@PageHelper.RenderElementLink(childEnum)</td>
+                    <td>
+                        @if (childEnum.DocComment != null && childEnum.DocComment.Summary != null)
+                        {
+                            @CommentTag.RenderSummary(childEnum.DocComment.Summary)
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </p>
+}
+
+@helper RenderDelegateTable(NamespaceBase parent)
+{
+    if (parent.Structs == null || !parent.Structs.Any()) { return; }
+    @RenderSectionTitle("Delegates")
+    @_RenderDelegateTable(parent.Delegates)
+}
+
+@helper RenderDelegateTable(ClassAndStructBase parent)
+{
+    if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
+    @RenderSectionTitle("Inner Delegates")
+    @_RenderDelegateTable(parent.InnerDelegates)
+}
+
+@helper _RenderDelegateTable(IList<DelegateModel> delegates)
+{
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var childDelegate in delegates)
+            {
+                <tr>
+                    <td>@PageHelper.RenderElementLink(childDelegate)</td>
+                    <td>
+                        @if (childDelegate.DocComment != null && childDelegate.DocComment.Summary != null)
+                        {
+                            @CommentTag.RenderSummary(childDelegate.DocComment.Summary)
+                        }
+                    </td>
+                </tr>
+            }
         </table>
     </p>
 }

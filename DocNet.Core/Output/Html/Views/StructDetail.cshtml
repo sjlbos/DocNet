@@ -1,17 +1,11 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
-@using System.Linq
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<StructModel>
 
-<!--Name-->
-<p>
-    <h3>Struct</h3>
-    <h1>@Model.DisplayName</h1>
-    <h3>Namespace: @Model.FullNameQualifier</h3>
-</p>
+@PageSection.RenderElementTitle(Model, "Struct")
 
 @PageSection.RenderDeclarationBlock(GetDeclaration.OfStruct(Model))
 
@@ -26,6 +20,16 @@
 @PageSection.RenderPropertyTable(Model)
 
 @PageSection.RenderMethodTable(Model)
+
+@PageSection.RenderInterfaceTable(Model)
+
+@PageSection.RenderClassTable(Model)
+
+@PageSection.RenderStructTable(Model)
+
+@PageSection.RenderEnumTable(Model)
+
+@PageSection.RenderDelegateTable(Model)
 
 @PageSection.RenderRemarks(Model.DocComment)
 

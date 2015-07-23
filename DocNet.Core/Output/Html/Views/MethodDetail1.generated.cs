@@ -56,31 +56,21 @@ WriteLiteral("\r\n");
 
 
 
-WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Method</h3>\r\n    <h1>");
+WriteLiteral("\r\n");
 
 
             
-            #line 11 "..\..\Output\Html\Views\MethodDetail.cshtml"
-   Write(Model.DisplayName);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</h1>\r\n    <h3>Namespace: ");
-
-
-            
-            #line 12 "..\..\Output\Html\Views\MethodDetail.cshtml"
-              Write(Model.FullNameQualifier);
+            #line 8 "..\..\Output\Html\Views\MethodDetail.cshtml"
+Write(PageSection.RenderElementTitle(Model, "Method"));
 
             
             #line default
             #line hidden
-WriteLiteral("</h3>\r\n</p>\r\n\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 15 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 10 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfMethod(Model)));
 
             
@@ -90,7 +80,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 17 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 12 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderSummary(Model.DocComment));
 
             
@@ -100,7 +90,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 19 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 14 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderTypeParamTable(Model));
 
             
@@ -110,7 +100,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 21 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 16 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderExceptionTable(Model.DocComment));
 
             
@@ -120,7 +110,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 23 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 18 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderReturnValueTable(Model));
 
             
@@ -130,7 +120,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 25 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderParameterTable(Model));
 
             
@@ -140,7 +130,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 27 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 22 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderRemarks(Model.DocComment));
 
             
@@ -150,7 +140,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 29 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 24 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderExample(Model.DocComment));
 
             
@@ -160,7 +150,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 31 "..\..\Output\Html\Views\MethodDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\MethodDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

@@ -13,33 +13,28 @@ namespace DocNet.Razor.Views
 {
     using System;
     using System.Collections.Generic;
-    
-    #line 2 "..\..\Output\Html\Views\StructDetail.cshtml"
     using System.Linq;
-    
-    #line default
-    #line hidden
     using System.Text;
     
-    #line 3 "..\..\Output\Html\Views\StructDetail.cshtml"
+    #line 2 "..\..\Output\Html\Views\StructDetail.cshtml"
     using DocNet.Core.Models.CSharp;
     
     #line default
     #line hidden
     
-    #line 4 "..\..\Output\Html\Views\StructDetail.cshtml"
+    #line 3 "..\..\Output\Html\Views\StructDetail.cshtml"
     using DocNet.Core.Output.Html.Helpers;
     
     #line default
     #line hidden
     
-    #line 5 "..\..\Output\Html\Views\StructDetail.cshtml"
+    #line 4 "..\..\Output\Html\Views\StructDetail.cshtml"
     using DocNet.Core.Output.Html.Views;
     
     #line default
     #line hidden
     
-    #line 6 "..\..\Output\Html\Views\StructDetail.cshtml"
+    #line 5 "..\..\Output\Html\Views\StructDetail.cshtml"
     using DocNet.Razor.Helpers;
     
     #line default
@@ -61,32 +56,21 @@ WriteLiteral("\r\n");
 
 
 
-
-WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Struct</h3>\r\n    <h1>");
-
-
-            
-            #line 12 "..\..\Output\Html\Views\StructDetail.cshtml"
-   Write(Model.DisplayName);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</h1>\r\n    <h3>Namespace: ");
+WriteLiteral("\r\n");
 
 
             
-            #line 13 "..\..\Output\Html\Views\StructDetail.cshtml"
-              Write(Model.FullNameQualifier);
+            #line 8 "..\..\Output\Html\Views\StructDetail.cshtml"
+Write(PageSection.RenderElementTitle(Model, "Struct"));
 
             
             #line default
             #line hidden
-WriteLiteral("</h3>\r\n</p>\r\n\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 16 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 10 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfStruct(Model)));
 
             
@@ -96,7 +80,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 18 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 12 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderSummary(Model.DocComment));
 
             
@@ -106,7 +90,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 20 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 14 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderTypeParamTable(Model));
 
             
@@ -116,7 +100,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 22 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 16 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderExceptionTable(Model.DocComment));
 
             
@@ -126,7 +110,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 24 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 18 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderConstructorTable(Model));
 
             
@@ -136,7 +120,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 26 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderPropertyTable(Model));
 
             
@@ -146,7 +130,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 28 "..\..\Output\Html\Views\StructDetail.cshtml"
+            #line 22 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderMethodTable(Model));
 
             
@@ -156,8 +140,38 @@ WriteLiteral("\r\n\r\n");
 
 
             
+            #line 24 "..\..\Output\Html\Views\StructDetail.cshtml"
+Write(PageSection.RenderInterfaceTable(Model));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 26 "..\..\Output\Html\Views\StructDetail.cshtml"
+Write(PageSection.RenderClassTable(Model));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 28 "..\..\Output\Html\Views\StructDetail.cshtml"
+Write(PageSection.RenderStructTable(Model));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
             #line 30 "..\..\Output\Html\Views\StructDetail.cshtml"
-Write(PageSection.RenderRemarks(Model.DocComment));
+Write(PageSection.RenderEnumTable(Model));
 
             
             #line default
@@ -167,7 +181,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 32 "..\..\Output\Html\Views\StructDetail.cshtml"
-Write(PageSection.RenderExample(Model.DocComment));
+Write(PageSection.RenderDelegateTable(Model));
 
             
             #line default
@@ -177,6 +191,26 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 34 "..\..\Output\Html\Views\StructDetail.cshtml"
+Write(PageSection.RenderRemarks(Model.DocComment));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 36 "..\..\Output\Html\Views\StructDetail.cshtml"
+Write(PageSection.RenderExample(Model.DocComment));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 38 "..\..\Output\Html\Views\StructDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

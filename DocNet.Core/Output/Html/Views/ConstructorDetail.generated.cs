@@ -56,31 +56,21 @@ WriteLiteral("\r\n");
 
 
 
-WriteLiteral("\r\n<!--Name-->\r\n<p>\r\n    <h3>Constructor</h3>\r\n    <h1>");
+WriteLiteral("\r\n");
 
 
             
-            #line 11 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-   Write(Model.DisplayName);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</h1>\r\n    <h3>Namespace: ");
-
-
-            
-            #line 12 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
-              Write(Model.FullNameQualifier);
+            #line 8 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+Write(PageSection.RenderElementTitle(Model, "Constructor"));
 
             
             #line default
             #line hidden
-WriteLiteral("</h3>\r\n</p>\r\n\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 15 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 10 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderDeclarationBlock(GetDeclaration.OfConstructor(Model)));
 
             
@@ -90,7 +80,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 17 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 12 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderSummary(Model.DocComment));
 
             
@@ -100,7 +90,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 19 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 14 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderExceptionTable(Model.DocComment));
 
             
@@ -110,7 +100,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 21 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 16 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderParameterTable(Model));
 
             
@@ -120,7 +110,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 23 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 18 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderRemarks(Model.DocComment));
 
             
@@ -130,7 +120,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 25 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 20 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderExample(Model.DocComment));
 
             
@@ -140,7 +130,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 27 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
+            #line 22 "..\..\Output\Html\Views\ConstructorDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             
