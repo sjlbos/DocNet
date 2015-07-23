@@ -185,11 +185,13 @@ namespace DummyInputProject
 		public string author
 		{get; set;}
 	}
-		/// <summary>
-    /// A calculation function.
-    /// </summary>
-    /// <typeparam name="x">A number.</typeparam>
-	/// <typeparam name="y">Another number.</typeparam>
+
+  /// <summary>
+  ///   A delegate
+  /// </summary>
+  /// <param name="x">Operand x</param>
+  /// <param name="y">Operand y</param>
+  /// <returns>The result</returns>
      public delegate int PerformCalculation(int x, int y);
 }
 
