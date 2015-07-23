@@ -66,12 +66,12 @@ Write(PageSection.RenderElementTitle(Model, "Property"));
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n<!--Type-->\r\n<span><b>Type:</b> ");
+WriteLiteral("\r\n\r\n<!--Type-->\r\n<br/><span><b>Type:</b> ");
 
 
             
             #line 11 "..\..\Output\Html\Views\PropertyDetail.cshtml"
-              Write(Model.TypeName);
+                   Write(Model.TypeName);
 
             
             #line default
