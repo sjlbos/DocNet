@@ -114,6 +114,7 @@ table {
 
 td:first-child{
 	width: 20%;
+    word-wrap: break-word;
 }
 
 th:first-child{
@@ -126,7 +127,8 @@ table.table3col {
 }
 
 table.table3col td:nth-child(2){
-    width: 20%
+    width: 20%;
+    word-wrap: break-word;
 }
 
 .expand-table-cell:hover {

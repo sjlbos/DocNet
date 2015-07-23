@@ -713,12 +713,12 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <div class=\"code-block\">\r\n        <pre><code class=\"lang-csharp\">");
+WriteLiteralTo(@__razor_helper_writer, "    <div class=\"code-block\"><br/>\r\n        <pre><code>");
 
 
 
 #line 159 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-        WriteTo(@__razor_helper_writer, CombineText(codeTag.Text));
+WriteTo(@__razor_helper_writer, CombineText(codeTag.Text));
 
 #line default
 #line hidden
