@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using DocNet.Core.Exceptions;
 using DocNet.Core.Models.Comments;
 using DocNet.Core.Models.CSharp;
+using log4net;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -96,10 +97,14 @@ namespace DocNet.Core.Parsers.CSharp
         }
     }
 
+
+
     internal class CsCommentWalker : CSharpSyntaxWalker
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof (CsCommentWalker));
+
         private IParentElement _currentParent;
-        private OutputMode _outputMode;
+        private readonly OutputMode _outputMode;
 
         public CsCommentWalker(GlobalNamespaceModel globalNamespace, OutputMode outputMode)
         {
@@ -156,7 +161,7 @@ namespace DocNet.Core.Parsers.CSharp
                 Identifier = node.Identifier.Text,
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 InheritanceList = GetInheritanceList(node.BaseList),
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node)
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node, node.Identifier.Text)
             };
             SetInterfaceBaseModifiers(currentInterface, node.Modifiers);
 
@@ -188,7 +193,7 @@ namespace DocNet.Core.Parsers.CSharp
             var currentClass = new ClassModel
             {
                 Identifier = node.Identifier.Text,
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node),
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node, node.Identifier.Text),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 InheritanceList = GetInheritanceList(node.BaseList)
             };
@@ -222,7 +227,7 @@ namespace DocNet.Core.Parsers.CSharp
             var currentStruct = new StructModel
             {
                 Identifier = node.Identifier.Text,
-                DocComment = GetCommentFromNode<InterfaceDocComment>(node),
+                DocComment = GetCommentFromNode<InterfaceDocComment>(node, node.Identifier.Text),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 InheritanceList = GetInheritanceList(node.BaseList)
             };
@@ -257,7 +262,7 @@ namespace DocNet.Core.Parsers.CSharp
             {
                 Identifier = node.Identifier.Text,
                 AccessModifier = GetAccessModifier(node.Modifiers),
-                DocComment = GetCommentFromNode<DocComment>(node),
+                DocComment = GetCommentFromNode<DocComment>(node, node.Identifier.Text),
                 Fields = node.Members.Select(m => m.Identifier.Text).ToList()
             };
 
@@ -277,7 +282,7 @@ namespace DocNet.Core.Parsers.CSharp
                 Identifier = node.Identifier.Text,
                 Parameters = GetParameterList(node.ParameterList.Parameters),
                 ReturnType = node.ReturnType.ToString(),
-                DocComment = GetCommentFromNode<MethodDocComment>(node),
+                DocComment = GetCommentFromNode<MethodDocComment>(node, node.Identifier.Text),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
                 AccessModifier = GetAccessModifier(node.Modifiers)
             };
@@ -296,7 +301,7 @@ namespace DocNet.Core.Parsers.CSharp
             var newConstructor = new ConstructorModel
             {
                 Identifier = node.Identifier.Text,
-                DocComment = GetCommentFromNode<MethodDocComment>(node),
+                DocComment = GetCommentFromNode<MethodDocComment>(node, node.Identifier.Text),
                 Parameters = GetParameterList(node.ParameterList.Parameters)
             };
 
@@ -320,7 +325,7 @@ namespace DocNet.Core.Parsers.CSharp
             var newMethod = new MethodModel
             {
                 Identifier = methodName,
-                DocComment = GetCommentFromNode<MethodDocComment>(node),
+                DocComment = GetCommentFromNode<MethodDocComment>(node, node.Identifier.Text),
                 Parameters = GetParameterList(node.ParameterList.Parameters),
                 ReturnType = node.ReturnType.ToString(),
                 TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses)       
@@ -347,7 +352,7 @@ namespace DocNet.Core.Parsers.CSharp
             {
                 Identifier = propertyName,
                 TypeName = node.Type.ToString(),
-                DocComment = GetCommentFromNode<PropertyDocComment>(node)
+                DocComment = GetCommentFromNode<PropertyDocComment>(node, node.Identifier.Text)
             };
             
             SetPropertyModifiers(newProperty, node.Modifiers);
@@ -440,7 +445,7 @@ namespace DocNet.Core.Parsers.CSharp
 
         #region Comment Helpers
 
-        private static T GetCommentFromNode<T>(SyntaxNode node) where T : DocComment
+        private static T GetCommentFromNode<T>(SyntaxNode node, string nodeName) where T : DocComment
         {
             var docCommentTrivia =
                 node.GetLeadingTrivia()
@@ -449,11 +454,20 @@ namespace DocNet.Core.Parsers.CSharp
                             t.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia) ||
                             t.IsKind(SyntaxKind.MultiLineDocumentationCommentTrivia));
 
-            var docComment = docCommentTrivia.FirstOrDefault();
-            if(docComment.Kind() == SyntaxKind.None) return null;
+            var docCommentText = docCommentTrivia.FirstOrDefault();
+            if(docCommentText.Kind() == SyntaxKind.None) return null;
 
-            string commentXmlString = StripTripleSlashesFromComment(docComment.ToFullString());
-            return DocComment.FromXml<T>(commentXmlString);
+            string commentXmlString = StripTripleSlashesFromComment(docCommentText.ToFullString());
+            try
+            {
+                return DocComment.FromXml<T>(commentXmlString);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Log.Debug(ex);
+                Log.WarnFormat("The documentation comment on element \"{0}\" contains invalid XML and cannot be processed.", nodeName);
+                return null;
+            }
         }
 
         private static string StripTripleSlashesFromComment(string xmlComment)
