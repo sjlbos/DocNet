@@ -212,10 +212,10 @@
                     <td>
                         @if (constructor.DocComment != null && constructor.DocComment.Summary != null)
                         {
-                            @CommentTag.RenderSummary(constructor.DocComment.Summary)
+                            @CommentTag.RenderTableSummary(constructor.DocComment.Summary)
                         }
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </table>
     </p>
@@ -242,7 +242,7 @@
                     <td>
                         @if (property.DocComment != null && property.DocComment.Summary != null)
                         {
-                            @CommentTag.RenderSummary(property.DocComment.Summary)
+                            @CommentTag.RenderTableSummary(property.DocComment.Summary)
                         }
                     </td>
                 </tr>
@@ -269,7 +269,7 @@
                     <td>
                         @if (method.DocComment != null && method.DocComment.Summary != null)
                         {
-                            @CommentTag.RenderSummary(method.DocComment.Summary)
+                            @CommentTag.RenderTableSummary(method.DocComment.Summary)
                         }
                 </td>
             </tr>
@@ -342,7 +342,7 @@
                     <td>
                         @if (childInterface.DocComment != null && childInterface.DocComment.Summary != null)
                         {
-                            @CommentTag.RenderSummary(childInterface.DocComment.Summary)
+                            @CommentTag.RenderTableSummary(childInterface.DocComment.Summary)
                         }
                     </td>
                 </tr>
@@ -380,7 +380,7 @@
                     <td>
                         @if(childClass.DocComment != null && childClass.DocComment.Summary != null)
                         {
-                            @CommentTag.RenderSummary(childClass.DocComment.Summary)
+                            @CommentTag.RenderTableSummary(childClass.DocComment.Summary)
                         }
                     </td>
                 </tr>
@@ -418,7 +418,7 @@
                     <td>
                         @if (childStruct.DocComment != null && childStruct.DocComment.Summary != null)
                         {
-                            @CommentTag.RenderSummary(childStruct.DocComment.Summary)
+                            @CommentTag.RenderTableSummary(childStruct.DocComment.Summary)
                         }
                     </td>
                 </tr>
@@ -456,7 +456,7 @@
                     <td>
                         @if (childEnum.DocComment != null && childEnum.DocComment.Summary != null)
                         {
-                            @CommentTag.RenderSummary(childEnum.DocComment.Summary)
+                            @CommentTag.RenderTableSummary(childEnum.DocComment.Summary)
                         }
                     </td>
                 </tr>
@@ -494,7 +494,7 @@
                     <td>
                         @if (childDelegate.DocComment != null && childDelegate.DocComment.Summary != null)
                         {
-                            @CommentTag.RenderSummary(childDelegate.DocComment.Summary)
+                            @CommentTag.RenderTableSummary(childDelegate.DocComment.Summary)
                         }
                     </td>
                 </tr>

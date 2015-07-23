@@ -156,11 +156,7 @@
 @helper RenderCode(CodeTag codeTag)
 {
     <div class="code-block">
-        <pre>
-            <code class="lang-csharp">
-                @CombineText(codeTag.Text)
-            </code>
-        </pre> 
+        <pre><code class="lang-csharp">@CombineText(codeTag.Text)</code></pre> 
     </div>  
 }
 

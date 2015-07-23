@@ -1082,20 +1082,20 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 #line 215 "..\..\Output\Html\Helpers\PageSection.cshtml"
-WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(constructor.DocComment.Summary));
+WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(constructor.DocComment.Summary));
 
 #line default
 #line hidden
 
 
 #line 215 "..\..\Output\Html\Helpers\PageSection.cshtml"
-                                                                                     
+                                                                                          
                         }
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "                </td>\r\n            </tr>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n                </tr>\r\n");
 
 
 
@@ -1194,14 +1194,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 #line 245 "..\..\Output\Html\Helpers\PageSection.cshtml"
-WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(property.DocComment.Summary));
+WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(property.DocComment.Summary));
 
 #line default
 #line hidden
 
 
 #line 245 "..\..\Output\Html\Helpers\PageSection.cshtml"
-                                                                                  
+                                                                                       
                         }
 
 #line default
@@ -1295,14 +1295,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 #line 272 "..\..\Output\Html\Helpers\PageSection.cshtml"
-WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(method.DocComment.Summary));
+WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(method.DocComment.Summary));
 
 #line default
 #line hidden
 
 
 #line 272 "..\..\Output\Html\Helpers\PageSection.cshtml"
-                                                                                
+                                                                                     
                         }
 
 #line default
@@ -1615,14 +1615,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 #line 345 "..\..\Output\Html\Helpers\PageSection.cshtml"
-WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(childInterface.DocComment.Summary));
+WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childInterface.DocComment.Summary));
 
 #line default
 #line hidden
 
 
 #line 345 "..\..\Output\Html\Helpers\PageSection.cshtml"
-                                                                                        
+                                                                                             
                         }
 
 #line default
@@ -1792,14 +1792,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 #line 383 "..\..\Output\Html\Helpers\PageSection.cshtml"
-WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(childClass.DocComment.Summary));
+WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childClass.DocComment.Summary));
 
 #line default
 #line hidden
 
 
 #line 383 "..\..\Output\Html\Helpers\PageSection.cshtml"
-                                                                                    
+                                                                                         
                         }
 
 #line default
@@ -1969,14 +1969,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 #line 421 "..\..\Output\Html\Helpers\PageSection.cshtml"
-WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(childStruct.DocComment.Summary));
+WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childStruct.DocComment.Summary));
 
 #line default
 #line hidden
 
 
 #line 421 "..\..\Output\Html\Helpers\PageSection.cshtml"
-                                                                                     
+                                                                                          
                         }
 
 #line default
@@ -2146,14 +2146,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 #line 459 "..\..\Output\Html\Helpers\PageSection.cshtml"
-WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(childEnum.DocComment.Summary));
+WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childEnum.DocComment.Summary));
 
 #line default
 #line hidden
 
 
 #line 459 "..\..\Output\Html\Helpers\PageSection.cshtml"
-                                                                                   
+                                                                                        
                         }
 
 #line default
@@ -2323,14 +2323,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 #line 497 "..\..\Output\Html\Helpers\PageSection.cshtml"
-WriteTo(@__razor_helper_writer, CommentTag.RenderSummary(childDelegate.DocComment.Summary));
+WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childDelegate.DocComment.Summary));
 
 #line default
 #line hidden
 
 
 #line 497 "..\..\Output\Html\Helpers\PageSection.cshtml"
-                                                                                       
+                                                                                            
                         }
 
 #line default
