@@ -19,26 +19,11 @@
 
 @PageSection.RenderTypeParamTable(Model)
 
-@if (Model.DocComment != null){
+@PageSection.RenderExceptionTable(Model.DocComment)
 
-    <!--Returns-->
-    <p>
-        <h3>Returns</h3>
-        @CommentTag.RenderReturns(Model.DocComment.Returns)
-    </p>
+@PageSection.RenderReturnValueTable(Model)
 
-    @PageSection.RenderParameterTable(Model)
-
-    <!--Exceptions-->
-    <p>
-        <h3>Exceptions</h3>
-        <table class="table table-bordered table-hover">
-            @foreach (ExceptionTag e in Model.DocComment.Exceptions){
-                <tr><td>@CommentTag.RenderException(e)</td></tr>
-            }
-        </table>
-    </p>
-}
+@PageSection.RenderParameterTable(Model)
 
 @PageSection.RenderRemarks(Model.DocComment)
 

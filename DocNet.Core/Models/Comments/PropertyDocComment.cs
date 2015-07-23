@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 using DocNet.Core.Models.Comments.Xml;
 
@@ -10,6 +12,9 @@ namespace DocNet.Core.Models.Comments
         [XmlElement("value")]
         public ValueTag Value { get; set; }
 
+        [XmlElement("exception")]
+        public List<ExceptionTag> Exceptions { get; set; } 
+
         #region Equality Members
 
         public override int GetHashCode()
@@ -18,6 +23,7 @@ namespace DocNet.Core.Models.Comments
             {
                 int hashCode = base.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Value != null ? Value.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Exceptions != null ? Exceptions.GetHashCode() : 0);
                 return hashCode;
             }
         }
@@ -32,7 +38,8 @@ namespace DocNet.Core.Models.Comments
             if (other == null) return false;
             if (this == other) return true;
             return base.Equals(other)
-                && Value == null ? (other.Value == null) : Value.Equals(other.Value);
+                && Value == null ? (other.Value == null) : Value.Equals(other.Value)
+                && Exceptions == null ? (other.Exceptions == null) : Exceptions.SequenceEqual(other.Exceptions);
         }
 
         #endregion

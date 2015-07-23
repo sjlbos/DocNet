@@ -1,5 +1,4 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views *@
-@using System.Linq
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Helpers
 @using DocNet.Core.Output.Html.Views
@@ -19,13 +18,13 @@
 
 @PageSection.RenderTypeParamTable(Model)
 
+@PageSection.RenderExceptionTable(Model.DocComment)
+
 @PageSection.RenderConstructorTable(Model)
 
 @PageSection.RenderPropertyTable(Model)
 
 @PageSection.RenderMethodTable(Model)
-
-<!--Exceptions-->
 
 @PageSection.RenderRemarks(Model.DocComment)
 

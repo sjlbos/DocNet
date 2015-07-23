@@ -6,7 +6,6 @@
 @using DocNet.Core.Models.Comments.Xml
 @using DocNet.Core.Models.CSharp
 @using DocNet.Razor.Helpers
-@using Microsoft.CodeAnalysis
 
 @helper RenderDeclarationBlock(string declaration)
 {
@@ -46,6 +45,46 @@
     if (docComment == null || docComment.SeeAlso == null) { return; }
     @_RenderSectionTitle("See Also")
     <p>@CommentTag.RenderSeeAlso(docComment.SeeAlso)</p>
+}
+
+@helper RenderExceptionTable(InterfaceDocComment docComment)
+{
+    if (docComment == null) { return; }
+    @_RenderExceptionTable(docComment.Exceptions)
+}
+
+@helper RenderExceptionTable(MethodDocComment docComment)
+{
+    if (docComment == null) { return; }
+    @_RenderExceptionTable(docComment.Exceptions)
+}
+
+@helper RenderExceptionTable(PropertyDocComment docComment)
+{
+    if (docComment == null) { return; }
+    @_RenderExceptionTable(docComment.Exceptions)
+}
+
+@helper _RenderExceptionTable(IList<ExceptionTag> exceptions)
+{
+    if (exceptions == null || !exceptions.Any()) { return; }
+    
+    @_RenderSectionTitle("Exceptions")
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Exception</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var exceptionTag in exceptions)
+            {
+                <tr>
+                    <td>@exceptionTag.ExceptionType</td>
+                    <td>@CommentTag.RenderException(exceptionTag)</td>
+                </tr>
+            }
+        </table>
+    </p>
 }
 
 @helper RenderTypeParamTable(InterfaceBase interfaceModel)
@@ -97,22 +136,22 @@
 @helper RenderParameterTable(MethodModel methodModel)
 {
     if (methodModel.Parameters == null || !methodModel.Parameters.Any()) { return; }
-    @_RenderParameterTable(methodModel.Parameters, methodModel.DocComment == null ? null : methodModel.DocComment.Parameters)
+    @_RenderParamaterTable(methodModel.Parameters, methodModel.DocComment == null ? null : methodModel.DocComment.Parameters)
 }
 
 @helper RenderParameterTable(ConstructorModel constructorModel)
 {
     if (constructorModel.Parameters == null || !constructorModel.Parameters.Any()) { return; }
-    @_RenderParameterTable(constructorModel.Parameters, constructorModel.DocComment == null ? null : constructorModel.DocComment.Parameters)
+    @_RenderParamaterTable(constructorModel.Parameters, constructorModel.DocComment == null ? null : constructorModel.DocComment.Parameters)
 }
 
 @helper RenderParameterTable(DelegateModel delegateModel)
 {
     if (delegateModel.Parameters == null || !delegateModel.Parameters.Any()) { return; }
-    @_RenderParameterTable(delegateModel.Parameters, delegateModel.DocComment == null ? null : delegateModel.DocComment.Parameters)
+    @_RenderParamaterTable(delegateModel.Parameters, delegateModel.DocComment == null ? null : delegateModel.DocComment.Parameters)
 }
 
-@helper _RenderParameterTable(IList<ParameterModel> parameters, IList<ParameterTag> parameterComments)
+@helper _RenderParamaterTable(IList<ParameterModel> parameters, IList<ParameterTag> parameterComments)
 {
     var paramToCommentMap = new Dictionary<string, ParameterTag>();
     if (parameterComments != null)
@@ -149,8 +188,8 @@
     <p>
         <table class="table table-bordered table-hover">
             <tr>
-                <td><b>Constructor Name</b></td>
-                <td><b>Description</b></td>
+                <th>Constructor Name</th>
+                <th>Description</th>
             </tr>
             @foreach (var constructor in classAndStructBase.Constructors)
             {
@@ -177,8 +216,8 @@
     <p>
         <table class="table table-bordered table-hover">
             <tr>
-                <td><b>Property Name</b></td>
-                <td><b>Description</b></td>
+                <th>Property Name</th>
+                <th>Description</th>
             </tr>
             @foreach (var property in interfaceModel.Properties)
             {
@@ -204,8 +243,8 @@
     <p>
         <table class="table table-bordered table-hover">
             <tr>
-                <td><b>Method Name</b></td>
-                <td><b>Description</b></td>
+                <th>Method Name</th>
+                <th>Description</th>
             </tr>
             @foreach (var method in interfaceModel.Methods)
             {
@@ -219,6 +258,41 @@
                 </td>
             </tr>
             }
+        </table>
+    </p>
+}
+
+@helper RenderReturnValueTable(MethodModel methodModel)
+{
+    @_RenderReturnValueTable(methodModel.ReturnType, methodModel.DocComment == null ? null : methodModel.DocComment.Returns)
+}
+
+@helper RenderReturnValueTable(DelegateModel delegateModel)
+{
+    @_RenderReturnValueTable(delegateModel.ReturnType, delegateModel.DocComment == null ? null : delegateModel.DocComment.Returns)
+}
+
+@helper _RenderReturnValueTable(string returnType, ReturnsTag returnsTag)
+{
+    if ("void".Equals(returnType, StringComparison.Ordinal)) { return; }
+    
+    @_RenderSectionTitle("Returns")
+    
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Return Type</th>
+                <th>Description</th>
+            </tr>  
+            <tr>
+                <td>@returnType</td>
+                <td>
+                    @if (returnsTag != null)
+                    {
+                        @CommentTag.RenderReturns(returnsTag)
+                    }
+                </td>
+            </tr>
         </table>
     </p>
 }

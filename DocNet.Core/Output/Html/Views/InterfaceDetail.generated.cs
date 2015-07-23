@@ -111,7 +111,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 21 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-Write(PageSection.RenderPropertyTable(Model));
+Write(PageSection.RenderExceptionTable(Model.DocComment));
 
             
             #line default
@@ -121,7 +121,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 23 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-Write(PageSection.RenderMethodTable(Model));
+Write(PageSection.RenderPropertyTable(Model));
 
             
             #line default
@@ -131,7 +131,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 25 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-Write(PageSection.RenderRemarks(Model.DocComment));
+Write(PageSection.RenderMethodTable(Model));
 
             
             #line default
@@ -141,7 +141,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 27 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
-Write(PageSection.RenderExample(Model.DocComment));
+Write(PageSection.RenderRemarks(Model.DocComment));
 
             
             #line default
@@ -151,6 +151,16 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 29 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
+Write(PageSection.RenderExample(Model.DocComment));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n");
+
+
+            
+            #line 31 "..\..\Output\Html\Views\InterfaceDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             
