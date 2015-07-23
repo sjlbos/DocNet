@@ -96,11 +96,15 @@
     <div class="see-also-comment">
         <p>
             @seeAlsoTag.ReferencedElementName<br/>
-            <ul class="bulleted">
-                @foreach (string s in seeAlsoTag.Text){
-                    <li class="bulleted">@s</li>
-                }
-            </ul>
+            @if (seeAlsoTag.Text!=null&seeAlsoTag.Text.Any())
+            {
+                <ul class="bulleted">
+                    @foreach (string s in seeAlsoTag.Text)
+                    {
+                        <li class="bulleted">@s</li>
+                    }
+                </ul>
+            }
         </p>
     </div>
 }

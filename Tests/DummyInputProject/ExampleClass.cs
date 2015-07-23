@@ -131,6 +131,14 @@ namespace DummyInputProject
         }
 
         /// <summary>
+        /// Extremely long name tries to cause an overflow.
+        /// </summary>
+        public void IAmTryingToComeUpWithAnExtremelyLongNameToCauseAnOverflowIHopeThisWorks()
+        {
+            
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T">
