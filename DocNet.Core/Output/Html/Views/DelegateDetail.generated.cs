@@ -128,56 +128,26 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 24 "..\..\Output\Html\Views\DelegateDetail.cshtml"
- if (Model.DocComment != null){
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <!--Returns-->\r\n");
-
-
-
-WriteLiteral("    <p>\r\n        <h3>Returns</h3>\r\n        ");
-
-
-            
-            #line 29 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-   Write(CommentTag.RenderReturns(Model.DocComment.Returns));
+Write(PageSection.RenderReturnValueTable(Model));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </p>\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 31 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-
-    
-            
-            #line default
-            #line hidden
-            
-            #line 32 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 26 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderParameterTable(Model));
 
             
             #line default
             #line hidden
-            
-            #line 32 "..\..\Output\Html\Views\DelegateDetail.cshtml"
-                                            
-}
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
+WriteLiteral("\r\n\r\n");
 
 
             
-            #line 35 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 28 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderRemarks(Model.DocComment));
 
             
@@ -187,7 +157,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 37 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 30 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderExample(Model.DocComment));
 
             
@@ -197,7 +167,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 39 "..\..\Output\Html\Views\DelegateDetail.cshtml"
+            #line 32 "..\..\Output\Html\Views\DelegateDetail.cshtml"
 Write(PageSection.RenderSeeAlso(Model.DocComment));
 
             

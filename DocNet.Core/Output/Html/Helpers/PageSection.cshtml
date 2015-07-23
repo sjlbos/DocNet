@@ -6,7 +6,6 @@
 @using DocNet.Core.Models.Comments.Xml
 @using DocNet.Core.Models.CSharp
 @using DocNet.Razor.Helpers
-@using Microsoft.CodeAnalysis
 
 @helper RenderDeclarationBlock(string declaration)
 {
@@ -259,6 +258,41 @@
                 </td>
             </tr>
             }
+        </table>
+    </p>
+}
+
+@helper RenderReturnValueTable(MethodModel methodModel)
+{
+    @_RenderReturnValueTable(methodModel.ReturnType, methodModel.DocComment == null ? null : methodModel.DocComment.Returns)
+}
+
+@helper RenderReturnValueTable(DelegateModel delegateModel)
+{
+    @_RenderReturnValueTable(delegateModel.ReturnType, delegateModel.DocComment == null ? null : delegateModel.DocComment.Returns)
+}
+
+@helper _RenderReturnValueTable(string returnType, ReturnsTag returnsTag)
+{
+    if ("void".Equals(returnType, StringComparison.Ordinal)) { return; }
+    
+    @_RenderSectionTitle("Returns")
+    
+    <p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Return Type</th>
+                <th>Description</th>
+            </tr>  
+            <tr>
+                <td>@returnType</td>
+                <td>
+                    @if (returnsTag != null)
+                    {
+                        @CommentTag.RenderReturns(returnsTag)
+                    }
+                </td>
+            </tr>
         </table>
     </p>
 }

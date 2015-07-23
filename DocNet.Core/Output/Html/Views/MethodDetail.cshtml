@@ -1,7 +1,6 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using DocNet.Core.Models.CSharp
 @using DocNet.Core.Output.Html.Views
-@using DocNet.Core.Models.Comments.Xml
 @using DocNet.Core.Output.Html.Helpers
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<MethodModel>
@@ -21,21 +20,9 @@
 
 @PageSection.RenderExceptionTable(Model.DocComment)
 
-@if (Model.DocComment != null)
-{
+@PageSection.RenderReturnValueTable(Model)
 
-
-    if (Model.DocComment.Returns != null)
-    {
-        <!--Returns-->
-        <p>
-            <h3>Returns</h3>
-            @CommentTag.RenderReturns(Model.DocComment.Returns)
-        </p>
-    }
-
-    @PageSection.RenderParameterTable(Model)
-}
+@PageSection.RenderParameterTable(Model)
 
 @PageSection.RenderRemarks(Model.DocComment)
 

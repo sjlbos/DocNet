@@ -21,16 +21,9 @@
 
 @PageSection.RenderExceptionTable(Model.DocComment)
 
-@if (Model.DocComment != null){
+@PageSection.RenderReturnValueTable(Model)
 
-    <!--Returns-->
-    <p>
-        <h3>Returns</h3>
-        @CommentTag.RenderReturns(Model.DocComment.Returns)
-    </p>
-
-    @PageSection.RenderParameterTable(Model)
-}
+@PageSection.RenderParameterTable(Model)
 
 @PageSection.RenderRemarks(Model.DocComment)
 
