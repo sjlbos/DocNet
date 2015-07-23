@@ -47,13 +47,13 @@
 	flex-direction: column;
 }
 
-ul {
+.side-unsorted {
 	list-style: none;
 	padding-left: 10px;
 	margin-bottom: 0px;
 }
 
-li {
+.side-li-tag {
 	list-style: none;
 }
 
