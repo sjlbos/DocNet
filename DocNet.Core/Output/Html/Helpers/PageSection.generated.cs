@@ -737,11 +737,13 @@ WriteTo(@__razor_helper_writer, RenderSectionTitle("Type Parameters"));
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table table-bordered table-hover\">\r\n");
+WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table table-bordered table-hover\">\r\n            <t" +
+"r>\r\n                <th>Type Alias</th>\r\n                <th>Description</th>\r\n " +
+"           </tr>\r\n");
 
 
 
-#line 134 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 138 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var typeParam in typeParams)
             {
 
@@ -752,7 +754,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 137 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 141 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, typeParam.Name + (!String.IsNullOrWhiteSpace(typeParam.Constraint) ? " : " + typeParam.Constraint : String.Empty));
 
 #line default
@@ -762,7 +764,7 @@ WriteLiteralTo(@__razor_helper_writer, " </td>\r\n                    <td>\r\n")
 
 
 
-#line 139 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 143 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (paramToCommentMap.ContainsKey(typeParam.Name))
                         {
                             
@@ -770,25 +772,25 @@ WriteLiteralTo(@__razor_helper_writer, " </td>\r\n                    <td>\r\n")
 #line hidden
 
 
-#line 141 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 145 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTypeParam(paramToCommentMap[typeParam.Name]));
 
 #line default
 #line hidden
 
 
-#line 141 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 145 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                           
                         }
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "                </td>\r\n            </tr>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n                </tr>\r\n");
 
 
 
-#line 145 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 149 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -798,7 +800,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 148 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 152 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -814,7 +816,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 151 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 155 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (methodModel.Parameters == null || !methodModel.Parameters.Any()) { return; }
     
@@ -822,14 +824,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 153 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 157 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderParamaterTable(methodModel.Parameters, methodModel.DocComment == null ? null : methodModel.DocComment.Parameters));
 
 #line default
 #line hidden
 
 
-#line 153 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 157 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                                                              
 
 #line default
@@ -846,7 +848,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 157 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 161 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (constructorModel.Parameters == null || !constructorModel.Parameters.Any()) { return; }
     
@@ -854,14 +856,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 159 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 163 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderParamaterTable(constructorModel.Parameters, constructorModel.DocComment == null ? null : constructorModel.DocComment.Parameters));
 
 #line default
 #line hidden
 
 
-#line 159 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 163 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                                                                             
 
 #line default
@@ -878,7 +880,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 163 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 167 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (delegateModel.Parameters == null || !delegateModel.Parameters.Any()) { return; }
     
@@ -886,14 +888,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 165 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 169 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderParamaterTable(delegateModel.Parameters, delegateModel.DocComment == null ? null : delegateModel.DocComment.Parameters));
 
 #line default
 #line hidden
 
 
-#line 165 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 169 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                                                                    
 
 #line default
@@ -910,7 +912,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 169 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 173 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     var paramToCommentMap = new Dictionary<string, ParameterTag>();
     if (parameterComments != null)
@@ -923,24 +925,26 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 176 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 180 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Parameters"));
 
 #line default
 #line hidden
 
 
-#line 176 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 180 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                      
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table table3col table-bordered table-hover\">\r\n");
+WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table table3col table-bordered table-hover\">\r\n    " +
+"        <tr>\r\n                <th>Type</th>\r\n                <th>Parameter Name<" +
+"/th>\r\n                <th>Description</th>\r\n            </tr>\r\n");
 
 
 
-#line 179 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 188 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var param in parameters)
             {
 
@@ -951,7 +955,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 182 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 191 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, param.TypeName);
 
 #line default
@@ -961,7 +965,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>");
 
 
 
-#line 183 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 192 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, param.Name);
 
 #line default
@@ -971,7 +975,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 185 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 194 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (paramToCommentMap.ContainsKey(param.Name))
                         {
                             
@@ -979,14 +983,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 187 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 196 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderParam(paramToCommentMap[param.Name]));
 
 #line default
 #line hidden
 
 
-#line 187 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 196 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                   
                         }
 
@@ -997,7 +1001,7 @@ WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n           
 
 
 
-#line 191 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 200 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -1007,7 +1011,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 194 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 203 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -1023,7 +1027,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 197 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 206 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (classAndStructBase.Constructors == null || !classAndStructBase.Constructors.Any()) { return; }
     
@@ -1032,14 +1036,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 200 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 209 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Constructors"));
 
 #line default
 #line hidden
 
 
-#line 200 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 209 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                        
 
 
@@ -1052,7 +1056,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 208 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 217 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var constructor in classAndStructBase.Constructors)
             {
 
@@ -1063,7 +1067,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 211 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 220 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, PageHelper.RenderElementLink(constructor));
 
 #line default
@@ -1073,7 +1077,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 213 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 222 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (constructor.DocComment != null && constructor.DocComment.Summary != null)
                         {
                             
@@ -1081,14 +1085,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 215 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 224 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(constructor.DocComment.Summary));
 
 #line default
 #line hidden
 
 
-#line 215 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 224 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                           
                         }
 
@@ -1099,7 +1103,7 @@ WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n           
 
 
 
-#line 219 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 228 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -1109,7 +1113,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 222 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 231 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -1125,7 +1129,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 225 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 234 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (interfaceModel.Properties == null || !interfaceModel.Properties.Any()) { return; }
     
@@ -1134,14 +1138,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 228 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 237 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Properties"));
 
 #line default
 #line hidden
 
 
-#line 228 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 237 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                      
 
 
@@ -1154,7 +1158,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 237 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 246 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var property in interfaceModel.Properties)
             {
 
@@ -1165,7 +1169,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 240 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 249 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, property.TypeName);
 
 #line default
@@ -1175,7 +1179,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>");
 
 
 
-#line 241 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 250 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, PageHelper.RenderElementLink(property));
 
 #line default
@@ -1185,7 +1189,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 243 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 252 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (property.DocComment != null && property.DocComment.Summary != null)
                         {
                             
@@ -1193,14 +1197,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 245 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 254 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(property.DocComment.Summary));
 
 #line default
 #line hidden
 
 
-#line 245 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 254 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                        
                         }
 
@@ -1211,7 +1215,7 @@ WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n           
 
 
 
-#line 249 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 258 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -1221,7 +1225,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 252 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 261 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -1237,7 +1241,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 255 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 264 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (interfaceModel.Methods == null || !interfaceModel.Methods.Any()) { return; }
     
@@ -1246,14 +1250,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 258 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 267 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Methods"));
 
 #line default
 #line hidden
 
 
-#line 258 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 267 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                   
 
 #line default
@@ -1265,7 +1269,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 265 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 274 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var method in interfaceModel.Methods)
             {
 
@@ -1276,7 +1280,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 268 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 277 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, PageHelper.RenderElementLink(method));
 
 #line default
@@ -1286,7 +1290,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 270 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 279 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (method.DocComment != null && method.DocComment.Summary != null)
                         {
                             
@@ -1294,14 +1298,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 272 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 281 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(method.DocComment.Summary));
 
 #line default
 #line hidden
 
 
-#line 272 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 281 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                      
                         }
 
@@ -1312,7 +1316,7 @@ WriteLiteralTo(@__razor_helper_writer, "                </td>\r\n            </t
 
 
 
-#line 276 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 285 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -1322,7 +1326,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 279 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 288 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -1338,21 +1342,21 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 282 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 291 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     
 #line default
 #line hidden
 
 
-#line 283 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 292 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderReturnValueTable(methodModel.ReturnType, methodModel.DocComment == null ? null : methodModel.DocComment.Returns));
 
 #line default
 #line hidden
 
 
-#line 283 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 292 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                                                             
 
 #line default
@@ -1369,21 +1373,21 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 287 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 296 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     
 #line default
 #line hidden
 
 
-#line 288 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 297 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderReturnValueTable(delegateModel.ReturnType, delegateModel.DocComment == null ? null : delegateModel.DocComment.Returns));
 
 #line default
 #line hidden
 
 
-#line 288 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 297 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                                                                   
 
 #line default
@@ -1400,7 +1404,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 292 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 301 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if ("void".Equals(returnType, StringComparison.Ordinal)) { return; }
     
@@ -1409,14 +1413,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 295 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 304 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Returns"));
 
 #line default
 #line hidden
 
 
-#line 295 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 304 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                   
     
 
@@ -1429,7 +1433,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 304 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 313 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, returnType);
 
 #line default
@@ -1439,7 +1443,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                <td>\r\n");
 
 
 
-#line 306 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 315 "..\..\Output\Html\Helpers\PageSection.cshtml"
                      if (returnsTag != null)
                     {
                         
@@ -1447,14 +1451,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                <td>\r\n");
 #line hidden
 
 
-#line 308 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 317 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderReturns(returnsTag));
 
 #line default
 #line hidden
 
 
-#line 308 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 317 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                              
                     }
 
@@ -1465,7 +1469,7 @@ WriteLiteralTo(@__razor_helper_writer, "                </td>\r\n            </t
 
 
 
-#line 314 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 323 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -1481,7 +1485,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 317 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 326 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.Interfaces == null || !parent.Interfaces.Any()) { return; }
     
@@ -1489,28 +1493,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 319 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 328 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Interfaces"));
 
 #line default
 #line hidden
 
 
-#line 319 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 328 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                      
     
 #line default
 #line hidden
 
 
-#line 320 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 329 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderInterfaceTable(parent.Interfaces));
 
 #line default
 #line hidden
 
 
-#line 320 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 329 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                              
 
 #line default
@@ -1527,7 +1531,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 324 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 333 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.InnerInterfaces == null || !parent.InnerInterfaces.Any()) { return; }
     
@@ -1535,28 +1539,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 326 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 335 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Nested Classes"));
 
 #line default
 #line hidden
 
 
-#line 326 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 335 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                          
     
 #line default
 #line hidden
 
 
-#line 327 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 336 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderInterfaceTable(parent.InnerInterfaces));
 
 #line default
 #line hidden
 
 
-#line 327 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 336 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                   
 
 #line default
@@ -1573,7 +1577,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 331 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 340 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
 
 #line default
@@ -1585,7 +1589,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 338 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 347 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var childInterface in interfaces)
             {
 
@@ -1596,7 +1600,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 341 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 350 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, PageHelper.RenderElementLink(childInterface));
 
 #line default
@@ -1606,7 +1610,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 343 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 352 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (childInterface.DocComment != null && childInterface.DocComment.Summary != null)
                         {
                             
@@ -1614,14 +1618,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 345 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 354 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childInterface.DocComment.Summary));
 
 #line default
 #line hidden
 
 
-#line 345 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 354 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                              
                         }
 
@@ -1632,7 +1636,7 @@ WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n           
 
 
 
-#line 349 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 358 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -1642,7 +1646,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 352 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 361 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -1658,7 +1662,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 355 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 364 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.Classes == null || !parent.Classes.Any()) { return; }
     
@@ -1666,28 +1670,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 357 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 366 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Classes"));
 
 #line default
 #line hidden
 
 
-#line 357 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 366 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                   
     
 #line default
 #line hidden
 
 
-#line 358 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 367 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderClassTable(parent.Classes));
 
 #line default
 #line hidden
 
 
-#line 358 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 367 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                       
 
 #line default
@@ -1704,7 +1708,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 362 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 371 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.InnerClasses == null || !parent.InnerClasses.Any()) { return; }
     
@@ -1712,28 +1716,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 364 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 373 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Nested Classes"));
 
 #line default
 #line hidden
 
 
-#line 364 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 373 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                          
     
 #line default
 #line hidden
 
 
-#line 365 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 374 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderClassTable(parent.InnerClasses));
 
 #line default
 #line hidden
 
 
-#line 365 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 374 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                            
 
 #line default
@@ -1750,7 +1754,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 369 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 378 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
 
 #line default
@@ -1762,7 +1766,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 376 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 385 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var childClass in classes)
             {
 
@@ -1773,7 +1777,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 379 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 388 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, PageHelper.RenderElementLink(childClass));
 
 #line default
@@ -1783,7 +1787,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 381 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 390 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if(childClass.DocComment != null && childClass.DocComment.Summary != null)
                         {
                             
@@ -1791,14 +1795,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 383 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 392 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childClass.DocComment.Summary));
 
 #line default
 #line hidden
 
 
-#line 383 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 392 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                          
                         }
 
@@ -1809,7 +1813,7 @@ WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n           
 
 
 
-#line 387 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 396 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -1819,7 +1823,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 390 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 399 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -1835,7 +1839,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 393 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 402 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.Structs == null || !parent.Structs.Any()) { return; }
     
@@ -1843,28 +1847,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 395 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 404 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Structs"));
 
 #line default
 #line hidden
 
 
-#line 395 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 404 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                   
     
 #line default
 #line hidden
 
 
-#line 396 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 405 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderStructTable(parent.Structs));
 
 #line default
 #line hidden
 
 
-#line 396 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 405 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                        
 
 #line default
@@ -1881,7 +1885,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 400 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 409 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
     
@@ -1889,28 +1893,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 402 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 411 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Nested Structs"));
 
 #line default
 #line hidden
 
 
-#line 402 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 411 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                          
     
 #line default
 #line hidden
 
 
-#line 403 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 412 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderStructTable(parent.InnerStructs));
 
 #line default
 #line hidden
 
 
-#line 403 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 412 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                             
 
 #line default
@@ -1927,7 +1931,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 407 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 416 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
 
 #line default
@@ -1939,7 +1943,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 414 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 423 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var childStruct in structs)
             {
 
@@ -1950,7 +1954,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 417 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 426 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, PageHelper.RenderElementLink(childStruct));
 
 #line default
@@ -1960,7 +1964,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 419 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 428 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (childStruct.DocComment != null && childStruct.DocComment.Summary != null)
                         {
                             
@@ -1968,14 +1972,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 421 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 430 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childStruct.DocComment.Summary));
 
 #line default
 #line hidden
 
 
-#line 421 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 430 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                           
                         }
 
@@ -1986,7 +1990,7 @@ WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n           
 
 
 
-#line 425 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 434 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -1996,7 +2000,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 428 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 437 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -2012,7 +2016,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 431 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 440 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.Structs == null || !parent.Structs.Any()) { return; }
     
@@ -2020,28 +2024,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 433 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 442 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Enums"));
 
 #line default
 #line hidden
 
 
-#line 433 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 442 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                 
     
 #line default
 #line hidden
 
 
-#line 434 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 443 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderEnumTable(parent.Enums));
 
 #line default
 #line hidden
 
 
-#line 434 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 443 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                    
 
 #line default
@@ -2058,7 +2062,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 438 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 447 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
     
@@ -2066,28 +2070,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 440 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 449 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Nested Enums"));
 
 #line default
 #line hidden
 
 
-#line 440 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 449 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                        
     
 #line default
 #line hidden
 
 
-#line 441 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 450 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderEnumTable(parent.InnerEnums));
 
 #line default
 #line hidden
 
 
-#line 441 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 450 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                         
 
 #line default
@@ -2104,7 +2108,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 445 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 454 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
 
 #line default
@@ -2116,7 +2120,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 452 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 461 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var childEnum in enums)
             {
 
@@ -2127,7 +2131,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 455 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 464 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, PageHelper.RenderElementLink(childEnum));
 
 #line default
@@ -2137,7 +2141,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 457 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 466 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (childEnum.DocComment != null && childEnum.DocComment.Summary != null)
                         {
                             
@@ -2145,14 +2149,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 459 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 468 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childEnum.DocComment.Summary));
 
 #line default
 #line hidden
 
 
-#line 459 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 468 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                         
                         }
 
@@ -2163,7 +2167,7 @@ WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n           
 
 
 
-#line 463 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 472 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -2173,7 +2177,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 466 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 475 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden
@@ -2189,7 +2193,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 469 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 478 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.Structs == null || !parent.Structs.Any()) { return; }
     
@@ -2197,28 +2201,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 471 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 480 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Delegates"));
 
 #line default
 #line hidden
 
 
-#line 471 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 480 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                     
     
 #line default
 #line hidden
 
 
-#line 472 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 481 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderDelegateTable(parent.Delegates));
 
 #line default
 #line hidden
 
 
-#line 472 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 481 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                            
 
 #line default
@@ -2235,7 +2239,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 476 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 485 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
     if (parent.InnerStructs == null || !parent.InnerStructs.Any()) { return; }
     
@@ -2243,28 +2247,28 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 478 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 487 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, RenderSectionTitle("Inner Delegates"));
 
 #line default
 #line hidden
 
 
-#line 478 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 487 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                           
     
 #line default
 #line hidden
 
 
-#line 479 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 488 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, _RenderDelegateTable(parent.InnerDelegates));
 
 #line default
 #line hidden
 
 
-#line 479 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 488 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                 
 
 #line default
@@ -2281,7 +2285,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 483 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 492 "..\..\Output\Html\Helpers\PageSection.cshtml"
  
 
 #line default
@@ -2293,7 +2297,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>\r\n        <table class=\"table 
 
 
 
-#line 490 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 499 "..\..\Output\Html\Helpers\PageSection.cshtml"
              foreach (var childDelegate in delegates)
             {
 
@@ -2304,7 +2308,7 @@ WriteLiteralTo(@__razor_helper_writer, "                <tr>\r\n                
 
 
 
-#line 493 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 502 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, PageHelper.RenderElementLink(childDelegate));
 
 #line default
@@ -2314,7 +2318,7 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 
 
 
-#line 495 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 504 "..\..\Output\Html\Helpers\PageSection.cshtml"
                          if (childDelegate.DocComment != null && childDelegate.DocComment.Summary != null)
                         {
                             
@@ -2322,14 +2326,14 @@ WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    <td>\r\n");
 #line hidden
 
 
-#line 497 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 506 "..\..\Output\Html\Helpers\PageSection.cshtml"
 WriteTo(@__razor_helper_writer, CommentTag.RenderTableSummary(childDelegate.DocComment.Summary));
 
 #line default
 #line hidden
 
 
-#line 497 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 506 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                                                                             
                         }
 
@@ -2340,7 +2344,7 @@ WriteLiteralTo(@__razor_helper_writer, "                    </td>\r\n           
 
 
 
-#line 501 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 510 "..\..\Output\Html\Helpers\PageSection.cshtml"
             }
 
 #line default
@@ -2350,7 +2354,7 @@ WriteLiteralTo(@__razor_helper_writer, "        </table>\r\n    </p>\r\n");
 
 
 
-#line 504 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 513 "..\..\Output\Html\Helpers\PageSection.cshtml"
 
 #line default
 #line hidden

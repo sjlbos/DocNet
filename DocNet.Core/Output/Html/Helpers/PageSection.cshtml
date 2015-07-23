@@ -131,6 +131,10 @@
 
     <p>
         <table class="table table-bordered table-hover">
+            <tr>
+                <th>Type Alias</th>
+                <th>Description</th>
+            </tr>
             @foreach (var typeParam in typeParams)
             {
                 <tr>
@@ -140,8 +144,8 @@
                         {
                             @CommentTag.RenderTypeParam(paramToCommentMap[typeParam.Name])
                         }
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </table>
     </p>
@@ -176,6 +180,11 @@
     @RenderSectionTitle("Parameters")
     <p>
         <table class="table table3col table-bordered table-hover">
+            <tr>
+                <th>Type</th>
+                <th>Parameter Name</th>
+                <th>Description</th>
+            </tr>
             @foreach (var param in parameters)
             {
                 <tr>
