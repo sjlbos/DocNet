@@ -62,6 +62,7 @@ namespace DummyInputProject
     ///         <see cref="ExampleClass.ExampleGetter"/>
     ///         <seealso cref="DescendantClass"/>
     ///     </remarks>
+    /// <seealso cref="this is some serious bullshit"/>
     /// <example>
     /// Example tags are used to give examples of how a type is to be used. They commonly contain &lt;c&gt; and &lt;code&gt; tags.
     /// &lt;c&gt; tags are used to mark some in-line text as code. For example, <c>MyClass</c> can be marked as code in-line.
@@ -71,6 +72,7 @@ namespace DummyInputProject
     ///     Example code line 2
     ///     </code>
     /// </example>
+    /// <seealso cref="ExampleClass.ExampleGetter"/>
     public class ExampleClass
     {
         /// <summary>

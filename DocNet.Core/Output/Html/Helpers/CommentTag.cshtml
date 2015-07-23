@@ -94,7 +94,14 @@
 @helper RenderSeeAlso(SeeAlsoTag seeAlsoTag)
 {
     <div class="see-also-comment">
-        <p>FixMe</p>
+        <p>
+            @seeAlsoTag.ReferencedElementName<br/>
+            <ul class="bulleted">
+                @foreach (string s in seeAlsoTag.Text){
+                    <li class="bulleted">@s</li>
+                }
+            </ul>
+        </p>
     </div>
 }
 
