@@ -13,7 +13,12 @@ namespace DocNet.Core.Models.Comments
         public ValueTag Value { get; set; }
 
         [XmlElement("exception")]
-        public List<ExceptionTag> Exceptions { get; set; } 
+        public List<ExceptionTag> Exceptions { get; set; }
+
+        public PropertyDocComment()
+        {
+            Exceptions = new List<ExceptionTag>();
+        }
 
         #region Equality Members
 

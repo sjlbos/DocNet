@@ -20,6 +20,7 @@ namespace DocNet.Core
 
         public string OutputDirectoryPath { get; set; }
         public IEnumerable<string> InputFilePaths { get; set; }
+        public OutputMode OutputMode { get; set; }
 
         public void Validate()
         {

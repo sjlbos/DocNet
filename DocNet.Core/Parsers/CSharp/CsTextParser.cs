@@ -24,28 +24,30 @@ namespace DocNet.Core.Parsers.CSharp
         /// types, and documentation comments.
         /// </summary>
         /// <param name="sourceCode">A string containing C# source code.</param>
+        /// <param name="outputMode">The program output mode which controls which elements will be documented.</param>
         /// <returns>A model of the input source code's global namespace.</returns>
-        public GlobalNamespaceModel GetGlobalNamespace(string sourceCode)
+        public GlobalNamespaceModel GetGlobalNamespace(string sourceCode, OutputMode outputMode)
         {
             if(sourceCode == null)
                 throw new ArgumentNullException("sourceCode");
             var sourceText = SourceText.From(sourceCode);
-            return GetGlobalNamespace(sourceText);
+            return GetGlobalNamespace(sourceText, outputMode);
         }
 
         /// <summary>
         /// Parses C# source code and adds the parsed elements to the specified namespace.
         /// </summary>
         /// <param name="sourceCode">A string containing C# source code.</param>
-        /// <param name="parentNamespace">A NamespaceModel object to which the types and namespaces contained in the input source code will be added.</param>
-        public void ParseIntoNamespace(string sourceCode, GlobalNamespaceModel parentNamespace)
+        /// <param name="globalNamespace">A NamespaceModel object to which the types and namespaces contained in the input source code will be added.</param>
+        /// <param name="outputMode">The program output mode which controls which elements will be documented.</param>
+        public void ParseIntoNamespace(string sourceCode, GlobalNamespaceModel globalNamespace, OutputMode outputMode)
         {
             if(sourceCode == null)
                 throw new ArgumentNullException("sourceCode");
-            if(parentNamespace == null)
-                throw new ArgumentNullException("parentNamespace");
+            if(globalNamespace == null)
+                throw new ArgumentNullException("globalNamespace");
             var sourceText = SourceText.From(sourceCode);
-            ParseIntoNamespace(sourceText, parentNamespace);
+            ParseIntoNamespace(sourceText, globalNamespace, outputMode);
         }
 
         /// <summary>
@@ -53,41 +55,43 @@ namespace DocNet.Core.Parsers.CSharp
         /// types, and documentation comments.
         /// </summary>
         /// <param name="sourceFileStream">A Stream object pointing to a C# source code file.</param>
+        /// <param name="outputMode">The program output mode which controls which elements will be documented.</param>
         /// <returns>A model of the input source code's global namespace.</returns>
-        public GlobalNamespaceModel GetGlobalNamespace(Stream sourceFileStream)
+        public GlobalNamespaceModel GetGlobalNamespace(Stream sourceFileStream, OutputMode outputMode)
         {
             if(sourceFileStream == null)
                 throw new ArgumentNullException("sourceFileStream");
             var sourceText = SourceText.From(sourceFileStream);
-            return GetGlobalNamespace(sourceText);
+            return GetGlobalNamespace(sourceText, outputMode);
         }
 
         /// <summary>
         /// Parses C# source code and adds the parsed elments to the specified namespace.
         /// </summary>
         /// <param name="sourceFileStream">A Stream object pointing to a C# source code file.</param>
-        /// <param name="parentNamespace">A NamespaceModel object to which the types and namespaces contained in the input source code will be added.</param>
-        public void ParseIntoNamespace(FileStream sourceFileStream, GlobalNamespaceModel parentNamespace)
+        /// <param name="globalNamespace">A NamespaceModel object to which the types and namespaces contained in the input source code will be added.</param>
+        /// <param name="outputMode">The program output mode which controls which elements will be documented.</param>
+        public void ParseIntoNamespace(FileStream sourceFileStream, GlobalNamespaceModel globalNamespace, OutputMode outputMode)
         {
             if (sourceFileStream == null)
                 throw new ArgumentNullException("sourceFileStream");
-            if (parentNamespace == null)
-                throw new ArgumentNullException("parentNamespace");
+            if (globalNamespace == null)
+                throw new ArgumentNullException("globalNamespace");
             var sourceText = SourceText.From(sourceFileStream);
-            ParseIntoNamespace(sourceText, parentNamespace);
+            ParseIntoNamespace(sourceText, globalNamespace, outputMode);
         }
 
-        private static GlobalNamespaceModel GetGlobalNamespace(SourceText csText)
+        private static GlobalNamespaceModel GetGlobalNamespace(SourceText csText, OutputMode outputMode)
         {
             var namespaceModel = new GlobalNamespaceModel();
-            ParseIntoNamespace(csText, namespaceModel);
+            ParseIntoNamespace(csText, namespaceModel, outputMode);
             return namespaceModel;
         }
 
-        private static void ParseIntoNamespace(SourceText csText, GlobalNamespaceModel namespaceModel)
+        private static void ParseIntoNamespace(SourceText csText, GlobalNamespaceModel namespaceModel, OutputMode outputMode)
         {
             SyntaxTree tree = CSharpSyntaxTree.ParseText(csText);
-            var walker = new CsCommentWalker(namespaceModel);
+            var walker = new CsCommentWalker(namespaceModel, outputMode);
             walker.Visit(tree.GetRoot());
         }
     }
@@ -95,12 +99,14 @@ namespace DocNet.Core.Parsers.CSharp
     internal class CsCommentWalker : CSharpSyntaxWalker
     {
         private IParentElement _currentParent;
+        private OutputMode _outputMode;
 
-        public CsCommentWalker(GlobalNamespaceModel globalNamespace)
+        public CsCommentWalker(GlobalNamespaceModel globalNamespace, OutputMode outputMode)
         {
             if (globalNamespace == null)
                 throw new ArgumentNullException("globalNamespace");
             _currentParent = globalNamespace;
+            _outputMode = outputMode;
         }
 
         #region Node Processors
@@ -116,7 +122,6 @@ namespace DocNet.Core.Parsers.CSharp
             if(_currentParent[namespaceName] == null)
             {
                 currentNamespace = new NamespaceModel { Identifier = namespaceName }; 
-                _currentParent.AddChild(currentNamespace);
             }
             // Otherwise, use the existing namespace
             else
@@ -127,12 +132,19 @@ namespace DocNet.Core.Parsers.CSharp
                 currentNamespace = _currentParent[namespaceName] as NamespaceModel;
             }     
 
+            // Update current parent
             var oldParent = _currentParent;
             _currentParent = currentNamespace;
 
             base.VisitNamespaceDeclaration(node);
 
+            // Restore old parent
             _currentParent = oldParent;
+
+            if (_currentParent[namespaceName] == null && NamespaceShouldBeAdded(currentNamespace))
+            {
+                _currentParent.AddChild(currentNamespace);
+            }
         }
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
@@ -148,19 +160,12 @@ namespace DocNet.Core.Parsers.CSharp
             };
             SetInterfaceBaseModifiers(currentInterface, node.Modifiers);
 
-            if(currentInterface.IsPartial)
+            bool interfaceWasMerged = false;
+            if (currentInterface.IsPartial)
             {
-                if(!MergeExistingBaseInterfaceDeclarations(ref currentInterface))
-                {
-                    // Interface was not merged and therefore has not yet been encountered
-                    _currentParent.AddChild(currentInterface);
-                }           
+                interfaceWasMerged = MergeExistingBaseInterfaceDeclarations(ref currentInterface);
             }
-            else
-            {
-                _currentParent.AddChild(currentInterface);
-            }
-           
+
             // Update current parent
             var oldParent = _currentParent;
             _currentParent = currentInterface;
@@ -169,6 +174,11 @@ namespace DocNet.Core.Parsers.CSharp
 
             // Restore old parent
             _currentParent = oldParent;
+
+            if (TypeShouldBeAdded(currentInterface) && !interfaceWasMerged)
+            {
+                _currentParent.AddChild(currentInterface);
+            }
         }
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
@@ -184,17 +194,10 @@ namespace DocNet.Core.Parsers.CSharp
             };
             SetClassModifiers(currentClass, node.Modifiers);
 
+            bool classWasMerged = false;
             if (currentClass.IsPartial)
             {
-                if (!MergeExistingBaseInterfaceDeclarations(ref currentClass))
-                {
-                    // Class was not merged and therefore has not yet been encountered
-                    _currentParent.AddChild(currentClass);
-                }
-            }
-            else
-            {
-                _currentParent.AddChild(currentClass);
+                classWasMerged = MergeExistingBaseInterfaceDeclarations(ref currentClass);
             }
 
             // Update current parent
@@ -205,6 +208,11 @@ namespace DocNet.Core.Parsers.CSharp
 
             // Restore old parent
             _currentParent = oldParent;
+
+            if (TypeShouldBeAdded(currentClass) && !classWasMerged)
+            {
+                _currentParent.AddChild(currentClass);
+            }
         }
 
         public override void VisitStructDeclaration(StructDeclarationSyntax node)
@@ -220,17 +228,10 @@ namespace DocNet.Core.Parsers.CSharp
             };
             SetInterfaceBaseModifiers(currentStruct, node.Modifiers);
 
+            bool structWasMerged = false;
             if (currentStruct.IsPartial)
             {
-                if (!MergeExistingBaseInterfaceDeclarations(ref currentStruct))
-                {
-                    // Class was not merged and therefore has not yet been encountered
-                    _currentParent.AddChild(currentStruct);
-                }
-            }
-            else
-            {
-                _currentParent.AddChild(currentStruct);
+                structWasMerged = MergeExistingBaseInterfaceDeclarations(ref currentStruct);
             }
 
             // Update current parent
@@ -241,6 +242,11 @@ namespace DocNet.Core.Parsers.CSharp
 
             // Restore old parent
             _currentParent = oldParent;
+
+            if (TypeShouldBeAdded(currentStruct) && !structWasMerged)
+            {
+                _currentParent.AddChild(currentStruct);
+            }
         }
 
         public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
@@ -255,10 +261,11 @@ namespace DocNet.Core.Parsers.CSharp
                 Fields = node.Members.Select(m => m.Identifier.Text).ToList()
             };
 
-            if(_currentParent != null)
+            if (TypeShouldBeAdded(newEnum))
+            {
                 _currentParent.AddChild(newEnum);
-
-            base.VisitEnumDeclaration(node);
+                base.VisitEnumDeclaration(node);
+            }
         }
 
         public override void VisitDelegateDeclaration(DelegateDeclarationSyntax node)
@@ -271,13 +278,15 @@ namespace DocNet.Core.Parsers.CSharp
                 Parameters = GetParameterList(node.ParameterList.Parameters),
                 ReturnType = node.ReturnType.ToString(),
                 DocComment = GetCommentFromNode<MethodDocComment>(node),
-                TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses)
+                TypeParameters = GetTypeParameterList(node.TypeParameterList, node.ConstraintClauses),
+                AccessModifier = GetAccessModifier(node.Modifiers)
             };
 
-            if(_currentParent != null)
+            if (TypeShouldBeAdded(newDelegate))
+            {
                 _currentParent.AddChild(newDelegate);
-
-            base.VisitDelegateDeclaration(node);
+                base.VisitDelegateDeclaration(node);
+            } 
         }
 
         public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
@@ -293,9 +302,11 @@ namespace DocNet.Core.Parsers.CSharp
 
             SetConstructorModifiers(newConstructor, node.Modifiers); 
 
-            _currentParent.AddChild(newConstructor);
-
-            base.VisitConstructorDeclaration(node);
+            if(ConstructorShouldBeAdded(newConstructor))
+            {
+                _currentParent.AddChild(newConstructor);
+                base.VisitConstructorDeclaration(node);   
+            }
         }
 
         public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
@@ -317,9 +328,11 @@ namespace DocNet.Core.Parsers.CSharp
 
             SetMethodModifiers(newMethod, node.Modifiers);
 
-            _currentParent.AddChild(newMethod);
-
-            base.VisitMethodDeclaration(node);
+            if (MethodShouldBeAdded(newMethod))
+            {
+                _currentParent.AddChild(newMethod);
+                base.VisitMethodDeclaration(node);
+            }
         }
 
         public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
@@ -340,15 +353,16 @@ namespace DocNet.Core.Parsers.CSharp
             SetPropertyModifiers(newProperty, node.Modifiers);
             SetAccessorProperties(newProperty, node.AccessorList.Accessors);
 
-            _currentParent.AddChild(newProperty);
-
-            base.VisitPropertyDeclaration(node);
+            if (PropertyShouldBeAdded(newProperty))
+            {
+                _currentParent.AddChild(newProperty);
+                base.VisitPropertyDeclaration(node);
+            }
         }
 
         #endregion
 
         #region Helper Methods
-
 
         private bool MergeExistingBaseInterfaceDeclarations<T>(ref T currentInterface) where T:InterfaceBase
         {
@@ -365,6 +379,63 @@ namespace DocNet.Core.Parsers.CSharp
             otherT.InheritanceList = otherT.InheritanceList.Union(currentInterface.InheritanceList).ToList();
             currentInterface = otherT;
             return true;
+        }
+
+        private bool NamespaceShouldBeAdded(NamespaceModel namespaceModel)
+        {
+            return namespaceModel.Any();
+        }
+
+        private bool TypeShouldBeAdded(CsType csType)
+        {
+            switch (_outputMode)
+            {
+                case OutputMode.AllElements:
+                    return true;
+                case OutputMode.PublicOnly:
+                    return csType.AccessModifier == AccessModifier.Public;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private bool MethodShouldBeAdded(MethodModel method)
+        {
+            switch (_outputMode)
+            {
+                case OutputMode.AllElements:
+                    return true;
+                case OutputMode.PublicOnly:
+                    return method.AccessModifier == AccessModifier.Public;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private bool ConstructorShouldBeAdded(ConstructorModel constructorModel)
+        {
+            switch (_outputMode)
+            {
+                case OutputMode.AllElements:
+                    return true;
+                case OutputMode.PublicOnly:
+                    return constructorModel.AccessModifier == AccessModifier.Public;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private bool PropertyShouldBeAdded(PropertyModel property)
+        {
+            switch (_outputMode)
+            {
+                case OutputMode.AllElements:
+                    return true;
+                case OutputMode.PublicOnly:
+                    return property.AccessModifier == AccessModifier.Public;      
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         #region Comment Helpers

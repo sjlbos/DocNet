@@ -84,7 +84,8 @@ namespace DocNet.Console
                 DocumentationGenerator = new HtmlDocumentationGenerator(exportedFileList),
                 OutputDirectoryPath = MakePathAbsolute(currentDirectoryPath, args.OutputDirectory),
                 InputFilePaths = args.InputPaths.Select(p => MakePathAbsolute(currentDirectoryPath, p)),
-                RootDirectoryName = ConfigurationManager.AppSettings["RootDirectoryName"] ?? DefaultRootDirectoryName
+                RootDirectoryName = ConfigurationManager.AppSettings["RootDirectoryName"] ?? DefaultRootDirectoryName,
+                OutputMode = GetOutputMode(args)
             };
         }
 
@@ -105,6 +106,11 @@ namespace DocNet.Console
         }
 
         #region Helper Methods
+
+        private static OutputMode GetOutputMode(ProgramArguments args)
+        {
+            return args.DocumentAllElement ? OutputMode.AllElements : OutputMode.PublicOnly;
+        }
 
         private static IList<string> GetCsFileListFromDirectoryList(IEnumerable<string> inputDirectoryPaths, bool recursiveSearch)
         {
