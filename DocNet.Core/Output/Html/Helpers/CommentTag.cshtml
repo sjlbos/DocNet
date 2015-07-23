@@ -208,6 +208,7 @@
         case ListType.Table:
             <table class="table table-bordered table-hover custom">
                 @_RenderTableListHeader(listTag.Header)
+                @_RenderTableListBody(listTag.Elements)
             </table>
             break;
     }
