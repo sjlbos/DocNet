@@ -57,6 +57,15 @@ li {
 	list-style: none;
 }
 
+ul.bulleted {
+    list-style-position: inside;
+    margin-left: 10px;
+}
+
+li.bulleted {
+    list-style-type: circle;
+}
+
 html {
 	position: relative;
 	min-height: 100.2%;
