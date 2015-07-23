@@ -24,7 +24,12 @@ namespace DocNet.Razor.Helpers
     #line default
     #line hidden
     using System.IO;
+    
+    #line 4 "..\..\Output\Html\Helpers\CommentTag.cshtml"
     using System.Linq;
+    
+    #line default
+    #line hidden
     using System.Net;
     using System.Text;
     using System.Web;
@@ -34,7 +39,7 @@ namespace DocNet.Razor.Helpers
     using System.Web.WebPages;
     using System.Web.WebPages.Html;
     
-    #line 4 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+    #line 5 "..\..\Output\Html\Helpers\CommentTag.cshtml"
     using DocNet.Core.Models.Comments.Xml;
     
     #line default
@@ -44,7 +49,7 @@ namespace DocNet.Razor.Helpers
     public class CommentTag : System.Web.WebPages.HelperPage
     {
         
-        #line 7 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+        #line 8 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
     private static string CombineText(IEnumerable<string> text)
     {
@@ -60,7 +65,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 15 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 16 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -70,7 +75,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"summary-comment\">\r\n 
 
 
 
-#line 17 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 18 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(summaryTag));
 
 #line default
@@ -80,7 +85,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 19 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 20 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -96,7 +101,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 22 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 23 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -106,7 +111,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"expand-table-cell summa
 
 
 
-#line 24 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 25 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(summaryTag));
 
 #line default
@@ -116,7 +121,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 26 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 27 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -132,7 +137,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 29 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 30 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -142,7 +147,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"remarks-comment\">\r\n 
 
 
 
-#line 31 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 32 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(remarksTag));
 
 #line default
@@ -152,7 +157,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 33 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 34 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -168,7 +173,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 36 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 37 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -178,7 +183,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"example-comment\">\r\n 
 
 
 
-#line 38 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 39 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(exampleTag));
 
 #line default
@@ -188,7 +193,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 40 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 41 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -204,7 +209,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 43 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 44 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -214,7 +219,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"returns-comment\">\r\n 
 
 
 
-#line 45 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 46 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(returnsTag));
 
 #line default
@@ -224,7 +229,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 47 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 48 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -240,7 +245,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 50 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 51 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -250,7 +255,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"value-comment\">\r\n   
 
 
 
-#line 52 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 53 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(valueTag));
 
 #line default
@@ -260,7 +265,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 54 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 55 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -276,7 +281,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 57 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 58 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -286,7 +291,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"parameter-comment\">\r\
 
 
 
-#line 59 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 60 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(paramTag));
 
 #line default
@@ -296,7 +301,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 61 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 62 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -312,7 +317,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 64 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 65 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -322,7 +327,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"type-parameter-comment\
 
 
 
-#line 66 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 67 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(typeParamTag));
 
 #line default
@@ -332,7 +337,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 68 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 69 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -348,7 +353,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 71 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 72 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -358,7 +363,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"exception-comment\">\r\
 
 
 
-#line 73 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 74 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTopLevelContainer(exceptionTag));
 
 #line default
@@ -368,7 +373,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n    </div>\r\n");
 
 
 
-#line 75 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 76 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -384,7 +389,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 78 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 79 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -394,7 +399,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"see-also-comment\">\r\n
 
 
 
-#line 82 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 83 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -410,7 +415,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 85 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 86 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -420,7 +425,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>Fix me, I don\'t know what I am!<
 
 
 
-#line 87 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 88 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -436,7 +441,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 90 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 91 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
     if (container.Items == null) { return; }
     foreach (var element in container.Items)
@@ -446,14 +451,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 94 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 95 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderContainerElement(element));
 
 #line default
 #line hidden
 
 
-#line 94 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 95 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                                         
      }
 
@@ -471,7 +476,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 99 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 100 "..\..\Output\Html\Helpers\CommentTag.cshtml"
    
     if (container.Items == null) { return; }
     foreach (var element in container.Items)
@@ -481,14 +486,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 103 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 104 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderContainerElement(element));
 
 #line default
 #line hidden
 
 
-#line 103 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 104 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                                         
     }
 
@@ -506,7 +511,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 108 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 109 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
     if(element is string)
     {
@@ -515,14 +520,14 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 
 
-#line 111 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 112 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, element);
 
 #line default
 #line hidden
 
 
-#line 111 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 112 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                 
     }
     if (element is ParagraphTag)
@@ -532,14 +537,14 @@ WriteTo(@__razor_helper_writer, element);
 #line hidden
 
 
-#line 115 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 116 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderPara(element as ParagraphTag));
 
 #line default
 #line hidden
 
 
-#line 115 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 116 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                                             
         return;
     }
@@ -550,14 +555,14 @@ WriteTo(@__razor_helper_writer, RenderPara(element as ParagraphTag));
 #line hidden
 
 
-#line 120 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 121 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderC(element as CTag));
 
 #line default
 #line hidden
 
 
-#line 120 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 121 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                                  
         return;
     }
@@ -568,14 +573,14 @@ WriteTo(@__razor_helper_writer, RenderC(element as CTag));
 #line hidden
 
 
-#line 125 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 126 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderCode(element as CodeTag));
 
 #line default
 #line hidden
 
 
-#line 125 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 126 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                                        
         return;
     }
@@ -586,15 +591,15 @@ WriteTo(@__razor_helper_writer, RenderCode(element as CodeTag));
 #line hidden
 
 
-#line 130 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-WriteTo(@__razor_helper_writer, RenderList());
+#line 131 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, RenderList(element as ListTag));
 
 #line default
 #line hidden
 
 
-#line 130 "..\..\Output\Html\Helpers\CommentTag.cshtml"
-                     ;
+#line 131 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                                       ;
         return;
     }
     if (element is ParameterReferenceTag)
@@ -604,14 +609,14 @@ WriteTo(@__razor_helper_writer, RenderList());
 #line hidden
 
 
-#line 135 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 136 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderParamRef(element as ParameterReferenceTag));
 
 #line default
 #line hidden
 
 
-#line 135 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 136 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                                                          ;
         return;
     }
@@ -622,14 +627,14 @@ WriteTo(@__razor_helper_writer, RenderParamRef(element as ParameterReferenceTag)
 #line hidden
 
 
-#line 140 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 141 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderSee(element as SeeTag));
 
 #line default
 #line hidden
 
 
-#line 140 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 141 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                                      ;
         return;
     }
@@ -640,14 +645,14 @@ WriteTo(@__razor_helper_writer, RenderSee(element as SeeTag));
 #line hidden
 
 
-#line 145 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 146 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderTypeParamRef(element as TypeParameterReferenceTag));
 
 #line default
 #line hidden
 
 
-#line 145 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 146 "..\..\Output\Html\Helpers\CommentTag.cshtml"
                                                                  ;
         return;
     }
@@ -666,7 +671,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 151 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 152 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -676,7 +681,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <span class=\"inline-code\">");
 
 
 
-#line 152 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 153 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, CombineText(cTag.Text));
 
 #line default
@@ -686,7 +691,7 @@ WriteLiteralTo(@__razor_helper_writer, "</span>\r\n");
 
 
 
-#line 153 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 154 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -702,7 +707,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 156 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 157 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -713,7 +718,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <div class=\"code-block\">\r\n      
 
 
 
-#line 160 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 161 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, CombineText(codeTag.Text));
 
 #line default
@@ -723,7 +728,7 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n            </code>\r\n        </pre
 
 
 
-#line 164 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 165 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -733,23 +738,152 @@ WriteLiteralTo(@__razor_helper_writer, "\r\n            </code>\r\n        </pre
 }
 
 
-public static System.Web.WebPages.HelperResult RenderList()
+public static System.Web.WebPages.HelperResult RenderList(ListTag listTag)
 {
 return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 167 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 168 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
+    if (listTag.Elements != null&&listTag.Elements.Any()){
+        if (listTag.ListType.Equals(ListType.Bullet))
+        {
 
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "    <p>Lists are currently not working fix me.</p>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "            <ul>\r\n");
 
 
 
-#line 169 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 173 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                 foreach (var element in listTag.Elements)
+                {
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "                    <li>");
+
+
+
+#line 175 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, RenderContainerElement(element));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "</li>\r\n");
+
+
+
+#line 176 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "            </ul>\r\n");
+
+
+
+#line 178 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+        }else if (listTag.ListType.Equals(ListType.Number))
+        {
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "            <ol>\r\n");
+
+
+
+#line 181 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                 foreach (var element in listTag.Elements)
+                {
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "                    <li>");
+
+
+
+#line 183 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, RenderContainerElement(element));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "</li>\r\n");
+
+
+
+#line 184 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "            </ol>\r\n");
+
+
+
+#line 186 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+        }else{
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "            <table>\r\n");
+
+
+
+#line 188 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                 foreach (var element in listTag.Elements)
+                {
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "                    <tr>\r\n                        <td>");
+
+
+
+#line 191 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+WriteTo(@__razor_helper_writer, RenderContainerElement(element));
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "</td>\r\n                    </tr>\r\n");
+
+
+
+#line 193 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+                }
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "            </table>\r\n");
+
+
+
+#line 195 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+        }
+    }else{
+
+#line default
+#line hidden
+
+WriteLiteralTo(@__razor_helper_writer, "        <!--Add a debug message maybe?-->\r\n");
+
+
+
+#line 198 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+    }
 
 #line default
 #line hidden
@@ -765,7 +899,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 172 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 202 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -775,7 +909,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <b>");
 
 
 
-#line 173 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 203 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, paramRefTag.Name);
 
 #line default
@@ -785,7 +919,7 @@ WriteLiteralTo(@__razor_helper_writer, "</b>\r\n");
 
 
 
-#line 174 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 204 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -801,7 +935,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 177 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 207 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -811,7 +945,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <b>");
 
 
 
-#line 178 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 208 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, seeTag.ReferencedElementName);
 
 #line default
@@ -821,7 +955,7 @@ WriteLiteralTo(@__razor_helper_writer, "</b>   \r\n");
 
 
 
-#line 179 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 209 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -837,7 +971,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 182 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 212 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -847,7 +981,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <b>");
 
 
 
-#line 183 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 213 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, typeParamRefTag.Name);
 
 #line default
@@ -857,7 +991,7 @@ WriteLiteralTo(@__razor_helper_writer, "</b>\r\n");
 
 
 
-#line 184 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 214 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden
@@ -873,7 +1007,7 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 
 
-#line 187 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 217 "..\..\Output\Html\Helpers\CommentTag.cshtml"
  
 
 #line default
@@ -883,7 +1017,7 @@ WriteLiteralTo(@__razor_helper_writer, "    <p>");
 
 
 
-#line 188 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 218 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 WriteTo(@__razor_helper_writer, RenderContainer(paragraphTag));
 
 #line default
@@ -893,7 +1027,7 @@ WriteLiteralTo(@__razor_helper_writer, "</p>\r\n");
 
 
 
-#line 189 "..\..\Output\Html\Helpers\CommentTag.cshtml"
+#line 219 "..\..\Output\Html\Helpers\CommentTag.cshtml"
 
 #line default
 #line hidden

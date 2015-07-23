@@ -1,6 +1,7 @@
 ﻿@*Generator: WebPagesHelper GeneratePrettyNames: true Namespace: DocNet.Razor.Helpers *@
 @using System
 @using System.Collections.Generic
+@using System.Linq
 @using DocNet.Core.Models.Comments.Xml
 
 @functions
@@ -127,7 +128,7 @@
     }
     if (element is ListTag)
     {
-        @RenderList();
+        @RenderList(element as ListTag);
         return;
     }
     if (element is ParameterReferenceTag)
@@ -163,9 +164,38 @@
     </div>  
 }
 
-@helper RenderList()
+@helper RenderList(ListTag listTag)
 {
-    <p>Lists are currently not working fix me.</p>
+    if (listTag.Elements != null&&listTag.Elements.Any()){
+        if (listTag.ListType.Equals(ListType.Bullet))
+        {
+            <ul>
+                @foreach (var element in listTag.Elements)
+                {
+                    <li>@RenderContainerElement(element)</li>
+                }
+            </ul>
+        }else if (listTag.ListType.Equals(ListType.Number))
+        {
+            <ol>
+                @foreach (var element in listTag.Elements)
+                {
+                    <li>@RenderContainerElement(element)</li>
+                }
+            </ol>
+        }else{
+            <table>
+                @foreach (var element in listTag.Elements)
+                {
+                    <tr>
+                        <td>@RenderContainerElement(element)</td>
+                    </tr>
+                }
+            </table>
+        }
+    }else{
+        <!--Add a debug message maybe?-->
+    }
 }
 
 @helper RenderParamRef(ParameterReferenceTag paramRefTag)
