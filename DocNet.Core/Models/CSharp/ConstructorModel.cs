@@ -38,7 +38,7 @@ namespace DocNet.Core.Models.CSharp
         {
             get
             {
-                var internalName = Identifier;
+                var internalName = (IsStatic ? "`" : String.Empty) + Identifier; // Extra '`' is to protect against collisions with static and instance constructors
                 if (Parameters != null && Parameters.Any())
                     internalName += "`" + String.Join("_", Parameters.Select(p => p.TypeName));
                 return internalName;

@@ -1,6 +1,6 @@
 /* Section heading color */
-h2, h3{
-	color: #4F6D7A;
+h1, h2, h3{
+	color: #4F6D7A !important;
 }
 
 /* Primary background colour */

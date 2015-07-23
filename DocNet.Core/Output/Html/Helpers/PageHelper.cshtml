@@ -36,7 +36,7 @@
     var sortedChildren = globalNamespace.OrderBy(child => child.DisplayName);
     <div id="over">
         <h2>Hierarchy</h2>
-        <ul>
+        <ul class="side-unsorted">
             @_RenderChildList(sortedChildren, true, currentViewModel)
         </ul>    
     </div>
@@ -55,7 +55,7 @@
         throw new DocumentationGenerationException("Parent element is not a CsElement.");
     }
 
-    <li>
+    <li class="side-li-tag">
         <div class="expand link" onclick="ToggleSidebarNode(this)">
             @if(hasChildren)
             {
@@ -76,7 +76,7 @@
 
 @helper _RenderChildList(IEnumerable<INestableElement> children, bool isExpanded, CsElement currentViewModel)
 {
-    <ul class="child-list collapse @(isExpanded ? "in" : "")">
+    <ul class="child-list side-unsorted collapse @(isExpanded ? "in" : "")">
 
         @foreach (var child in children)
         {
@@ -87,7 +87,7 @@
             }
             else
             {
-                <li><span class="expand"></span><a class="side-link@(isCurrentView ? " current" : "")" href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.DisplayName</a></li>
+                <li class="side-li-tag"><span class="expand"></span><a class="side-link@(isCurrentView ? " current" : "")" href="@HtmlDocumentationGenerator.GetFileNameForCsElement(child as CsElement)">@child.DisplayName</a></li>
             }
         }
     </ul>
