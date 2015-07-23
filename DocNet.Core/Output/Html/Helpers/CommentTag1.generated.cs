@@ -897,7 +897,7 @@ WriteLiteralTo(@__razor_helper_writer, "            </ol>\r\n");
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "            <table>\r\n");
+WriteLiteralTo(@__razor_helper_writer, "            <table class=\"table-bordered table-hover table\">\r\n");
 
 
 
