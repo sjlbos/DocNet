@@ -384,12 +384,9 @@ WriteTo(@__razor_helper_writer, RenderSectionTitle("See Also"));
 
 #line 60 "..\..\Output\Html\Helpers\PageSection.cshtml"
                                    
-
+    
 #line default
 #line hidden
-
-WriteLiteralTo(@__razor_helper_writer, "    <p>");
-
 
 
 #line 61 "..\..\Output\Html\Helpers\PageSection.cshtml"
@@ -398,11 +395,9 @@ WriteTo(@__razor_helper_writer, CommentTag.RenderSeeAlso(docComment.SeeAlso));
 #line default
 #line hidden
 
-WriteLiteralTo(@__razor_helper_writer, "</p>\r\n");
 
-
-
-#line 62 "..\..\Output\Html\Helpers\PageSection.cshtml"
+#line 61 "..\..\Output\Html\Helpers\PageSection.cshtml"
+                                                 
 
 #line default
 #line hidden

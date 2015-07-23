@@ -58,7 +58,7 @@
 {
     if (docComment == null || docComment.SeeAlso == null) { return; }
     @RenderSectionTitle("See Also")
-    <p>@CommentTag.RenderSeeAlso(docComment.SeeAlso)</p>
+    @CommentTag.RenderSeeAlso(docComment.SeeAlso)
 }
 
 @helper RenderExceptionTable(InterfaceDocComment docComment)
