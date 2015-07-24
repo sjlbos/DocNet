@@ -74,7 +74,6 @@ namespace DummyInputProject
     ///     </code>
     ///</example>
 	///BLADAALADLADLALDSKFkjsdz;ganktgjdsjlag;alisj;lhigjaskdljg;alsjgewijgjsdkglkjsddkgljklj
-    /// </example>
     /// <seealso cref="ExampleClass.ExampleGetter"/>
     public class ExampleClass
     {
@@ -187,7 +186,7 @@ namespace DummyInputProject
 	}
 
   /// <summary>
-  ///   A delegate
+  ///   A delegate.
   /// </summary>
   /// <param name="x">Operand x</param>
   /// <param name="y">Operand y</param>
