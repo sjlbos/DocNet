@@ -228,7 +228,8 @@ namespace DocNet.Core.Output.Html
         {
             return filePath
                 .Replace('<', '[')
-                .Replace('>', ']');
+                .Replace('>', ']')
+                .Replace('?', '^');
         }
 
         private void CopyExportFilesToDirectory(string outputDirectory)
