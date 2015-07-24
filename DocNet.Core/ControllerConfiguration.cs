@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using DocNet.Core.Exceptions;
 using DocNet.Core.Output;
 using DocNet.Core.Parsers.CSharp;
@@ -10,18 +6,48 @@ using DocNet.Core.Parsers.VisualStudio;
 
 namespace DocNet.Core
 {
+    /// <summary>
+    /// An object containing the parameters necessary to instantiate an <see cref="IDocNetController"/> object.
+    /// </summary>
+    /// <remarks>
+    /// ControllerConfiguration objects are used as a form of dependency injection, allowing external agents to 
+    /// modify the behaviour of an <see cref="IDocNetController"/> instance by providing custom implementations of
+    /// the components used by the controller.
+    /// </remarks>
     public class ControllerConfiguration
     {
+        /// <summary>
+        /// The parser used to parse Visual Studio solution (.sln) files.
+        /// </summary>
         public ISolutionParser SolutionParser { get; set; }
+
+        /// <summary>
+        /// The parser used to parse Visual Studio C# project (.csproj) files.
+        /// </summary>
         public IProjectParser ProjectParser { get; set; }
+
+        /// <summary>
+        /// The parser used to parse C# (.cs) files.
+        /// </summary>
         public ICsParser CsParser { get; set; }
+
+        /// <summary>
+        /// The documentation generator used to output documentation.
+        /// </summary>
         public IDocumentationGenerator DocumentationGenerator { get; set; }
+
+        /// <summary>
+        /// The name of root directory of the output documentation tree.
+        /// </summary>
         public string RootDirectoryName { get; set; }
 
-        public string OutputDirectoryPath { get; set; }
-        public IEnumerable<string> InputFilePaths { get; set; }
-        public OutputMode OutputMode { get; set; }
-
+        /// <summary>
+        /// Checks that the ControllerConfiguration's properties are valid.
+        /// </summary>
+        /// <remarks>
+        /// A configuration is invalid if any of the object's properties are null or empty.
+        /// </remarks>
+        /// <exception cref="ConfigurationException">Thrown when the ControllerConfiguration object contains an invalid configuration.</exception>
         public void Validate()
         {
             if(SolutionParser == null)
@@ -34,61 +60,6 @@ namespace DocNet.Core
                 throw new ConfigurationException("Documentation generator is null.", DocNetStatus.InternalError);
             if(String.IsNullOrWhiteSpace(RootDirectoryName))
                 throw new ConfigurationException("Root directory name is not specified.", DocNetStatus.InvalidOutputPath);
-
-            ValidateOutputDirectory();
-            ValidateInputFilePaths();
-        }
-
-        private void ValidateOutputDirectory()
-        {
-            if (String.IsNullOrWhiteSpace(OutputDirectoryPath))
-            {
-                throw new ConfigurationException("Output directory path not specified.", DocNetStatus.InvalidProgramArguments);
-            }
-
-            if (!Path.IsPathRooted(OutputDirectoryPath))
-            {
-                throw new ConfigurationException(String.Format(CultureInfo.CurrentCulture,
-                    "Output directory path \"{0}\" is not an absolute path.", OutputDirectoryPath),
-                    DocNetStatus.InvalidOutputPath
-                    );
-            }
-        }
-
-        private void ValidateInputFilePaths()
-        {
-            if(InputFilePaths == null || !InputFilePaths.Any())
-                throw new ConfigurationException("No input files specified.", DocNetStatus.InvalidProgramArguments);
-            
-            if(InputFileListContainsDuplicatePaths())
-                throw new ConfigurationException("Input file list contains duplicate paths.", DocNetStatus.InvalidProgramArguments);
-
-            foreach (var inputFilePath in InputFilePaths)
-            {
-                ValidateInputFilePath(inputFilePath);
-            }
-        }
-
-        private void ValidateInputFilePath(string filePath)
-        {
-            if(String.IsNullOrWhiteSpace(filePath))
-                throw new ConfigurationException("Input file path is empty.", DocNetStatus.InvalidInputPath);
-
-            if(!Path.IsPathRooted(filePath))
-                throw new ConfigurationException(String.Format(CultureInfo.CurrentCulture,
-                    "The input file path \"{0}\" is not an absolute path.", filePath),
-                    DocNetStatus.InvalidInputPath
-                    );
-
-            if(!File.Exists(filePath))
-                throw new ConfigurationException(String.Format(CultureInfo.CurrentCulture,
-                    "The input file path \"{0}\" could not be found.", filePath),
-                    DocNetStatus.InvalidInputPath);
-        }
-
-        private bool InputFileListContainsDuplicatePaths()
-        {
-            return InputFilePaths.Distinct().Count() != InputFilePaths.Count();
         }
     }
 }

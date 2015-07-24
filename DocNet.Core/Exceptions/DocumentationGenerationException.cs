@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace DocNet.Core.Exceptions
 {
+    /// <summary>
+    /// An exception to be thrown when the program is unable to generate documentation for a particular model element.
+    /// </summary>
     [Serializable]
     public class DocumentationGenerationException : Exception
     {
