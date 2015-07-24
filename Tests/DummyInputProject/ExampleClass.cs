@@ -69,8 +69,8 @@ namespace DummyInputProject
     /// &lt;c&gt; tags are used to mark some in-line text as code. For example, <c>MyClass</c> can be marked as code in-line.
     /// For multiple lines of code, the &lt;code&gt; tag is used.
     ///     <code>
-    ///     Example code line 1
-    ///     Example code line 2
+    ///     Example code line 1;
+  ///Example code line 2;
     ///     </code>
     ///</example>
 	///BLADAALADLADLALDSKFkjsdz;ganktgjdsjlag;alisj;lhigjaskdljg;alsjgewijgjsdkglkjsddkgljklj
