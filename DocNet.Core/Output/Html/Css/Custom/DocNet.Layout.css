@@ -110,7 +110,7 @@ h1 {
     margin: 0px 15px;
 }
 
-table {
+table.table2col {
 	width: 100%;
 	table-layout: fixed;
 }
@@ -121,13 +121,22 @@ table {
 	white-space: nowrap;
 }
 
-td:first-child{
-	width: 20%;
+table.table2col td:first-child{
+	width: 30%;
     word-wrap: break-word;
 }
 
-th:first-child{
-	width: 20%;
+table.table2col th:first-child{
+	width: 30%;
+}
+
+table.table3col td:first-child{
+	width: 25%;
+    word-wrap: break-word;
+}
+
+table.table3col th:first-child{
+	width: 25%;
 }
 
 table.custom {
@@ -149,12 +158,12 @@ table.table3col {
 }
 
 table.table3col td:nth-child(2){
-    width: 20%;
+    width: 25%;
     word-wrap: break-word;
 }
 
 table.table3col th:nth-child(2) {
-    width: 20%;
+    width: 25%;
     word-wrap: break-word;
 }
 
