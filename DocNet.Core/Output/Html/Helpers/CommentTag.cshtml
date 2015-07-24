@@ -55,6 +55,13 @@
     </div>
 }
 
+@helper RenderTableReturns(ReturnsTag returnsTag)
+{
+    <div class="expand-table-cell returns-comment">
+        @RenderTopLevelContainer(returnsTag)
+    </div>
+}
+
 @helper RenderValue(ValueTag valueTag)
 {
     <div class="value-comment">
@@ -73,6 +80,13 @@
     </div>
 }
 
+@helper RenderTableParam(ParameterTag paramTag)
+{
+    <div class="expand-table-cell parameter-comment">
+            @RenderTopLevelContainer(paramTag)
+    </div>
+}
+
 @helper RenderTypeParam(TypeParameterTag typeParamTag)
 {
     <div class="type-parameter-comment">
@@ -82,12 +96,26 @@
     </div>
 }
 
+@helper RenderTableTypeParam(TypeParameterTag typeParamTag)
+{
+    <div class="expand-table-cell type-parameter-comment">
+            @RenderTopLevelContainer(typeParamTag)
+    </div>
+}
+
 @helper RenderException(ExceptionTag exceptionTag)
 {
     <div class="exception-comment">
         <p>
             @RenderTopLevelContainer(exceptionTag)
         </p>
+    </div>
+}
+
+@helper RenderTableException(ExceptionTag exceptionTag)
+{
+    <div class="expand-table-cell exception-comment">
+        @RenderTopLevelContainer(exceptionTag)
     </div>
 }
 

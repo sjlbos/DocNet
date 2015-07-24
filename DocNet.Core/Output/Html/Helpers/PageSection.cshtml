@@ -101,7 +101,7 @@
             {
                 <tr>
                     <td>@exceptionTag.ExceptionType</td>
-                    <td>@CommentTag.RenderException(exceptionTag)</td>
+                    <td>@CommentTag.RenderTableException(exceptionTag)</td>
                 </tr>
             }
         </table>
@@ -149,7 +149,7 @@
                     <td>
                         @if (paramToCommentMap.ContainsKey(typeParam.Name))
                         {
-                            @CommentTag.RenderTypeParam(paramToCommentMap[typeParam.Name])
+                            @CommentTag.RenderTableTypeParam(paramToCommentMap[typeParam.Name])
                         }
                     </td>
                 </tr>
@@ -200,7 +200,7 @@
                     <td>
                         @if (paramToCommentMap.ContainsKey(param.Name))
                         {
-                            @CommentTag.RenderParam(paramToCommentMap[param.Name])
+                            @CommentTag.RenderTableParam(paramToCommentMap[param.Name])
                         }
                     </td>
                 </tr>
