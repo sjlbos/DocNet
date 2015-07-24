@@ -11,9 +11,11 @@ When generating documentation, DocNet does not compile the input code; all docum
 Once the input source code has been processed and modelled, DocNet uses the Razor view engine to generate an HTML representation of the documented source. Razor is typically used in an ASP.NET MVC context to provide runtime HTML view generation from a template. However, in DocNet, Razor is used to create pre-compiled views generated at design-time. This is accomplished by the [RazorGenerator](https://github.com/RazorGenerator/RazorGenerator) plugin for Visual Studio, which converts Razor view templates into C# classes that can be executed programmatically.
 
 ###  Building the Project
-Currently, the project does not have a stand-alone build script. To compile to project, open __~/DocNet.sln__ in Visual Studio and build the solution. The solution contains two projects:
+Currently, the project does not have a stand-alone build script. To compile to project, you must have the [RazorGenerator](https://github.com/RazorGenerator/RazorGenerator) plugin for Visual Studio installed. Start by opening __~/DocNet.sln__ in Visual Studio. The solution contains two projects:
 - __DocNet.Core__: A class library project containing the core DocNet engine which compiles to a .dll.
 - __DocNet.Console__: A lightweight console application project that wraps the DocNEt.Core library. Compiles to produce __DocNet.exe__.
+
+Before compiling the solution, ensure that RazorGenerator has generated the required C# view files by checking that the .cshtml files under DocNet.Core/Output/Html/Views and DocNet.Core/Output/Html/Helpers have corresponding .generated.cs files. If they do not exist, try performing a clean build of the solution. Otherwise, you may have to right click on each .cshtml file and select "Run Custom Tool".
 
 _Note:_ Before building, ensure that NuGet package restore is enabled to allow DocNet's package dependencies to be installed.
 
