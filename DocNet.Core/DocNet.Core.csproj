@@ -79,6 +79,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ControllerConfiguration.cs" />
+    <Compile Include="DocumentationSettings.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\DocumentationGenerationException.cs" />
     <Compile Include="Exceptions\IllegalChildElementException.cs" />

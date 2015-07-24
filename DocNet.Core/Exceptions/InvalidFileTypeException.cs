@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace DocNet.Core.Exceptions
 {
+    /// <summary>
+    /// An excetption to be thrown when the program tries to parse a file format it does not understand.
+    /// </summary>
     [Serializable]
     public class InvalidFileTypeException : Exception
     {

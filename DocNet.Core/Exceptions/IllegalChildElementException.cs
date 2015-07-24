@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace DocNet.Core.Exceptions
 {
+    /// <summary>
+    /// An exception to be thrown when an INestableElement is added to a parent element that does not support the child's type.
+    /// </summary>
     [Serializable]
     public class IllegalChildElementException : CsParsingException
     {

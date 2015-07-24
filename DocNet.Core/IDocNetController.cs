@@ -2,6 +2,6 @@
 {
     public interface IDocNetController
     {
-        DocNetStatus Execute();
+        DocNetStatus Execute(DocumentationSettings settings);
     }
 }

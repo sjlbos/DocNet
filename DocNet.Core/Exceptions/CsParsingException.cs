@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace DocNet.Core.Exceptions
 {
+    /// <summary>
+    /// An exception to be thrown when the program encounters an unrecoverable error while parsing code.
+    /// </summary>
     [Serializable]
     public class CsParsingException : Exception
     {
