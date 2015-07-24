@@ -1,5 +1,5 @@
 /* Section heading color */
-h1, h2, h3{
+h1, h2, h3, .side-head{
 	color: #4F6D7A !important;
 }
 

@@ -12,10 +12,10 @@
 {
     if(element is GlobalNamespaceModel)
     {
-        <h1>Global Namespace</h1>
+        <h2>Global Namespace</h2>
         return;
     }
-    <h1>@(element.DisplayName + " " + elementType)</h1>
+    <h2>@(element.DisplayName + " " + elementType)</h2>
     if (!String.IsNullOrWhiteSpace(element.FullNameQualifier)){
         <span><b>Namespace:</b> @element.FullNameQualifier</span>
     }
