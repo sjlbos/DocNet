@@ -35,7 +35,7 @@
 {
     var sortedChildren = globalNamespace.OrderBy(child => child.DisplayName);
     <div id="over">
-        <h2><a class="side-head" href="@HtmlDocumentationGenerator.GetFileNameForCsElement(globalNamespace)">Hierarchy</a></h2>
+        <h2><span class="glyphicon glyphicon-home smaller" aria-hidden="true"></span>&nbsp;<a class="side-head" href="@HtmlDocumentationGenerator.GetFileNameForCsElement(globalNamespace)">Index</a></h2>
         <ul class="side-unsorted">
             @_RenderChildList(sortedChildren, true, currentViewModel)
         </ul>    
