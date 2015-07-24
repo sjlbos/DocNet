@@ -1,7 +1,6 @@
 ﻿@* Generator: Template  GeneratePrettyNames: true Namespace: DocNet.Razor.Views*@
 @using System.Linq
 @using DocNet.Core.Models.CSharp
-@using DocNet.Core.Output.Html
 @using DocNet.Core.Output.Html.Views
 @using DocNet.Razor.Helpers
 @inherits BodyTemplate<NamespaceBase>
@@ -16,7 +15,7 @@
             <tr>
                 <th>Name</th>
             </tr>
-            @foreach(var childNamespace in Model.ChildNamespaces)
+            @foreach(var childNamespace in Model.ChildNamespaces.OrderBy(n => n.DisplayName))
             {
                 <tr>
                     <td>@PageHelper.RenderElementLink(childNamespace)</td>

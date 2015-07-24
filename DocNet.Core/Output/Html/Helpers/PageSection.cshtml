@@ -6,7 +6,6 @@
 @using DocNet.Core.Models.Comments.Xml
 @using DocNet.Core.Models.CSharp
 @using DocNet.Razor.Helpers
-@using Microsoft.CodeAnalysis
 
 @helper RenderElementTitle(CsElement element, string elementType)
 {
@@ -98,7 +97,7 @@
                 <th>Exception</th>
                 <th>Description</th>
             </tr>
-            @foreach (var exceptionTag in exceptions)
+            @foreach (var exceptionTag in exceptions.OrderBy(e => e.ExceptionType))
             {
                 <tr>
                     <td>@exceptionTag.ExceptionType</td>
@@ -143,7 +142,7 @@
                 <th>Parameter Type</th>
                 <th>Description</th>
             </tr>
-            @foreach (var typeParam in typeParams)
+            @foreach (var typeParam in typeParams.OrderBy(t => t.Name))
             {
                 <tr>
                     <td>@(typeParam.Name + (!String.IsNullOrWhiteSpace(typeParam.Constraint) ? " : " + typeParam.Constraint : String.Empty)) </td>
@@ -222,7 +221,7 @@
                 <th>Constructor Name</th>
                 <th>Description</th>
             </tr>
-            @foreach (var constructor in classAndStructBase.Constructors)
+            @foreach (var constructor in classAndStructBase.Constructors.OrderBy(c => c.DisplayName))
             {
                 <tr>
                     <td>@PageHelper.RenderElementLink(constructor)</td>
@@ -251,7 +250,7 @@
                 <th>Property Name</th>
                 <th>Description</th>
             </tr>
-            @foreach (var property in interfaceModel.Properties)
+            @foreach (var property in interfaceModel.Properties.OrderBy(p => p.DisplayName))
             {
                 <tr>
                     <td>@property.TypeName</td>
@@ -279,7 +278,7 @@
                 <th>Method Name</th>
                 <th>Description</th>
             </tr>
-            @foreach (var method in interfaceModel.Methods)
+            @foreach (var method in interfaceModel.Methods.OrderBy(m => m.DisplayName))
             {
                 <tr>
                     <td>@PageHelper.RenderElementLink(method)</td>
@@ -352,7 +351,7 @@
                 <th>Name</th>
                 <th>Description</th>
             </tr>
-            @foreach (var childInterface in interfaces)
+            @foreach (var childInterface in interfaces.OrderBy(i => i.DisplayName))
             {
                 <tr>
                     <td>@PageHelper.RenderElementLink(childInterface)</td>
@@ -390,7 +389,7 @@
                 <th>Name</th>
                 <th>Description</th>
             </tr>
-            @foreach (var childClass in classes)
+            @foreach (var childClass in classes.OrderBy(c => c.DisplayName))
             {
                 <tr>
                     <td>@PageHelper.RenderElementLink(childClass)</td>
@@ -428,7 +427,7 @@
                 <th>Name</th>
                 <th>Description</th>
             </tr>
-            @foreach (var childStruct in structs)
+            @foreach (var childStruct in structs.OrderBy(s =>s.DisplayName))
             {
                 <tr>
                     <td>@PageHelper.RenderElementLink(childStruct)</td>
@@ -466,7 +465,7 @@
                 <th>Name</th>
                 <th>Description</th>
             </tr>
-            @foreach (var childEnum in enums)
+            @foreach (var childEnum in enums.OrderBy(e => e.DisplayName))
             {
                 <tr>
                     <td>@PageHelper.RenderElementLink(childEnum)</td>
@@ -504,7 +503,7 @@
                 <th>Name</th>
                 <th>Description</th>
             </tr>
-            @foreach (var childDelegate in delegates)
+            @foreach (var childDelegate in delegates.OrderBy(d => d.DisplayName))
             {
                 <tr>
                     <td>@PageHelper.RenderElementLink(childDelegate)</td>
