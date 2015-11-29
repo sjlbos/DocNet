@@ -18,7 +18,7 @@ namespace DocNet.Core.Parsers.CSharp
     /// This class is responsible for parsing C# source code into an internal DocNet representation of the namespaces, types,
     /// and doc comments contained in that source code.
     /// </summary>
-    public class CsTextParser : ICsParser
+    public class CsSourceParser : ICsSourceParser
     {
         /// <summary>
         /// Parses C# source code and returns a model of the source code's global namespace, including all child namespaces,
@@ -96,8 +96,6 @@ namespace DocNet.Core.Parsers.CSharp
             walker.Visit(tree.GetRoot());
         }
     }
-
-
 
     internal class CsCommentWalker : CSharpSyntaxWalker
     {
@@ -386,6 +384,8 @@ namespace DocNet.Core.Parsers.CSharp
             return true;
         }
 
+        #region Inclusion Rules
+
         private bool NamespaceShouldBeAdded(NamespaceModel namespaceModel)
         {
             return namespaceModel.Any();
@@ -442,6 +442,8 @@ namespace DocNet.Core.Parsers.CSharp
                     throw new NotImplementedException();
             }
         }
+
+        #endregion
 
         #region Comment Helpers
 

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using DocNet.Core.Parsers.CSharp;
 using DocNet.Core.Models.CSharp;
@@ -16,11 +17,33 @@ namespace DocNet.Core.Tests.Parsers
         private static readonly string DuplicateSignatureFile = Path.Combine(TestFileDirectory, "ClassWithDuplicateSignatures.cs");
 
         [Test]
-        public void TestGetNamespaceTreesReturnsAllNamepsaces()
+        public void TestGetGlobalNamespaceThrowsExceptionForNullInput()
+        {
+            var parser = new CsSourceParser();
+            string sourceCode = null;
+            Stream fileStream = null;
+            Assert.Throws<ArgumentNullException>(() => parser.GetGlobalNamespace(sourceCode, OutputMode.AllElements));
+            Assert.Throws<ArgumentNullException>(() => parser.GetGlobalNamespace(fileStream, OutputMode.AllElements));
+        }
+
+        [Test]
+        public void TestParseIntoNamespaceThrowsExceptionForNullInput()
+        {
+            var parser = new CsSourceParser();
+            string sourceCode = null;
+            FileStream fileStream = null;
+            GlobalNamespaceModel globalNamespace = new GlobalNamespaceModel();
+            Assert.Throws<ArgumentNullException>(() => parser.ParseIntoNamespace(sourceCode, globalNamespace, OutputMode.AllElements));
+            Assert.Throws<ArgumentNullException>(() => parser.ParseIntoNamespace(fileStream, globalNamespace, OutputMode.AllElements));
+            Assert.Throws<ArgumentNullException>(() => parser.ParseIntoNamespace("", null, OutputMode.AllElements));
+        }
+
+        [Test]
+        public void TestGetGlobalNamespaceReturnsAllChildNamepsaces()
         {
             // Arrange
             string inputCode = File.ReadAllText(SimpleMultiNamespaceFile);
-            var parser = new CsTextParser();
+            var parser = new CsSourceParser();
 
             // Act
             var globalNamespace = parser.GetGlobalNamespace(inputCode, OutputMode.AllElements);
@@ -34,7 +57,7 @@ namespace DocNet.Core.Tests.Parsers
         {
             // Arrange
             string inputCode = File.ReadAllText(NestedElementFile);
-            var parser = new CsTextParser();
+            var parser = new CsSourceParser();
             
             var expectedGlobalNamespace = new GlobalNamespaceModel();
             
@@ -120,7 +143,7 @@ namespace DocNet.Core.Tests.Parsers
         {
             // Arrange
             string inputCode = File.ReadAllText(PartialElementFile);
-            var parser = new CsTextParser();
+            var parser = new CsSourceParser();
 
             // Act
             var returnedNamespace = parser.GetGlobalNamespace(inputCode, OutputMode.AllElements);
@@ -155,7 +178,7 @@ namespace DocNet.Core.Tests.Parsers
         {
             // Arrange
             string inputCode = File.ReadAllText(DuplicateSignatureFile);
-            var parser = new CsTextParser();
+            var parser = new CsSourceParser();
 
             // Act
             var returnedNamespace = parser.GetGlobalNamespace(inputCode, OutputMode.AllElements);

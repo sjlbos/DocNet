@@ -22,7 +22,7 @@ namespace DocNet.Core
 
         private readonly ISolutionParser _solutionParser;
         private readonly IProjectParser _projectParser;
-        private readonly ICsParser _csParser;
+        private readonly ICsSourceParser _csSourceParser;
         private readonly IDocumentationGenerator _documentationGenerator;
         private readonly string _rootDirectoryName;
 
@@ -37,7 +37,7 @@ namespace DocNet.Core
 
             _solutionParser = config.SolutionParser;
             _projectParser = config.ProjectParser;
-            _csParser = config.CsParser;
+            _csSourceParser = config.CsSourceParser;
             _documentationGenerator = config.DocumentationGenerator;
             _rootDirectoryName = config.RootDirectoryName;
         }
@@ -119,7 +119,7 @@ namespace DocNet.Core
         {
             using (var csFile = File.OpenRead(csFilePath))
             {
-                _csParser.ParseIntoNamespace(csFile, globalNamespace, mode);
+                _csSourceParser.ParseIntoNamespace(csFile, globalNamespace, mode);
             }
         }
 

@@ -3,7 +3,7 @@ using DocNet.Core.Models.CSharp;
 
 namespace DocNet.Core.Parsers.CSharp
 {
-    public interface ICsParser
+    public interface ICsSourceParser
     {
         /// <summary>
         /// Parses C# source code and returns a model of the source code's global namespace, including all child namespaces,

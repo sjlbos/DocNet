@@ -11,7 +11,7 @@
     <AssemblyName>DocNet.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>e475a2c3</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>91a8b903</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -85,6 +85,7 @@
     <Compile Include="Exceptions\IllegalChildElementException.cs" />
     <Compile Include="Exceptions\InvalidFileTypeException.cs" />
     <Compile Include="Exceptions\NamingCollisionException.cs" />
+    <Compile Include="Models\Comments\Xml\XmlDocFileSchema.cs" />
     <Compile Include="Models\CSharp\ClassAndStructBase.cs" />
     <Compile Include="Models\CSharp\CsElement.cs" />
     <Compile Include="Models\CSharp\CsType.cs" />
@@ -185,8 +186,11 @@
     </Compile>
     <Compile Include="Output\IDocumentationGenerator.cs" />
     <Compile Include="OutputMode.cs" />
-    <Compile Include="Parsers\CSharp\CsTextParser.cs" />
-    <Compile Include="Parsers\CSharp\ICsParser.cs" />
+    <Compile Include="Parsers\CSharp\AssemblyWalker.cs" />
+    <Compile Include="Parsers\CSharp\CsAssemblyParser.cs" />
+    <Compile Include="Parsers\CSharp\CsSourceParser.cs" />
+    <Compile Include="Parsers\CSharp\ICsAssemblyParser.cs" />
+    <Compile Include="Parsers\CSharp\ICsSourceParser.cs" />
     <Compile Include="Exceptions\CsParsingException.cs" />
     <Compile Include="Parsers\VisualStudio\IProjectParser.cs" />
     <Compile Include="Parsers\VisualStudio\ISolutionParser.cs" />
