@@ -27,7 +27,7 @@ namespace DocNet.Console
         /// The entry point into the DocNet command line tool.
         /// </summary>
         /// <param name="args">
-        ///     An array of program arguments. Seethe <see cref="ProgramArguments"/> class for more detailed
+        ///     An array of program arguments. See the <see cref="ProgramArguments"/> class for more detailed
         ///     information on expected program arguments.
         /// </param>
         /// <returns>A DocNet status code.</returns>
@@ -87,7 +87,7 @@ namespace DocNet.Console
             {
                 SolutionParser = new OnionSolutionParserWrapper(projectParser),
                 ProjectParser = projectParser,
-                CsParser = new CsTextParser(),
+                CsSourceParser = new CsSourceParser(),
                 DocumentationGenerator = new HtmlDocumentationGenerator(exportedFileList), 
                 RootDirectoryName = ConfigurationManager.AppSettings["RootDirectoryName"] ?? DefaultRootDirectoryName,
             };

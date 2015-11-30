@@ -150,7 +150,7 @@ namespace DummyInputProject
         ///     An instance of type <typeparamref name="T"/>
         ///     The &lt;typeparamref&gt; tag is used to reference type parameters by name.
         /// </returns>
-        public T GenericFunction<T>() where T : ExampleClass
+        public T GenericFunction<T>() where T : ExampleClass, new()
         {
             return null;
         }
