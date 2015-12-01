@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using DocNet.Core.Exceptions;
 using DocNet.Core.Output;
 using DocNet.Core.Parsers.CSharp;
@@ -23,6 +24,7 @@ namespace DocNet.Core
         private readonly ISolutionParser _solutionParser;
         private readonly IProjectParser _projectParser;
         private readonly ICsSourceParser _csSourceParser;
+        private readonly ICsAssemblyParser _csAssemblyParser;
         private readonly IDocumentationGenerator _documentationGenerator;
         private readonly string _rootDirectoryName;
 
@@ -38,27 +40,28 @@ namespace DocNet.Core
             _solutionParser = config.SolutionParser;
             _projectParser = config.ProjectParser;
             _csSourceParser = config.CsSourceParser;
+            _csAssemblyParser = config.CsAssemblyParser;
             _documentationGenerator = config.DocumentationGenerator;
             _rootDirectoryName = config.RootDirectoryName;
         }
 
         /// <summary>
-        /// Generates documentation using the provided configuration.
+        /// Generates documentation using the provided source files.
         /// </summary>
         /// <returns>The program's exit status code.</returns>
-        public DocNetStatus Execute(DocumentationSettings settings)
+        public DocNetStatus ExecuteSourceParser(IEnumerable<string> inputPaths, string outputPath, OutputMode mode = OutputMode.PublicOnly)
         {
-            if(settings == null)
-                throw new ArgumentNullException("settings");
+            if(inputPaths == null)
+                throw new ArgumentNullException("input paths");
+            if (outputPath == null)
+                throw new ArgumentNullException("output path");
 
             Log.Info(String.Empty);
             Log.Info("DocNet started...");
 
             try
             {
-                settings.Validate();
-
-                var outputDirectoryPath = Path.Combine(settings.OutputDirectoryPath, _rootDirectoryName);
+                var outputDirectoryPath = Path.Combine(outputPath, _rootDirectoryName);
 
                 // Delete existing output directory
                 var purgeResult = PurgeOutputDirectory(outputDirectoryPath);
@@ -68,24 +71,8 @@ namespace DocNet.Core
                 var createResult = CreateOutputDirectory(outputDirectoryPath);
                 if(createResult != DocNetStatus.Success) return createResult;
 
-                // Get list of unque input files
-                var uniqueInputFileList = GetCsFileList(settings.InputFilePaths);
-                Log.Info(String.Empty);
-                Log.Info("Documentation will be generated using the following input files:");
-                foreach(var filePath in uniqueInputFileList)
-                {
-                    Log.Info("    " + filePath);
-                }
-
-                // Parse each input file
-                var globalNamespace = new GlobalNamespaceModel();
-                Log.Info(String.Empty);
-                foreach(var filePath in uniqueInputFileList)
-                {
-                    Log.InfoFormat("Parsing \"{0}\".", filePath);
-                    ParseCsFile(filePath, globalNamespace, settings.OutputMode);
-                }
-
+                var globalNamespace = GenerateGlobalNamespaceModelFromSource(inputPaths, mode);
+                
                 // Generate documentation
                 Log.Info("\nGenerating documentation...");
                 _documentationGenerator.GenerateDocumentation(globalNamespace, outputDirectoryPath);
@@ -113,6 +100,61 @@ namespace DocNet.Core
             }
         }
 
+        /// <summary>
+        /// Generates documentation using the provided assembly files.
+        /// </summary>
+        /// <returns>The program's exit status code.</returns>
+        public DocNetStatus ExecuteAssemblyParser(IEnumerable<AssemblyXmlPair> inputPairs, string outputPath, OutputMode mode = OutputMode.PublicOnly)
+        {
+            if (inputPairs == null)
+                throw new ArgumentNullException("input pairs");
+            if (outputPath == null)
+                throw new ArgumentNullException("output path");
+
+            Log.Info(String.Empty);
+            Log.Info("DocNet started...");
+
+            try
+            {
+                var outputDirectoryPath = Path.Combine(outputPath, _rootDirectoryName);
+
+                // Delete existing output directory
+                var purgeResult = PurgeOutputDirectory(outputDirectoryPath);
+                if (purgeResult != DocNetStatus.Success) return purgeResult;
+
+                // Create output directory
+                var createResult = CreateOutputDirectory(outputDirectoryPath);
+                if (createResult != DocNetStatus.Success) return createResult;
+
+                var globalNamespace = GenerateGlobalNamespaceModelFromAssembly(inputPairs, mode);
+
+                // Generate documentation
+                Log.Info("\nGenerating documentation...");
+                _documentationGenerator.GenerateDocumentation(globalNamespace, outputDirectoryPath);
+
+                Log.Info("Documentation generation complete.");
+                Log.Info(String.Empty);
+                Log.Info("Thank you for using DocNet!");
+                return DocNetStatus.Success;
+            }
+            catch (ConfigurationException ex)
+            {
+                Log.Debug(ex);
+                Log.Fatal(ex.Message);
+                return ex.Status;
+            }
+            catch (InvalidFileTypeException ex)
+            {
+                Log.Debug(ex);
+                return DocNetStatus.InvalidInputPath;
+            }
+            catch (CsParsingException ex)
+            {
+                Log.Debug(ex);
+                return DocNetStatus.ParsingError;
+            }
+        }
+
         #region Helper Methods
 
         private void ParseCsFile(string csFilePath, GlobalNamespaceModel globalNamespace, OutputMode mode)
@@ -120,6 +162,15 @@ namespace DocNet.Core
             using (var csFile = File.OpenRead(csFilePath))
             {
                 _csSourceParser.ParseIntoNamespace(csFile, globalNamespace, mode);
+            }
+        }
+
+        private void ParseCsAssemblyFile(string assemblyFilePath, string xmlFilePath, GlobalNamespaceModel globalNamespace, OutputMode mode)
+        {
+            var assemblyFile = Assembly.LoadFrom(assemblyFilePath);
+            using (var xmlFile = File.OpenRead(xmlFilePath))
+            {
+                _csAssemblyParser.ParseIntoNamespace(assemblyFile, xmlFile, globalNamespace, mode);
             }
         }
 
@@ -154,6 +205,30 @@ namespace DocNet.Core
             return RemoveDuplicatePaths(csFiles);
         }
 
+        private IList<AssemblyXmlPair> GetUniqueAssemblyXmlPairList(IEnumerable<AssemblyXmlPair> inputPairs)
+        {
+            var assemblyXmlPairs = new List<AssemblyXmlPair>();
+            foreach (var inputPair in inputPairs)
+            {
+                string assemblyFileExtension = Path.GetExtension(inputPair.AssemblyFilePath);
+                if (!assemblyFileExtension.Equals(".dll"))
+                {
+                    Log.ErrorFormat(CultureInfo.CurrentCulture,
+                            "Input path \"{0}\" is an invalid file type for an assembly file.", inputPair.AssemblyFilePath);
+                    throw new InvalidFileTypeException(inputPair.AssemblyFilePath);
+                }
+                string xmlFileExtension = Path.GetExtension(inputPair.XmlFilePath);
+                if (!xmlFileExtension.Equals(".xml"))
+                {
+                    Log.ErrorFormat(CultureInfo.CurrentCulture,
+                            "Input path \"{0}\" is an invalid file type for an XML file.", inputPair.XmlFilePath);
+                    throw new InvalidFileTypeException(inputPair.XmlFilePath);
+                }
+                assemblyXmlPairs.Add(inputPair);
+            }
+            return RemoveDuplicateAssemblyXmlPairs(assemblyXmlPairs);
+        }
+
         private IList<string> RemoveDuplicatePaths(IList<string> inputPaths)
         {
             var uniquePaths = inputPaths.Distinct().ToList();
@@ -167,6 +242,21 @@ namespace DocNet.Core
                 }
             }
             return uniquePaths;
+        }
+
+        private IList<AssemblyXmlPair> RemoveDuplicateAssemblyXmlPairs(IList<AssemblyXmlPair> inputPairs)
+        {
+            var uniquePairs = inputPairs.Distinct().ToList();
+            if (uniquePairs.Count() != inputPairs.Count)
+            {
+                var duplicates = inputPairs.Except(uniquePairs);
+                foreach (var duplicate in duplicates)
+                {
+                    Log.WarnFormat(CultureInfo.CurrentCulture,
+                        "Duplicate input file \"{0}\" will be skipped.", duplicate);
+                }
+            }
+            return uniquePairs;
         }
 
         private DocNetStatus PurgeOutputDirectory(string outputDirectoryPath)
@@ -256,6 +346,50 @@ namespace DocNet.Core
                 Log.Debug(ex);
                 return DocNetStatus.InvalidOutputPath;
             }
+        }
+
+        private GlobalNamespaceModel GenerateGlobalNamespaceModelFromSource(IEnumerable<string> inputPaths, OutputMode mode)
+        {
+            // Get list of unque input files
+            var uniqueInputFileList = GetCsFileList(inputPaths);
+            Log.Info(String.Empty);
+            Log.Info("Documentation will be generated using the following input files:");
+            foreach (var filePath in uniqueInputFileList)
+            {
+                Log.Info("    " + filePath);
+            }
+
+            // Parse each input file
+            var globalNamespace = new GlobalNamespaceModel();
+            Log.Info(String.Empty);
+            foreach (var filePath in uniqueInputFileList)
+            {
+                Log.InfoFormat("Parsing \"{0}\".", filePath);
+                ParseCsFile(filePath, globalNamespace, mode);
+            }
+            return globalNamespace;
+        }
+
+        private GlobalNamespaceModel GenerateGlobalNamespaceModelFromAssembly(IEnumerable<AssemblyXmlPair> inputPairs, OutputMode mode)
+        {
+            var uniqueInputPairList = GetUniqueAssemblyXmlPairList(inputPairs);
+            Log.Info(String.Empty);
+            Log.Info("Documentation will be generated using the following input files:");
+            foreach (var assemblyXmlPair in uniqueInputPairList)
+            {
+                Log.Info("    " + assemblyXmlPair.AssemblyFilePath);
+                Log.Info("    " + assemblyXmlPair.XmlFilePath);
+            }
+
+            // Parse each input file
+            var globalNamespace = new GlobalNamespaceModel();
+            Log.Info(String.Empty);
+            foreach (AssemblyXmlPair filePath in uniqueInputPairList)
+            {
+                Log.InfoFormat("Parsing \"{0}\".", filePath.AssemblyFilePath);
+                ParseCsAssemblyFile(filePath.AssemblyFilePath, filePath.XmlFilePath, globalNamespace, mode);
+            }
+            return globalNamespace;
         }
 
         #endregion

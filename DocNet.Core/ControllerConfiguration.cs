@@ -32,6 +32,11 @@ namespace DocNet.Core
         public ICsSourceParser CsSourceParser { get; set; }
 
         /// <summary>
+        /// The parser used to parse assembly (.dll) files.
+        /// </summary>
+        public ICsAssemblyParser CsAssemblyParser { get; set; }
+
+        /// <summary>
         /// The documentation generator used to output documentation.
         /// </summary>
         public IDocumentationGenerator DocumentationGenerator { get; set; }
