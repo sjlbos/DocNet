@@ -72,7 +72,8 @@
     <Compile Include="CommentDeserializationTests.cs" />
     <Compile Include="DocFileDeserializationTests.cs" />
     <Compile Include="Output\Helpers\GetDeclarationTests.cs" />
-    <Compile Include="Parsers\CsParserTests.cs" />
+    <Compile Include="Parsers\CsAssemblyParserTests.cs" />
+    <Compile Include="Parsers\CsSourceParserTests.cs" />
     <Compile Include="Parsers\OnionSolutionParserWrapperTests.cs" />
     <Compile Include="Parsers\ProjectParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

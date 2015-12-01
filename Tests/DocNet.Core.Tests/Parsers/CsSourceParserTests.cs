@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace DocNet.Core.Tests.Parsers
 {
     [TestFixture]
-    public class CsParserTests
+    public class CsSourceParserTests
     {
         private const string TestFileDirectory = @"..\..\..\TestData";
         private static readonly string SimpleMultiNamespaceFile = Path.Combine(TestFileDirectory, "SimpleMultiNamespaceFile.cs");
