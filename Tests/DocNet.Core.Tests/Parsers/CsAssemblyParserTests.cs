@@ -8,7 +8,7 @@ namespace DocNet.Core.Tests.Parsers
     [TestFixture]
     public class CsAssemblyParserTests
     {
-        private const string AssemblyBuildPath = @"..\..\..DummyInputProject\bin\Debug\";
+        private const string AssemblyBuildPath = @"..\..\..\DummyInputProject\bin\Debug\";
         private static readonly string AssemblyPath = Path.Combine(AssemblyBuildPath, "DummyInputProject.dll");
         private static readonly string XmlFilePath = Path.Combine(AssemblyBuildPath, "DummyInputProject.XML");
 

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DocNet.Core.Models.Comments.Xml
@@ -11,48 +13,11 @@ namespace DocNet.Core.Models.Comments.Xml
     [XmlRoot(ElementName = "doc")]
     public class DocFileModel : IEquatable<DocFileModel>
     {
-        private Dictionary<string, Member> _nameMemberMap;
-
         [XmlElement("assembly")]
         public AssemblyModel AssemblyModel { get; set; }
 
-        private List<Member> _members;
-        [XmlElement(ElementName = "members")]
-        public List<Member> Members {
-            get { return _members; }
-            set
-            {
-                _members = value;
-                GenerateMemberNameMapping();
-            } 
-        }
-
-        public DocFileModel()
-        {
-            Members = new List<Member>();
-        }
-
-        private void GenerateMemberNameMapping()
-        {
-            if (_members == null)
-            {
-                _nameMemberMap = null;
-                return;
-            }
-            _nameMemberMap = new Dictionary<string, Member>();
-            foreach (Member m in _members)
-            {
-                // Todo
-            }
-        }
-
-        public Member GetMemberByFullName(string fullName)
-        {
-            if (_nameMemberMap == null || !_nameMemberMap.ContainsKey(fullName))
-                return null;
-
-            return _nameMemberMap[fullName];
-        }
+        [XmlElement("members")]
+        public MemberList MemberList { get; set; }
 
         #region Equality Members
 
@@ -61,7 +26,7 @@ namespace DocNet.Core.Models.Comments.Xml
             unchecked
             {
                 int hashCode = AssemblyModel != null ? AssemblyModel.GetHashCode() : 0;
-                return (hashCode * 397) ^ (Members != null ? Members.GetHashCode() : 0);
+                return (hashCode * 397) ^ (MemberList != null ? MemberList.GetHashCode() : 0);
             }
         }
 
@@ -75,14 +40,14 @@ namespace DocNet.Core.Models.Comments.Xml
             if (other == null) return false;
             if (this == other) return true;
             return AssemblyModel == null ? (other.AssemblyModel == null) : AssemblyModel.Equals(other.AssemblyModel)
-                && Members == null ? (other.Members == null) : Members.SequenceEqual(other.Members);
+                && MemberList == null ? (other.MemberList == null) : MemberList.Equals(other.MemberList);
         }
 
         #endregion
     }
 
     [Serializable]
-    [XmlType(TypeName = "assembly")]
+    [XmlType("assembly")]
     public class AssemblyModel : IEquatable<AssemblyModel>
     {
         [XmlElement(ElementName = "name")]
@@ -111,6 +76,73 @@ namespace DocNet.Core.Models.Comments.Xml
     }
 
     [Serializable]
+    [XmlType("members")]
+    public class MemberList : IEquatable<MemberList>
+    {
+        private Dictionary<string, Member> _nameMemberMap;
+
+        private Member[] _members;
+        [XmlElement("member", typeof(Member))]
+        public Member[] Members {
+            get { return _members; }
+            set
+            {
+                _members = value;
+                GenerateMemberNameMapping();
+            }
+        }
+
+        private void GenerateMemberNameMapping()
+        {
+            if (Members == null)
+            {
+                _nameMemberMap = null;
+                return;
+            }
+            _nameMemberMap = new Dictionary<string, Member>();
+            foreach (var m in Members)
+            {
+                // Todo
+            }
+        }
+
+        public Member GetMemberByFullName(string fullName)
+        {
+            if (_nameMemberMap == null || !_nameMemberMap.ContainsKey(fullName))
+                return null;
+
+            return _nameMemberMap[fullName];
+        }
+
+        #region Equality Members
+
+        public override int GetHashCode()
+        {
+            int hashCode = 0;
+            if (Members == null) return hashCode;
+            foreach (var m in Members)
+            {
+                hashCode = (hashCode*397) ^ m.GetHashCode();
+            }
+            return hashCode;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as MemberList);
+        }
+
+        public bool Equals(MemberList other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return Members == null ? (other.Members == null) : Members.SequenceEqual(other.Members);
+        }
+
+        #endregion
+    }
+
+    [Serializable]
     [XmlType(TypeName = "member")]
     public class Member : IEquatable<Member>
     {
@@ -132,12 +164,25 @@ namespace DocNet.Core.Models.Comments.Xml
             }
         }
 
-        [XmlText(typeof(string))]
-        public List<object> Items;  
+        // We want the doc comment XML of each member to be stored as a string instead of being deserialized directly into a DocComment object.
+        // This is because which DocComment type the XML should get deserialized to depends on the member type.
+        // Therefore, we store all commment nodes as-is and then recombine them as a string when they are requested through the "DocCommentXml" property.
+        [XmlAnyElement]
+        public XmlElement[] CommentNodes;
 
-        public Member()
+        [XmlIgnore]
+        public string DocCommentXml
         {
-            Items = new List<object>();
+            get
+            {
+                if (CommentNodes == null) return null;
+                StringBuilder sb = new StringBuilder();
+                foreach (var node in CommentNodes)
+                {
+                    sb.Append(node.OuterXml);
+                }
+                return sb.ToString();
+            }
         }
 
         #region Equality Members
@@ -147,7 +192,8 @@ namespace DocNet.Core.Models.Comments.Xml
             unchecked
             {
                 int hashCode = FullMemberName != null ? FullMemberName.GetHashCode() : 0;
-                hashCode = (hashCode*397) ^ MemberType.GetHashCode(); 
+                hashCode = (hashCode*397) ^ MemberType.GetHashCode();
+                hashCode = (hashCode * 397) ^ DocCommentXml.GetHashCode(); 
                 return hashCode;
             }
         }
@@ -163,7 +209,7 @@ namespace DocNet.Core.Models.Comments.Xml
             if (this == other) return true;
             return String.Equals(FullMemberName, other.FullMemberName)
                    && MemberType == other.MemberType
-                   && (Items == null) ? (other.Items == null) : Items.SequenceEqual(other.Items);
+                   && String.Equals(DocCommentXml, other.DocCommentXml);
         }
 
         #endregion
