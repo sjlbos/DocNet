@@ -8,6 +8,8 @@ namespace DocNet.Core
         public string AssemblyFilePath { get; set; }
         public string XmlFilePath { get; set; }
 
+        #region Equality Members
+
         public override int GetHashCode()
         {
             int hashCode = AssemblyFilePath != null ? AssemblyFilePath.GetHashCode() : 0;
@@ -27,6 +29,8 @@ namespace DocNet.Core
             return String.Equals(AssemblyFilePath, other.AssemblyFilePath) &&
                 String.Equals(XmlFilePath, other.XmlFilePath);
         }
+
+        #endregion
 
     }
 }

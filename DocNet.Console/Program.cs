@@ -131,7 +131,7 @@ namespace DocNet.Console
                 }
                 else if (args.InputAssemblyPaths != null)
                 {
-                    var inputFilePairs = args.InputAssemblyPaths.Select(p => MakeAbsoluteAssemblyXmlPairs(currentDirectoryPath, p));
+                    var inputFilePairs = args.InputAssemblyPaths.Select(p => MakeAssemblyXmlPair(currentDirectoryPath, p));
                     return _controller.ExecuteAssemblyParser(inputFilePairs, outputDirectoryPath, outputMode);
                 }
                 else
@@ -179,19 +179,20 @@ namespace DocNet.Console
             return path;
         }
 
-        private static AssemblyXmlPair MakeAbsoluteAssemblyXmlPairs(string currentDirectoryPath, string path)
+        private static AssemblyXmlPair MakeAssemblyXmlPair(string currentDirectoryPath, string path)
         {
             if(String.IsNullOrWhiteSpace(path)) return null;
-            string[] pair = path.Split('=');
-            if(!Path.IsPathRooted(pair[0]))
-            {
-                pair[0] = Path.GetFullPath(Path.Combine(currentDirectoryPath, pair[0]));
-            }
-            if(!Path.IsPathRooted(pair[1]))
-            {
-                pair[1] = Path.GetFullPath(Path.Combine(currentDirectoryPath, pair[1]));
-            }
-            return new AssemblyXmlPair{ AssemblyFilePath = pair[0], XmlFilePath = pair[1] };
+
+            AssemblyXmlPair pair = new AssemblyXmlPair();
+
+            string[] paths = path.Split('=');
+            string assemblyPath = MakePathAbsolute(currentDirectoryPath, paths[0]);
+            string xmlPath = MakePathAbsolute(currentDirectoryPath, paths[1]);
+
+            pair.AssemblyFilePath = assemblyPath;
+            pair.XmlFilePath = xmlPath;
+
+            return pair;
         }
 
         private static string GetHelpMessage(ProgramArguments args)
