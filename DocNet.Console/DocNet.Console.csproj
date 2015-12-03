@@ -25,6 +25,7 @@
     <CodeAnalysisRuleSet>..\.global\DocNet.ruleset</CodeAnalysisRuleSet>
     <NoWarn>
     </NoWarn>
+    <DocumentationFile>bin\Debug\DocNet.Console.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

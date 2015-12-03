@@ -17,7 +17,7 @@ namespace DocNet.Console
         /// <summary>
         /// Indicates whether the '-a' or '--all' flags have been entered by the user.
         /// </summary>
-        [Option('a', "all", HelpText = "The program will document all C# elements, regardless of access modifier or whether or not the element has a documentation comment.", Required = false)]
+        [Option('A', "all", HelpText = "The program will document all C# elements, regardless of access modifier or whether or not the element has a documentation comment.", Required = false)]
         public bool DocumentAllElement { get; set; }
 
         /// <summary>
@@ -33,15 +33,21 @@ namespace DocNet.Console
         public bool UseRecursiveSearch { get; set; }
 
         /// <summary>
+        /// Contains the list of source input files specified by the user.
+        /// </summary>
+        [OptionList('s', "source", Separator = ',', HelpText = "Paths to program source input files or directories (mode dependent).", MutuallyExclusiveSet = "inputMode")]
+        public IList<string> InputSourcePaths { get; set; }
+
+        /// <summary>
+        /// Contains the list of assembly/xml input file pairs specified by the user.
+        /// </summary>
+        [OptionList('a', "assembly", Separator = ',', HelpText = "Paths to program assembly input files or directories (mode dependent).", MutuallyExclusiveSet = "inputMode")]
+        public IList<string> InputAssemblyPaths { get; set; }
+
+        /// <summary>
         /// Contains the output directory specified by the user.
         /// </summary>
         [Option('o', "output", HelpText = "The output directory where the program will store generated documentation.", Required = true)]
         public string OutputDirectory { get; set; }
-
-        /// <summary>
-        /// Contains the list of input files specified by the user.
-        /// </summary>
-        [OptionList('i', "input", Separator = ',', Required = true, HelpText = "Paths to program input files or directories (mode dependent).")]
-        public IList<string> InputPaths { get; set; }
     }
 }

@@ -70,10 +70,9 @@ namespace DummyInputProject
     /// For multiple lines of code, the &lt;code&gt; tag is used.
     ///     <code>
     ///     Example code line 1;
-  ///Example code line 2;
+    ///Example code line 2;
     ///     </code>
     ///</example>
-	///BLADAALADLADLALDSKFkjsdz;ganktgjdsjlag;alisj;lhigjaskdljg;alsjgewijgjsdkglkjsddkgljklj
     /// <seealso cref="ExampleClass.ExampleGetter"/>
     public class ExampleClass
     {
@@ -150,7 +149,7 @@ namespace DummyInputProject
         ///     An instance of type <typeparamref name="T"/>
         ///     The &lt;typeparamref&gt; tag is used to reference type parameters by name.
         /// </returns>
-        public T GenericFunction<T>() where T : ExampleClass
+        public T GenericFunction<T>() where T : ExampleClass, new()
         {
             return null;
         }

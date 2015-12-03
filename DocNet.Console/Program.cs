@@ -27,7 +27,7 @@ namespace DocNet.Console
         /// The entry point into the DocNet command line tool.
         /// </summary>
         /// <param name="args">
-        ///     An array of program arguments. Seethe <see cref="ProgramArguments"/> class for more detailed
+        ///     An array of program arguments. See the <see cref="ProgramArguments"/> class for more detailed
         ///     information on expected program arguments.
         /// </param>
         /// <returns>A DocNet status code.</returns>
@@ -54,10 +54,21 @@ namespace DocNet.Console
                 return (int) DocNetStatus.Success;
             }
 
-            programArgs.InputPaths = RemoveInitialWhitespacefromPaths(programArgs.InputPaths);
+            if(programArgs.InputSourcePaths != null)
+            {
+                programArgs.InputSourcePaths = RemoveInitialWhitespacefromPaths(programArgs.InputSourcePaths);
+            }
+
+            if (programArgs.InputAssemblyPaths != null)
+            {
+                programArgs.InputAssemblyPaths = RemoveInitialWhitespacefromPaths(programArgs.InputAssemblyPaths);
+            }
                 
             if (programArgs.DirectoryModeSpecified)
-                programArgs.InputPaths = GetCsFileListFromDirectoryList(programArgs.InputPaths, programArgs.UseRecursiveSearch);
+                if (programArgs.InputSourcePaths != null)
+                {
+                    programArgs.InputSourcePaths = GetCsFileListFromDirectoryList(programArgs.InputSourcePaths, programArgs.UseRecursiveSearch);
+                }
 
             var program = new Program();
             int status = (int)program.Run(programArgs);
@@ -87,7 +98,8 @@ namespace DocNet.Console
             {
                 SolutionParser = new OnionSolutionParserWrapper(projectParser),
                 ProjectParser = projectParser,
-                CsParser = new CsTextParser(),
+                CsSourceParser = new CsSourceParser(),
+                CsAssemblyParser = new CsAssemblyParser(),
                 DocumentationGenerator = new HtmlDocumentationGenerator(exportedFileList), 
                 RootDirectoryName = ConfigurationManager.AppSettings["RootDirectoryName"] ?? DefaultRootDirectoryName,
             };
@@ -109,14 +121,24 @@ namespace DocNet.Console
             try
             {
                 string currentDirectoryPath = Directory.GetCurrentDirectory();
-                var documentationSettings = new DocumentationSettings
+                var outputDirectoryPath = MakePathAbsolute(currentDirectoryPath, args.OutputDirectory);
+                var outputMode = GetOutputMode(args);
+
+                if (args.InputSourcePaths != null)
                 {
-                    InputFilePaths = args.InputPaths.Select(p => MakePathAbsolute(currentDirectoryPath, p)),
-                    OutputDirectoryPath = MakePathAbsolute(currentDirectoryPath, args.OutputDirectory),
-                    OutputMode = GetOutputMode(args)
-                };
-  
-                return _controller.Execute(documentationSettings);
+                    var inputFilePaths = args.InputSourcePaths.Select(p => MakePathAbsolute(currentDirectoryPath, p));
+                    return _controller.ExecuteSourceParser(inputFilePaths, outputDirectoryPath, outputMode);
+                }
+                else if (args.InputAssemblyPaths != null)
+                {
+                    var inputFilePairs = args.InputAssemblyPaths.Select(p => MakeAssemblyXmlPair(currentDirectoryPath, p));
+                    return _controller.ExecuteAssemblyParser(inputFilePairs, outputDirectoryPath, outputMode);
+                }
+                else
+                {
+                    Log.Error("No input files specified. Please specify source files using -s or assembly files using -a.");
+                    return DocNetStatus.InvalidProgramArguments;
+                }
             }
             catch (Exception ex)
             {
@@ -155,6 +177,22 @@ namespace DocNet.Console
                 return Path.GetFullPath(Path.Combine(currentDirectoryPath, path));
             }
             return path;
+        }
+
+        private static AssemblyXmlPair MakeAssemblyXmlPair(string currentDirectoryPath, string path)
+        {
+            if(String.IsNullOrWhiteSpace(path)) return null;
+
+            AssemblyXmlPair pair = new AssemblyXmlPair();
+
+            string[] paths = path.Split('=');
+            string assemblyPath = MakePathAbsolute(currentDirectoryPath, paths[0]);
+            string xmlPath = MakePathAbsolute(currentDirectoryPath, paths[1]);
+
+            pair.AssemblyFilePath = assemblyPath;
+            pair.XmlFilePath = xmlPath;
+
+            return pair;
         }
 
         private static string GetHelpMessage(ProgramArguments args)

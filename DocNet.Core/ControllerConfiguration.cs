@@ -29,7 +29,12 @@ namespace DocNet.Core
         /// <summary>
         /// The parser used to parse C# (.cs) files.
         /// </summary>
-        public ICsParser CsParser { get; set; }
+        public ICsSourceParser CsSourceParser { get; set; }
+
+        /// <summary>
+        /// The parser used to parse assembly (.dll) files.
+        /// </summary>
+        public ICsAssemblyParser CsAssemblyParser { get; set; }
 
         /// <summary>
         /// The documentation generator used to output documentation.
@@ -54,7 +59,7 @@ namespace DocNet.Core
                 throw new ConfigurationException("Solution parser is null.", DocNetStatus.InternalError);
             if(ProjectParser == null)
                 throw new ConfigurationException("Project parser is null.", DocNetStatus.InternalError);
-            if(CsParser == null)
+            if(CsSourceParser == null)
                 throw new ConfigurationException("C# parser is null.", DocNetStatus.InternalError);
             if(DocumentationGenerator == null)
                 throw new ConfigurationException("Documentation generator is null.", DocNetStatus.InternalError);
